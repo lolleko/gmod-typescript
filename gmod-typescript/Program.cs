@@ -8,9 +8,10 @@ namespace gmod_typescript
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine(new EnumerationsCategory());
+            Console.ReadKey();
         }
     }
 }
