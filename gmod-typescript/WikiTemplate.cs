@@ -23,9 +23,11 @@ namespace gmod_typescript
 
         public string GetValue(int selector)
         {
-            MatchCollection matches = Regex.Matches(Raw, @"([\s\w]*)[\|}]");
-            if (matches[selector] != null && matches[selector].Success) {
-                return matches[selector].Groups[1].Value;
+            // remove braces escape and split
+            var values = Raw.Substring(2, Raw.Length - 4).Replace("||", "__?__").Split("|");
+            if (selector < values.Length)
+            {
+                return values[selector].Replace("__?__", "||");
             }
             return "";
         }

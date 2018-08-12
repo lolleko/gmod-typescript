@@ -5,22 +5,41 @@ namespace gmod_typescript
     {
         public string Name
         {
-            get => GetValue(1);
+            get; set;
         }
 
         public string Value
         {
-            get => GetValue(2);
+            get; set;
         }
 
         public string Description
         {
-            get => GetValue(3);
+            get; set;
         }
+
+        public bool MembersOnly { get; set; }
 
         public EnumFieldTemplate(string raw, Article article) : base(raw, article)
         {
+            Name = GetValue(1);
+            // for http://wiki.garrysmod.com/page/Enums/SNDLVL
+            if (Name.IndexOf("<br/>") != -1)
+            {
+                Name = Name.Substring(0, Name.IndexOf("<br/>"));
+            }
+            MembersOnly = true;
+            if (Name.IndexOf('.') != -1)
+            {
+                Name = Name.Substring(Name.IndexOf('.') + 1);
+                MembersOnly = false;
+            }
+            // TODO For stencilcompare/operations
+            Name = Name.Replace("{{#titleparts:{{SUBPAGENAME}}||-1}}", article.Title);
 
+            Value = GetValue(2);
+
+            Description = GetValue(3);
         }
 
         public override string ToString()

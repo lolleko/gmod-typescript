@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace gmod_typescript
 {
@@ -13,48 +14,83 @@ namespace gmod_typescript
         protected Dictionary<string, string> escapeTypeDict = new Dictionary<string, string>
         {
             {"function", "Function"},
-            {"vararg", "any[]"}
+            {"vararg", "any[]"},
+            //{"Vector", "Vec"},
+            //{"Angle", "Ang"},
+            {"Entity", "ENTITY"},
+            {"Player", "PLAYER"},
+            {"Weapon", "SWEP"},
+            {"NPC", "ENTITY"},
+            {"NextBot", "NEXTBOT"}
         };
 
         protected Dictionary<string, string> escapeNameDict = new Dictionary<string, string>
         {
             {"function", "func"},
-            {"string", "str"}
+            {"var", "variable"},
+            {"string", "str"},
+            {"class", "classRef"},
+            {"new", "newVal"},
+            {"default", "defaultVal"}
         };
 
         public string EscapeType(string type)
         {
             if (escapeTypeDict.ContainsKey(type))
             {
-                return escapeTypeDict[type];
+                type = escapeTypeDict[type];
             }
-            return type;
+            return EscapeSpecialChars(type);
         }
 
         public string EscapeName(string name)
         {
             if (escapeNameDict.ContainsKey(name))
             {
-                return escapeNameDict[name];
+                name = escapeNameDict[name];
             }
-            return name;
+            return EscapeSpecialChars(name);
+        }
+
+        private string EscapeSpecialChars(string str)
+        {
+            return str.Replace(" ", "_").Replace("/", "_").Replace("...", "args");
         }
 
         public string WikiRequest(string url) {
-            WebRequest request = WebRequest.Create(url);
-            WebResponse response = request.GetResponse();
-            Stream data = response.GetResponseStream();
-            string raw = string.Empty;
-            using (StreamReader sr = new StreamReader(data))
+            try
             {
-                raw = sr.ReadToEnd();
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Timeout = 50000;
+                request.KeepAlive = false;
+                WebResponse response = request.GetResponse();
+                Stream data = response.GetResponseStream();
+                string raw = string.Empty;
+                using (StreamReader sr = new StreamReader(data))
+                {
+                    raw = sr.ReadToEnd();
+                }
+                return raw;
+            } catch
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Timeout = 50000;
+                request.KeepAlive = false;
+                WebResponse response = request.GetResponse();
+                Stream data = response.GetResponseStream();
+                string raw = string.Empty;
+                using (StreamReader sr = new StreamReader(data))
+                {
+                    raw = sr.ReadToEnd();
+                }
+                return raw;
             }
-            return raw;
+
         }
 
         public IEnumerable<string> GetPagesInCategory(string category)
         {
-            string url = $"https://wiki.garrysmod.com/api.php?action=query&list=categorymembers&cmtitle=Category:{category}&cmlimit=1000&format=json";
+            string url = $"https://wiki.garrysmod.com/api.php?action=query&list=categorymembers&cmtitle=Category:{category}&cmlimit=10000&format=json";
             string raw = WikiRequest(url);
             var cats = JObject.Parse(raw)["query"]["categorymembers"]
                               .ToArray()

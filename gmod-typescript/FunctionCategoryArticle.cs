@@ -8,16 +8,32 @@ namespace gmod_typescript
 {
     public class FunctionCategoryArticle : Article
     {
-        public IEnumerable<FunctionArticle> WikiFunctions { get; set; }
+        public List<FunctionArticle> WikiFunctions { get; set; }
 
         public CategoryType Type { get; set; }
 
         public String Extends { get; set; }
 
+        public ClassFieldsTemplate ClassFields { get => GetTemplate<ClassFieldsTemplate>("ClassFields"); }
+
         public FunctionCategoryArticle(string url, IEnumerable<string> functions, CategoryType type = CategoryType.Class, string extends = "") : base(url)
         {
-            WikiFunctions = from func in functions.AsParallel()
-                            select new FunctionArticle(func);
+            bool prependFunc = false;
+            bool prependDeclare = true;
+            if (type == CategoryType.Library || type == CategoryType.Global)
+            {
+                prependFunc = true;
+            }
+
+            if (type == CategoryType.Library)
+            {
+                prependDeclare = false;
+            }
+
+            WikiFunctions = functions
+                .AsParallel()
+                .Select(func => new FunctionArticle(func, prependFunc, prependDeclare))
+                .ToList();
             Type = type;
             Extends = extends;
         }
@@ -31,7 +47,7 @@ namespace gmod_typescript
             switch (Type)
             {
                 case CategoryType.Class:
-                    result += $"class {Title.Replace("Category:", "").Replace("_Hooks", "")}";
+                    result += $"declare class {Title.Replace("Category:", "").Replace("_Hooks", "").Replace("WEAPON", "SWEP")}";
                     if (Extends != "")
                     {
                         result += $" extends {Extends}";
@@ -40,12 +56,31 @@ namespace gmod_typescript
                     indent = new string(' ', 4);
                     break;
                 case CategoryType.Library:
-                    result += "namespace {\n";
+                    result += $"declare namespace {Title.Replace("Category:", "")} {{\n";
+                    indent = new string(' ', 4);
+                    break;
+                case CategoryType.Interface:
+                    result += $"interface {Title.Replace("Category:", "")} {{\n";
                     indent = new string(' ', 4);
                     break;
             }
-            string body = string.Join("", WikiFunctions.Select(f => f.ToDocString() + f + "\n"));
-            result += indent + body.Remove(body.Length - 2).Replace("\n", $"\n{indent}");
+
+            // Body
+            string body = "";
+            if (ClassFields != null)
+            {
+                body += ClassFields;
+            }
+            body += string.Join("", WikiFunctions.Select(f => f + "\n"));
+
+            // indent
+            if (Type != CategoryType.Global)
+            {
+                result += indent + body.Remove(body.Length - 2).Replace("\n", $"\n{indent}");
+            } else
+            {
+                result += body;
+            }
 
             if (Type != CategoryType.Global)
             {

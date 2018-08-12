@@ -14,8 +14,14 @@ namespace gmod_typescript
         {
             string result = "/**\n";
             result += Enumeration.ToDocString();
+            if (Enumeration.MembersOnly)
+            {
+                result += " * !CompileMembersOnly \n";
+            }
             result += " */\n";
-            result += $"enum {Title} {{\n";
+            // TODO Hack because of duplicate identifier PLAYER
+            string name = Title == "PLAYER" ? "PLAYER_ANIM" : Title;
+            result += $"declare enum {name} {{\n";
             result += Enumeration + "\n";
             result += "}\n";
 

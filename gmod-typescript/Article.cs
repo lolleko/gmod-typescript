@@ -25,25 +25,63 @@ namespace gmod_typescript
             Url = url;
         }
 
+        private List<string> FindTemplates(string templateName)
+        {
+            List<string> templateStrings = new List<string>();
+
+            int start = 0;
+            // We have to check a couple of cases in case tamplateName = "ClassFields" | "ClassField"
+            int templateStart = Raw.IndexOf("{{" + templateName + "\n", start);
+            if (templateStart == -1)
+            {
+                templateStart = Raw.IndexOf("{{" + templateName + "|", start);
+            }
+            if (templateStart == -1)
+            {
+                templateStart = Raw.IndexOf("{{" + templateName + " ", start);
+            }
+            while (templateStart != -1)
+            {
+                int braceCount = 0;
+                int templateSize = 0;
+                foreach (char c in Raw.Substring(templateStart))
+                {
+                    if (c == '{')
+                    {
+                        braceCount++;
+                    }
+                    else if (c == '}')
+                    {
+                        braceCount--;
+                    }
+                    templateSize++;
+                    if (braceCount == 0)
+                    {
+                        break;
+                    }
+                }
+                templateStrings.Add(Raw.Substring(templateStart, templateSize));
+                templateStart = Raw.IndexOf("{{" + templateName, templateStart + templateSize);
+            }
+           
+            return templateStrings;
+        }
+
         public T GetTemplate<T>(string templateName) where T : WikiTemplate
         {
-            Match match = Regex.Match(Raw, @"(?x) {{" + templateName + " ( (?: [^{}]+ | (?<open>{{) | (?<-open>}}) )* (?(open)(?!)) ) }}");
-            if (match.Success)
-            {
-                return (T)Activator.CreateInstance(typeof(T), match.Value, this);
-            }
-            return null;
+            var templateStrings = FindTemplates(templateName);
+            return templateStrings.Count > 0 ?
+                (T)Activator.CreateInstance(typeof(T), templateStrings[0], this) :
+                null;
         }
 
         public List<T> GetTemplates<T>(string templateName) where T : WikiTemplate
         {
-            MatchCollection matches = Regex.Matches(Raw, @"(?x) {{" + templateName + " ( (?: [^{}]+ | (?<open>{{) | (?<-open>}}) )* (?(open)(?!)) ) }}");
-            List<T> templates = (
-                from Match match in matches
-                where match.Success
-                select (T)Activator.CreateInstance(typeof(T), match.Value, this)
-            ).ToList();
-            return templates.Count > 0 ? templates : null;
+            var templateStrings = FindTemplates(templateName);
+
+            return templateStrings.Count > 0 ?
+                templateStrings.Select(t => (T)Activator.CreateInstance(typeof(T), t, this)).ToList() :
+                null;
         }
     }
 }

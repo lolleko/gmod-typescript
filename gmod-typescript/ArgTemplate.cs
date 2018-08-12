@@ -1,21 +1,13 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+
 namespace gmod_typescript
 {
-    public class ArgTemplate : WikiTemplate
+    public class ArgTemplate : TypedTemplate
     {
-        public string Type
-        {
-            get => EscapeType(GetValue("Type"));
-        }
-
         public string Name
         {
             get => EscapeName(GetValue("Name"));
-        }
-
-        public string Description
-        {
-            get => GetValue("Desc");
         }
 
         public string Default
@@ -23,16 +15,31 @@ namespace gmod_typescript
             get => GetValue("default");
         }
 
+        public bool IsVarArg
+        {
+            get => GetValue("Type") == "vararg";
+        }
+
+        public bool IsOptional
+        {
+            get; set;
+        }
+
         public ArgTemplate(string raw, Article article) : base(raw, article)
         {
-
+            IsOptional = Default != "";
         }
 
         public override string ToString() {
-            if (Default != "") {
-                return $"{Name}?: {Type}";
+            string vararg = "";
+            if (IsVarArg)
+            {
+                vararg = "...";
             }
-            return $"{Name}: {Type}";
+            if (IsOptional && !IsVarArg) {
+                return $"{vararg}{Name}?: {Type}";
+            }
+            return $"{vararg}{Name}: {Type}";
         }
 
         public override string ToDocString()

@@ -12,6 +12,11 @@ namespace gmod_typescript
             get => GetValue("Description");
         }
 
+        public bool MembersOnly
+        {
+            get => !Fields.Any(f => f.MembersOnly == false);
+        }
+
         public List<EnumFieldTemplate> Fields
         {
             get => Article.GetTemplates<EnumFieldTemplate>("EnumField");
@@ -25,7 +30,7 @@ namespace gmod_typescript
 
         public override string ToString()
         {
-            string fieldsString = string.Join("", Fields.Select(field => field.ToDocString() + field));
+            string fieldsString = string.Join("\n", Fields.Select(field => field.ToDocString() + field));
             string indent = new String(' ', 4);
             fieldsString = indent + fieldsString.Remove(fieldsString.Length - 1).Replace("\n", $"\n{indent}");
             return fieldsString;

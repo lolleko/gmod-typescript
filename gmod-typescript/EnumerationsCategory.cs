@@ -10,8 +10,11 @@ namespace gmod_typescript
         public override string ToString()
         {
             var enums = GetPagesInCategory("Enumerations");
-            var enumList = (from enumeration in enums.AsParallel()
-                             select new EnumerationArticle(enumeration)).ToList();
+            // TODO Stencil is just a collection for enums and not valid...
+            var enumList = enums
+                .Where(e => e != "Enums/STENCIL")
+                .AsParallel()
+                .Select(e => new EnumerationArticle(e));
             return string.Join("\n", enumList);
         }
     }
