@@ -46,9 +46,9 @@ namespace gmod_typescript
         {
             if (Default != "")
             {
-                return $" * @param {Name} [={Default}] {Description}";
+                return DescriptionToDocComment($"@param {Name} [={Default}] {Description}");
             }
-            return $" * @param {Name} {Description}";
+            return DescriptionToDocComment($"@param {Name} {Description}");
         }
     }
 }

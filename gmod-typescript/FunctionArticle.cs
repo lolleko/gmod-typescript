@@ -13,13 +13,17 @@ namespace gmod_typescript
 
         public Args ArgumentsWithoutOptionals { get; set; }
 
+        public AccessModifier Access { get; set; }
+
         public bool RemoveOptionals { get; set; }
 
         public bool PrependFunc { get; set; }
 
         public bool PrependDeclare { get; set; }
 
-        public FunctionArticle(string url, bool prependFunction = false, bool prependDeclare = false) : base(url)
+        public string Name { get; set; }
+
+        public FunctionArticle(string url, bool prependFunction = false, bool prependDeclare = false, string raw = "", AccessModifier mode = AccessModifier.None) : base(url, raw)
         {
             Returns = new Returns(GetTemplates<RetTemplate>("Ret"));
 
@@ -35,14 +39,14 @@ namespace gmod_typescript
                     ArgumentsWithoutOptionals = new Args(args.Where(a => !a.IsOptional).ToList());
 
                     Arguments = new Args(args.TakeWhile(a => !a.IsOptional).Concat(firstOptional.Select(a =>
+                    {
+                        // Copy elements && make all optional
+                        var arg = new ArgTemplate(a.Raw, a.Article)
                         {
-                            // Copy elements && make all optional
-                            var arg = new ArgTemplate(a.Raw, a.Article)
-                            {
-                                IsOptional = true
-                            };
-                            return arg;
-                        })).ToList()
+                            IsOptional = true
+                        };
+                        return arg;
+                    })).ToList()
                     );
                 }
             }
@@ -55,6 +59,8 @@ namespace gmod_typescript
             }
             PrependFunc = prependFunction;
             PrependDeclare = prependDeclare;
+            Access = mode;
+            Name = Title;
         }
 
         public override string ToString()
@@ -62,6 +68,17 @@ namespace gmod_typescript
             // Default
             string result = "";
             string func = "";
+            switch (Access) {
+                case AccessModifier.Public:
+                    func += "public ";
+                    break;
+                case AccessModifier.Protected:
+                    func += "protected ";
+                    break;
+                case AccessModifier.Private:
+                    func += "private ";
+                    break;
+            }
             if (PrependFunc)
             {
                 if (PrependDeclare)
@@ -69,6 +86,10 @@ namespace gmod_typescript
                     func += "declare ";
                 }
                 func += "function ";
+            }
+            string returns = "";
+            if (Returns != null) {
+                returns = ": " + Returns.ToString();
             }
             result += "/**\n";
             if (Function != null)
@@ -84,7 +105,7 @@ namespace gmod_typescript
                 result += Returns.ToDocString();
             }
             result += " */\n";
-            result += $"{func}{Title}({Arguments}): {Returns};\n";
+            result += $"{func}{Name}({Arguments}){returns};\n";
             if (RemoveOptionals)
             {
                 result += "\n";
@@ -102,7 +123,7 @@ namespace gmod_typescript
                     result += Returns.ToDocString();
                 }
                 result += " */\n";
-                result += $"{func}{Title}({ArgumentsWithoutOptionals}): {Returns};\n";
+                result += $"{func}{Name}({ArgumentsWithoutOptionals}){returns};\n";
             }
             return result;
         }

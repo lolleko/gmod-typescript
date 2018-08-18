@@ -34,18 +34,17 @@ namespace gmod_typescript
             {
                 return "";
             }
-            string result = " * @returns ";
+            string result = "@returns ";
             if (IsTupleReturn)
             {
                 result += $"[{string.Join(", ", RetList.Select(ret => ret.ToDocString()))}]";
             } else {
                 result += string.Join(", ", RetList.Select(ret => ret.ToDocString()));
             }
-            result += "\n";
             if (IsTupleReturn) {
-                result += " * !TupleReturn\n";
+                result += "\n!TupleReturn";
             }
-            return result;
+            return DescriptionToDocComment(result);
         }
     }
 }

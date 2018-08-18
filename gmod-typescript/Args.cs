@@ -28,7 +28,7 @@ namespace gmod_typescript
             {
                 return "";
             }
-            return string.Join("\n", Arguments.Select(arg => arg.ToDocString())) + "\n";
+            return string.Join("", Arguments.Select(arg => arg.ToDocString()));
         }
 
     }

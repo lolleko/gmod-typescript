@@ -18,10 +18,13 @@ namespace gmod_typescript
             get => Url.Substring(Url.LastIndexOf('/') + 1);
         }
 
-        public Article(string url)
+        public Article(string url, string raw = "")
         {
-            string escapedUrl = "http://wiki.garrysmod.com/page/" + url.Replace(".", "%2E") + "?action=raw";
-            Raw = WikiRequest(escapedUrl);
+            if (raw != "") {
+                Raw = raw;
+            } else{
+                Raw = WikiRequest("page/" + url.Replace(".", "%2E") + "?action=raw");
+            }
             Url = url;
         }
 

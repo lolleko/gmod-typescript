@@ -39,3 +39,10 @@ Thumbs.db
 
 # dotCover
 *.dotCover
+
+# output
+wikiData
+out/index.d.ts
+
+.vscode
+wiki-scrapper/wiki-scrapper

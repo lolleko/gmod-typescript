@@ -10,14 +10,35 @@ namespace gmod_typescript
     {
         public List<FunctionArticle> WikiFunctions { get; set; }
 
+        public String CategoryTitle
+        {
+            get; set;
+        }
+
         public CategoryType Type { get; set; }
 
         public String Extends { get; set; }
 
+        public String CustomConstructor { get; set; }
+
         public ClassFieldsTemplate ClassFields { get => GetTemplate<ClassFieldsTemplate>("ClassFields"); }
+
+        public PanelTemplate Panel { get => GetTemplate<PanelTemplate>("Panel"); }
+
+        public bool IsHook { get => CategoryTitle.Contains("Hooks"); }
+
+        public FunctionCategoryArticle(IGrouping<string, string> functionGroup,
+                                       CategoryType type = CategoryType.Class,
+                                       string extends = "")
+            : this("Category:" + functionGroup.Key, functionGroup.AsEnumerable(), type, extends)
+        {
+
+        }
 
         public FunctionCategoryArticle(string url, IEnumerable<string> functions, CategoryType type = CategoryType.Class, string extends = "") : base(url)
         {
+            CategoryTitle = Title.Replace("Category:", "");
+
             bool prependFunc = false;
             bool prependDeclare = true;
             if (type == CategoryType.Library || type == CategoryType.Global)
@@ -30,24 +51,37 @@ namespace gmod_typescript
                 prependDeclare = false;
             }
 
+            AccessModifier access = AccessModifier.None;
+            if (IsHook) {
+                access = AccessModifier.Protected;
+            }
+
             WikiFunctions = functions
-                .AsParallel()
-                .Select(func => new FunctionArticle(func, prependFunc, prependDeclare))
+                //.AsParaallel()
+                .Select(func => new FunctionArticle(func, prependFunc, prependDeclare, "", access))
                 .ToList();
             Type = type;
             Extends = extends;
+            if (Panel != null)
+            {
+                Extends = EscapeType(Panel.Parent);
+            }
+            CustomConstructor = "";
         }
 
         public override string ToString()
         {
             string result = "/**\n";
-            result += $" * {Raw.Replace("\n", "\n * ")} \n";
+            result += DescriptionToDocComment(Raw);
+            if (CustomConstructor != "") {
+                result += $" * !CustomConstructor {CustomConstructor}";
+            }
             result += " */\n";
             string indent = "";
             switch (Type)
             {
                 case CategoryType.Class:
-                    result += $"declare class {Title.Replace("Category:", "").Replace("_Hooks", "").Replace("WEAPON", "SWEP")}";
+                    result += $"declare class {CategoryTitle.Replace("_Hooks", "").Replace("WEAPON", "SWEP")}";
                     if (Extends != "")
                     {
                         result += $" extends {Extends}";
@@ -56,11 +90,11 @@ namespace gmod_typescript
                     indent = new string(' ', 4);
                     break;
                 case CategoryType.Library:
-                    result += $"declare namespace {Title.Replace("Category:", "")} {{\n";
+                    result += $"declare namespace {CategoryTitle} {{\n";
                     indent = new string(' ', 4);
                     break;
                 case CategoryType.Interface:
-                    result += $"interface {Title.Replace("Category:", "")} {{\n";
+                    result += $"interface {CategoryTitle} {{\n";
                     indent = new string(' ', 4);
                     break;
             }
@@ -69,15 +103,16 @@ namespace gmod_typescript
             string body = "";
             if (ClassFields != null)
             {
-                body += ClassFields;
+                body += ClassFields + "\n";
             }
             body += string.Join("", WikiFunctions.Select(f => f + "\n"));
 
             // indent
-            if (Type != CategoryType.Global)
+            if (Type != CategoryType.Global && body != "")
             {
                 result += indent + body.Remove(body.Length - 2).Replace("\n", $"\n{indent}");
-            } else
+            }
+            else
             {
                 result += body;
             }

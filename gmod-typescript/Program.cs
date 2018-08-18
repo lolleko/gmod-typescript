@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,33 +11,41 @@ namespace gmod_typescript
     {
         public static void Main(string[] args)
         {
-            ServicePointManager.DefaultConnectionLimit = 50000;
-            System.Net.ServicePointManager.MaxServicePointIdleTime = 2000;
-            System.Net.ServicePointManager.MaxServicePoints = 1000;
-            System.Net.ServicePointManager.SetTcpKeepAlive(false, 0, 0);
+            ServicePointManager.DefaultConnectionLimit = 1000;
 
-            File.WriteAllText("index.d.ts", "");
+
             Console.WriteLine("Fetching stuff");
 
-            Console.WriteLine(new StructureArticle("Structures/GM"));
+            Directory.CreateDirectory("../out");
+            Directory.CreateDirectory("../wikiData");
 
-            WriteResults().Wait();
+            WriteResults();
 
             Console.WriteLine("done");
-            Console.ReadKey();
         }
 
-        public static async Task WriteResults()
+        public static void WriteResults()
         {
-            var enumsTask = Task.Run(() => new EnumerationsCategory());
-            var classTask = Task.Run(() => new ClassAndHooksFunctionsCategory());
-            var libTask = Task.Run(() => new LibraryCategory());
-            var globalTask = Task.Run(() => new GlobalCategory());
+            var funcCollection = new FunctionCollection();
+            var taskList = new List<Task>();
 
-            EnumerationsCategory enums = await enumsTask;
-            ClassAndHooksFunctionsCategory classes = await classTask;
-            LibraryCategory libs = await libTask;
-            GlobalCategory globals = await globalTask;
+            taskList.Add(funcCollection.AddEnumerations());
+            taskList.Add(funcCollection.AddStructures());
+            taskList.Add(funcCollection.AddPanels());
+
+            (string, CategoryType)[] categories = 
+            {
+                ("Class_Functions", CategoryType.Class),
+                ("Library_Functions", CategoryType.Library),
+                ("Hooks", CategoryType.Class),
+                ("Global", CategoryType.Global)
+            };
+
+            foreach (var cat in categories) {
+                taskList.Add(funcCollection.AddFunctionsFromCategory(cat.Item1, cat.Item2));
+            }
+
+           Task.WhenAll(taskList.ToArray()).Wait();
 
             string extraData =
 @"interface table {
@@ -49,8 +58,7 @@ type sensor = any;
 //type Ang = number;
 type userdata = any;
 ";
-
-            File.WriteAllText("index.d.ts", extraData + enums + libs + globals + classes);
+            File.WriteAllText("../out/index.d.ts", extraData + funcCollection.EnumsToString() + funcCollection.StructuresToString() + funcCollection.ClassesToString());
         }
     }
 }

@@ -10,7 +10,7 @@ namespace gmod_typescript
         public override string ToString()
         {
             // TODO hack because Error declared in JS/TS not to bad since this func is broken in gmod anyway
-            return new FunctionCategoryArticle("Category:Global", GetPagesInCategory("Global").Where(f => f != "Global:Error"), CategoryType.Global).ToString();
+            return new FunctionCategoryArticle("Category:Global", GetPagesInCategory("Global").Where(f => f != "Global/Error"), CategoryType.Global).ToString();
         }
     }
 }

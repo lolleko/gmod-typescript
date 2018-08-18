@@ -24,12 +24,15 @@ namespace gmod_typescript
 
         public override string ToString()
         {
-            return string.Join("\n", StructureFields.Select(field => field.ToDocString() + field));
+            string fieldsString = string.Join("\n", StructureFields.Select(field => field.ToDocString() + field));
+            string indent = new String(' ', 4);
+            fieldsString = indent + fieldsString.Remove(fieldsString.Length - 1).Replace("\n", $"\n{indent}");
+            return fieldsString;
         }
 
         public override string ToDocString()
         {
-            return $" * {Description}\n";
+            return DescriptionToDocComment(Description);
         }
     }
 }

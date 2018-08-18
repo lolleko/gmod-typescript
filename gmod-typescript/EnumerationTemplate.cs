@@ -38,7 +38,7 @@ namespace gmod_typescript
 
         public override string ToDocString()
         {
-            return $" * {Description}\n";
+            return DescriptionToDocComment(Description);
         }
     }
 }
