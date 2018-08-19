@@ -91,7 +91,7 @@ namespace gmod_typescript
             if (!File.Exists(filePath)) {
                 RateLimitSemaphore.Wait();
                 try {
-                    string pageBody = Client.GetStringAsync(Uri.EscapeUriString(url)).Result;
+                    string pageBody = Client.GetStringAsync(url).Result;
                     File.WriteAllText(filePath, pageBody);
                 } catch {
                     throw new Exception("Error while requesting: " + url + " (uri: " + new Uri(Client.BaseAddress, url) + ") / "+ filePath);

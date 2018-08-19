@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 
 namespace gmod_typescript
 {
@@ -23,7 +24,9 @@ namespace gmod_typescript
             if (raw != "") {
                 Raw = raw;
             } else{
-                Raw = WikiRequest("page/" + url.Replace(".", "%2E") + "?action=raw");
+                string pageQuery = WikiRequest("api.php?action=query&prop=revisions&rvprop=content&format=json&titles=" + url);
+                var pagesObj = (JObject)JObject.Parse(pageQuery)["query"]["pages"];
+                Raw = pagesObj.Values().First()["revisions"][0]["*"].ToString();
             }
             Url = url;
         }
