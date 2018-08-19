@@ -2,5 +2,13 @@ language: csharp
 mono: none
 dotnet: 2.1
 script:
-  - dotnet restore
-  - dotnet build
+- dotnet restore
+- dotnet build
+deploy:
+  provider: releases
+  api_key:
+    secure: bYHI0ycHztLUprdwPQysocCWc2ubyViW1K0Juxn4wCyYSfaVMdVE4/wX1YYtc1tFQhvTP0KSkYyfBm79utJH1iWhlzDpIBikCCs+P0j4qYistTGXRKytTLrJpuERK5F94KUWBIZW2gZj5LRFEN/mBz2jgXki3JKAHLvkqQ3HbBR/QADrXQFsxUD6g1MNya/tsR1KMCPDscvPjxNMAwtH6v2YUsSchAlFUvnpfzYKLGKa9MZDYqbSVogk6MU4VItRL21s+D28s3KaoR17s/Hj8oWgADjc+IEaw4JWp+gej7iplowAmX0pc4TDkXO+OMr4/VvMDMhwIMMyXdkH4zCDrxhdVTp6ErgZeqmZPeplT4MLhbJLEqITI4Ifgmbcoof2kizqjhpIwEb8sEcDSk1sK/iO+VRuHgjJNgHxPQX5MBF6wou+hyA+bDIdSoU06LXocu4pKoZI0i69NOt0M6iVx+7o23Br5nzRtBrEF+V+bcwjw+TZvQweOlBlL1cDZ6YO3m5O/O4hS8n+3Kx15TwudS6to49R+RKoGvN99ypcuhcFyc7NYjwox08I4DBScTVgCdO+meVk/rMfVHUTLwlzpgM4dya0I42y8UYZEGSKHdl8PFopXqh2TV5DjTDJ3NYvJBSaCCZO4zi71fAjvhXGCLZbpuyDE6KJX99Lgn0FIOg=
+  file_glob: true
+  file: out/*
+  on:
+    tags: true

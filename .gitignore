@@ -42,7 +42,7 @@ Thumbs.db
 
 # output
 wikiData
-out/index.d.ts
+#out/index.d.ts
 
 .vscode
 wiki-scrapper/wiki-scrapper
