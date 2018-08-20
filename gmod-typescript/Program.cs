@@ -57,6 +57,8 @@ type sensor = any;
 //type Vec = number;
 //type Ang = number;
 type userdata = any;
+type SERVER = boolean;
+type CLIENT = boolean;
 ";
             File.WriteAllText("../out/index.d.ts", extraData + funcCollection.EnumsToString() + funcCollection.StructuresToString() + funcCollection.ClassesToString());
         }
