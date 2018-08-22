@@ -7,8 +7,8 @@ type sensor = any;
 //type Vec = number;
 //type Ang = number;
 type userdata = any;
-type SERVER = boolean;
-type CLIENT = boolean;
+declare var SERVER: boolean;
+declare var CLIENT: boolean;
 /**
  * Enumerations used by {{ClassFunction|Entity|SetUseType}}. Affects when {{HookFunction|ENTITY|Use}} is triggered.
  * 
@@ -15789,7 +15789,7 @@ interface EmitSoundInfo {
  * 
  * While some of the fields may be serverside or clientside only, it is recommended to provide them on both so addons could use their values. 
  */
-interface ENT {
+interface Entity {
     /**
      * The base entity to derive from. This '''must''' be a valid Lua entity 
      * default: "base_entity"
@@ -15797,21 +15797,9 @@ interface ENT {
     Base?: string;
     
     /**
-     * Type of the entity. This '''must be one of these:'''
-     * * '''anim'''
-     * * '''brush'''
-     * * '''point'''
-     * * '''ai'''
-     * * '''nextbot'''
-     * * '''filter'''
-     * 
-     * See [[Scripted Entities]] for a more detailed explanation of what each one is.
-     * 
-     * {{Bug|Category=No|Issue=2745|Pull=1521|You must set this in your entity. This is currently not set to "anim" by default.}} 
-     * default: anim
-    
+     * anim 
      */
-    Type?: string;
+    Type: string;
     
     /**
      * Entity class name of the ENT (File or folder name of your ENT).
@@ -15833,8 +15821,9 @@ interface ENT {
     
     /**
      * (Clientside) Category the ENT is in 
+     * default: Other
      */
-    Category: string;
+    Category?: string;
     
     /**
      * Whether this ENT should be displayed in the Q menu 
@@ -17225,7 +17214,7 @@ interface SurfacePropertyData {
  * 
  * While some of the fields may be serverside or clientside only, it is recommended to provide them on both so addons could use their values. 
  */
-interface SWEP {
+interface Weapon {
     /**
      * Entity class name of the SWEP (file or folder name of your SWEP). This is set automatically 
      */
@@ -18504,73 +18493,271 @@ interface ViewData {
      */
     offcenter: table;
 }
+
 /**
- * {{Panel
- * |Parent=Panel
- * |Description=Used to show an icon for any of the [http://steamcommunity.com/stats/GarrysMod/achievements Garry's Mod Steam achievements].
+ * Information about a SWEP, used by {{HookFunction|SANDBOX|PlayerGiveSWEP}} and SWEP creation. For list of callbacks, see [[:Category:WEAPON_Hooks]].
  * 
- * If the viewer has not unlocked the achievement on Steam, the icon will be grayed out.
- * }} 
+ * While some of the fields may be serverside or clientside only, it is recommended to provide them on both so addons could use their values. 
  */
-declare class AchievementIcon extends Panel {
+interface SWEP {
     /**
-     * Sets the achievement to be displayed by {{Type|AchievementIcon}}.[[Category:AchievementIcon]] 
-     * @param id Achievement number ID 
+     * Entity class name of the SWEP (file or folder name of your SWEP). This is set automatically 
      */
-    SetAchievement(id: number): void;
+    ClassName: string;
     
     /**
-     * Sets the achievement to be displayed by {{Type|AchievementIcon}}.[[Category:AchievementIcon]] 
-     * @param id Achievement number ID 
+     * (Clientside) Category the SWEP is in 
+     * default: "Other"
      */
-    SetAchievement(id: number): void;
+    Category?: string;
+    
+    /**
+     * Whether this SWEP should be displayed in the Q menu 
+     * default: false
+     */
+    Spawnable?: boolean;
+    
+    /**
+     * Whether or not only admins can spawn the SWEP from their Q menu 
+     * default: false
+     */
+    AdminOnly?: boolean;
+    
+    /**
+     * Nice name of the SWEP 
+     * default: "Scripted Weapon"
+     */
+    PrintName?: string;
+    
+    /**
+     * The base weapon to derive from. This '''must''' be a Lua weapon 
+     * default: "weapon_base"
+     */
+    Base?: string;
+    
+    /**
+     * Multiplier of deploy speed 
+     * default: 1
+     */
+    m_WeaponDeploySpeed?: number;
+    
+    /**
+     * The entity that owns/wields this SWEP, if any 
+     */
+    Owner: Entity;
+    
+    /**
+     * (Clientside) The author of the SWEP to be shown in weapon selection 
+     * default: ""
+     */
+    Author?: string;
+    
+    /**
+     * (Clientside) The contacts of the SWEP creator to be shown in weapon selection 
+     * default: ""
+     */
+    Contact?: string;
+    
+    /**
+     * (Clientside) The purpose of the SWEP creator to be shown in weapon selection 
+     * default: ""
+     */
+    Purpose?: string;
+    
+    /**
+     * (Clientside) How to use your weapon, to be shown in weapon selection 
+     * default: ""
+     */
+    Instructions?: string;
+    
+    /**
+     * Path to the view model for your SWEP (what the wielder will see) 
+     * default: "models/weapons/v_pistol.mdl"
+     */
+    ViewModel?: string;
+    
+    /**
+     * (Clientside) Should we flip the view model? This is needed for some CS:S view models 
+     * default: false
+     */
+    ViewModelFlip?: boolean;
+    
+    /**
+     * (Clientside) Same as ViewModelFlip, but for the second viewmodel 
+     * default: false
+     */
+    ViewModelFlip1?: boolean;
+    
+    /**
+     * (Clientside) Same as ViewModelFlip, but for the third viewmodel 
+     * default: false
+     */
+    ViewModelFlip2?: boolean;
+    
+    /**
+     * (Clientside) An angle of FOV used for the view model (Half-Life value is 90; Half-Life 2 is 54; Counter-Strike: Source is 74; Day of Defeat is 45) 
+     * default: 62
+     */
+    ViewModelFOV?: number;
+    
+    /**
+     * The world model for your SWEP (what you will see in other players hands) 
+     * default: "models/weapons/w_357.mdl"
+     */
+    WorldModel?: string;
+    
+    /**
+     * (Serverside) Whether this weapon can be autoswitched away from when the player runs out of ammo in this weapon or picks up another weapon or ammo 
+     * default: true
+     */
+    AutoSwitchFrom?: boolean;
+    
+    /**
+     * (Serverside) Whether this weapon can be autoswitched to when the player runs out of ammo in their current weapon or they pick this weapon up 
+     * default: true
+     */
+    AutoSwitchTo?: boolean;
+    
+    /**
+     * (Serverside) Decides whether we should switch from/to this 
+     * default: 5
+     */
+    Weight?: number;
+    
+    /**
+     * (Clientside) The scale of the viewmodel bob (viewmodel movement from left to right when walking around) 
+     * default: 1
+     */
+    BobScale?: number;
+    
+    /**
+     * (Clientside) The scale of the viewmodel sway (viewmodel position lerp when looking around). 
+     * default: 1
+     */
+    SwayScale?: number;
+    
+    /**
+     * (Clientside) Should the weapon icon bounce in weapon selection? 
+     * default: true
+     */
+    BounceWeaponIcon?: boolean;
+    
+    /**
+     * (Clientside) Should draw the weapon selection info box, containing SWEP.Instructions, etc. 
+     * default: true
+     */
+    DrawWeaponInfoBox?: boolean;
+    
+    /**
+     * (Clientside) Should we draw the default HL2 ammo counter? 
+     * default: true
+     */
+    DrawAmmo?: boolean;
+    
+    /**
+     * (Clientside) Should we draw the default crosshair? 
+     * default: true
+     */
+    DrawCrosshair?: boolean;
+    
+    /**
+     * (Clientside) The SWEP render group, see {{Enum|RENDERGROUP}} 
+     * default: RENDERGROUP_OPAQUE
+     */
+    RenderGroup?: RENDERGROUP;
+    
+    /**
+     * Slot in the weapon selection menu, starts with 0 
+     * default: 0
+     */
+    Slot?: number;
+    
+    /**
+     * Position in the slot, should be in the range 0-128 
+     * default: 10
+     */
+    SlotPos?: number;
+    
+    /**
+     * (Clientside) Internal variable for drawing the info box in weapon selection 
+     * default: surface.GetTextureID( "gui/speech_lid" )
+     */
+    SpeechBubbleLid?: number;
+    
+    /**
+     * (Clientside) Path to an texture. Override this in your SWEP to set the icon in the weapon selection. This must be the texture ID, see {{LibraryFunction|surface|GetTextureID}} 
+     * default: surface.GetTextureID( "weapons/swep" )
+     */
+    WepSelectIcon?: number;
+    
+    /**
+     * (Clientside) Should we use Counter-Strike muzzle flashes upon firing? This is required for DoD:S or CS:S view models to fix their muzzle flashes. 
+     * default: false
+     */
+    CSMuzzleFlashes?: boolean;
+    
+    /**
+     * (Clientside) Use the X shape muzzle flash instead of the default Counter-Strike muzzle flash. Requires CSMuzzleFlashes to be set to true 
+     * default: false
+     */
+    CSMuzzleX?: boolean;
+    
+    /**
+     * Primary attack settings. The table contains these fields:
+     * * {{FuncArg|string|Ammo|Ammo type ("Pistol", "SMG1" etc)}}
+     * * {{FuncArg|number|ClipSize|The maximum amount of bullets one clip can hold}}
+     * * {{FuncArg|number|DefaultClip|Default ammo in the clip, making it higher than ClipSize will give player additional ammo on spawn}}
+     * * {{FuncArg|boolean|Automatic|If true makes the weapon shoot automatically as long as the player has primary attack button held down}}
+     *  
+     */
+    Primary: table;
+    
+    /**
+     * Secondary attack settings, has same fields as Primary attack settings 
+     */
+    Secondary: table;
+    
+    /**
+     * (Clientside) Makes the player models hands bonemerged onto the view model
+     * 
+     * {{Warning|The gamemode and view models '''must''' support this feature for it to work!
+     * You can find more information here: [[Using_Viewmodel_Hands|Using Viewmodel Hands]]}} 
+     * default: false
+    
+     */
+    UseHands?: boolean;
+    
+    /**
+     * The folder from where the weapon was loaded. This should always be "weapons/weapon_myweapon", regardless whether your SWEP is stored as a file, or multiple files in a folder. It is set automatically on load 
+     */
+    Folder: string;
+    
+    /**
+     * (Clientside) Makes the default SWEP crosshair be positioned in 3D space where your aim actually is (like on Jeep), instead of simply sitting in the middle of the screen at all times 
+     * default: false
+     */
+    AccurateCrosshair?: boolean;
+    
+    /**
+     * Disable the ability for players to duplicate this SWEP 
+     * default: false
+     */
+    DisableDuplicator?: boolean;
+    
+    /**
+     * (Clientside) Sets the spawnmenu content icon type for the entity, used by spawnmenu in the Sandbox-derived gamemodes.
+     * See {{LibraryFunction|spawnmenu|AddContentType}} for more information. 
+     * default: "weapon"
+    
+     */
+    ScriptedEntityType?: string;
+    
+    /**
+     * If set to false, the weapon will not play the weapon pick up sound when picked up. 
+     * default: true
+     */
+    m_bPlayPickupSound?: boolean;
 }
-
-/**
- * {{Panel
- * |Parent=Panel
- * |Preview=DPanel-Avatar.png
- * |Description=Used to show a player's Steam avatar. You are recommended but not limited to pick one of the following sizes: 16, 32, 64, 84, 128, 184.
- * }}
- * {{Example
- * |Description=Creates an AvatarImage with the LocalPlayer's avatar inside.
- * |Code=
- * local Avatar = vgui.Create( "AvatarImage", Panel )
- * Avatar:SetSize( 64, 64 )
- * Avatar:SetPos( 4, 4 )
- * Avatar:SetPlayer( LocalPlayer(), 64 )
- * }} 
- */
-declare class AvatarImage extends Panel {
-    /**
-     * Used by {{Type|AvatarImage}} to load an avatar for given player.[[Category:AvatarImage]] 
-     * @param player The player to use avatar of. 
-     * @param size The size of the avatar to use. Acceptable sizes are 32, 64, 184. 
-     */
-    SetPlayer(player: Player, size: number): void;
-    
-    /**
-     * Used by {{Type|AvatarImage}} to load an avatar for given player.[[Category:AvatarImage]] 
-     * @param player The player to use avatar of. 
-     * @param size The size of the avatar to use. Acceptable sizes are 32, 64, 184. 
-     */
-    SetPlayer(player: Player, size: number): void;
-    
-    /**
-     * Used by {{Type|AvatarImage}} panels to load an avatar by its 64-bit Steam ID (community ID).[[Category:AvatarImage]] 
-     * @param steamid The 64bit SteamID of the player to load avatar of 
-     * @param size The size of the avatar to use. Acceptable sizes are 32, 64, 184. 
-     */
-    SetSteamID(steamid: string, size: number): void;
-    
-    /**
-     * Used by {{Type|AvatarImage}} panels to load an avatar by its 64-bit Steam ID (community ID).[[Category:AvatarImage]] 
-     * @param steamid The 64bit SteamID of the player to load avatar of 
-     * @param size The size of the avatar to use. Acceptable sizes are 32, 64, 184. 
-     */
-    SetSteamID(steamid: string, size: number): void;
-}
-
 /**
  * These hooks are used inside of a Lua effect. Lua effects are stored in either the <kbd>/lua/effects</kbd> directory or in a gamemode in <kbd>/gamemodes/&lt;gamemodename&gt;/entities/effects</kbd>.
  * 
@@ -18700,6 +18887,97 @@ declare class EFFECT {
 }
 
 /**
+ * {{User:NeatNit/Panel
+ * |Parent=DLabel
+ * |Preview=DButton_small.png
+ * |Hooks={{ListItem|PANEL/Init}}{{ListItem|PANEL/Paint}}{{ListItem|PANEL/PerformLayout}}{{ListItem|PANEL/GenerateExample}}
+ * |Description=A standard Derma button.
+ * 
+ * By default, a {{Type|DButton}} is 22px tall.
+ * }}
+ * 
+ * <!--
+ * DButton:
+ * {{#ask:[[Category:DButton]]|format=ul|columns=3}}
+ * 
+ * DLabel:
+ * {{#ask:[[Category:DLabel]]|format=ul|columns=3}}
+ * --> 
+ */
+declare class DButton {
+    /**
+     * @returns value set by {{ClassFunction|DButton|SetDrawBorder}}. 
+     */
+    GetDrawBorder(): boolean;
+    
+    /**
+     * @returns Whether or not the button is depressed. 
+     */
+    IsDown(): boolean;
+    
+    /**
+     * @param command The console command to be called. 
+     * @param args The arguments for the command. 
+     */
+    SetConsoleCommand(command: string, args: string): void;
+    
+    /**
+     * @param disable {{TrueFalse|Enable the button|Disable the button}} 
+     */
+    SetDisabled(disable: boolean): void;
+    
+    /**
+     * @param draw Does nothing. 
+     */
+    SetDrawBorder(draw: boolean): void;
+    
+    /**
+     * @param enable ''true'' to enable the button, ''false'' to disable it. 
+     */
+    SetEnabled(enable: boolean): void;
+    
+    /**
+     * @param img [=nil] The image file to use, relative to ''/materials''. If this is nil, the image background is removed. 
+     */
+    SetIcon(img?: string): void;
+    
+    /**
+     * @param img [=nil] The image file to use, relative to ''/materials''. If this is nil, the image background is removed. 
+     */
+    SetImage(img?: string): void;
+    
+    /**
+     * @param skin A table supposed to contain the color values listed above. 
+     */
+    UpdateColours(skin: table): void;
+    
+    /**
+     */
+    DoClick(): void;
+    
+    /**
+     */
+    DoMiddleClick(): void;
+    
+    /**
+     */
+    DoRightClick(): void;
+    
+    /**
+     * @returns The name of the font in use. 
+     */
+    GetFont(): string;
+    
+    /**
+     * @param fontName The name of the font.
+     * 
+     * See [[Default_Fonts|here]] for a list of existing fonts.
+     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
+     */
+    SetFont(fontName: string): void;
+}
+
+/**
  * List of all possible functions to manipulate angles.
  * 
  * Created by {{GlobalFunction|Angle}} & many more functions.
@@ -18712,7 +18990,7 @@ declare class EFFECT {
  * {{ClassField|number|y|The yaw component of the angle}}
  * {{ClassField|number|r|The roll component of the angle}}
  * }} 
- */
+ * !CustomConstructor Angle */
 declare class Angle {
     /**
      * The pitch component of the angle 
@@ -18942,9 +19220,31 @@ declare namespace ai_schedule {
     /**
      * Creates a schedule for scripted NPC. 
      * @param name Name of the schedule. 
-     * @returns A table containing schedule information to be used with {{HookFunction|ENTITY|StartSchedule}} 
+     * @returns A table containing schedule information to be used with {{HookFunction|ENTITY|StartSchedule}}. 
      */
-    function New(name: string): Schedule;
+    function New(name: string): number;
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * |Description=Used to show an icon for any of the [http://steamcommunity.com/stats/GarrysMod/achievements Garry's Mod Steam achievements].
+ * 
+ * If the viewer has not unlocked the achievement on Steam, the icon will be grayed out.
+ * }} 
+ */
+declare class AchievementIcon extends Panel {
+    /**
+     * Sets the achievement to be displayed by {{Type|AchievementIcon}}.[[Category:AchievementIcon]] 
+     * @param id Achievement number ID 
+     */
+    SetAchievement(id: number): void;
+    
+    /**
+     * Sets the achievement to be displayed by {{Type|AchievementIcon}}.[[Category:AchievementIcon]] 
+     * @param id Achievement number ID 
+     */
+    SetAchievement(id: number): void;
 }
 
 /**
@@ -18956,6 +19256,170 @@ declare namespace ai_task {
      * @returns The new task object. 
      */
     function New(): Task;
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * |Preview=DPanel-Avatar.png
+ * |Description=Used to show a player's Steam avatar. You are recommended but not limited to pick one of the following sizes: 16, 32, 64, 84, 128, 184.
+ * }}
+ * {{Example
+ * |Description=Creates an AvatarImage with the LocalPlayer's avatar inside.
+ * |Code=
+ * local Avatar = vgui.Create( "AvatarImage", Panel )
+ * Avatar:SetSize( 64, 64 )
+ * Avatar:SetPos( 4, 4 )
+ * Avatar:SetPlayer( LocalPlayer(), 64 )
+ * }} 
+ */
+declare class AvatarImage extends Panel {
+    /**
+     * Used by {{Type|AvatarImage}} to load an avatar for given player.[[Category:AvatarImage]] 
+     * @param player The player to use avatar of. 
+     * @param size The size of the avatar to use. Acceptable sizes are 32, 64, 184. 
+     */
+    SetPlayer(player: Player, size: number): void;
+    
+    /**
+     * Used by {{Type|AvatarImage}} to load an avatar for given player.[[Category:AvatarImage]] 
+     * @param player The player to use avatar of. 
+     * @param size The size of the avatar to use. Acceptable sizes are 32, 64, 184. 
+     */
+    SetPlayer(player: Player, size: number): void;
+    
+    /**
+     * Used by {{Type|AvatarImage}} panels to load an avatar by its 64-bit Steam ID (community ID).[[Category:AvatarImage]] 
+     * @param steamid The 64bit SteamID of the player to load avatar of 
+     * @param size The size of the avatar to use. Acceptable sizes are 32, 64, 184. 
+     */
+    SetSteamID(steamid: string, size: number): void;
+    
+    /**
+     * Used by {{Type|AvatarImage}} panels to load an avatar by its 64-bit Steam ID (community ID).[[Category:AvatarImage]] 
+     * @param steamid The 64bit SteamID of the player to load avatar of 
+     * @param size The size of the avatar to use. Acceptable sizes are 32, 64, 184. 
+     */
+    SetSteamID(steamid: string, size: number): void;
+}
+
+/**
+ * The ai library. 
+ */
+declare namespace ai {
+    /**
+     *  
+     * @param sched Schedule, see {{Enum|SCHED}} 
+     * @returns The ID 
+     */
+    function GetScheduleID(sched: string): number;
+    
+    /**
+     * Returns the task Id corresponding to the given task name. 
+     * @param taskName The task name to get the ID of 
+     * @returns The ID 
+     */
+    function GetTaskID(taskName: string): number;
+}
+
+/**
+ * The baseclass library. 
+ */
+declare namespace baseclass {
+    /**
+     * Gets the base class of an an object.
+     * 
+     * This is used not just by entities, but also by widgets, panels, drive modes, weapons and gamemodes (with "gamemode_" prefix).
+     * 
+     * The keyword '''DEFINE_BASECLASS''' translates into a call to this function. In the engine, it is replaced with:
+     * <pre>local BaseClass = baseclass.Get</pre> 
+     * @param name The child class. 
+     * @returns The base class's meta table. 
+     */
+    function Get(name: string): table;
+    
+    /**
+     * Add a new base class that can be derived by others. This is done automatically for:
+     * * widgets
+     * * panels
+     * * drive modes
+     * * entities
+     * * weapons
+     * * gamemodes (with prefix "gamemode_") 
+     * @param name The name of this base class. Must be completely unique. 
+     * @param tab The base class. 
+     */
+    function Set(name: string, tab: table): void;
+}
+
+/**
+ * This is the object passed to {{LibraryFunction|usermessage|Hook}} when a message is received. It contains each value stored in the message in sequential order. You should read values from it in the order you wrote them. 
+ */
+declare class bf_read {
+    /**
+     * Reads an returns an angle object from the bitstream. 
+     * @returns The read angle 
+     */
+    ReadAngle(): Angle;
+    
+    /**
+     * Reads 1 bit an returns a bool representing the bit. 
+     * @returns bit 
+     */
+    ReadBool(): boolean;
+    
+    /**
+     * Reads a signed char and returns a number from -127 to 127 representing the ascii value of that char. 
+     * @returns asciiVal 
+     */
+    ReadChar(): number;
+    
+    /**
+     * Reads a short representing an entity index and returns the matching entity handle. 
+     * @returns ent 
+     */
+    ReadEntity(): Entity;
+    
+    /**
+     * Reads a 4 byte float from the bitstream and returns it. 
+     * @returns float 
+     */
+    ReadFloat(): number;
+    
+    /**
+     * Reads a 4 byte long from the bitstream and returns it. 
+     * @returns int 
+     */
+    ReadLong(): number;
+    
+    /**
+     * Reads a 2 byte short from the bitstream and returns it. 
+     * @returns short 
+     */
+    ReadShort(): number;
+    
+    /**
+     * Reads a null terminated string from the bitstream. 
+     * @returns str 
+     */
+    ReadString(): string;
+    
+    /**
+     * Reads a special encoded vector from the bitstream and returns it, this function is not suitable to send normals. 
+     * @returns vec 
+     */
+    ReadVector(): Vector;
+    
+    /**
+     * Reads a special encoded vector normal from the bitstream and returns it, this function is not suitable to send vectors that represent a position. 
+     * @returns normal 
+     */
+    ReadVectorNormal(): Vector;
+    
+    /**
+     * Rewinds the bitstream so it can be read again. 
+     */
+    Reset(): void;
 }
 
 /**
@@ -19121,25 +19585,6 @@ declare class Awesomium extends Panel {
 }
 
 /**
- * The ai library. 
- */
-declare namespace ai {
-    /**
-     *  
-     * @param sched Schedule, see {{Enum|SCHED}} 
-     * @returns The ID 
-     */
-    function GetScheduleID(sched: string): number;
-    
-    /**
-     * Returns the task Id corresponding to the given task name. 
-     * @param taskName The task name to get the ID of 
-     * @returns The ID 
-     */
-    function GetTaskID(taskName: string): number;
-}
-
-/**
  * {{Panel
  * |Parent=DLabel
  * |Description={{Deprecated|Only exists for backwards compatibility with {{ClassFunction|Panel|SetActionFunction}}. Use {{Type|DButton}} instead.}}Creates a button that players can click on.
@@ -19186,115 +19631,6 @@ declare class Button extends DLabel {
      * * {{FuncArg|number||Always equals 0.}} 
      */
     SetActionFunction(func: Function): void;
-}
-
-/**
- * The baseclass library. 
- */
-declare namespace baseclass {
-    /**
-     * Gets the base class of an an object.
-     * 
-     * This is used not just by entities, but also by widgets, panels, drive modes, weapons and gamemodes (with "gamemode_" prefix).
-     * 
-     * The keyword '''DEFINE_BASECLASS''' translates into a call to this function. In the engine, it is replaced with:
-     * <pre>local BaseClass = baseclass.Get</pre> 
-     * @param name The child class. 
-     * @returns The base class's meta table. 
-     */
-    function Get(name: string): table;
-    
-    /**
-     * Add a new base class that can be derived by others. This is done automatically for:
-     * * widgets
-     * * panels
-     * * drive modes
-     * * entities
-     * * weapons
-     * * gamemodes (with prefix "gamemode_") 
-     * @param name The name of this base class. Must be completely unique. 
-     * @param tab The base class. 
-     */
-    function Set(name: string, tab: table): void;
-}
-
-/**
- * {{Panel
- * |Description={{Internal|Use {{Type|DCheckBoxLabel}} instead.}}Engine checkbox
- * }} 
- */
-declare class CheckButton {
-
-}
-
-/**
- * This is the object passed to {{LibraryFunction|usermessage|Hook}} when a message is received. It contains each value stored in the message in sequential order. You should read values from it in the order you wrote them. 
- */
-declare class bf_read {
-    /**
-     * Reads an returns an angle object from the bitstream. 
-     * @returns The read angle 
-     */
-    ReadAngle(): Angle;
-    
-    /**
-     * Reads 1 bit an returns a bool representing the bit. 
-     * @returns bit 
-     */
-    ReadBool(): boolean;
-    
-    /**
-     * Reads a signed char and returns a number from -127 to 127 representing the ascii value of that char. 
-     * @returns asciiVal 
-     */
-    ReadChar(): number;
-    
-    /**
-     * Reads a short representing an entity index and returns the matching entity handle. 
-     * @returns ent 
-     */
-    ReadEntity(): Entity;
-    
-    /**
-     * Reads a 4 byte float from the bitstream and returns it. 
-     * @returns float 
-     */
-    ReadFloat(): number;
-    
-    /**
-     * Reads a 4 byte long from the bitstream and returns it. 
-     * @returns int 
-     */
-    ReadLong(): number;
-    
-    /**
-     * Reads a 2 byte short from the bitstream and returns it. 
-     * @returns short 
-     */
-    ReadShort(): number;
-    
-    /**
-     * Reads a null terminated string from the bitstream. 
-     * @returns str 
-     */
-    ReadString(): string;
-    
-    /**
-     * Reads a special encoded vector from the bitstream and returns it, this function is not suitable to send normals. 
-     * @returns vec 
-     */
-    ReadVector(): Vector;
-    
-    /**
-     * Reads a special encoded vector normal from the bitstream and returns it, this function is not suitable to send vectors that represent a position. 
-     * @returns normal 
-     */
-    ReadVectorNormal(): Vector;
-    
-    /**
-     * Rewinds the bitstream so it can be read again. 
-     */
-    Reset(): void;
 }
 
 /**
@@ -19418,248 +19754,11 @@ declare namespace bit {
 
 /**
  * {{Panel
- * |Parent=DButton
- * |Description=
- * The spawn icon used for SWEPs and other SENTs, commonly featured as part of the spawn menu. Do note that at least one of your ContentIcon's parents must either be an {{Type|EditablePanel}} or derived from it (like a {{Type|DFrame}}, for example), else it won't be able to focus and thus be unclickable.
- * 
- * This control only exists in Sandbox derived gamemodes.
- * }}
- * {{Example
- * | Description = Creates a button to spawn one or multiple pistols on top of a custom {{Type|DFrame}}.
- * | Code =
- * local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 400, 200 )
- * frame:Center()
- * frame:SetTitle( "Secret SWEP Spawn Menu" )
- * frame:MakePopup()
- * 
- * local icon = vgui.Create( "ContentIcon", frame )
- * icon:Center()
- * icon:SetMaterial( "entities/weapon_pistol.png" )
- * icon:SetName( "Pistol" )
- * icon.DoClick = function() RunConsoleCommand( "gm_spawnswep", "weapon_pistol" ) end
- * icon.OpenMenu = function()
- * 	local menu = DermaMenu()
- * 	menu:AddOption( "Copy to clipboard", function() SetClipboardText( "weapon_pistol" ) end )
- * 	menu:AddOption( "Spawn 5", function() for i=1,5 do RunConsoleCommand( "gm_spawnswep", "weapon_pistol" ) end end )
- * 	menu:AddOption( "Spawn 10", function() for i=1,10 do RunConsoleCommand( "gm_spawnswep", "weapon_pistol" ) end end )
- * 	menu:Open()
- * end
- * | Output = <br/>
- * [[Image:ContentIconExample.png|center]]
+ * |Description={{Internal|Use {{Type|DCheckBoxLabel}} instead.}}Engine checkbox
  * }} 
  */
-declare class ContentIcon extends DButton {
-    /**
-     * @returns See {{Struct|Color}} 
-     */
-    GetColor(): Color;
-    
-    /**
-     * @returns The content type, for example "entity" or "weapon". 
-     */
-    GetContentType(): string;
-    
-    /**
-     * @returns A table of weapon classes to be chosen from when user tries to spawn the NPC. 
-     */
-    GetNPCWeapon(): table;
-    
-    /**
-     * @returns Internal "name" to be used when user left clicks the icon. 
-     */
-    GetSpawnName(): string;
-    
-    /**
-     */
-    OpenMenu(): void;
-    
-    /**
-     * @param adminOnly Whether this content should be admin only or not 
-     */
-    SetAdminOnly(adminOnly: boolean): void;
-    
-    /**
-     * @param color The color to set. Uses the Color structure. 
-     */
-    SetColor(color: table): void;
-    
-    /**
-     * @param clr The color to set. See {{Struct|Color}} 
-     */
-    SetColor(clr: Color): void;
-    
-    /**
-     * @param type The content type, for example "entity" or "weapon" 
-     */
-    SetContentType(type: string): void;
-    
-    /**
-     * @param path Path to the icon to use. 
-     */
-    SetMaterial(path: string): void;
-    
-    /**
-     * Sets the internal name of the panel. 
-     * @param name The new name of the panel. 
-     */
-    SetName(name: string): void;
-    
-    /**
-     * @param name "Nice" name to display. 
-     */
-    SetName(name: string): void;
-    
-    /**
-     * @param weapons A table of weapon classes to be chosen from when user tries to spawn the NPC. 
-     */
-    SetNPCWeapon(weapons: table): void;
-    
-    /**
-     * @param name Internal "name" to be used when user left clicks the icon. 
-     */
-    SetSpawnName(name: string): void;
-}
+declare class CheckButton {
 
-/**
- * {{Panel
- * |Parent=Panel
- * |Description=A base for all context menu panels ( The ones used for tool options in sandbox )
- * }} 
- */
-declare class ContextBase extends Panel {
-    /**
-     * @param contextData A two-membered table:
-     * * {{FuncArg|string|convar|The console variable to use. Calls {{ClassFunction|ContextBase|SetConVar}}.}}
-     * * {{FuncArg|string|label|The text to display inside the control's label.}} 
-     */
-    ControlValues(contextData: table): void;
-    
-    /**
-     * @returns The {{Type|ConVar}} for the panel to change. 
-     */
-    ConVar(): string;
-    
-    /**
-     * {{Warning|This function does not exist on all panels}}
-     * 
-     * Sets this panel's convar. When the convar changes this panel will update automatically.
-     * 
-     * For developer implementation, see {{GlobalFunction|Derma_Install_Convar_Functions}}. 
-     * @param convar The console variable to check. 
-     */
-    SetConVar(convar: string): void;
-    
-    /**
-     * @param cvar The {{Type|ConVar}} for the panel to change. 
-     */
-    SetConVar(cvar: string): void;
-    
-    /**
-     */
-    TestForChanges(): void;
-}
-
-/**
- * {{Panel
- * |Name=ControlPanel
- * |Parent=DForm
- * |Description=Used by the context menu in sandbox.
- * 
- * {{Note|This panel is only available in Sandbox and Sandbox derived gamemodes!}}
- * }} 
- */
-declare class ControlPanel extends DForm {
-    /**
-     * @param type The control type to add. The complete list is:
-     * * header
-     * * textbox
-     * * label
-     * * checkbox/toggle
-     * * slider
-     * * propselect
-     * * matselect
-     * * ropematerial
-     * * button
-     * * numpad
-     * * color
-     * * combobox
-     * * listbox
-     * * materialgallery 
-     * @param controlinfo Each control takes their own table structure. You may search "AddControl" on GitHub for examples.
-     * 
-     * Here is a full list of each type and the table members it requires:
-     * 
-     * header:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;description
-     * 
-     * textbox:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;label (def: "Untitled")<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;command
-     * 
-     * label:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;text<br>
-     * 
-     * checkbox, toggle (same thing):<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;label (def: "Untitled")<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;command<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;help (boolean, if true assumes label is a language string ("#tool.toolname.stuff") and adds ".help" at the end)
-     * 
-     * slider:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;type (optional string, if equals "float" then 2 digits after the decimal will be used, otherwise 0)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;label (def: "Untitled")<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;command<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;min (def: 0)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;max (def: 100)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;help (boolean, see above)
-     * 
-     * propselect:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;(data goes directly to PropSelect's :ControlValues(data))
-     * 
-     * matselect:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;(data goes directly to MatSelect's :ControlValues(data))
-     * 
-     * ropematerial:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;convar (notice: NOT called command this time!)
-     * 
-     * button:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;label / text (if label is missing will use text. Def: "No Label")<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;command
-     * 
-     * numpad:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;command<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;command2<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;label<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;label2
-     * 
-     * color:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;label<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;red (convar)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;green (convar)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;blue (convar)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;alpha (convar)
-     * 
-     * combobox:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;menubutton (if doesn't equal "1", becomes a listbox)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;folder<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;options (optional, ha)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;cvars (optional)
-     * 
-     * listbox:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;height (if set, becomes ListView, otherwise is ListBox)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;label (def: "unknown")<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;options (optional)
-     * 
-     * materialgallery:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;width (def: 32)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;height (def: 32)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;rows (def: 4)<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;convar<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;options
-     * 
-     * &nbsp; 
-     */
-    AddControl(type: string, controlinfo: table): void;
 }
 
 /**
@@ -19798,40 +19897,180 @@ declare namespace cam {
 
 /**
  * {{Panel
- * |Name=ControlPresets
- * |Parent=Panel
- * |Description=A preset manager, found at the top of almost every default tool's C-menu.
+ * |Parent=DButton
+ * |Description=
+ * The spawn icon used for SWEPs and other SENTs, commonly featured as part of the spawn menu. Do note that at least one of your ContentIcon's parents must either be an {{Type|EditablePanel}} or derived from it (like a {{Type|DFrame}}, for example), else it won't be able to focus and thus be unclickable.
  * 
  * This control only exists in Sandbox derived gamemodes.
+ * }}
+ * {{Example
+ * | Description = Creates a button to spawn one or multiple pistols on top of a custom {{Type|DFrame}}.
+ * | Code =
+ * local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 400, 200 )
+ * frame:Center()
+ * frame:SetTitle( "Secret SWEP Spawn Menu" )
+ * frame:MakePopup()
+ * 
+ * local icon = vgui.Create( "ContentIcon", frame )
+ * icon:Center()
+ * icon:SetMaterial( "entities/weapon_pistol.png" )
+ * icon:SetName( "Pistol" )
+ * icon.DoClick = function() RunConsoleCommand( "gm_spawnswep", "weapon_pistol" ) end
+ * icon.OpenMenu = function()
+ * 	local menu = DermaMenu()
+ * 	menu:AddOption( "Copy to clipboard", function() SetClipboardText( "weapon_pistol" ) end )
+ * 	menu:AddOption( "Spawn 5", function() for i=1,5 do RunConsoleCommand( "gm_spawnswep", "weapon_pistol" ) end end )
+ * 	menu:AddOption( "Spawn 10", function() for i=1,10 do RunConsoleCommand( "gm_spawnswep", "weapon_pistol" ) end end )
+ * 	menu:Open()
+ * end
+ * | Output = <br/>
+ * [[Image:ContentIconExample.png|center]]
  * }} 
  */
-declare class ControlPresets extends Panel {
+declare class ContentIcon extends DButton {
     /**
-     * @param convar The convar to add. 
+     * @returns See {{Struct|Color}} 
      */
-    AddConVar(convar: string): void;
+    GetColor(): Color;
     
     /**
-     * @returns numbered table of convars 
+     * @returns The content type, for example "entity" or "weapon". 
      */
-    GetConVars(): table;
+    GetContentType(): string;
     
     /**
-     * @param name The text to put in the label 
+     * @returns A table of weapon classes to be chosen from when user tries to spawn the NPC. 
      */
-    SetLabel(name: string): void;
+    GetNPCWeapon(): table;
+    
+    /**
+     * @returns Internal "name" to be used when user left clicks the icon. 
+     */
+    GetSpawnName(): string;
+    
+    /**
+     */
+    OpenMenu(): void;
+    
+    /**
+     * @param adminOnly Whether this content should be admin only or not 
+     */
+    SetAdminOnly(adminOnly: boolean): void;
+    
+    /**
+     * @param clr The color to set. See {{Struct|Color}} 
+     */
+    SetColor(clr: Color): void;
+    
+    /**
+     * @param type The content type, for example "entity" or "weapon" 
+     */
+    SetContentType(type: string): void;
+    
+    /**
+     * @param path Path to the icon to use. 
+     */
+    SetMaterial(path: string): void;
+    
+    /**
+     * @param name "Nice" name to display. 
+     */
+    SetName(name: string): void;
+    
+    /**
+     * @param weapons A table of weapon classes to be chosen from when user tries to spawn the NPC. 
+     */
+    SetNPCWeapon(weapons: table): void;
+    
+    /**
+     * @param name Internal "name" to be used when user left clicks the icon. 
+     */
+    SetSpawnName(name: string): void;
 }
 
 /**
  * {{Panel
- * |Parent=DComboBox
- * |Description=A {{Type|DComboBox}} based dropdown menu with build in easy {{Type|ConVar}} support.
- * 
- * This control only exists in Sandbox derived gamemodes.
+ * |Parent=Panel
+ * |Description=A base for all context menu panels ( The ones used for tool options in sandbox )
  * }} 
  */
-declare class CtrlListBox extends DComboBox {
+declare class ContextBase extends Panel {
+    /**
+     * @param contextData A two-membered table:
+     * * {{FuncArg|string|convar|The console variable to use. Calls {{ClassFunction|ContextBase|SetConVar}}.}}
+     * * {{FuncArg|string|label|The text to display inside the control's label.}} 
+     */
+    ControlValues(contextData: table): void;
+    
+    /**
+     * @returns The {{Type|ConVar}} for the panel to change. 
+     */
+    ConVar(): string;
+    
+    /**
+     * {{Warning|This function does not exist on all panels}}
+     * 
+     * Sets this panel's convar. When the convar changes this panel will update automatically.
+     * 
+     * For developer implementation, see {{GlobalFunction|Derma_Install_Convar_Functions}}. 
+     * @param convar The console variable to check. 
+     */
+    SetConVar(convar: string): void;
+    
+    /**
+     * @param cvar The {{Type|ConVar}} for the panel to change. 
+     */
+    SetConVar(cvar: string): void;
+    
+    /**
+     */
+    TestForChanges(): void;
+}
 
+/**
+ * The chat library's purpose is to interface with the default chatbox. 
+ */
+declare namespace chat {
+    /**
+     * Adds text to the local player's chat box (which only they can read). 
+     * @param arguments The arguments. Arguments can be:
+     * * {{Type|table}} - {{Struct|Color}}. Will set the color for all following strings until the next Color argument.
+     * * {{Type|string}} - Text to be added to the chat box.
+     * * {{Type|Player}} - Adds the name of the player in the player's team color to the chat box.
+     * * {{Type|any}} - Any other type, such as {{Type|Entity}} will be converted to string and added as text. 
+     */
+    function AddText(...arguments: any[]): void;
+    
+    /**
+     * Closes the chat window. 
+     */
+    function Close(): void;
+    
+    /**
+     * Returns the chatbox position. 
+     * @returns [The X coordinate of the chatbox's position., The Y coordinate of the chatbox's position.]
+     * !TupleReturn 
+     */
+    function GetChatBoxPos(): [number, number];
+    
+    /**
+     * Returns the chatbox size. 
+     * @returns [The width of the chatbox., The height of the chatbox.]
+     * !TupleReturn 
+     */
+    function GetChatBoxSize(): [number, number];
+    
+    /**
+     * Opens the chat window. 
+     * @param mode If equals 1, opens public chat, otherwise opens team chat 
+     */
+    function Open(mode: number): void;
+    
+    /**
+     * Plays the chat "tick" sound. 
+     */
+    function PlaySound(): void;
 }
 
 /**
@@ -20042,48 +20281,342 @@ declare class CEffectData {
 }
 
 /**
- * The chat library's purpose is to interface with the default chatbox. 
+ * {{Panel
+ * |Name=ControlPanel
+ * |Parent=DForm
+ * |Description=Used by the context menu in sandbox.
+ * 
+ * {{Note|This panel is only available in Sandbox and Sandbox derived gamemodes!}}
+ * }} 
  */
-declare namespace chat {
+declare class ControlPanel extends DForm {
     /**
-     * Adds text to the local player's chat box (which only they can read). 
-     * @param arguments The arguments. Arguments can be:
-     * * {{Type|table}} - {{Struct|Color}}. Will set the color for all following strings until the next Color argument.
-     * * {{Type|string}} - Text to be added to the chat box.
-     * * {{Type|Player}} - Adds the name of the player in the player's team color to the chat box.
-     * * {{Type|any}} - Any other type, such as {{Type|Entity}} will be converted to string and added as text. 
+     * @param type The control type to add. The complete list is:
+     * * header
+     * * textbox
+     * * label
+     * * checkbox/toggle
+     * * slider
+     * * propselect
+     * * matselect
+     * * ropematerial
+     * * button
+     * * numpad
+     * * color
+     * * combobox
+     * * listbox
+     * * materialgallery 
+     * @param controlinfo Each control takes their own table structure. You may search "AddControl" on GitHub for examples.
+     * 
+     * Here is a full list of each type and the table members it requires:
+     * 
+     * header:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;description
+     * 
+     * textbox:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;label (def: "Untitled")<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;command
+     * 
+     * label:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;text<br>
+     * 
+     * checkbox, toggle (same thing):<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;label (def: "Untitled")<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;command<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;help (boolean, if true assumes label is a language string ("#tool.toolname.stuff") and adds ".help" at the end)
+     * 
+     * slider:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;type (optional string, if equals "float" then 2 digits after the decimal will be used, otherwise 0)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;label (def: "Untitled")<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;command<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;min (def: 0)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;max (def: 100)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;help (boolean, see above)
+     * 
+     * propselect:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;(data goes directly to PropSelect's :ControlValues(data))
+     * 
+     * matselect:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;(data goes directly to MatSelect's :ControlValues(data))
+     * 
+     * ropematerial:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;convar (notice: NOT called command this time!)
+     * 
+     * button:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;label / text (if label is missing will use text. Def: "No Label")<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;command
+     * 
+     * numpad:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;command<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;command2<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;label<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;label2
+     * 
+     * color:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;label<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;red (convar)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;green (convar)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;blue (convar)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;alpha (convar)
+     * 
+     * combobox:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;menubutton (if doesn't equal "1", becomes a listbox)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;folder<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;options (optional, ha)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;cvars (optional)
+     * 
+     * listbox:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;height (if set, becomes ListView, otherwise is ListBox)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;label (def: "unknown")<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;options (optional)
+     * 
+     * materialgallery:<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;width (def: 32)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;height (def: 32)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;rows (def: 4)<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;convar<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;options
+     * 
+     * &nbsp; 
      */
-    function AddText(...arguments: any[]): void;
+    AddControl(type: string, controlinfo: table): void;
+}
+
+/**
+ * The cleanup library allows you to control what happens to custom entities when the clean-up buttons are pressed in the Utilities tab of the Spawn menu (default Q). 
+ */
+declare namespace cleanup {
+    /**
+     * Adds an entity to a player's cleanup list. 
+     * @param pl Who's cleanup list to add the entity to. 
+     * @param type The type of cleanup. 
+     * @param ent The entity to add to the player's cleanup list. 
+     */
+    function Add(pl: Player, type: string, ent: Entity): void;
     
     /**
-     * Closes the chat window. 
+     * {{Internal}} Called by the ''gmod_admin_cleanup'' console command. Allows admins to clean up the server. 
+     * @param pl The player that called the console command. 
+     * @param command The console command that called this function. 
+     * @param args First and only arg is the cleanup type. 
      */
-    function Close(): void;
+    function CC_AdminCleanup(pl: Player, command: string, args: table): void;
     
     /**
-     * Returns the chatbox position. 
-     * @returns [The X coordinate of the chatbox's position., The Y coordinate of the chatbox's position.]
+     * {{Internal}} Called by the ''gmod_cleanup'' console command. Allows players to cleanup their own props. 
+     * @param pl The player that called the console command. 
+     * @param command The console command that called this function. 
+     * @param args First and only arg is the cleanup type. 
+     */
+    function CC_Cleanup(pl: Player, command: string, args: table): void;
+    
+    /**
+     * Gets the cleanup list. 
+     */
+    function GetList(): void;
+    
+    /**
+     * Gets the table of cleanup types. 
+     * @returns cleanup_types 
+     */
+    function GetTable(): table;
+    
+    /**
+     * Registers a new cleanup type. 
+     * @param type Name of type. 
+     */
+    function Register(type: string): void;
+    
+    /**
+     * Replaces one entity in the cleanup module with another 
+     * @param from Old entity 
+     * @param to New entity 
+     * @returns Whether any action was taken. 
+     */
+    function ReplaceEntity(from: Entity, to: Entity): boolean;
+    
+    /**
+     * Repopulates the clients cleanup menu 
+     */
+    function UpdateUI(): void;
+}
+
+/**
+ * {{Panel
+ * |Name=ControlPresets
+ * |Parent=Panel
+ * |Description=A preset manager, found at the top of almost every default tool's C-menu.
+ * 
+ * This control only exists in Sandbox derived gamemodes.
+ * }} 
+ */
+declare class ControlPresets extends Panel {
+    /**
+     * @param convar The convar to add. 
+     */
+    AddConVar(convar: string): void;
+    
+    /**
+     * @returns numbered table of convars 
+     */
+    GetConVars(): table;
+    
+    /**
+     * @param name The text to put in the label 
+     */
+    SetLabel(name: string): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=DComboBox
+ * |Description=A {{Type|DComboBox}} based dropdown menu with build in easy {{Type|ConVar}} support.
+ * 
+ * This control only exists in Sandbox derived gamemodes.
+ * }} 
+ */
+declare class CtrlListBox extends DComboBox {
+
+}
+
+/**
+ * The concommand library is used to create console commands which can be used to network (basic) information & events between the client and the server. 
+ */
+declare namespace concommand {
+    /**
+     * Creates a console command that runs a function in lua with optional autocompletion function and help text.
+     * 
+     * {{Bug|Issue=1183|This will fail if the concommand was previously removed with {{LibraryFunction|concommand|Remove}}.}} 
+     * @param name The command name to be used in console.<br><br>
+     * 
+     * This cannot be a name of existing console command or console variable. It will silently fail if it is. 
+     * @param callback The function to run when the concommand is executed. Arguments passed are:
+     * * {{FuncArg|Player|ply|The player the ran the concommand. NULL entity if command was entered with the dedicated server console.}}
+     * * {{FuncArg|string|cmd|The concommand string (if one callback is used for several concommands).}}
+     * * {{FuncArg|table|args|A table of all string arguments.}}
+     * * {{FuncArg|string|argStr|The arguments as a string.}} 
+     * @param autoComplete [=nil] The function to call which should return a table of options for autocompletion. ([[Autocomplete Tutorial|Autocompletion Tutorial]])
+     * 
+     * This only properly works on the client since it is '''not''' networked. Arguments passed are:
+     * * {{FuncArg|string|cmd|The concommand this autocompletion is for.}}
+     * * {{FuncArg|string|args|The arguments typed so far.}} 
+     * @param helpText [=nil] The text to display should a user run 'help cmdName'. 
+     * @param flags [=0] Concommand modifier flags. See {{Enum|FCVAR}}. 
+     */
+    function Add(name: string, callback: Function, autoComplete?: Function, helpText?: string, flags?: FCVAR): void;
+    
+    /**
+     * {{Internal}} Used by the engine to call the autocomplete function for a console command, and retrieve returned options. 
+     * @param command Name of command 
+     * @param arguments Arguments given to the command 
+     * @returns Possibilities for auto-completion. This is the return value of the auto-complete callback. 
+     */
+    function AutoComplete(command: string, arguments: string): table;
+    
+    /**
+     * Returns the tables of all console command callbacks, and autocomplete functions, that were added to the game with {{LibraryFunction|concommand|Add}}. 
+     * @returns [Table of command callback functions., Table of command autocomplete functions.]
      * !TupleReturn 
      */
-    function GetChatBoxPos(): [number, number];
+    function GetTable(): [table, table];
     
     /**
-     * Returns the chatbox size. 
-     * @returns [The width of the chatbox., The height of the chatbox.]
-     * !TupleReturn 
+     * Removes a console command. 
+     * @param name The name of the command to be removed. 
      */
-    function GetChatBoxSize(): [number, number];
+    function Remove(name: string): void;
     
     /**
-     * Opens the chat window. 
-     * @param mode If equals 1, opens public chat, otherwise opens team chat 
+     * {{Internal|You might be looking for {{GlobalFunction|RunConsoleCommand}} or {{ClassFunction|Player|ConCommand}}.}} Used by the engine to run a console command's callback function, that was added with {{LibraryFunction|concommand|Add}}. An error is sent to the player's chat if no callback is found. 
+     * @param ply Player to run concommand on 
+     * @param cmd Command name 
+     * @param args Command arguments.
+     * Can be table or string 
+     * @param argumentString string of all arguments sent to the command 
+     * @returns ''true'' if the console command with the given name exists, and ''false'' if it doesn't. 
      */
-    function Open(mode: number): void;
+    function Run(ply: Player, cmd: string, args: any, argumentString: string): boolean;
+}
+
+/**
+ * List of all possible functions available for LuaEmitters. This is the object returned by the {{GlobalFunction|ParticleEmitter}} function. 
+ */
+declare class CLuaEmitter {
+    /**
+     * Creates a new {{Type|CLuaParticle}} with the given material and position. 
+     * @param material The particles material. Can also be an {{Type|IMaterial}}. 
+     * @param position The position to spawn the particle on. 
+     * @returns The created particle, if any. 
+     */
+    Add(material: string, position: Vector): CLuaParticle;
     
     /**
-     * Plays the chat "tick" sound. 
+     * Manually renders all particles the emitter has created. 
      */
-    function PlaySound(): void;
+    Draw(): void;
+    
+    /**
+     * Removes the emitter and all its particles. 
+     */
+    Finish(): void;
+    
+    /**
+     * Returns the amount of active particles of this emitter. 
+     * @returns The amount of active particles of this emitter 
+     */
+    GetNumActiveParticles(): number;
+    
+    /**
+     * Returns the position of this emitter. This is set when creating the emitter with {{GlobalFunction|ParticleEmitter}}. 
+     * @returns Position of this particle emitter. 
+     */
+    GetPos(): Vector;
+    
+    /**
+     * Returns whether this emitter is 3D or not. This is set when creating the emitter with {{GlobalFunction|ParticleEmitter}}. 
+     * @returns Whether this emitter is 3D or not. 
+     */
+    Is3D(): boolean;
+    
+    /**
+     * Returns whether this {{Type|CLuaEmitter}} is valid or not. 
+     * @returns Whether this {{Type|CLuaEmitter}} is valid or not. 
+     */
+    IsValid(): CLuaEmitter;
+    
+    /**
+     * Sets the bounding box for this emitter.
+     * 
+     * Usually the bounding box is automatically determined by the particles, but this function overrides it. 
+     * @param mins The minimum position of the box 
+     * @param maxs The maximum position of the box 
+     */
+    SetBBox(mins: Vector, maxs: Vector): void;
+    
+    /**
+     * This function sets the the distance between the render camera and the emitter at which the particles should start fading and at which distance fade ends ( alpha becomes 0 ). 
+     * @param distanceMin Min distance where the alpha becomes 0. 
+     * @param distanceMax Max distance where the alpha starts fading. 
+     */
+    SetNearClip(distanceMin: number, distanceMax: number): void;
+    
+    /**
+     * Prevents all particles of the emitter from automatically drawing. 
+     * @param noDraw Whether we should draw the particles ( false ) or not ( true ) 
+     */
+    SetNoDraw(noDraw: boolean): void;
+    
+    /**
+     * The function name has not much in common with its actual function, it applies a radius to every particles that affects the building of the bounding box, as it, usually is constructed by the particle that has the lowest x, y and z and the highest x, y and z, this function just adds/subtracts the radius and inflates the bounding box. 
+     * @param radius Particle radius. 
+     */
+    SetParticleCullRadius(radius: number): void;
+    
+    /**
+     * Sets the position of the particle emitter. 
+     * @param position New position. 
+     */
+    SetPos(position: Vector): void;
 }
 
 /**
@@ -20181,205 +20714,6 @@ declare class DAlphaBar extends DPanel {
 }
 
 /**
- * The cleanup library allows you to control what happens to custom entities when the clean-up buttons are pressed in the Utilities tab of the Spawn menu (default Q). 
- */
-declare namespace cleanup {
-    /**
-     * Adds an entity to a player's cleanup list. 
-     * @param pl Who's cleanup list to add the entity to. 
-     * @param type The type of cleanup. 
-     * @param ent The entity to add to the player's cleanup list. 
-     */
-    function Add(pl: Player, type: string, ent: Entity): void;
-    
-    /**
-     * {{Internal}} Called by the ''gmod_admin_cleanup'' console command. Allows admins to clean up the server. 
-     * @param pl The player that called the console command. 
-     * @param command The console command that called this function. 
-     * @param args First and only arg is the cleanup type. 
-     */
-    function CC_AdminCleanup(pl: Player, command: string, args: table): void;
-    
-    /**
-     * {{Internal}} Called by the ''gmod_cleanup'' console command. Allows players to cleanup their own props. 
-     * @param pl The player that called the console command. 
-     * @param command The console command that called this function. 
-     * @param args First and only arg is the cleanup type. 
-     */
-    function CC_Cleanup(pl: Player, command: string, args: table): void;
-    
-    /**
-     * Gets the cleanup list. 
-     */
-    function GetList(): void;
-    
-    /**
-     * Gets the table of cleanup types. 
-     * @returns cleanup_types 
-     */
-    function GetTable(): table;
-    
-    /**
-     * Registers a new cleanup type. 
-     * @param type Name of type. 
-     */
-    function Register(type: string): void;
-    
-    /**
-     * Replaces one entity in the cleanup module with another 
-     * @param from Old entity 
-     * @param to New entity 
-     * @returns Whether any action was taken. 
-     */
-    function ReplaceEntity(from: Entity, to: Entity): boolean;
-    
-    /**
-     * Repopulates the clients cleanup menu 
-     */
-    function UpdateUI(): void;
-}
-
-/**
- * List of all possible functions available for LuaEmitters. This is the object returned by the {{GlobalFunction|ParticleEmitter}} function. 
- */
-declare class CLuaEmitter {
-    /**
-     * Creates a new {{Type|CLuaParticle}} with the given material and position. 
-     * @param material The particles material. Can also be an {{Type|IMaterial}}. 
-     * @param position The position to spawn the particle on. 
-     * @returns The created particle, if any. 
-     */
-    Add(material: string, position: Vector): CLuaParticle;
-    
-    /**
-     * Manually renders all particles the emitter has created. 
-     */
-    Draw(): void;
-    
-    /**
-     * Removes the emitter and all its particles. 
-     */
-    Finish(): void;
-    
-    /**
-     * Returns the amount of active particles of this emitter. 
-     * @returns The amount of active particles of this emitter 
-     */
-    GetNumActiveParticles(): number;
-    
-    /**
-     * Returns the position of this emitter. This is set when creating the emitter with {{GlobalFunction|ParticleEmitter}}. 
-     * @returns Position of this particle emitter. 
-     */
-    GetPos(): Vector;
-    
-    /**
-     * Returns whether this emitter is 3D or not. This is set when creating the emitter with {{GlobalFunction|ParticleEmitter}}. 
-     * @returns Whether this emitter is 3D or not. 
-     */
-    Is3D(): boolean;
-    
-    /**
-     * Returns whether this {{Type|CLuaEmitter}} is valid or not. 
-     * @returns Whether this {{Type|CLuaEmitter}} is valid or not. 
-     */
-    IsValid(): CLuaEmitter;
-    
-    /**
-     * Sets the bounding box for this emitter.
-     * 
-     * Usually the bounding box is automatically determined by the particles, but this function overrides it. 
-     * @param mins The minimum position of the box 
-     * @param maxs The maximum position of the box 
-     */
-    SetBBox(mins: Vector, maxs: Vector): void;
-    
-    /**
-     * This function sets the the distance between the render camera and the emitter at which the particles should start fading and at which distance fade ends ( alpha becomes 0 ). 
-     * @param distanceMin Min distance where the alpha becomes 0. 
-     * @param distanceMax Max distance where the alpha starts fading. 
-     */
-    SetNearClip(distanceMin: number, distanceMax: number): void;
-    
-    /**
-     * Prevents all particles of the emitter from automatically drawing. 
-     * @param noDraw Whether we should draw the particles ( false ) or not ( true ) 
-     */
-    SetNoDraw(noDraw: boolean): void;
-    
-    /**
-     * The function name has not much in common with its actual function, it applies a radius to every particles that affects the building of the bounding box, as it, usually is constructed by the particle that has the lowest x, y and z and the highest x, y and z, this function just adds/subtracts the radius and inflates the bounding box. 
-     * @param radius Particle radius. 
-     */
-    SetParticleCullRadius(radius: number): void;
-    
-    /**
-     * Sets the position of the particle emitter. 
-     * @param position New position. 
-     */
-    SetPos(position: Vector): void;
-}
-
-/**
- * The concommand library is used to create console commands which can be used to network (basic) information & events between the client and the server. 
- */
-declare namespace concommand {
-    /**
-     * Creates a console command that runs a function in lua with optional autocompletion function and help text.
-     * 
-     * {{Bug|Issue=1183|This will fail if the concommand was previously removed with {{LibraryFunction|concommand|Remove}}.}} 
-     * @param name The command name to be used in console.<br><br>
-     * 
-     * This cannot be a name of existing console command or console variable. It will silently fail if it is. 
-     * @param callback The function to run when the concommand is executed. Arguments passed are:
-     * * {{FuncArg|Player|ply|The player the ran the concommand. NULL entity if command was entered with the dedicated server console.}}
-     * * {{FuncArg|string|cmd|The concommand string (if one callback is used for several concommands).}}
-     * * {{FuncArg|table|args|A table of all string arguments.}}
-     * * {{FuncArg|string|argStr|The arguments as a string.}} 
-     * @param autoComplete [=nil] The function to call which should return a table of options for autocompletion. ([[Autocomplete Tutorial|Autocompletion Tutorial]])
-     * 
-     * This only properly works on the client since it is '''not''' networked. Arguments passed are:
-     * * {{FuncArg|string|cmd|The concommand this autocompletion is for.}}
-     * * {{FuncArg|string|args|The arguments typed so far.}} 
-     * @param helpText [=nil] The text to display should a user run 'help cmdName'. 
-     * @param flags [=0] Concommand modifier flags. See {{Enum|FCVAR}}. 
-     */
-    function Add(name: string, callback: Function, autoComplete?: Function, helpText?: string, flags?: FCVAR): void;
-    
-    /**
-     * {{Internal}} Used by the engine to call the autocomplete function for a console command, and retrieve returned options. 
-     * @param command Name of command 
-     * @param arguments Arguments given to the command 
-     * @returns Possibilities for auto-completion. This is the return value of the auto-complete callback. 
-     */
-    function AutoComplete(command: string, arguments: string): table;
-    
-    /**
-     * Returns the tables of all console command callbacks, and autocomplete functions, that were added to the game with {{LibraryFunction|concommand|Add}}. 
-     * @returns [Table of command callback functions., Table of command autocomplete functions.]
-     * !TupleReturn 
-     */
-    function GetTable(): [table, table];
-    
-    /**
-     * Removes a console command. 
-     * @param name The name of the command to be removed. 
-     */
-    function Remove(name: string): void;
-    
-    /**
-     * {{Internal|You might be looking for {{GlobalFunction|RunConsoleCommand}} or {{ClassFunction|Player|ConCommand}}.}} Used by the engine to run a console command's callback function, that was added with {{LibraryFunction|concommand|Add}}. An error is sent to the player's chat if no callback is found. 
-     * @param ply Player to run concommand on 
-     * @param cmd Command name 
-     * @param args Command arguments.
-     * Can be table or string 
-     * @param argumentString string of all arguments sent to the command 
-     * @returns ''true'' if the console command with the given name exists, and ''false'' if it doesn't. 
-     */
-    function Run(ply: Player, cmd: string, args: any, argumentString: string): boolean;
-}
-
-/**
  * {{Panel
  * |Parent=DButton
  * |Preview=DBinder.jpg
@@ -20408,14 +20742,6 @@ declare class DBinder extends DButton {
      * @returns The key code of the bound key. See {{Enum|KEY}}. 
      */
     GetSelectedNumber(): KEY;
-    
-    /**
-     * Returns the value the panel holds.
-     * 
-     * In engine is only implemented for {{Type|CheckButton}}, {{Type|Label}} and {{Type|TextEntry}} as a string and for those elements has a hard coded limit of 8092 characters. 
-     * @returns The value the panel holds. 
-     */
-    GetValue(): any;
     
     /**
      * @returns The key code of the bound key. See {{Enum|KEY}}. 
@@ -20507,412 +20833,6 @@ declare class DBubbleContainer extends DPanel {
      * @param h The height of the bubble container. 
      */
     OpenForPos(x: number, y: number, w: number, h: number): void;
-}
-
-/**
- * {{Panel
- * |Parent=DLabel
- * |Preview=DButton_small.png
- * |Description=A standard Derma button.
- * 
- * By default, a {{Type|DButton}} is 22px tall.
- * }}
- * {{Example
- * |Description=The DButton is exactly what you think it is - a button!
- * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 300, 250 )
- * frame:Center()
- * frame:MakePopup()
- * 
- * local DermaButton = vgui.Create( "DButton", frame ) // Create the button and parent it to the frame
- * DermaButton:SetText( "Say hi" )					// Set the text on the button
- * DermaButton:SetPos( 25, 50 )					// Set the position on the frame
- * DermaButton:SetSize( 250, 30 )					// Set the size
- * DermaButton.DoClick = function()				// A custom function run when clicked ( note the . instead of : )
- * 	RunConsoleCommand( "say", "Hi" )			// Run the console command "say hi" when you click it ( command, args )
- * end
- * |Output=[[File:DButton.png]]
- * }} 
- */
-declare class DButton extends DLabel {
-    /**
-     * @returns value set by {{ClassFunction|DButton|SetDrawBorder}}. 
-     */
-    GetDrawBorder(): boolean;
-    
-    /**
-     * @returns Whether or not the button is depressed. 
-     */
-    IsDown(): boolean;
-    
-    /**
-     * @param command The console command to be called. 
-     * @param args The arguments for the command. 
-     */
-    SetConsoleCommand(command: string, args: string): void;
-    
-    /**
-     * @param disable ''true'' to disable the DLabel, ''false'' to enable it. 
-     */
-    SetDisabled(disable: boolean): void;
-    
-    /**
-     * @param disable ''true'' to disable the button, ''false'' to enable it. 
-     */
-    SetDisabled(disable: boolean): void;
-    
-    /**
-     * @param draw Does nothing. 
-     */
-    SetDrawBorder(draw: boolean): void;
-    
-    /**
-     * Sets the enabled state of a disable-able panel object, such as a {{Type|DButton}} or {{Type|DTextEntry}}.
-     * 
-     * See {{ClassFunction|Panel|IsEnabled}} for a function that retrieves the "enabled" state of a panel. 
-     * @param enable Whether to enable or disable the panel object. 
-     */
-    SetEnabled(enable: boolean): void;
-    
-    /**
-     * @param enable ''true'' to enable the button, ''false'' to disable it. 
-     */
-    SetEnabled(enable: boolean): void;
-    
-    /**
-     * @param img [=nil] The image file to use, relative to ''/materials''. If this is nil, the image background is removed. 
-     */
-    SetIcon(img?: string): void;
-    
-    /**
-     * @param img [=nil] The image file to use, relative to ''/materials''. If this is nil, the image background is removed. 
-     */
-    SetImage(img?: string): void;
-    
-    /**
-     * @param skin A table supposed to contain the color values listed above. 
-     */
-    UpdateColours(skin: table): void;
-    
-    /**
-     * @param skin A table supposed to contain the color values listed above. 
-     */
-    UpdateColours(skin: table): void;
-    
-    /**
-     */
-    DoClick(): void;
-    
-    /**
-     */
-    DoClick(): void;
-    
-    /**
-     * @returns The disabled state of the label. 
-     */
-    GetDisabled(): boolean;
-    
-    /**
-     * @returns The disabled state of the label. 
-     */
-    GetDisabled(): boolean;
-    
-    /**
-     * @returns The name of the font in use. 
-     */
-    GetFont(): string;
-    
-    /**
-     * Returns the name of the font that the panel renders its text with.
-     * 
-     * This is the same font name set with {{ClassFunction|Panel|SetFontInternal}}. 
-     * @returns fontName 
-     */
-    GetFont(): string;
-    
-    /**
-     * @returns The name of the font in use. 
-     */
-    GetFont(): string;
-    
-    /**
-     * @param fontName The name of the font.
-     * 
-     * See [[Default_Fonts|here]] for a list of existing fonts.
-     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
-     */
-    SetFont(fontName: string): void;
-    
-    /**
-     * @param fontName The name of the font.
-     * 
-     * See [[Default_Fonts|here]] for a list of existing fonts.
-     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
-     */
-    SetFont(fontName: string): void;
-}
-
-/**
- * {{Panel
- * |Parent=DButton
- * |Description={{Internal}}
- * 
- * Used by {{Type|DCollapsibleCategory}}
- * }} 
- */
-declare class DCategoryHeader extends DButton {
-
-}
-
-/**
- * {{Panel
- * |Parent=DScrollPanel
- * |Description=A host for multiple {{Type|DCollapsibleCategory}} panels. As the name suggests, each one of them can be collapsed or expanded on demand by the user.
- * }}
- * {{Example
- * |Description=Creates a DCategoryList with a category and a DFrame, as seen above.
- * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 500, 500 )
- * frame:Center()
- * frame:MakePopup()
- * 
- * local CatList = vgui.Create( "DCategoryList", frame )
- * CatList:Dock( FILL )
- * 
- * local Cat = CatList:Add( "Test category with text contents" )
- * Cat:Add( "Item 1" )
- * local button = Cat:Add( "Item 2" )
- * button.DoClick = function()
- * 	print( "Item 2 was clicked." )
- * end
- * 
- * -- The contents can be any panel, even a DPanelList
- * local Cat2 = CatList:Add( "Test category with panel contents" )
- * Cat2:SetTall( 100 )
- * 
- * local Contents = vgui.Create( "DButton" )
- * Contents:SetText( "This is the content of the category" )
- * Cat2:SetContents( Contents )
- * 
- * CatList:InvalidateLayout( true )
- * }} 
- */
-declare class DCategoryList extends DScrollPanel {
-    /**
-     * Adds the specified object to the panel.
-     * 
-     * {{Bug|Pull=1482|Creating a DFrame or a panel that inherits from DFrame will not drag/resize correctly when created through this function.}} 
-     * @param object The panel to be added (parented). Can also be:
-     * * {{FuncArg|string|Class Name|creates panel with the specified name and adds it to the panel.}}
-     * * {{FuncArg|table|PANEL table|creates a panel from table and adds it to the panel.}} 
-     * @returns New panel 
-     */
-    Add(object: Panel): Panel;
-    
-    /**
-     * @param categoryName The name of the category to add. 
-     * @returns The created {{Type|DCollapsibleCategory}} 
-     */
-    Add(categoryName: string): DCollapsibleCategory;
-    
-    /**
-     * @param pnl The panel to add. 
-     */
-    AddItem(pnl: Panel): void;
-    
-    /**
-     * @param element VGUI element to add to the list. 
-     */
-    AddItem(element: Panel): void;
-    
-    /**
-     * Recursively deselects this panel object and all of its children. This will cascade to all child objects at every level below the parent. 
-     */
-    UnselectAll(): void;
-    
-    /**
-     */
-    UnselectAll(): void;
-}
-
-/**
- * This class is essentially what controls a {{Type|NextBot}} NPC. You can access it in a {{Type|NextBot}} NPC by using '''self.loco''' variable. 
- */
-declare class CLuaLocomotion {
-    /**
-     * Sets the location we want to get to 
-     * @param goal The vector we want to get to 
-     * @param goalweight If unsure then set this to 1 
-     */
-    Approach(goal: Vector, goalweight: number): void;
-    
-    /**
-     * Removes the stuck status from the bot 
-     */
-    ClearStuck(): void;
-    
-    /**
-     * Sets the direction we want to face 
-     * @param goal The vector we want to face 
-     */
-    FaceTowards(goal: Vector): void;
-    
-    /**
-     * Returns the acceleration speed 
-     * @returns Current acceleration speed 
-     */
-    GetAcceleration(): number;
-    
-    /**
-     * Returns the current acceleration as a vector 
-     * @returns Current acceleration 
-     */
-    GetCurrentAcceleration(): Vector;
-    
-    /**
-     * Gets the height the bot is scared to fall from 
-     * @returns Current death drop height 
-     */
-    GetDeathDropHeight(): number;
-    
-    /**
-     * Gets the deceleration speed 
-     * @returns Current deceleration speed 
-     */
-    GetDeceleration(): number;
-    
-    /**
-     * Return unit vector in XY plane describing our direction of motion - even if we are currently not moving 
-     * @returns A vector representing the X and Y movement 
-     */
-    GetGroundMotionVector(): Vector;
-    
-    /**
-     * Gets the height of the bot's jump 
-     * @returns Current jump height 
-     */
-    GetJumpHeight(): number;
-    
-    /**
-     * Returns maximum jump height of this {{Type|CLuaLocomotion}}. 
-     * @returns The maximum jump height. 
-     */
-    GetMaxJumpHeight(): number;
-    
-    /**
-     * Returns the max rate at which the NextBot can visually rotate. 
-     * @returns Maximum yaw rate 
-     */
-    GetMaxYawRate(): number;
-    
-    /**
-     * Gets the max height the bot can step up 
-     * @returns Current step height 
-     */
-    GetStepHeight(): number;
-    
-    /**
-     * Returns the current movement velocity as a vector 
-     * @returns Current velocity 
-     */
-    GetVelocity(): Vector;
-    
-    /**
-     * Returns whether this {{Type|CLuaLocomotion}} can reach and/or traverse/move in given {{Type|CNavArea}}. 
-     * @param area The area to test 
-     * @returns Whether this {{Type|CLuaLocomotion}} can traverse given {{Type|CNavArea}}. 
-     */
-    IsAreaTraversable(area: CNavArea): boolean;
-    
-    /**
-     * Returns true if we're trying to move. 
-     * @returns Whether we're trying to move or not. 
-     */
-    IsAttemptingToMove(): boolean;
-    
-    /**
-     * Returns true of the locomotion engine is jumping or climbing 
-     * @returns Whether we're climbing or jumping or not 
-     */
-    IsClimbingOrJumping(): boolean;
-    
-    /**
-     * Returns whether the locomotion/nextbot is on ground or not. 
-     * @returns Whether the locomotion/nextbot is on ground or not. 
-     */
-    IsOnGround(): boolean;
-    
-    /**
-     * Returns true if we're stuck 
-     * @returns Whether we're stuck or not 
-     */
-    IsStuck(): boolean;
-    
-    /**
-     * Returns whether or not the target in question is on a ladder or not. 
-     * @returns If the target is on a ladder or not. 
-     */
-    IsUsingLadder(): boolean;
-    
-    /**
-     * Makes the bot jump 
-     */
-    Jump(): void;
-    
-    /**
-     *  
-     * @param landingGoal  
-     * @param landingForward  
-     */
-    JumpAcrossGap(landingGoal: Vector, landingForward: Vector): void;
-    
-    /**
-     * Sets the acceleration speed 
-     * @param speed Speed acceleration (default is 400) 
-     */
-    SetAcceleration(speed: number): void;
-    
-    /**
-     * Sets the height the bot is scared to fall from. 
-     * @param height Height (default is 200) 
-     */
-    SetDeathDropHeight(height: number): void;
-    
-    /**
-     * Sets the deceleration speed. 
-     * @param deceleration New deceleration speed (default is 400) 
-     */
-    SetDeceleration(deceleration: number): void;
-    
-    /**
-     * Sets movement speed. 
-     * @param speed The new desired speed 
-     */
-    SetDesiredSpeed(speed: number): void;
-    
-    /**
-     * Sets the height of the bot's jump 
-     * @param height Height (default is 58) 
-     */
-    SetJumpHeight(height: number): void;
-    
-    /**
-     * Sets the max rate at which the NextBot can visually rotate. This will not affect moving or pathing. 
-     * @param yawRate Desired new maximum yaw rate 
-     */
-    SetMaxYawRate(yawRate: number): void;
-    
-    /**
-     * Sets the max height the bot can step up 
-     * @param height Height (default is 18) 
-     */
-    SetStepHeight(height: number): void;
-    
-    /**
-     * Sets the current movement velocity 
-     * @param velocity  
-     */
-    SetVelocity(velocity: Vector): void;
 }
 
 /**
@@ -21310,6 +21230,186 @@ declare namespace constraint {
 }
 
 /**
+ * This class is essentially what controls a {{Type|NextBot}} NPC. You can access it in a {{Type|NextBot}} NPC by using '''self.loco''' variable. 
+ */
+declare class CLuaLocomotion {
+    /**
+     * Sets the location we want to get to 
+     * @param goal The vector we want to get to 
+     * @param goalweight If unsure then set this to 1 
+     */
+    Approach(goal: Vector, goalweight: number): void;
+    
+    /**
+     * Removes the stuck status from the bot 
+     */
+    ClearStuck(): void;
+    
+    /**
+     * Sets the direction we want to face 
+     * @param goal The vector we want to face 
+     */
+    FaceTowards(goal: Vector): void;
+    
+    /**
+     * Returns the acceleration speed 
+     * @returns Current acceleration speed 
+     */
+    GetAcceleration(): number;
+    
+    /**
+     * Returns the current acceleration as a vector 
+     * @returns Current acceleration 
+     */
+    GetCurrentAcceleration(): Vector;
+    
+    /**
+     * Gets the height the bot is scared to fall from 
+     * @returns Current death drop height 
+     */
+    GetDeathDropHeight(): number;
+    
+    /**
+     * Gets the deceleration speed 
+     * @returns Current deceleration speed 
+     */
+    GetDeceleration(): number;
+    
+    /**
+     * Return unit vector in XY plane describing our direction of motion - even if we are currently not moving 
+     * @returns A vector representing the X and Y movement 
+     */
+    GetGroundMotionVector(): Vector;
+    
+    /**
+     * Gets the height of the bot's jump 
+     * @returns Current jump height 
+     */
+    GetJumpHeight(): number;
+    
+    /**
+     * Returns maximum jump height of this {{Type|CLuaLocomotion}}. 
+     * @returns The maximum jump height. 
+     */
+    GetMaxJumpHeight(): number;
+    
+    /**
+     * Returns the max rate at which the NextBot can visually rotate. 
+     * @returns Maximum yaw rate 
+     */
+    GetMaxYawRate(): number;
+    
+    /**
+     * Gets the max height the bot can step up 
+     * @returns Current step height 
+     */
+    GetStepHeight(): number;
+    
+    /**
+     * Returns the current movement velocity as a vector 
+     * @returns Current velocity 
+     */
+    GetVelocity(): Vector;
+    
+    /**
+     * Returns whether this {{Type|CLuaLocomotion}} can reach and/or traverse/move in given {{Type|CNavArea}}. 
+     * @param area The area to test 
+     * @returns Whether this {{Type|CLuaLocomotion}} can traverse given {{Type|CNavArea}}. 
+     */
+    IsAreaTraversable(area: CNavArea): boolean;
+    
+    /**
+     * Returns true if we're trying to move. 
+     * @returns Whether we're trying to move or not. 
+     */
+    IsAttemptingToMove(): boolean;
+    
+    /**
+     * Returns true of the locomotion engine is jumping or climbing 
+     * @returns Whether we're climbing or jumping or not 
+     */
+    IsClimbingOrJumping(): boolean;
+    
+    /**
+     * Returns whether the locomotion/nextbot is on ground or not. 
+     * @returns Whether the locomotion/nextbot is on ground or not. 
+     */
+    IsOnGround(): boolean;
+    
+    /**
+     * Returns true if we're stuck 
+     * @returns Whether we're stuck or not 
+     */
+    IsStuck(): boolean;
+    
+    /**
+     * Returns whether or not the target in question is on a ladder or not. 
+     * @returns If the target is on a ladder or not. 
+     */
+    IsUsingLadder(): boolean;
+    
+    /**
+     * Makes the bot jump 
+     */
+    Jump(): void;
+    
+    /**
+     *  
+     * @param landingGoal  
+     * @param landingForward  
+     */
+    JumpAcrossGap(landingGoal: Vector, landingForward: Vector): void;
+    
+    /**
+     * Sets the acceleration speed 
+     * @param speed Speed acceleration (default is 400) 
+     */
+    SetAcceleration(speed: number): void;
+    
+    /**
+     * Sets the height the bot is scared to fall from. 
+     * @param height Height (default is 200) 
+     */
+    SetDeathDropHeight(height: number): void;
+    
+    /**
+     * Sets the deceleration speed. 
+     * @param deceleration New deceleration speed (default is 400) 
+     */
+    SetDeceleration(deceleration: number): void;
+    
+    /**
+     * Sets movement speed. 
+     * @param speed The new desired speed 
+     */
+    SetDesiredSpeed(speed: number): void;
+    
+    /**
+     * Sets the height of the bot's jump 
+     * @param height Height (default is 58) 
+     */
+    SetJumpHeight(height: number): void;
+    
+    /**
+     * Sets the max rate at which the NextBot can visually rotate. This will not affect moving or pathing. 
+     * @param yawRate Desired new maximum yaw rate 
+     */
+    SetMaxYawRate(yawRate: number): void;
+    
+    /**
+     * Sets the max height the bot can step up 
+     * @param height Height (default is 18) 
+     */
+    SetStepHeight(height: number): void;
+    
+    /**
+     * Sets the current movement velocity 
+     * @param velocity  
+     */
+    SetVelocity(velocity: Vector): void;
+}
+
+/**
  * The construct library is used to control the physical properties of entities. 
  */
 declare namespace construct {
@@ -21361,6 +21461,201 @@ declare namespace construct {
 }
 
 /**
+ * Retrieves the control panel for a given stool in the Q menu. 
+ */
+declare namespace controlpanel {
+    /**
+     * Clears ALL the control panels ( for tools ) 
+     */
+    function Clear(): void;
+    
+    /**
+     * Returns (or creates if not exists) a controlpanel. 
+     * @param name The name of the panel. 
+     * @returns ControlPanel 
+     */
+    function Get(name: string): Panel;
+}
+
+/**
+ * {{Panel
+ * |Parent=DButton
+ * |Description={{Internal}}
+ * 
+ * Used by {{Type|DCollapsibleCategory}}
+ * }} 
+ */
+declare class DCategoryHeader extends DButton {
+
+}
+
+/**
+ * Used to store permanent variables/settings on clients that will persist between servers. They are stored in the cl.db SQLite database located in the root Garry's Mod folder. 
+ */
+declare namespace cookie {
+    /**
+     * Deletes a cookie on the client. 
+     * @param name The name of the cookie that you want to delete. 
+     */
+    function Delete(name: string): void;
+    
+    /**
+     * Gets the value of a cookie on the client as a number. 
+     * @param name The name of the cookie that you want to get. 
+     * @param defaultVal [=nil] Value to return if the cookie does not exist. 
+     * @returns The cookie value 
+     */
+    function GetNumber(name: string, defaultVal?: any): number;
+    
+    /**
+     * Gets the value of a cookie on the client as a string. 
+     * @param name The name of the cookie that you want to get. 
+     * @param defaultVal [=nil] Value to return if the cookie does not exist. 
+     * @returns The cookie value 
+     */
+    function GetString(name: string, defaultVal?: any): string;
+    
+    /**
+     * Sets the value of a cookie, which is saved automatically by the {{Lib|sql}}.
+     * 
+     * These are stored in the *.db files - cl.db for clients, mn.db for menu state and sv.db for servers.
+     * [[Category:Menu]] 
+     * @param key The name of the cookie that you want to set. 
+     * @param value Value to store in the cookie. 
+     */
+    function Set(key: string, value: string): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=DScrollPanel
+ * |Description=A host for multiple {{Type|DCollapsibleCategory}} panels. As the name suggests, each one of them can be collapsed or expanded on demand by the user.
+ * }}
+ * {{Example
+ * |Description=Creates a DCategoryList with a category and a DFrame, as seen above.
+ * |Code=local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 500, 500 )
+ * frame:Center()
+ * frame:MakePopup()
+ * 
+ * local CatList = vgui.Create( "DCategoryList", frame )
+ * CatList:Dock( FILL )
+ * 
+ * local Cat = CatList:Add( "Test category with text contents" )
+ * Cat:Add( "Item 1" )
+ * local button = Cat:Add( "Item 2" )
+ * button.DoClick = function()
+ * 	print( "Item 2 was clicked." )
+ * end
+ * 
+ * -- The contents can be any panel, even a DPanelList
+ * local Cat2 = CatList:Add( "Test category with panel contents" )
+ * Cat2:SetTall( 100 )
+ * 
+ * local Contents = vgui.Create( "DButton" )
+ * Contents:SetText( "This is the content of the category" )
+ * Cat2:SetContents( Contents )
+ * 
+ * CatList:InvalidateLayout( true )
+ * }} 
+ */
+declare class DCategoryList extends DScrollPanel {
+    /**
+     * Adds the specified object to the panel.
+     * 
+     * {{Bug|Pull=1482|Creating a DFrame or a panel that inherits from DFrame will not drag/resize correctly when created through this function.}} 
+     * @param object The panel to be added (parented). Can also be:
+     * * {{FuncArg|string|Class Name|creates panel with the specified name and adds it to the panel.}}
+     * * {{FuncArg|table|PANEL table|creates a panel from table and adds it to the panel.}} 
+     * @returns New panel 
+     */
+    Add(object: Panel): Panel;
+    
+    /**
+     * @param categoryName The name of the category to add. 
+     * @returns The created {{Type|DCollapsibleCategory}} 
+     */
+    Add(categoryName: string): DCollapsibleCategory;
+    
+    /**
+     * @param pnl The panel to add. 
+     */
+    AddItem(pnl: Panel): void;
+    
+    /**
+     * @param element VGUI element to add to the list. 
+     */
+    AddItem(element: Panel): void;
+    
+    /**
+     * Recursively deselects this panel object and all of its children. This will cascade to all child objects at every level below the parent. 
+     */
+    UnselectAll(): void;
+    
+    /**
+     */
+    UnselectAll(): void;
+}
+
+/**
+ * Coroutines are similar to threads, however they do not run simultaneously. They offer a way to split up tasks and dynamically pause & resume functions. 
+ */
+declare namespace coroutine {
+    /**
+     * Creates a coroutine of the given function. 
+     * @param func The function for the coroutine to use 
+     * @returns coroutine 
+     */
+    function create(func: Function): thread;
+    
+    /**
+     * Resumes the given coroutine and passes the given vararg to either the function arguments or the {{LibraryFunction|coroutine|yield}} that is inside that function and returns whatever yield is called with the next time or by the final return in the function. 
+     * @param coroutine Coroutine to resume. 
+     * @param args Arguments to be returned by {{LibraryFunction|coroutine|yield}}. 
+     * @returns [If the executed thread code had no errors occur within it., If an error occured, this will be a string containing the error message. Otherwise, this will be arguments that were yielded.]
+     * !TupleReturn 
+     */
+    function resume(coroutine: thread, ...args: any[]): [boolean, any[]];
+    
+    /**
+     * Returns the active coroutine or nil if we are not within a coroutine. 
+     * @returns coroutine 
+     */
+    function running(): thread;
+    
+    /**
+     * Returns the status of the coroutine passed to it, the possible statuses are "suspended", "running", and "dead". 
+     * @param coroutine Coroutine to check the status of. 
+     * @returns status 
+     */
+    function status(coroutine: thread): string;
+    
+    /**
+     * Yields the coroutine for the given duration before continuing.
+     * 
+     * This only works inside a coroutine.
+     * 
+     * This function uses {{GlobalFunction|CurTime}} instead of {{GlobalFunction|RealTime}}. 
+     * @param duration The number of seconds to wait 
+     */
+    function wait(duration: number): void;
+    
+    /**
+     * Returns a function which calling is equivalent with calling {{LibraryFunction|coroutine|resume}} with the coroutine and all extra parameters. 
+     * @param coroutine Coroutine to resume. 
+     * @returns func 
+     */
+    function wrap(coroutine: Function): Function;
+    
+    /**
+     * Pauses the active coroutine and passes all additional variables to the call of {{LibraryFunction|coroutine|resume}} that resumed the coroutine last time, and returns all additional variables that were passed to the previous call of resume. 
+     * @param returnValue Arguments to be returned by the last call of {{LibraryFunction|coroutine|resume}} 
+     * @returns Arguments that were set previously by {{LibraryFunction|coroutine|resume}} 
+     */
+    function yield(...returnValue: any[]): any[];
+}
+
+/**
  * {{Panel
  * |Name=DCheckBox
  * |Parent=DButton
@@ -21403,64 +21698,76 @@ declare class DCheckBox extends DButton {
     /**
      */
     Toggle(): void;
-    
-    /**
-     */
-    Toggle(): void;
 }
 
 /**
- * Retrieves the control panel for a given stool in the Q menu. 
+ * The cvars library allows you to control what happens when a cvar (console variable) is changed. 
  */
-declare namespace controlpanel {
+declare namespace cvars {
     /**
-     * Clears ALL the control panels ( for tools ) 
-     */
-    function Clear(): void;
-    
-    /**
-     * Returns (or creates if not exists) a controlpanel. 
-     * @param name The name of the panel. 
-     * @returns ControlPanel 
-     */
-    function Get(name: string): Panel;
-}
-
-/**
- * Used to store permanent variables/settings on clients that will persist between servers. They are stored in the cl.db SQLite database located in the root Garry's Mod folder. 
- */
-declare namespace cookie {
-    /**
-     * Deletes a cookie on the client. 
-     * @param name The name of the cookie that you want to delete. 
-     */
-    function Delete(name: string): void;
-    
-    /**
-     * Gets the value of a cookie on the client as a number. 
-     * @param name The name of the cookie that you want to get. 
-     * @param defaultVal [=nil] Value to return if the cookie does not exist. 
-     * @returns The cookie value 
-     */
-    function GetNumber(name: string, defaultVal?: any): number;
-    
-    /**
-     * Gets the value of a cookie on the client as a string. 
-     * @param name The name of the cookie that you want to get. 
-     * @param defaultVal [=nil] Value to return if the cookie does not exist. 
-     * @returns The cookie value 
-     */
-    function GetString(name: string, defaultVal?: any): string;
-    
-    /**
-     * Sets the value of a cookie, which is saved automatically by the {{Lib|sql}}.
+     * Adds a callback to be called when the named convar changes.
      * 
-     * These are stored in the *.db files - cl.db for clients, mn.db for menu state and sv.db for servers.
-     * [[Category:Menu]] 
-     * @param key The name of the cookie that you want to set. 
-     * @param value Value to store in the cookie. 
+     * {{Bug|Issue=1440|This does not callback convars in the menu state.}}
+     * 
+     * {{Bug|Issue=3503|This does not callback all convars.}} 
+     * @param name The name of the convar to add the change callback to. 
+     * @param callback The function to be called when the convar changes. The arguments passed are:
+     * * {{FuncArg|string|convar|The name of the convar.}}
+     * * {{FuncArg|string|oldValue|The old value of the convar.}}
+     * * {{FuncArg|string|newValue|The new value of the convar.}} 
+     * @param identifier [=nil] If set, you will be able to remove the callback using {{LibraryFunction|cvars|RemoveChangeCallback}}. 
      */
-    function Set(key: string, value: string): void;
+    function AddChangeCallback(name: string, callback: Function, identifier?: string): void;
+    
+    /**
+     * Retrieves console variable as a boolean. 
+     * @param cvar Name of console variable 
+     * @param defaultVal [=false] The value to return if the console variable does not exist 
+     * @returns Retrieved value 
+     */
+    function Bool(cvar: string, defaultVal?: boolean): boolean;
+    
+    /**
+     * Returns a table of the given {{Type|ConVar}}s callbacks. 
+     * @param name The name of the {{Type|ConVar}}. 
+     * @param createIfNotFound [=false] Whether or not to create the internal callback table for given {{Type|ConVar}} if there isn't one yet.<br/>
+     * This argument is internal and should not be used. 
+     * @returns A table of the convar's callbacks, or nil if the convar doesn't exist. 
+     */
+    function GetConVarCallbacks(name: string, createIfNotFound?: ConVar): table;
+    
+    /**
+     * Retrieves console variable as a number. 
+     * @param cvar Name of console variable 
+     * @param defaultVal [=nil] The value to return if the console variable does not exist 
+     * @returns Retrieved value 
+     */
+    function Number(cvar: string, defaultVal?: any): number;
+    
+    /**
+     * {{Internal|You are probably looking for {{LibraryFunction|cvars|AddChangeCallback}}.}}
+     * 
+     * Called by the engine when a convar value changes. 
+     * @param name Convar name 
+     * @param oldVal The old value of the convar 
+     * @param newVal The new value of the convar 
+     */
+    function OnConVarChanged(name: string, oldVal: string, newVal: string): void;
+    
+    /**
+     * Removes a callback for a convar using the the callback's identifier. The identifier should be the third argument specified for {{LibraryFunction|cvars|AddChangeCallback}}. 
+     * @param name The name of the convar to remove the callback from. 
+     * @param indentifier The callback's identifier. 
+     */
+    function RemoveChangeCallback(name: string, indentifier: string): void;
+    
+    /**
+     * Retrieves console variable as a string. 
+     * @param cvar Name of console variable 
+     * @param defaultVal [=nil] The value to return if the console variable does not exist 
+     * @returns Retrieved value 
+     */
+    function String(cvar: string, defaultVal?: any): string;
 }
 
 /**
@@ -21551,296 +21858,6 @@ declare class DCheckBoxLabel extends DPanel {
     /**
      */
     Toggle(): void;
-}
-
-/**
- * Coroutines are similar to threads, however they do not run simultaneously. They offer a way to split up tasks and dynamically pause & resume functions. 
- */
-declare namespace coroutine {
-    /**
-     * Creates a coroutine of the given function. 
-     * @param func The function for the coroutine to use 
-     * @returns coroutine 
-     */
-    function create(func: Function): thread;
-    
-    /**
-     * Resumes the given coroutine and passes the given vararg to either the function arguments or the {{LibraryFunction|coroutine|yield}} that is inside that function and returns whatever yield is called with the next time or by the final return in the function. 
-     * @param coroutine Coroutine to resume. 
-     * @param args Arguments to be returned by {{LibraryFunction|coroutine|yield}}. 
-     * @returns [If the executed thread code had no errors occur within it., If an error occured, this will be a string containing the error message. Otherwise, this will be arguments that were yielded.]
-     * !TupleReturn 
-     */
-    function resume(coroutine: thread, ...args: any[]): [boolean, any[]];
-    
-    /**
-     * Returns the active coroutine or nil if we are not within a coroutine. 
-     * @returns coroutine 
-     */
-    function running(): thread;
-    
-    /**
-     * Returns the status of the coroutine passed to it, the possible statuses are "suspended", "running", and "dead". 
-     * @param coroutine Coroutine to check the status of. 
-     * @returns status 
-     */
-    function status(coroutine: thread): string;
-    
-    /**
-     * Yields the coroutine for the given duration before continuing.
-     * 
-     * This only works inside a coroutine.
-     * 
-     * This function uses {{GlobalFunction|CurTime}} instead of {{GlobalFunction|RealTime}}. 
-     * @param duration The number of seconds to wait 
-     */
-    function wait(duration: number): void;
-    
-    /**
-     * Returns a function which calling is equivalent with calling {{LibraryFunction|coroutine|resume}} with the coroutine and all extra parameters. 
-     * @param coroutine Coroutine to resume. 
-     * @returns func 
-     */
-    function wrap(coroutine: Function): Function;
-    
-    /**
-     * Pauses the active coroutine and passes all additional variables to the call of {{LibraryFunction|coroutine|resume}} that resumed the coroutine last time, and returns all additional variables that were passed to the previous call of resume. 
-     * @param returnValue Arguments to be returned by the last call of {{LibraryFunction|coroutine|resume}} 
-     * @returns Arguments that were set previously by {{LibraryFunction|coroutine|resume}} 
-     */
-    function yield(...returnValue: any[]): any[];
-}
-
-/**
- * The cvars library allows you to control what happens when a cvar (console variable) is changed. 
- */
-declare namespace cvars {
-    /**
-     * Adds a callback to be called when the named convar changes.
-     * 
-     * {{Bug|Issue=1440|This does not callback convars in the menu state.}}
-     * 
-     * {{Bug|Issue=3503|This does not callback all convars.}} 
-     * @param name The name of the convar to add the change callback to. 
-     * @param callback The function to be called when the convar changes. The arguments passed are:
-     * * {{FuncArg|string|convar|The name of the convar.}}
-     * * {{FuncArg|string|oldValue|The old value of the convar.}}
-     * * {{FuncArg|string|newValue|The new value of the convar.}} 
-     * @param identifier [=nil] If set, you will be able to remove the callback using {{LibraryFunction|cvars|RemoveChangeCallback}}. 
-     */
-    function AddChangeCallback(name: string, callback: Function, identifier?: string): void;
-    
-    /**
-     * Retrieves console variable as a boolean. 
-     * @param cvar Name of console variable 
-     * @param defaultVal [=false] The value to return if the console variable does not exist 
-     * @returns Retrieved value 
-     */
-    function Bool(cvar: string, defaultVal?: boolean): boolean;
-    
-    /**
-     * Returns a table of the given {{Type|ConVar}}s callbacks. 
-     * @param name The name of the {{Type|ConVar}}. 
-     * @param createIfNotFound [=false] Whether or not to create the internal callback table for given {{Type|ConVar}} if there isn't one yet.<br/>
-     * This argument is internal and should not be used. 
-     * @returns A table of the convar's callbacks, or nil if the convar doesn't exist. 
-     */
-    function GetConVarCallbacks(name: string, createIfNotFound?: ConVar): table;
-    
-    /**
-     * Retrieves console variable as a number. 
-     * @param cvar Name of console variable 
-     * @param defaultVal [=nil] The value to return if the console variable does not exist 
-     * @returns Retrieved value 
-     */
-    function Number(cvar: string, defaultVal?: any): number;
-    
-    /**
-     * {{Internal|You are probably looking for {{LibraryFunction|cvars|AddChangeCallback}}.}}
-     * 
-     * Called by the engine when a convar value changes. 
-     * @param name Convar name 
-     * @param oldVal The old value of the convar 
-     * @param newVal The new value of the convar 
-     */
-    function OnConVarChanged(name: string, oldVal: string, newVal: string): void;
-    
-    /**
-     * Removes a callback for a convar using the the callback's identifier. The identifier should be the third argument specified for {{LibraryFunction|cvars|AddChangeCallback}}. 
-     * @param name The name of the convar to remove the callback from. 
-     * @param indentifier The callback's identifier. 
-     */
-    function RemoveChangeCallback(name: string, indentifier: string): void;
-    
-    /**
-     * Retrieves console variable as a string. 
-     * @param cvar Name of console variable 
-     * @param defaultVal [=nil] The value to return if the console variable does not exist 
-     * @returns Retrieved value 
-     */
-    function String(cvar: string, defaultVal?: any): string;
-}
-
-/**
- * {{Panel
- * |Parent=Panel
- * |Description=The collapsible category allows you to create numerous sections of controls, and have the ability to contract/expand them.
- * 
- * Consider using {{Type|DCategoryList}} if you plan on using more than 1 of these.
- * }}
- * {{Example
- * |Description=Creates a DCollapsibleCategory panel.
- * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 300, 300 )
- * frame:Center()
- * frame:MakePopup()
- * 
- * local DCollapsible = vgui.Create( "DCollapsibleCategory", frame )    // Create a collapsible category
- * DCollapsible:SetPos( 25, 50 )                                             // Set position
- * DCollapsible:SetSize( 250, 100 )                                          // Set size
- * DCollapsible:SetExpanded( 0 )                                             // Is it expanded when you open the panel?
- * DCollapsible:SetLabel( "Collapsible Category" )                           // Set the name ( label )
- *    
- * local DermaList = vgui.Create( "DPanelList", DermaPanel )   // Make a list of items to add to our category ( collection of controls )
- * DermaList:SetSpacing( 5 )                             // Set the spacing between items
- * DermaList:EnableHorizontal( false )                   // Only vertical items
- * DermaList:EnableVerticalScrollbar( true )             // Enable the scrollbar if ( the contents are too wide
- * DCollapsible:SetContents(DermaList)                   // Add DPanelList to our Collapsible Category
- *    
- * local CategoryContentOne = vgui.Create( "DCheckBoxLabel" )    // This section creates a checkbox and
- * CategoryContentOne:SetText( "God mode" )                      // sets up its settings
- * CategoryContentOne:SetConVar( "sbox_godmode" )
- * CategoryContentOne:SetValue( 0 )
- * CategoryContentOne:SizeToContents()
- * DermaList:AddItem( CategoryContentOne )                       // Add the checkbox to the category
- *    
- * local CategoryContentTwo = vgui.Create( "DLabel" )            // Make some more content
- * CategoryContentTwo:SetText( "Hello" )
- * DermaList:AddItem( CategoryContentTwo )                       // Add it to the categoryDCollapsible:SetContents( DermaList )   // Set the contents of the category to the list
- * |Output=[[File:DCollapsibleCategoryContracted.png|Not opened]]
- * [[File:DCollapsibleCategoryExpanded.png|Opened]]
- * }} 
- */
-declare class DCollapsibleCategory extends Panel {
-    /**
-     * Adds the specified object to the panel.
-     * 
-     * {{Bug|Pull=1482|Creating a DFrame or a panel that inherits from DFrame will not drag/resize correctly when created through this function.}} 
-     * @param object The panel to be added (parented). Can also be:
-     * * {{FuncArg|string|Class Name|creates panel with the specified name and adds it to the panel.}}
-     * * {{FuncArg|table|PANEL table|creates a panel from table and adds it to the panel.}} 
-     * @returns New panel 
-     */
-    Add(object: Panel): Panel;
-    
-    /**
-     * @param name The name of the button 
-     * @returns The {{Type|DButton}} 
-     */
-    Add(name: string): DButton;
-    
-    /**
-     * @param anim  
-     * @param delta  
-     * @param data  
-     */
-    AnimSlide(anim: table, delta: number, data: table): void;
-    
-    /**
-     * @param expand True to open, false to collapse 
-     */
-    DoExpansion(expand: boolean): void;
-    
-    /**
-     * @returns The animation time in seconds 
-     */
-    GetAnimTime(): number;
-    
-    /**
-     * @returns If expanded it will return true. 
-     */
-    GetExpanded(): boolean;
-    
-    /**
-     * @returns  
-     */
-    GetList(): Panel;
-    
-    /**
-     * @returns  
-     */
-    GetPadding(): number;
-    
-    /**
-     * @returns  
-     */
-    GetPaintBackground(): boolean;
-    
-    /**
-     * @returns  
-     */
-    GetStartHeight(): number;
-    
-    /**
-     */
-    OnToggle(): void;
-    
-    /**
-     * @param time The time in seconds it takes to expand 
-     */
-    SetAnimTime(time: number): void;
-    
-    /**
-     * @param pnl The panel, containing the contents for the DCollapsibleCategory, mostly an DScrollPanel 
-     */
-    SetContents(pnl: Panel): void;
-    
-    /**
-     * @param expanded [=true] Whether it shall be expanded or not by default 
-     */
-    SetExpanded(expanded?: boolean): void;
-    
-    /**
-     * @param label The label/name of the DCollapsibleCategory. 
-     */
-    SetLabel(label: string): void;
-    
-    /**
-     * @param pnl  
-     */
-    SetList(pnl: Panel): void;
-    
-    /**
-     * @param padding  
-     */
-    SetPadding(padding: number): void;
-    
-    /**
-     * @param paint  
-     */
-    SetPaintBackground(paint: boolean): void;
-    
-    /**
-     * @param height  
-     */
-    SetStartHeight(height: number): void;
-    
-    /**
-     */
-    Toggle(): void;
-    
-    /**
-     * Recursively deselects this panel object and all of its children. This will cascade to all child objects at every level below the parent. 
-     */
-    UnselectAll(): void;
-    
-    /**
-     */
-    UnselectAll(): void;
-    
-    /**
-     */
-    UpdateAltLines(): void;
 }
 
 /**
@@ -22366,107 +22383,164 @@ declare namespace debug {
 
 /**
  * {{Panel
- * |Parent=DLabel
- * |Description=Colorful buttons. Used internally by {{Type|DColorPalette}}.
+ * |Parent=Panel
+ * |Description=The collapsible category allows you to create numerous sections of controls, and have the ability to contract/expand them.
+ * 
+ * Consider using {{Type|DCategoryList}} if you plan on using more than 1 of these.
  * }}
  * {{Example
- * |Description=Creates a DColorButton buton.
+ * |Description=Creates a DCollapsibleCategory panel.
  * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 500, 500 )
+ * frame:SetSize( 300, 300 )
  * frame:Center()
  * frame:MakePopup()
  * 
- * local DColorButton = vgui.Create( "DColorButton", frame )
- * DColorButton:SetPos( 1, 28 )
- * DColorButton:SetSize( 100, 30 )
- * DColorButton:Paint( 100, 30 )
- * DColorButton:SetText( "DColorButton" )
- * DColorButton:SetColor( Color( 0, 110, 160 ) )
- * function DColorButton:DoClick() -- Callback inherited from DLabel, which is DColorButton's base
- * 	print( "I am clicked! My color is ", self:GetColor() )
- * end
+ * local DCollapsible = vgui.Create( "DCollapsibleCategory", frame )    // Create a collapsible category
+ * DCollapsible:SetPos( 25, 50 )                                             // Set position
+ * DCollapsible:SetSize( 250, 100 )                                          // Set size
+ * DCollapsible:SetExpanded( 0 )                                             // Is it expanded when you open the panel?
+ * DCollapsible:SetLabel( "Collapsible Category" )                           // Set the name ( label )
+ *    
+ * local DermaList = vgui.Create( "DPanelList", DermaPanel )   // Make a list of items to add to our category ( collection of controls )
+ * DermaList:SetSpacing( 5 )                             // Set the spacing between items
+ * DermaList:EnableHorizontal( false )                   // Only vertical items
+ * DermaList:EnableVerticalScrollbar( true )             // Enable the scrollbar if ( the contents are too wide
+ * DCollapsible:SetContents(DermaList)                   // Add DPanelList to our Collapsible Category
+ *    
+ * local CategoryContentOne = vgui.Create( "DCheckBoxLabel" )    // This section creates a checkbox and
+ * CategoryContentOne:SetText( "God mode" )                      // sets up its settings
+ * CategoryContentOne:SetConVar( "sbox_godmode" )
+ * CategoryContentOne:SetValue( 0 )
+ * CategoryContentOne:SizeToContents()
+ * DermaList:AddItem( CategoryContentOne )                       // Add the checkbox to the category
+ *    
+ * local CategoryContentTwo = vgui.Create( "DLabel" )            // Make some more content
+ * CategoryContentTwo:SetText( "Hello" )
+ * DermaList:AddItem( CategoryContentTwo )                       // Add it to the categoryDCollapsible:SetContents( DermaList )   // Set the contents of the category to the list
+ * |Output=[[File:DCollapsibleCategoryContracted.png|Not opened]]
+ * [[File:DCollapsibleCategoryExpanded.png|Opened]]
  * }} 
  */
-declare class DColorButton extends DLabel {
+declare class DCollapsibleCategory extends Panel {
     /**
-     * @returns The {{Struct|Color}} of the button 
+     * Adds the specified object to the panel.
+     * 
+     * {{Bug|Pull=1482|Creating a DFrame or a panel that inherits from DFrame will not drag/resize correctly when created through this function.}} 
+     * @param object The panel to be added (parented). Can also be:
+     * * {{FuncArg|string|Class Name|creates panel with the specified name and adds it to the panel.}}
+     * * {{FuncArg|table|PANEL table|creates a panel from table and adds it to the panel.}} 
+     * @returns New panel 
      */
-    GetColor(): Color;
+    Add(object: Panel): Panel;
     
     /**
-     * @returns The unique ID of the button 
+     * @param name The name of the button 
+     * @returns The {{Type|DButton}} 
      */
-    GetID(): number;
+    Add(name: string): DButton;
+    
+    /**
+     * @param anim  
+     * @param delta  
+     * @param data  
+     */
+    AnimSlide(anim: table, delta: number, data: table): void;
+    
+    /**
+     * @param expand True to open, false to collapse 
+     */
+    DoExpansion(expand: boolean): void;
+    
+    /**
+     * @returns The animation time in seconds 
+     */
+    GetAnimTime(): number;
+    
+    /**
+     * @returns If expanded it will return true. 
+     */
+    GetExpanded(): boolean;
     
     /**
      * @returns  
      */
-    IsDown(): boolean;
-    
-    /**
-     * @param color The color to set. Uses the Color structure. 
-     */
-    SetColor(color: table): void;
-    
-    /**
-     * @param color A {{Struct|Color}} to set the color as 
-     */
-    SetColor(color: Color): void;
-    
-    /**
-     * @param id A unique ID to give this button 
-     */
-    SetID(id: number): void;
-}
-
-/**
- * {{Panel
- * |Parent=DPropertySheet
- * |Description=The '''DColorCombo''' allows the user to choose color, without alpha, using {{Type|DColorMixer}} or {{Type|DColorPalette}} in a tabbed view.
- * }}
- * {{Example
- * |Description=Creates a DColorCombo and sets its initial value.
- * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 500, 300 )
- * frame:Center()
- * frame:MakePopup()
- * 
- * local DermaColorCombo = vgui.Create( "DColorCombo", frame )
- * DermaColorCombo:SetPos( 5, 30 )
- * DermaColorCombo:SetColor( Color( 255, 255, 255 ) )
- * 
- * local DColorButton = frame:Add( "DColorButton" )
- * DColorButton:SetPos( 300, 50 )
- * DColorButton:SetSize( 64, 64 )
- * function DermaColorCombo:OnValueChanged( col )
- * 	DColorButton:SetColor( col )
- * end
- * }} 
- */
-declare class DColorCombo extends DPropertySheet {
-    /**
-     */
-    BuildControls(): void;
-    
-    /**
-     * @returns A {{Struct|Color}} 
-     */
-    GetColor(): Color;
+    GetList(): Panel;
     
     /**
      * @returns  
      */
-    IsEditing(): boolean;
+    GetPadding(): number;
     
     /**
-     * @param newcol  
+     * @returns  
      */
-    OnValueChanged(newcol: table): void;
+    GetPaintBackground(): boolean;
     
     /**
-     * @param clr A {{Struct|Color}}. 
+     * @returns  
      */
-    SetColor(clr: Color): void;
+    GetStartHeight(): number;
+    
+    /**
+     */
+    OnToggle(): void;
+    
+    /**
+     * @param time The time in seconds it takes to expand 
+     */
+    SetAnimTime(time: number): void;
+    
+    /**
+     * @param pnl The panel, containing the contents for the DCollapsibleCategory, mostly an DScrollPanel 
+     */
+    SetContents(pnl: Panel): void;
+    
+    /**
+     * @param expanded [=true] Whether it shall be expanded or not by default 
+     */
+    SetExpanded(expanded?: boolean): void;
+    
+    /**
+     * @param label The label/name of the DCollapsibleCategory. 
+     */
+    SetLabel(label: string): void;
+    
+    /**
+     * @param pnl  
+     */
+    SetList(pnl: Panel): void;
+    
+    /**
+     * @param padding  
+     */
+    SetPadding(padding: number): void;
+    
+    /**
+     * @param paint  
+     */
+    SetPaintBackground(paint: boolean): void;
+    
+    /**
+     * @param height  
+     */
+    SetStartHeight(height: number): void;
+    
+    /**
+     */
+    Toggle(): void;
+    
+    /**
+     * Recursively deselects this panel object and all of its children. This will cascade to all child objects at every level below the parent. 
+     */
+    UnselectAll(): void;
+    
+    /**
+     */
+    UnselectAll(): void;
+    
+    /**
+     */
+    UpdateAltLines(): void;
 }
 
 /**
@@ -22623,142 +22697,112 @@ declare namespace debugoverlay {
 
 /**
  * {{Panel
- * |Parent=DSlider
- * |Description=The DColorCube allows a user to select saturation and value but not hue. Uses HSV colors
+ * |Parent=DLabel
+ * |Description=Colorful buttons. Used internally by {{Type|DColorPalette}}.
  * }}
  * {{Example
- * |Description=Creates a DColorCube in a DFrame.
- * |Code=local Frame = vgui.Create( "DFrame" )
- * Frame:SetSize( 300, 300 )
- * Frame:Center()
- * Frame:MakePopup()
+ * |Description=Creates a DColorButton buton.
+ * |Code=local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 500, 500 )
+ * frame:Center()
+ * frame:MakePopup()
  * 
- * DColorCube = vgui.Create( "DColorCube", Frame)
- * DColorCube:SetPos( 50, 50 )
- * DColorCube:SetSize( 200, 200 )
- * DColorCube:SetBaseRGB( Color( 0, 255, 0 ) )
- * }}
- * {{Example
- * |Description=Creates a color cube that's hue is controlled by a {{Type|DRGBPicker}}, which outputs the color to the background panel, label, and your copy/paste buffer.
- * |Code=-- Background panel
- * BGPanel = vgui.Create("DPanel")
- * BGPanel:SetSize(200, 200)
- * BGPanel:Center()
- * 
- * -- Color label
- * local color_label = Label("Color( 255, 255, 255 )", BGPanel)
- * color_label:SetPos(40, 160)
- * color_label:SetSize(150, 20)
- * color_label:SetHighlight(true)
- * color_label:SetColor(Color(0, 0, 0))
- * 
- * -- Color picker
- * local color_picker = vgui.Create("DRGBPicker", BGPanel)
- * color_picker:SetPos(5, 5)
- * color_picker:SetSize(30, 190)
- * 
- * -- Color cube
- * local color_cube = vgui.Create("DColorCube", BGPanel)
- * color_cube:SetPos(40, 5)
- * color_cube:SetSize(155, 155)
- * 
- * -- When the picked color is changed...
- * function color_picker:OnChange(col)
- * 	
- * 	-- Get the hue of the RGB picker and the saturation and vibrance of the color cube
- * 	local h = ColorToHSV(col)
- * 	local _, s, v = ColorToHSV(color_cube:GetRGB())
- * 	
- * 	-- Mix them together and update the color cube
- * 	col = HSVToColor(h, s, v)
- * 	color_cube:SetColor(col)
- * 	
- * 	-- Lastly, update the background color and label
- * 	UpdateColors(col)
- * 		
+ * local DColorButton = vgui.Create( "DColorButton", frame )
+ * DColorButton:SetPos( 1, 28 )
+ * DColorButton:SetSize( 100, 30 )
+ * DColorButton:Paint( 100, 30 )
+ * DColorButton:SetText( "DColorButton" )
+ * DColorButton:SetColor( Color( 0, 110, 160 ) )
+ * function DColorButton:DoClick() -- Callback inherited from DLabel, which is DColorButton's base
+ * 	print( "I am clicked! My color is ", self:GetColor() )
  * end
- * 
- * function color_cube:OnUserChanged(col)
- * 
- * 	-- Update background color and label
- * 	UpdateColors(col)
- * 
- * end
- * 
- * -- Updates display colors, label, and clipboard text
- * function UpdateColors(col)
- * 
- * 	BGPanel:SetBackgroundColor(col)
- * 	color_label:SetText("Color( "..col.r..", "..col.g..", "..col.b.." )")
- * 	color_label:SetColor(Color((255-col.r), (255-col.g), (255-col.b)))
- * 	SetClipboardText(color_label:GetText())
- * 
- * end
- * |Output=[[Image:DRGBPicker_example2.png]]
  * }} 
  */
-declare class DColorCube extends DSlider {
+declare class DColorButton extends DLabel {
     /**
-     * @returns A {{Struct|Color}} 
+     * @returns The "internal" desired color of the text 
      */
-    GetBaseRGB(): Color;
+    GetColor(): table;
+    
+    /**
+     * @returns The {{Struct|Color}} of the button 
+     */
+    GetColor(): Color;
+    
+    /**
+     * @returns The unique ID of the button 
+     */
+    GetID(): number;
     
     /**
      * @returns  
      */
-    GetHue(): number;
+    IsDown(): boolean;
     
     /**
-     * @returns The set color, uses {{Struct|Color}}. 
+     * @param color The color to set. Uses the Color structure. 
      */
-    GetRGB(): Color;
+    SetColor(color: table): void;
     
     /**
-     * @param color The new color, uses {{Struct|Color}}. 
-     */
-    OnUserChanged(color: Color): void;
-    
-    /**
-     * @param color The base color to set, uses {{Struct|Color}}. 
-     */
-    SetBaseRGB(color: Color): void;
-    
-    /**
-     * @param color The color to set, uses {{Struct|Color}}. 
+     * @param color A {{Struct|Color}} to set the color as 
      */
     SetColor(color: Color): void;
     
     /**
-     * @param hue  
+     * @param id A unique ID to give this button 
      */
-    SetHue(hue: number): void;
+    SetID(id: number): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=DPropertySheet
+ * |Description=The '''DColorCombo''' allows the user to choose color, without alpha, using {{Type|DColorMixer}} or {{Type|DColorPalette}} in a tabbed view.
+ * }}
+ * {{Example
+ * |Description=Creates a DColorCombo and sets its initial value.
+ * |Code=local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 500, 300 )
+ * frame:Center()
+ * frame:MakePopup()
+ * 
+ * local DermaColorCombo = vgui.Create( "DColorCombo", frame )
+ * DermaColorCombo:SetPos( 5, 30 )
+ * DermaColorCombo:SetColor( Color( 255, 255, 255 ) )
+ * 
+ * local DColorButton = frame:Add( "DColorButton" )
+ * DColorButton:SetPos( 300, 50 )
+ * DColorButton:SetSize( 64, 64 )
+ * function DermaColorCombo:OnValueChanged( col )
+ * 	DColorButton:SetColor( col )
+ * end
+ * }} 
+ */
+declare class DColorCombo extends DPropertySheet {
+    /**
+     */
+    BuildControls(): void;
     
     /**
-     * @param clr A {{Struct|Color}} 
+     * @returns A {{Struct|Color}} 
      */
-    SetRGB(clr: Color): void;
+    GetColor(): Color;
     
     /**
-     * @param x  
-     * @param y  
-     * @returns [x, y]
-     * !TupleReturn 
+     * @returns  
      */
-    TranslateValues(x: number, y: number): [number, number];
+    IsEditing(): boolean;
     
     /**
-     * @param x The x position to sample color from/the percentage of saturation to remove from the color (ranges from 0.0 to 1.0). 
-     * @param y The y position to sample color from/the percentage of brightness or value to remove from the color (ranges from 0.0 to 1.0). 
-     * @returns [The given x position., The given y position.]
-     * !TupleReturn 
+     * @param newcol  
      */
-    TranslateValues(x: number, y: number): [number, number];
+    OnValueChanged(newcol: table): void;
     
     /**
-     * @param x [=nil] The x position to set color to/the percentage of saturation to remove from the color (ranges from 0.0 to 1.0). 
-     * @param y [=nil] The y position to set color to/the percentage of brightness or value to remove from the color (ranges from 0.0 to 1.0). 
+     * @param clr A {{Struct|Color}}. 
      */
-    UpdateColor(x?: number, y?: number): void;
+    SetColor(clr: Color): void;
 }
 
 /**
@@ -22852,6 +22896,78 @@ declare namespace derma {
      * @returns A function that is created with the {{Lib|GWEN}} to draw a texture. 
      */
     function SkinTexture(name: string, pnl: Panel, fallback?: any): Function;
+}
+
+/**
+ * The drag'n'drop library, used internally by certain base panels to allow for drag'n'drop functionality, like spawnmenu's customizations. 
+ */
+declare namespace dragndrop {
+    /**
+     * {{Internal}}
+     * Calls the receiver function of hovered panel. 
+     * @param bDoDrop true if the mouse was released, false if we right clicked. 
+     * @param command The command value. This should be the ID of the clicked dropdown menu ( if right clicked, or nil ) 
+     * @param mx The local to the panel mouse cursor X position when the click happened. 
+     * @param my The local to the panel  mouse cursor Y position when the click happened. 
+     */
+    function CallReceiverFunction(bDoDrop: boolean, command: number, mx: number, my: number): void;
+    
+    /**
+     * Clears all the internal drag'n'drop variables. 
+     */
+    function Clear(): void;
+    
+    /**
+     * {{Internal}}Handles the drop action of drag'n'drop library. 
+     */
+    function Drop(): void;
+    
+    /**
+     * Returns a table of currently dragged panels. 
+     * @param name [=nil] If set, the function will return only the panels with this {{ClassFunction|Panel|Droppable}} name. 
+     * @returns A table of all panels that are being currently dragged, if any. 
+     */
+    function GetDroppable(name?: string): table;
+    
+    /**
+     * If returns true, calls {{LibraryFunction|dragndrop|StopDragging}} in {{LibraryFunction|dragndrop|Drop}}. Seems to be broken and does nothing. Is it for override? 
+     */
+    function HandleDroppedInGame(): void;
+    
+    /**
+     * {{Internal}}
+     * Handles the hover think. Called from {{LibraryFunction|dragndrop|Think}}. 
+     */
+    function HoverThink(): void;
+    
+    /**
+     * Returns whether the user is dragging something with the drag'n'drop system. 
+     * @returns True if the user is dragging something with the drag'n'drop system. 
+     */
+    function IsDragging(): boolean;
+    
+    /**
+     * {{Internal}}
+     * Starts the drag'n'drop. 
+     */
+    function StartDragging(): void;
+    
+    /**
+     * Stops the drag'n'drop and calls {{LibraryFunction|dragndrop|Clear}}. 
+     */
+    function StopDragging(): void;
+    
+    /**
+     * {{Internal}}
+     * Handles all the drag'n'drop processes. Calls {{LibraryFunction|dragndrop|UpdateReceiver}} and {{LibraryFunction|dragndrop|HoverThink}}. 
+     */
+    function Think(): void;
+    
+    /**
+     * {{Internal}}
+     * Updates the receiver to drop the panels onto. Called from {{LibraryFunction|dragndrop|Think}}. 
+     */
+    function UpdateReceiver(): void;
 }
 
 /**
@@ -23089,75 +23205,143 @@ declare class CMoveData {
 }
 
 /**
- * The drag'n'drop library, used internally by certain base panels to allow for drag'n'drop functionality, like spawnmenu's customizations. 
+ * {{Panel
+ * |Parent=DSlider
+ * |Description=The DColorCube allows a user to select saturation and value but not hue. Uses HSV colors
+ * }}
+ * {{Example
+ * |Description=Creates a DColorCube in a DFrame.
+ * |Code=local Frame = vgui.Create( "DFrame" )
+ * Frame:SetSize( 300, 300 )
+ * Frame:Center()
+ * Frame:MakePopup()
+ * 
+ * DColorCube = vgui.Create( "DColorCube", Frame)
+ * DColorCube:SetPos( 50, 50 )
+ * DColorCube:SetSize( 200, 200 )
+ * DColorCube:SetBaseRGB( Color( 0, 255, 0 ) )
+ * }}
+ * {{Example
+ * |Description=Creates a color cube that's hue is controlled by a {{Type|DRGBPicker}}, which outputs the color to the background panel, label, and your copy/paste buffer.
+ * |Code=-- Background panel
+ * BGPanel = vgui.Create("DPanel")
+ * BGPanel:SetSize(200, 200)
+ * BGPanel:Center()
+ * 
+ * -- Color label
+ * local color_label = Label("Color( 255, 255, 255 )", BGPanel)
+ * color_label:SetPos(40, 160)
+ * color_label:SetSize(150, 20)
+ * color_label:SetHighlight(true)
+ * color_label:SetColor(Color(0, 0, 0))
+ * 
+ * -- Color picker
+ * local color_picker = vgui.Create("DRGBPicker", BGPanel)
+ * color_picker:SetPos(5, 5)
+ * color_picker:SetSize(30, 190)
+ * 
+ * -- Color cube
+ * local color_cube = vgui.Create("DColorCube", BGPanel)
+ * color_cube:SetPos(40, 5)
+ * color_cube:SetSize(155, 155)
+ * 
+ * -- When the picked color is changed...
+ * function color_picker:OnChange(col)
+ * 	
+ * 	-- Get the hue of the RGB picker and the saturation and vibrance of the color cube
+ * 	local h = ColorToHSV(col)
+ * 	local _, s, v = ColorToHSV(color_cube:GetRGB())
+ * 	
+ * 	-- Mix them together and update the color cube
+ * 	col = HSVToColor(h, s, v)
+ * 	color_cube:SetColor(col)
+ * 	
+ * 	-- Lastly, update the background color and label
+ * 	UpdateColors(col)
+ * 		
+ * end
+ * 
+ * function color_cube:OnUserChanged(col)
+ * 
+ * 	-- Update background color and label
+ * 	UpdateColors(col)
+ * 
+ * end
+ * 
+ * -- Updates display colors, label, and clipboard text
+ * function UpdateColors(col)
+ * 
+ * 	BGPanel:SetBackgroundColor(col)
+ * 	color_label:SetText("Color( "..col.r..", "..col.g..", "..col.b.." )")
+ * 	color_label:SetColor(Color((255-col.r), (255-col.g), (255-col.b)))
+ * 	SetClipboardText(color_label:GetText())
+ * 
+ * end
+ * |Output=[[Image:DRGBPicker_example2.png]]
+ * }} 
  */
-declare namespace dragndrop {
+declare class DColorCube extends DSlider {
     /**
-     * {{Internal}}
-     * Calls the receiver function of hovered panel. 
-     * @param bDoDrop true if the mouse was released, false if we right clicked. 
-     * @param command The command value. This should be the ID of the clicked dropdown menu ( if right clicked, or nil ) 
-     * @param mx The local to the panel mouse cursor X position when the click happened. 
-     * @param my The local to the panel  mouse cursor Y position when the click happened. 
+     * @returns A {{Struct|Color}} 
      */
-    function CallReceiverFunction(bDoDrop: boolean, command: number, mx: number, my: number): void;
+    GetBaseRGB(): Color;
     
     /**
-     * Clears all the internal drag'n'drop variables. 
+     * @returns  
      */
-    function Clear(): void;
+    GetHue(): number;
     
     /**
-     * {{Internal}}Handles the drop action of drag'n'drop library. 
+     * @returns The set color, uses {{Struct|Color}}. 
      */
-    function Drop(): void;
+    GetRGB(): Color;
     
     /**
-     * Returns a table of currently dragged panels. 
-     * @param name [=nil] If set, the function will return only the panels with this {{ClassFunction|Panel|Droppable}} name. 
-     * @returns A table of all panels that are being currently dragged, if any. 
+     * @param color The new color, uses {{Struct|Color}}. 
      */
-    function GetDroppable(name?: string): table;
+    OnUserChanged(color: Color): void;
     
     /**
-     * If returns true, calls {{LibraryFunction|dragndrop|StopDragging}} in {{LibraryFunction|dragndrop|Drop}}. Seems to be broken and does nothing. Is it for override? 
+     * @param color The base color to set, uses {{Struct|Color}}. 
      */
-    function HandleDroppedInGame(): void;
+    SetBaseRGB(color: Color): void;
     
     /**
-     * {{Internal}}
-     * Handles the hover think. Called from {{LibraryFunction|dragndrop|Think}}. 
+     * @param color The color to set, uses {{Struct|Color}}. 
      */
-    function HoverThink(): void;
+    SetColor(color: Color): void;
     
     /**
-     * Returns whether the user is dragging something with the drag'n'drop system. 
-     * @returns True if the user is dragging something with the drag'n'drop system. 
+     * @param hue  
      */
-    function IsDragging(): boolean;
+    SetHue(hue: number): void;
     
     /**
-     * {{Internal}}
-     * Starts the drag'n'drop. 
+     * @param clr A {{Struct|Color}} 
      */
-    function StartDragging(): void;
+    SetRGB(clr: Color): void;
     
     /**
-     * Stops the drag'n'drop and calls {{LibraryFunction|dragndrop|Clear}}. 
+     * @param x  
+     * @param y  
+     * @returns [x, y]
+     * !TupleReturn 
      */
-    function StopDragging(): void;
+    TranslateValues(x: number, y: number): [number, number];
     
     /**
-     * {{Internal}}
-     * Handles all the drag'n'drop processes. Calls {{LibraryFunction|dragndrop|UpdateReceiver}} and {{LibraryFunction|dragndrop|HoverThink}}. 
+     * @param x The x position to sample color from/the percentage of saturation to remove from the color (ranges from 0.0 to 1.0). 
+     * @param y The y position to sample color from/the percentage of brightness or value to remove from the color (ranges from 0.0 to 1.0). 
+     * @returns [The given x position., The given y position.]
+     * !TupleReturn 
      */
-    function Think(): void;
+    TranslateValues(x: number, y: number): [number, number];
     
     /**
-     * {{Internal}}
-     * Updates the receiver to drop the panels onto. Called from {{LibraryFunction|dragndrop|Think}}. 
+     * @param x [=nil] The x position to set color to/the percentage of saturation to remove from the color (ranges from 0.0 to 1.0). 
+     * @param y [=nil] The y position to set color to/the percentage of brightness or value to remove from the color (ranges from 0.0 to 1.0). 
      */
-    function UpdateReceiver(): void;
+    UpdateColor(x?: number, y?: number): void;
 }
 
 /**
@@ -23314,6 +23498,107 @@ declare namespace draw {
      * !TupleReturn 
      */
     function WordBox(bordersize: number, x: number, y: number, text: string, font: string, boxcolor: Color, textcolor: Color): [number, number];
+}
+
+/**
+ * The drive library is for adding custom control modes to the new "remote control" entity piloting system in Garry's Mod 13. 
+ */
+declare namespace drive {
+    /**
+     * {{Internal}}
+     * Optionally alter the view. 
+     * @param ply The player 
+     * @param view The view, see {{Struct|ViewData}} 
+     * @returns true if succeeded 
+     */
+    function CalcView(ply: Player, view: ViewData): boolean;
+    
+    /**
+     * {{Internal}}
+     * Clientside, the client creates the cmd (usercommand) from their input device (mouse, keyboard) and then it's sent to the server. Restrict view angles here. 
+     * @param cmd The user command 
+     * @returns true if succeeded 
+     */
+    function CreateMove(cmd: CUserCmd): boolean;
+    
+    /**
+     * {{Internal}}
+     * Destroys players current driving method. 
+     * @param ply The player to affect 
+     */
+    function DestroyMethod(ply: Player): void;
+    
+    /**
+     * Player has stopped driving the entity. 
+     * @param ply The player 
+     * @param ent The entity 
+     */
+    function End(ply: Player, ent: Entity): void;
+    
+    /**
+     * {{Internal}}
+     * The move is finished. Copy mv back into the target. 
+     * @param ply The player 
+     * @param mv The move data 
+     * @returns true if succeeded 
+     */
+    function FinishMove(ply: Player, mv: CMoveData): boolean;
+    
+    /**
+     * {{Internal}}
+     * Returns ( or creates if inexistent ) a driving method. 
+     * @param ply The player 
+     * @returns A method object. 
+     */
+    function GetMethod(ply: Player): table;
+    
+    /**
+     * {{Internal}}
+     * The move is executed here. 
+     * @param ply The player 
+     * @param mv The move data 
+     * @returns true if succeeded 
+     */
+    function Move(ply: Player, mv: CMoveData): boolean;
+    
+    /**
+     * Starts driving for the player. 
+     * @param ply The player to affect 
+     * @param ent The entity to drive 
+     * @param mode The driving mode 
+     */
+    function PlayerStartDriving(ply: Player, ent: Entity, mode: string): void;
+    
+    /**
+     * Stops the player from driving anything. ( For example a prop in sandbox ) 
+     * @param ply The player to affect 
+     */
+    function PlayerStopDriving(ply: Player): void;
+    
+    /**
+     * Registers a new entity drive. 
+     * @param name The name of the drive. 
+     * @param data The data required to create the drive. This includes the functions used by the drive. 
+     * @param base The base of the drive. 
+     */
+    function Register(name: string, data: table, base: string): void;
+    
+    /**
+     * Called when the player first starts driving this entity 
+     * @param ply The player 
+     * @param ent The entity 
+     */
+    function Start(ply: Player, ent: Entity): void;
+    
+    /**
+     * {{Internal}}
+     * The user command is received by the server and then converted into a move. This is also run clientside when in multiplayer, for prediction to work. 
+     * @param ply The player 
+     * @param mv The move data 
+     * @param cmd The user command 
+     * @returns true if succeeded 
+     */
+    function StartMove(ply: Player, mv: CMoveData, cmd: CUserCmd): boolean;
 }
 
 /**
@@ -23474,306 +23759,6 @@ declare class DColorMixer extends DPanel {
      * @param col The new color. See {{Struct|Color}} 
      */
     ValueChanged(col: Color): void;
-}
-
-/**
- * The drive library is for adding custom control modes to the new "remote control" entity piloting system in Garry's Mod 13. 
- */
-declare namespace drive {
-    /**
-     * {{Internal}}
-     * Optionally alter the view. 
-     * @param ply The player 
-     * @param view The view, see {{Struct|ViewData}} 
-     * @returns true if succeeded 
-     */
-    function CalcView(ply: Player, view: ViewData): boolean;
-    
-    /**
-     * {{Internal}}
-     * Clientside, the client creates the cmd (usercommand) from their input device (mouse, keyboard) and then it's sent to the server. Restrict view angles here. 
-     * @param cmd The user command 
-     * @returns true if succeeded 
-     */
-    function CreateMove(cmd: CUserCmd): boolean;
-    
-    /**
-     * {{Internal}}
-     * Destroys players current driving method. 
-     * @param ply The player to affect 
-     */
-    function DestroyMethod(ply: Player): void;
-    
-    /**
-     * Player has stopped driving the entity. 
-     * @param ply The player 
-     * @param ent The entity 
-     */
-    function End(ply: Player, ent: Entity): void;
-    
-    /**
-     * {{Internal}}
-     * The move is finished. Copy mv back into the target. 
-     * @param ply The player 
-     * @param mv The move data 
-     * @returns true if succeeded 
-     */
-    function FinishMove(ply: Player, mv: CMoveData): boolean;
-    
-    /**
-     * {{Internal}}
-     * Returns ( or creates if inexistent ) a driving method. 
-     * @param ply The player 
-     * @returns A method object. 
-     */
-    function GetMethod(ply: Player): table;
-    
-    /**
-     * {{Internal}}
-     * The move is executed here. 
-     * @param ply The player 
-     * @param mv The move data 
-     * @returns true if succeeded 
-     */
-    function Move(ply: Player, mv: CMoveData): boolean;
-    
-    /**
-     * Starts driving for the player. 
-     * @param ply The player to affect 
-     * @param ent The entity to drive 
-     * @param mode The driving mode 
-     */
-    function PlayerStartDriving(ply: Player, ent: Entity, mode: string): void;
-    
-    /**
-     * Stops the player from driving anything. ( For example a prop in sandbox ) 
-     * @param ply The player to affect 
-     */
-    function PlayerStopDriving(ply: Player): void;
-    
-    /**
-     * Registers a new entity drive. 
-     * @param name The name of the drive. 
-     * @param data The data required to create the drive. This includes the functions used by the drive. 
-     * @param base The base of the drive. 
-     */
-    function Register(name: string, data: table, base: string): void;
-    
-    /**
-     * Called when the player first starts driving this entity 
-     * @param ply The player 
-     * @param ent The entity 
-     */
-    function Start(ply: Player, ent: Entity): void;
-    
-    /**
-     * {{Internal}}
-     * The user command is received by the server and then converted into a move. This is also run clientside when in multiplayer, for prediction to work. 
-     * @param ply The player 
-     * @param mv The move data 
-     * @param cmd The user command 
-     * @returns true if succeeded 
-     */
-    function StartMove(ply: Player, mv: CMoveData, cmd: CUserCmd): boolean;
-}
-
-/**
- * {{Panel
- * |Parent=DIconLayout
- * |Preview=DColorPalette.png
- * |Description=The '''DColorPalette''' allows the player to select a color from a list of given colors.
- * 
- * This panel supports saving across sessions via the panel cookie system.<br/>
- * Use {{ClassFunction|Panel|SetCookieName}} to change "save files".
- * }}
- * {{Example
- * |Description=Creates a DColorPalette in a DFrame, clicking on a color will change the DColorButton's color to the selected color
- * |Code=local Frame = vgui.Create( "DFrame" )
- * Frame:SetSize( 170, 200 )
- * Frame:Center()
- * Frame:MakePopup()
- * 
- * local DColorPalette = vgui.Create( "DColorPalette", Frame )
- * DColorPalette:SetPos( 5, 50 )
- * DColorPalette:SetSize( 160, 50 )
- * 
- * local DColorButton = vgui.Create( "DColorButton", Frame )
- * DColorButton:SetSize( 50, 50 )
- * DColorButton:SetPos( 60, 100 )
- * 
- * -- This function is assigned AFTER DColorButton is created so we can use the DColorButton
- * DColorPalette.OnValueChanged = function( s, value )
- * 	DColorButton:SetColor( value )
- * end
- * }} 
- */
-declare class DColorPalette extends DIconLayout {
-    /**
-     * @param clr The new color via the {{Struct|Color}} 
-     * @param btn The {{Type|DColorButton}} that was pressed. 
-     */
-    DoClick(clr: Color, btn: DColorButton): void;
-    
-    /**
-     * @returns The size of each palette button 
-     */
-    GetButtonSize(): number;
-    
-    /**
-     * @returns The {{Type|ConVar}} name for the alpha channel of the color 
-     */
-    GetConVarA(): string;
-    
-    /**
-     * @returns The {{Type|ConVar}} name for the blue channel of the color 
-     */
-    GetConVarB(): string;
-    
-    /**
-     * @returns The {{Type|ConVar}} name for the green channel of the color 
-     */
-    GetConVarG(): string;
-    
-    /**
-     * @returns The {{Type|ConVar}} name for the red channel of the color 
-     */
-    GetConVarR(): string;
-    
-    /**
-     * @returns  
-     */
-    GetNumRows(): number;
-    
-    /**
-     */
-    NetworkColorChange(): void;
-    
-    /**
-     * @param pnl The {{Type|DColorButton}} that was pressed. 
-     */
-    OnRightClickButton(pnl: DColorButton): void;
-    
-    /**
-     * @param newcol The new color of the {{Type|DColorPalette}} 
-     */
-    OnValueChanged(newcol: table): void;
-    
-    /**
-     */
-    Reset(): void;
-    
-    /**
-     */
-    ResetSavedColors(): void;
-    
-    /**
-     * @param btn The button to save the color of. Used to get the ID of the button. 
-     * @param clr The color to save to this button's index 
-     */
-    SaveColor(btn: Panel, clr: table): void;
-    
-    /**
-     * @param size Sets the new size 
-     */
-    SetButtonSize(size: number): void;
-    
-    /**
-     * @param clr  
-     */
-    SetColor(clr: table): void;
-    
-    /**
-     * @param tab A number indexed table where each value is a {{Struct|Color}} 
-     */
-    SetColorButtons(tab: Color): void;
-    
-    /**
-     * @param convar The {{Type|ConVar}} name for the alpha channel of the color 
-     */
-    SetConVarA(convar: string): void;
-    
-    /**
-     * @param convar The {{Type|ConVar}} name for the blue channel of the color 
-     */
-    SetConVarB(convar: string): void;
-    
-    /**
-     * @param convar The {{Type|ConVar}} name for the green channel of the color 
-     */
-    SetConVarG(convar: string): void;
-    
-    /**
-     * @param convar The {{Type|ConVar}} name for the red channel of the color 
-     */
-    SetConVarR(convar: string): void;
-    
-    /**
-     * @param rows  
-     */
-    SetNumRows(rows: number): void;
-    
-    /**
-     * @param name The name of the console variable to set 
-     * @param key The key of the 3rd argument to set the convar to
-     * Possible values: "r", "g", "b", "a" 
-     * @param clr The {{Struct|Color}} to retrieve the info from. 
-     */
-    UpdateConVar(name: string, key: string, clr: Color): void;
-    
-    /**
-     * @param clr A {{Struct|Color}} 
-     */
-    UpdateConVars(clr: Color): void;
-}
-
-/**
- * {{Panel
- * |Name=DColumnSheet
- * |Parent=Panel
- * |Description=Similar to {{Type|DPropertySheet}}, but with tabs on the left.
- * }}
- * {{Example
- * |Description=Example of how you'd use this panel
- * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 500, 300 )
- * frame:Center()
- * frame:MakePopup()
- * 
- * local sheet = vgui.Create( "DColumnSheet", frame )
- * sheet:Dock( FILL )
- * 
- * local panel1 = vgui.Create( "DPanel", sheet )
- * panel1:Dock( FILL )
- * panel1.Paint = function( self, w, h ) draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 128, 255 ) ) end 
- * sheet:AddSheet( "test", panel1, "icon16/cross.png" )
- * 
- * local panel2 = vgui.Create( "DPanel", sheet )
- * panel2:Dock( FILL )
- * panel2.Paint = function( self, w, h ) draw.RoundedBox( 4, 0, 0, w, h, Color( 255, 128, 0 ) ) end 
- * sheet:AddSheet( "test 2", panel2, "icon16/tick.png" )
- * }} 
- */
-declare class DColumnSheet extends Panel {
-    /**
-     * @param name Name of the column/tab 
-     * @param pnl Panel to be used as contents of the tab. This normally would be a {{Type|DPanel}} 
-     * @param icon [=nil] Icon for the tab. This will ideally be a [[Silkicons|silkicon]], but any material name can be used. 
-     */
-    AddSheet(name: string, pnl: DPanel, icon?: string): void;
-    
-    /**
-     * @returns The active button 
-     */
-    GetActiveButton(): Panel;
-    
-    /**
-     * @param active The button to make active button 
-     */
-    SetActiveButton(active: Panel): void;
-    
-    /**
-     */
-    UseButtonOnlyStyle(): void;
 }
 
 /**
@@ -24044,6 +24029,155 @@ declare namespace duplicator {
 }
 
 /**
+ * {{Panel
+ * |Parent=DIconLayout
+ * |Preview=DColorPalette.png
+ * |Description=The '''DColorPalette''' allows the player to select a color from a list of given colors.
+ * 
+ * This panel supports saving across sessions via the panel cookie system.<br/>
+ * Use {{ClassFunction|Panel|SetCookieName}} to change "save files".
+ * }}
+ * {{Example
+ * |Description=Creates a DColorPalette in a DFrame, clicking on a color will change the DColorButton's color to the selected color
+ * |Code=local Frame = vgui.Create( "DFrame" )
+ * Frame:SetSize( 170, 200 )
+ * Frame:Center()
+ * Frame:MakePopup()
+ * 
+ * local DColorPalette = vgui.Create( "DColorPalette", Frame )
+ * DColorPalette:SetPos( 5, 50 )
+ * DColorPalette:SetSize( 160, 50 )
+ * 
+ * local DColorButton = vgui.Create( "DColorButton", Frame )
+ * DColorButton:SetSize( 50, 50 )
+ * DColorButton:SetPos( 60, 100 )
+ * 
+ * -- This function is assigned AFTER DColorButton is created so we can use the DColorButton
+ * DColorPalette.OnValueChanged = function( s, value )
+ * 	DColorButton:SetColor( value )
+ * end
+ * }} 
+ */
+declare class DColorPalette extends DIconLayout {
+    /**
+     * @param clr The new color via the {{Struct|Color}} 
+     * @param btn The {{Type|DColorButton}} that was pressed. 
+     */
+    DoClick(clr: Color, btn: DColorButton): void;
+    
+    /**
+     * @returns The size of each palette button 
+     */
+    GetButtonSize(): number;
+    
+    /**
+     * @returns The {{Type|ConVar}} name for the alpha channel of the color 
+     */
+    GetConVarA(): string;
+    
+    /**
+     * @returns The {{Type|ConVar}} name for the blue channel of the color 
+     */
+    GetConVarB(): string;
+    
+    /**
+     * @returns The {{Type|ConVar}} name for the green channel of the color 
+     */
+    GetConVarG(): string;
+    
+    /**
+     * @returns The {{Type|ConVar}} name for the red channel of the color 
+     */
+    GetConVarR(): string;
+    
+    /**
+     * @returns  
+     */
+    GetNumRows(): number;
+    
+    /**
+     */
+    NetworkColorChange(): void;
+    
+    /**
+     * @param pnl The {{Type|DColorButton}} that was pressed. 
+     */
+    OnRightClickButton(pnl: DColorButton): void;
+    
+    /**
+     * @param newcol The new color of the {{Type|DColorPalette}} 
+     */
+    OnValueChanged(newcol: table): void;
+    
+    /**
+     */
+    Reset(): void;
+    
+    /**
+     */
+    ResetSavedColors(): void;
+    
+    /**
+     * @param btn The button to save the color of. Used to get the ID of the button. 
+     * @param clr The color to save to this button's index 
+     */
+    SaveColor(btn: Panel, clr: table): void;
+    
+    /**
+     * @param size Sets the new size 
+     */
+    SetButtonSize(size: number): void;
+    
+    /**
+     * @param clr  
+     */
+    SetColor(clr: table): void;
+    
+    /**
+     * @param tab A number indexed table where each value is a {{Struct|Color}} 
+     */
+    SetColorButtons(tab: Color): void;
+    
+    /**
+     * @param convar The {{Type|ConVar}} name for the alpha channel of the color 
+     */
+    SetConVarA(convar: string): void;
+    
+    /**
+     * @param convar The {{Type|ConVar}} name for the blue channel of the color 
+     */
+    SetConVarB(convar: string): void;
+    
+    /**
+     * @param convar The {{Type|ConVar}} name for the green channel of the color 
+     */
+    SetConVarG(convar: string): void;
+    
+    /**
+     * @param convar The {{Type|ConVar}} name for the red channel of the color 
+     */
+    SetConVarR(convar: string): void;
+    
+    /**
+     * @param rows  
+     */
+    SetNumRows(rows: number): void;
+    
+    /**
+     * @param name The name of the console variable to set 
+     * @param key The key of the 3rd argument to set the convar to
+     * Possible values: "r", "g", "b", "a" 
+     * @param clr The {{Struct|Color}} to retrieve the info from. 
+     */
+    UpdateConVar(name: string, key: string, clr: Color): void;
+    
+    /**
+     * @param clr A {{Struct|Color}} 
+     */
+    UpdateConVars(clr: Color): void;
+}
+
+/**
  * The effects library allows you to manually add scripted effects. 
  */
 declare namespace effects {
@@ -24060,6 +24194,56 @@ declare namespace effects {
      * @param name Effect name. 
      */
     function Register(effect_table: table, name: string): void;
+}
+
+/**
+ * {{Panel
+ * |Name=DColumnSheet
+ * |Parent=Panel
+ * |Description=Similar to {{Type|DPropertySheet}}, but with tabs on the left.
+ * }}
+ * {{Example
+ * |Description=Example of how you'd use this panel
+ * |Code=local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 500, 300 )
+ * frame:Center()
+ * frame:MakePopup()
+ * 
+ * local sheet = vgui.Create( "DColumnSheet", frame )
+ * sheet:Dock( FILL )
+ * 
+ * local panel1 = vgui.Create( "DPanel", sheet )
+ * panel1:Dock( FILL )
+ * panel1.Paint = function( self, w, h ) draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 128, 255 ) ) end 
+ * sheet:AddSheet( "test", panel1, "icon16/cross.png" )
+ * 
+ * local panel2 = vgui.Create( "DPanel", sheet )
+ * panel2:Dock( FILL )
+ * panel2.Paint = function( self, w, h ) draw.RoundedBox( 4, 0, 0, w, h, Color( 255, 128, 0 ) ) end 
+ * sheet:AddSheet( "test 2", panel2, "icon16/tick.png" )
+ * }} 
+ */
+declare class DColumnSheet extends Panel {
+    /**
+     * @param name Name of the column/tab 
+     * @param pnl Panel to be used as contents of the tab. This normally would be a {{Type|DPanel}} 
+     * @param icon [=nil] Icon for the tab. This will ideally be a [[Silkicons|silkicon]], but any material name can be used. 
+     */
+    AddSheet(name: string, pnl: DPanel, icon?: string): void;
+    
+    /**
+     * @returns The active button 
+     */
+    GetActiveButton(): Panel;
+    
+    /**
+     * @param active The button to make active button 
+     */
+    SetActiveButton(active: Panel): void;
+    
+    /**
+     */
+    UseButtonOnlyStyle(): void;
 }
 
 /**
@@ -24548,509 +24732,6 @@ declare class CNavArea {
 }
 
 /**
- * {{Panel
- * |Name=DComboBox
- * |Parent=DButton
- * |Preview=DComboBox2.png
- * |Description=A field with multiple selectable values.
- * }}
- * {{Example
- * |Description=Creates a Combo Box. 
- * |Code=
- * local DComboBox = vgui.Create( "DComboBox" )
- * DComboBox:SetPos( 5, 5 )
- * DComboBox:SetSize( 100, 20 )
- * DComboBox:SetValue( "options" )
- * DComboBox:AddChoice( "option A" )
- * DComboBox:AddChoice( "option B" )
- * DComboBox:AddChoice( "option C" )
- * DComboBox.OnSelect = function( panel, index, value )
- * 	print( value .." was selected!" )
- * end
- * |Output=<br/>
- * [[Image:PictureA.png]]
- * [[Image:DComboBox2.png]]
- * [[Image:DComboBox3.png]]
- * option B was selected!
- * }} 
- */
-declare class DComboBox extends DButton {
-    /**
-     * @param value The text show to the user. 
-     * @param data [=nil] The data accompanying this string. Accessed again with the second argument of {{ClassFunction|DComboBox|GetSelected}}. If left empty, the value argument is used instead. 
-     * @param select [=false] Should this be the default selected text show to the user or not. 
-     */
-    AddChoice(value: string, data?: any, select?: boolean): void;
-    
-    /**
-     * @param value The text to display at the top of the combo box. 
-     * @param index The option index. 
-     */
-    ChooseOption(value: string, index: number): void;
-    
-    /**
-     * @param index Selects the option with given index. 
-     */
-    ChooseOptionID(index: number): void;
-    
-    /**
-     * Marks all of the panel's children for deletion. 
-     */
-    Clear(): void;
-    
-    /**
-     */
-    Clear(): void;
-    
-    /**
-     */
-    CloseMenu(): void;
-    
-    /**
-     * @param index The option index. 
-     * @returns The option's data value. 
-     */
-    GetOptionData(index: number): any;
-    
-    /**
-     * @param index The option index. 
-     * @returns The option's text value. 
-     */
-    GetOptionText(index: number): string;
-    
-    /**
-     * @returns [The option's text value., The option's stored data.]
-     * !TupleReturn 
-     */
-    GetSelected(): [string, any];
-    
-    /**
-     * @returns The ID of the currently selected option. 
-     */
-    GetSelectedID(): number;
-    
-    /**
-     * @returns True if the menu is open, false otherwise. 
-     */
-    IsMenuOpen(): boolean;
-    
-    /**
-     * @param index The table index of the option. 
-     * @param value The name of the option. 
-     * @param data The data assigned to the option. 
-     */
-    OnSelect(index: number, value: string, data: any): void;
-    
-    /**
-     */
-    OpenMenu(): void;
-    
-    /**
-     * @param sort true to enable ( default ) 
-     */
-    SetSortItems(sort: boolean): void;
-    
-    /**
-     * @param value The text in the DComboBox. 
-     */
-    SetValue(value: string): void;
-}
-
-/**
- * {{Panel
- * |Parent=DPanel
- * |Description={{Internal}}
- * 
- * A VGUI base panel providing drag/drop functionality. Used by {{Type|DIconLayout}}, {{Type|DListLayout}} and {{Type|DTileLayout}}.
- * }}
- * {{Example
- * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 300, 500 )
- * frame:Center()
- * frame:MakePopup()
- * 
- * local dragbase = vgui.Create( "DDragBase", frame )
- * dragbase:Dock( FILL )
- * dragbase:MakeDroppable( "test" )
- * dragbase:SetDropPos( "82" )
- * 
- * for i = 0, 10 do
- * 	local butt = dragbase:Add( "DButton" )
- * 	//butt:Dock( TOP )
- * 	butt:SetPos( 25, i * 25 )
- * 	butt:SetWidth( 100 )
- * 	butt:Droppable( "test" )
- * 	butt.id = i
- * 	butt.Think = function( s ) s:SetText( "ID: " .. i .. " ZPOS: " .. s:GetZPos() ) end
- * end
- * }} 
- */
-declare class DDragBase extends DPanel {
-    /**
-     * @param drops  
-     * @param bDoDrop  
-     * @param command  
-     * @param y  
-     * @param x  
-     */
-    DropAction_Copy(drops: table, bDoDrop: boolean, command: string, y: number, x: number): void;
-    
-    /**
-     * @param drops  
-     * @param bDoDrop  
-     * @param command  
-     * @param y  
-     * @param x  
-     */
-    DropAction_Normal(drops: table, bDoDrop: boolean, command: string, y: number, x: number): void;
-    
-    /**
-     * @param drops  
-     * @param bDoDrop  
-     * @param command  
-     * @param y  
-     * @param x  
-     */
-    DropAction_Simple(drops: table, bDoDrop: boolean, command: string, y: number, x: number): void;
-    
-    /**
-     * @returns Name of the DnD family. 
-     */
-    GetDnD(): string;
-    
-    /**
-     * @returns  
-     */
-    GetUseLiveDrag(): boolean;
-    
-    /**
-     * @param name The unique name for the receiver slot. Only droppable panels with the same DnD name as this can be dropped on the panel. 
-     * @param allowCopy Whether or not to allow droppable panels to be copied when the {{Key|Ctrl}} key is held down. 
-     */
-    MakeDroppable(name: string, allowCopy: boolean): void;
-    
-    /**
-     */
-    OnModified(): void;
-    
-    /**
-     * @param name Name of the DnD family. 
-     */
-    SetDnD(name: string): void;
-    
-    /**
-     * @param pos [=5] Where you're allowed to drop things. 
-     */
-    SetDropPos(pos?: string): void;
-    
-    /**
-     * @param newState  
-     */
-    SetUseLiveDrag(newState: boolean): void;
-    
-    /**
-     * @param drop  
-     * @param pnl  
-     */
-    UpdateDropTarget(drop: number, pnl: Panel): void;
-}
-
-/**
- * The engine library provides functions to access various features in the game's engine, most are related to the demo and save systems. 
- */
-declare namespace engine {
-    /**
-     * Returns the name of the currently running gamemode.
-     * 
-     * {{Bug|Issue=1988|This will return the incorrect gamemode name on the client if used too early.}} 
-     * @returns The active gamemode's name. This is the name of the gamemode's folder. 
-     */
-    function ActiveGamemode(): string;
-    
-    /**
-     * Closes the server and completely exits.
-     * 
-     * This is only functional when running in server test mode (launch option -systemtest). Server test mode is used internally at Facepunch as part of the build process to make sure that the dedicated servers aren't crashing on startup. 
-     */
-    function CloseServer(): void;
-    
-    /**
-     * Returns a list of addons the player have subscribed to on the workshop. 
-     * @returns A table with 6 keys (downloaded, models, title, file, mounted, wsid) 
-     */
-    function GetAddons(): table;
-    
-    /**
-     * When starting playing a demo, {{LibraryFunction|engine|GetDemoPlaybackTick}} will be reset and its old value will be added to this functions return value. 
-     * @returns  
-     */
-    function GetDemoPlaybackStartTick(): number;
-    
-    /**
-     * Current tick of currently loaded demo.
-     * 
-     * If not playing a demo, it will return amount of ticks since last demo playback. 
-     * @returns The amount of ticks of currently loaded demo. 
-     */
-    function GetDemoPlaybackTick(): number;
-    
-    /**
-     * Returns time scale of demo playback.
-     * 
-     * If not during demo playback, returns 1. 
-     * @returns The time scale of demo playback, value of demo_timescale console variable. 
-     */
-    function GetDemoPlaybackTimeScale(): number;
-    
-    /**
-     * Returns total amount of ticks of currently loaded demo.
-     * 
-     * If not playing a demo, returns 0 or the value of last played demo. 
-     * @returns Total amount of ticks of currently loaded demo. 
-     */
-    function GetDemoPlaybackTotalTicks(): number;
-    
-    /**
-     * Returns a table containing info for all installed gamemodes 
-     * @returns gamemodes 
-     */
-    function GetGamemodes(): table;
-    
-    /**
-     * Returns an array of tables corresponding to all games from which Garry's Mod supports mounting content.
-     * 
-     * The "mounted" and "installed" values currently do not work correctly serverside on dedicated servers. Some games will always report true while others will always report false. 
-     * @returns A table containing all mountable games 
-     */
-    function GetGames(): table;
-    
-    /**
-     * {{Deprecated|Used internally for in-game menus, may be merged in the future into {{LibraryFunction|engine|GetAddons}}.}}
-     * 
-     * Returns the UGC (demos, saves and dupes) the player have subscribed to on the workshop. 
-     * @returns Returns a table with 6 keys (title, type, tags, wsid, timeadded) 
-     */
-    function GetUserContent(): table;
-    
-    /**
-     * Returns true if we're currently playing a demo.
-     * 
-     * You will notice that there's no server-side version of this. That's because there is no server when playing a demo. Demos are both recorded and played back purely clientside. 
-     * @returns Whether the game is currently playing a demo or not. 
-     */
-    function IsPlayingDemo(): boolean;
-    
-    /**
-     * Returns true if the game is currently recording a demo file (.dem) using gm_demo 
-     * @returns Whether the game is currently recording a demo or not. 
-     */
-    function IsRecordingDemo(): boolean;
-    
-    /**
-     * This is a direct binding to the function “engine->LightStyle”. This function allows you to change the default light style of the map - so you can make lighting lighter or darker. You’ll need to call {{LibraryFunction|render|RedownloadAllLightmaps}} clientside to refresh the lightmaps to this new color. 
-     * @param lightstyle The lightstyle to edit. 0 to 63. If you want to edit map lighting, you want to set this to 0. 
-     * @param pattern The pattern to change the lightstyle to. "a" is the darkest, "z" is the brightest. You can use stuff like "abcxyz" to make flashing patterns. The normal brightness for a map is "m". Values over "z" are allowed, "~" for instance. 
-     */
-    function LightStyle(lightstyle: number, pattern: string): void;
-    
-    /**
-     * Loads a duplication from the local filesystem. 
-     * @param dupeName Name of the file. e.g, engine.OpenDupe("dupes/8b809dd7a1a9a375e75be01cdc12e61f.dupe") 
-     * @returns Compressed dupeData. Use util.JSONToTable to make it into a format useable by the duplicator tool. 
-     */
-    function OpenDupe(dupeName: string): string;
-    
-    /**
-     * Returns an estimate of the server's performance. Equivalent to calling {{GlobalFunction|FrameTime}} from the server, according to source code. 
-     * @returns [Frame time, Server Framerate Std Deviation]
-     * !TupleReturn 
-     */
-    function ServerFrameTime(): [number, number];
-    
-    /**
-     * Sets the mounting options for mountable content. 
-     * @param depotID The depot id of the game to mount. 
-     * @param doMount The mount state, true to mount, false to unmount 
-     */
-    function SetMounted(depotID: string, doMount: boolean): void;
-    
-    /**
-     * Returns the number of ticks since the game server started. 
-     * @returns Number of ticks since the game server started. 
-     */
-    function TickCount(): number;
-    
-    /**
-     * Returns the number of seconds between each gametick. 
-     * @returns Number of seconds between each gametick. 
-     */
-    function TickInterval(): number;
-    
-    /**
-     * Returns video recording settings set by {{LibraryFunction|video|Record}}. Used by Demo-To-Video feature. 
-     * @returns The video recording settings, see {{Struct|VideoData}}. 
-     */
-    function VideoSettings(): VideoData;
-    
-    /**
-     * Saves a duplication as a file. 
-     * @param dupe Dupe table, encoded by {{LibraryFunction|util|TableToJSON}} and compressed by {{LibraryFunction|util|Compress}} 
-     * @param jpeg The dupe icon, created by {{LibraryFunction|render|Capture}} 
-     */
-    function WriteDupe(dupe: string, jpeg: string): void;
-    
-    /**
-     * Stores savedata into the game (can be loaded using the LoadGame menu) 
-     * @param saveData Data generated by gmsave.SaveMap 
-     * @param name Name the save will have. 
-     * @param time When the save was saved during the game (Put CurTime here) 
-     * @param map The map the save is used for. 
-     */
-    function WriteSave(saveData: string, name: string, time: number, map: string): void;
-}
-
-/**
- * An object that represents a ladder for Nextbots. 
- */
-declare class CNavLadder {
-    /**
-     * Connects this ladder to a {{Type|CNavArea}} with a one way connection. ( From this ladder to the target area ).
-     * 
-     * See {{ClassFunction|CNavArea|ConnectTo}} for making the connection from area to ladder. 
-     * @param area The area this ladder leads to. 
-     */
-    ConnectTo(area: CNavArea): void;
-    
-    /**
-     * Disconnects this ladder from given area in a single direction. 
-     * @param area The {{Type|CNavArea}} this to disconnect from. 
-     */
-    Disconnect(area: CNavArea): void;
-    
-    /**
-     * Returns the bottom most position of the ladder. 
-     * @returns The bottom most position of the ladder. 
-     */
-    GetBottom(): Vector;
-    
-    /**
-     * Returns the bottom area of the {{Type|CNavLadder}}. 
-     * @returns  
-     */
-    GetBottomArea(): CNavArea;
-    
-    /**
-     * Returns this {{Type|CNavLadder}}s unique ID. 
-     * @returns The unique ID. 
-     */
-    GetID(): number;
-    
-    /**
-     * Returns the length of the ladder. 
-     * @returns The length of the ladder. 
-     */
-    GetLength(): number;
-    
-    /**
-     * Returns the direction of this {{Type|CNavLadder}}. ( The direction in which players back will be facing if they are looking directly at the ladder ) 
-     * @returns The direction of this {{Type|CNavLadder}}. 
-     */
-    GetNormal(): CNavLadder;
-    
-    /**
-     * Returns the world position based on given height relative to the ladder. 
-     * @param height The Z position in world space coordinates. 
-     * @returns The closest point on the ladder to that height. 
-     */
-    GetPosAtHeight(height: number): Vector;
-    
-    /**
-     * Returns the topmost position of the ladder. 
-     * @returns The topmost position of the ladder. 
-     */
-    GetTop(): Vector;
-    
-    /**
-     * Returns the top behind {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
-     * @returns The top behind {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
-     */
-    GetTopBehindArea(): CNavArea;
-    
-    /**
-     * Returns the top forward {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
-     * @returns The top forward {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
-     */
-    GetTopForwardArea(): CNavArea;
-    
-    /**
-     * Returns the top left {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
-     * @returns The top left {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
-     */
-    GetTopLeftArea(): CNavArea;
-    
-    /**
-     * Returns the top right {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
-     * @returns The top right {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
-     */
-    GetTopRightArea(): CNavArea;
-    
-    /**
-     * Returns the width of the ladder in Hammer Units. 
-     * @returns The width of the ladder in Hammer Units. 
-     */
-    GetWidth(): number;
-    
-    /**
-     * Returns whether this {{Type|CNavLadder}} has an outgoing ( one or two way ) connection '''to''' given {{Type|CNavArea}} in given direction. 
-     * @param navArea The {{Type|CNavArea}} to test against. 
-     * @param navDirType The direction, in which to look for the connection. See {{Enum|NavDir}} 
-     * @returns Whether this {{Type|CNavLadder}} has an outgoing ( one or two way ) connection '''to''' given {{Type|CNavArea}} in given direction. 
-     */
-    IsConnectedAtSide(navArea: CNavArea, navDirType: NavDir): boolean;
-    
-    /**
-     * Returns whether this {{Type|CNavLadder}} is valid or not. 
-     * @returns Whether this {{Type|CNavLadder}} is valid or not. 
-     */
-    IsValid(): CNavLadder;
-    
-    /**
-     * Removes the given nav ladder. 
-     */
-    Remove(): void;
-    
-    /**
-     * Sets the bottom area of the {{Type|CNavLadder}}. 
-     * @param area  
-     */
-    SetBottomArea(area: CNavArea): void;
-    
-    /**
-     * Sets the top behind area of the {{Type|CNavLadder}}. 
-     * @param area  
-     */
-    SetTopBehindArea(area: CNavArea): void;
-    
-    /**
-     * Sets the top forward area of the {{Type|CNavLadder}}. 
-     * @param area  
-     */
-    SetTopForwardArea(area: CNavArea): void;
-    
-    /**
-     * Sets the top left area of the {{Type|CNavLadder}}. 
-     * @param area  
-     */
-    SetTopLeftArea(area: CNavArea): void;
-    
-    /**
-     * Sets the top right area of the {{Type|CNavLadder}}. 
-     * @param area  
-     */
-    SetTopRightArea(area: CNavArea): void;
-}
-
-/**
  * This is the list of global functions. 
  */
 /**
@@ -25384,52 +25065,11 @@ declare function CreateConVar(name: string, value: string, flags?: FCVAR, helpte
 declare function CreateMaterial(name: string, shaderName: string, materialData: table): IMaterial;
 
 /**
- * Creates a new particle system.
- * 
- * {{Note|The particle effect must be precached with {{GlobalFunction|PrecacheParticleSystem}} and the file its from must be added via {{LibraryFunction|game|AddParticles}} before it can be used!}} 
- * @param ent The entity to attach the control point to. 
- * @param effect The name of the effect to create. It must be precached. 
- * @param partAttachment See {{Enum|PATTACH}}. 
- * @param entAttachment [=0] The attachment ID on the entity to attach the particle system to 
- * @param offset [=Vector( 0, 0, 0 )] The offset from the {{ClassFunction|Entity|GetPos}} of the entity we are attaching this CP to. 
- * @returns The created particle system. 
- */
-declare function CreateParticleSystem(ent: Entity, effect: string, partAttachment: PATTACH, entAttachment?: number, offset?: Vector): CNewParticleEffect;
-
-/**
- * Creates a new PhysCollide from the given bounds. 
- * @param mins  
- * @param maxs  
- * @returns The new PhysCollide. It will be invalid if you give it bad vectors. 
- */
-declare function CreatePhysCollideBox(mins: Vector, maxs: Vector): PhysCollide;
-
-/**
  * Creates {{Type|PhysCollide}} objects for every physics object the model has. The model must be precached with {{LibraryFunction|util|PrecacheModel}} before being used with this function. 
  * @param modelName Model path to get the collision objects of. 
  * @returns Table of {{Type|PhysCollide}} objects. The number of entries will match the model's physics object count. See also {{ClassFunction|Entity|GetPhysicsObjectCount}}. Returns no value if the model doesn't exist, or has not been precached. 
  */
 declare function CreatePhysCollidesFromModel(modelName: string): table;
-
-/**
- * Returns a sound parented to the specified entity.
- * 
- * {{Note|You can only create one CSoundPatch per audio file, per entity at the same time.}} 
- * @param targetEnt The target entity. 
- * @param soundName The sound to play. 
- * @param filter [=[https://developer.valvesoftware.com/wiki/CRecipientFilter#Derived_classes CPASAttenuationFilter]] A {{Type|CRecipientFilter}} of the players that will have this sound networked to them.
- * 
- * {{Note|This argument only works serverside.}} 
- * @returns The sound object 
- */
-declare function CreateSound(targetEnt: Entity, soundName: string, filter?: CRecipientFilter): CSoundPatch;
-
-/**
- * Creates and returns a new {{Type|DSprite}} element with the supplied material. 
- * @param material Material the sprite should draw. 
- * @returns The new {{Type|DSprite}} element. 
- */
-declare function CreateSprite(material: IMaterial): DSprite;
 
 /**
  * Returns the uptime of the server in seconds (to at least 4 decimal places)
@@ -25443,8 +25083,9 @@ declare function CreateSprite(material: IMaterial): DSprite;
  * {{Note|This is internally defined as a float, and as such it will be affected by precision loss if your server uptime is more than 6 hours, which will cause jittery movement of players and props and inaccuracy of timers, it is highly encouraged to refresh or change the map when that happens (a server restart is not necessary).<br/><br/>This is '''NOT''' easy as it sounds to fix in the engine, so please refrain from posting issues about this}}
  * 
  * {{Bug|Issue=3026|This returns 0 in {{HookFunction|GM|PlayerAuthed}}.}} 
+ * @returns Time synced with the game. 
  */
-declare function CurTime(): void;
+declare function CurTime(): number;
 
 /**
  * Returns an {{Type|CTakeDamageInfo}} object.
@@ -26416,20 +26057,6 @@ declare function LocalPlayer(): Player;
 declare function LocalToWorld(localPos: Vector, localAng: Angle, originPos: Vector, originAngle: Angle): [Vector, Angle];
 
 /**
- * Returns a {{Type|VMatrix}} object. 
- * @param data [={{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}] Initial data to initialize the matrix with. Leave empty to initialize an identity matrix. See examples for usage. 
- * @returns New matrix. 
- */
-declare function Matrix(data?: table): VMatrix;
-
-/**
- * Returns a new mesh object. 
- * @param mat [=nil] The material the mesh is intended to be rendered with. It's merely a hint that tells that mesh what vertex format it should use. 
- * @returns The created object. 
- */
-declare function Mesh(mat?: IMaterial): IMesh;
-
-/**
  * Runs {{LibraryFunction|util|PrecacheModel}} and returns the string 
  * @param model The model to precache 
  * @returns The same string entered as an argument 
@@ -26731,8 +26358,9 @@ declare function RealFrameTime(): number;
  * You should use this function (or SysTime) for timing real-world events such as user interaction, but not for timing game events such as animations.
  * 
  * See also: {{GlobalFunction|CurTime}}, {{GlobalFunction|SysTime}} 
+ * @returns Uptime of the server. 
  */
-declare function RealTime(): void;
+declare function RealTime(): number;
 
 /**
  * Creates a new {{Type|CRecipientFilter}}. 
@@ -27112,8 +26740,9 @@ declare function SuppressHostEvents(suppressPlayer: Player): void;
 
 /**
  * Returns a highly accurate time in seconds since the start up, ideal for benchmarking. 
+ * @returns Uptime of the server. 
  */
-declare function SysTime(): void;
+declare function SysTime(): number;
 
 /**
  * Returns a TauntCamera object 
@@ -27329,114 +26958,516 @@ declare function xpcall(func: Function, errorCallback: Function, ...arguments: a
 
 
 /**
+ * The engine library provides functions to access various features in the game's engine, most are related to the demo and save systems. 
+ */
+declare namespace engine {
+    /**
+     * Returns the name of the currently running gamemode.
+     * 
+     * {{Bug|Issue=1988|This will return the incorrect gamemode name on the client if used too early.}} 
+     * @returns The active gamemode's name. This is the name of the gamemode's folder. 
+     */
+    function ActiveGamemode(): string;
+    
+    /**
+     * Closes the server and completely exits.
+     * 
+     * This is only functional when running in server test mode (launch option -systemtest). Server test mode is used internally at Facepunch as part of the build process to make sure that the dedicated servers aren't crashing on startup. 
+     */
+    function CloseServer(): void;
+    
+    /**
+     * Returns a list of addons the player have subscribed to on the workshop. 
+     * @returns A table with 6 keys (downloaded, models, title, file, mounted, wsid) 
+     */
+    function GetAddons(): table;
+    
+    /**
+     * When starting playing a demo, {{LibraryFunction|engine|GetDemoPlaybackTick}} will be reset and its old value will be added to this functions return value. 
+     * @returns  
+     */
+    function GetDemoPlaybackStartTick(): number;
+    
+    /**
+     * Current tick of currently loaded demo.
+     * 
+     * If not playing a demo, it will return amount of ticks since last demo playback. 
+     * @returns The amount of ticks of currently loaded demo. 
+     */
+    function GetDemoPlaybackTick(): number;
+    
+    /**
+     * Returns time scale of demo playback.
+     * 
+     * If not during demo playback, returns 1. 
+     * @returns The time scale of demo playback, value of demo_timescale console variable. 
+     */
+    function GetDemoPlaybackTimeScale(): number;
+    
+    /**
+     * Returns total amount of ticks of currently loaded demo.
+     * 
+     * If not playing a demo, returns 0 or the value of last played demo. 
+     * @returns Total amount of ticks of currently loaded demo. 
+     */
+    function GetDemoPlaybackTotalTicks(): number;
+    
+    /**
+     * Returns a table containing info for all installed gamemodes 
+     * @returns gamemodes 
+     */
+    function GetGamemodes(): table;
+    
+    /**
+     * Returns an array of tables corresponding to all games from which Garry's Mod supports mounting content.
+     * 
+     * The "mounted" and "installed" values currently do not work correctly serverside on dedicated servers. Some games will always report true while others will always report false. 
+     * @returns A table containing all mountable games 
+     */
+    function GetGames(): table;
+    
+    /**
+     * {{Deprecated|Used internally for in-game menus, may be merged in the future into {{LibraryFunction|engine|GetAddons}}.}}
+     * 
+     * Returns the UGC (demos, saves and dupes) the player have subscribed to on the workshop. 
+     * @returns Returns a table with 6 keys (title, type, tags, wsid, timeadded) 
+     */
+    function GetUserContent(): table;
+    
+    /**
+     * Returns true if we're currently playing a demo.
+     * 
+     * You will notice that there's no server-side version of this. That's because there is no server when playing a demo. Demos are both recorded and played back purely clientside. 
+     * @returns Whether the game is currently playing a demo or not. 
+     */
+    function IsPlayingDemo(): boolean;
+    
+    /**
+     * Returns true if the game is currently recording a demo file (.dem) using gm_demo 
+     * @returns Whether the game is currently recording a demo or not. 
+     */
+    function IsRecordingDemo(): boolean;
+    
+    /**
+     * This is a direct binding to the function “engine->LightStyle”. This function allows you to change the default light style of the map - so you can make lighting lighter or darker. You’ll need to call {{LibraryFunction|render|RedownloadAllLightmaps}} clientside to refresh the lightmaps to this new color. 
+     * @param lightstyle The lightstyle to edit. 0 to 63. If you want to edit map lighting, you want to set this to 0. 
+     * @param pattern The pattern to change the lightstyle to. "a" is the darkest, "z" is the brightest. You can use stuff like "abcxyz" to make flashing patterns. The normal brightness for a map is "m". Values over "z" are allowed, "~" for instance. 
+     */
+    function LightStyle(lightstyle: number, pattern: string): void;
+    
+    /**
+     * Loads a duplication from the local filesystem. 
+     * @param dupeName Name of the file. e.g, engine.OpenDupe("dupes/8b809dd7a1a9a375e75be01cdc12e61f.dupe") 
+     * @returns Compressed dupeData. Use util.JSONToTable to make it into a format useable by the duplicator tool. 
+     */
+    function OpenDupe(dupeName: string): string;
+    
+    /**
+     * Returns an estimate of the server's performance. Equivalent to calling {{GlobalFunction|FrameTime}} from the server, according to source code. 
+     * @returns [Frame time, Server Framerate Std Deviation]
+     * !TupleReturn 
+     */
+    function ServerFrameTime(): [number, number];
+    
+    /**
+     * Sets the mounting options for mountable content. 
+     * @param depotID The depot id of the game to mount. 
+     * @param doMount The mount state, true to mount, false to unmount 
+     */
+    function SetMounted(depotID: string, doMount: boolean): void;
+    
+    /**
+     * Returns the number of ticks since the game server started. 
+     * @returns Number of ticks since the game server started. 
+     */
+    function TickCount(): number;
+    
+    /**
+     * Returns the number of seconds between each gametick. 
+     * @returns Number of seconds between each gametick. 
+     */
+    function TickInterval(): number;
+    
+    /**
+     * Returns video recording settings set by {{LibraryFunction|video|Record}}. Used by Demo-To-Video feature. 
+     * @returns The video recording settings, see {{Struct|VideoData}}. 
+     */
+    function VideoSettings(): VideoData;
+    
+    /**
+     * Saves a duplication as a file. 
+     * @param dupe Dupe table, encoded by {{LibraryFunction|util|TableToJSON}} and compressed by {{LibraryFunction|util|Compress}} 
+     * @param jpeg The dupe icon, created by {{LibraryFunction|render|Capture}} 
+     */
+    function WriteDupe(dupe: string, jpeg: string): void;
+    
+    /**
+     * Stores savedata into the game (can be loaded using the LoadGame menu) 
+     * @param saveData Data generated by gmsave.SaveMap 
+     * @param name Name the save will have. 
+     * @param time When the save was saved during the game (Put CurTime here) 
+     * @param map The map the save is used for. 
+     */
+    function WriteSave(saveData: string, name: string, time: number, map: string): void;
+}
+
+/**
  * {{Panel
- * |Name=DDrawer
- * |Parent=Panel
- * |Preview=DDrawer_ex1.png
- * |Description=A simple Derma Drawer
+ * |Name=DComboBox
+ * |Parent=DButton
+ * |Preview=DComboBox2.png
+ * |Description=A field with multiple selectable values.
  * }}
  * {{Example
- * |Description=Creates a DDrawer in a DFrame; set the open size and time; add a panel in the drawer; open the DDrawer.
+ * |Description=Creates a Combo Box. 
  * |Code=
- * local Frame = vgui.Create( "DFrame" )
- * Frame:SetSize( 400, 200 )
- * Frame:Center()
- * Frame:MakePopup()
- * 
- * local Drawer = vgui.Create( "DDrawer", Frame )
- * Drawer:SetOpenSize( 75 )		-- Default OpenSize is 100
- * Drawer:SetOpenTime( 0.2 )		-- Default OpenTime is 0.3
- * Drawer:Open()				-- You can also use Drawer:Close()  and  Drawer:Toggle()
- * 
- * //Let's add a panel, because Drawer is empty
- * local PanelInDrawer = vgui.Create( "DPanel", Drawer )
- * PanelInDrawer:Dock( FILL )		-- Make PanelInDrawer fill place of Drawer
- * PanelInDrawer:DockMargin( 3, 0, 3, 3 ) 	-- Margins for the dock. Search on wiki for more info
+ * local DComboBox = vgui.Create( "DComboBox" )
+ * DComboBox:SetPos( 5, 5 )
+ * DComboBox:SetSize( 100, 20 )
+ * DComboBox:SetValue( "options" )
+ * DComboBox:AddChoice( "option A" )
+ * DComboBox:AddChoice( "option B" )
+ * DComboBox:AddChoice( "option C" )
+ * DComboBox.OnSelect = function( panel, index, value )
+ * 	print( value .." was selected!" )
+ * end
+ * |Output=<br/>
+ * [[Image:PictureA.png]]
+ * [[Image:DComboBox2.png]]
+ * [[Image:DComboBox3.png]]
+ * option B was selected!
  * }} 
  */
-declare class DDrawer extends Panel {
+declare class DComboBox extends DButton {
     /**
+     * @param value The text show to the user. 
+     * @param data [=nil] The data accompanying this string. Accessed again with the second argument of {{ClassFunction|DComboBox|GetSelected}}. If left empty, the value argument is used instead. 
+     * @param select [=false] Should this be the default selected text show to the user or not. 
      */
-    Close(): void;
+    AddChoice(value: string, data?: any, select?: boolean): void;
     
     /**
-     * @returns Open size. 
+     * @param value The text to display at the top of the combo box. 
+     * @param index The option index. 
      */
-    GetOpenSize(): number;
+    ChooseOption(value: string, index: number): void;
     
     /**
-     * @returns Time in seconds. 
+     * @param index Selects the option with given index. 
      */
-    GetOpenTime(): number;
-    
-    /**
-     */
-    Open(): void;
-    
-    /**
-     * @param Value Height of DDrawer. Default is 100. 
-     */
-    SetOpenSize(Value: number): void;
-    
-    /**
-     * @param value Length in seconds. Default is 0.3 
-     */
-    SetOpenTime(value: number): void;
+    ChooseOptionID(index: number): void;
     
     /**
      */
-    Toggle(): void;
+    Clear(): void;
+    
+    /**
+     */
+    CloseMenu(): void;
+    
+    /**
+     * @param index The option index. 
+     * @returns The option's data value. 
+     */
+    GetOptionData(index: number): any;
+    
+    /**
+     * @param index The option index. 
+     * @returns The option's text value. 
+     */
+    GetOptionText(index: number): string;
+    
+    /**
+     * @param data The data to look up the name of.
+     * 
+     * If given a {{Type|number}} and no matching data was found, the function will test given data against each {{GlobalFunction|tonumber}}'d data entry. 
+     * @returns The option's text value.
+     * 
+     * If no matching data was found, the data itself will be returned. If multiple identical data entries exist, the first instance will be returned. 
+     */
+    GetOptionTextByData(data: string): string;
+    
+    /**
+     * @returns [The option's text value., The option's stored data.]
+     * !TupleReturn 
+     */
+    GetSelected(): [string, any];
+    
+    /**
+     * @returns The ID of the currently selected option. 
+     */
+    GetSelectedID(): number;
+    
+    /**
+     * @returns True if enabled, false otherwise. 
+     */
+    GetSortItems(): boolean;
+    
+    /**
+     * @returns True if the menu is open, false otherwise. 
+     */
+    IsMenuOpen(): boolean;
+    
+    /**
+     * @param index The table index of the option. 
+     * @param value The name of the option. 
+     * @param data The data assigned to the option. 
+     */
+    OnSelect(index: number, value: string, data: any): void;
+    
+    /**
+     */
+    OpenMenu(): void;
+    
+    /**
+     * @param sort true to enable, false to disable 
+     */
+    SetSortItems(sort: boolean): void;
+    
+    /**
+     * @param value The text in the DComboBox. 
+     */
+    SetValue(value: string): void;
+}
+
+/**
+ * An object that represents a ladder for Nextbots. 
+ */
+declare class CNavLadder {
+    /**
+     * Connects this ladder to a {{Type|CNavArea}} with a one way connection. ( From this ladder to the target area ).
+     * 
+     * See {{ClassFunction|CNavArea|ConnectTo}} for making the connection from area to ladder. 
+     * @param area The area this ladder leads to. 
+     */
+    ConnectTo(area: CNavArea): void;
+    
+    /**
+     * Disconnects this ladder from given area in a single direction. 
+     * @param area The {{Type|CNavArea}} this to disconnect from. 
+     */
+    Disconnect(area: CNavArea): void;
+    
+    /**
+     * Returns the bottom most position of the ladder. 
+     * @returns The bottom most position of the ladder. 
+     */
+    GetBottom(): Vector;
+    
+    /**
+     * Returns the bottom area of the {{Type|CNavLadder}}. 
+     * @returns  
+     */
+    GetBottomArea(): CNavArea;
+    
+    /**
+     * Returns this {{Type|CNavLadder}}s unique ID. 
+     * @returns The unique ID. 
+     */
+    GetID(): number;
+    
+    /**
+     * Returns the length of the ladder. 
+     * @returns The length of the ladder. 
+     */
+    GetLength(): number;
+    
+    /**
+     * Returns the direction of this {{Type|CNavLadder}}. ( The direction in which players back will be facing if they are looking directly at the ladder ) 
+     * @returns The direction of this {{Type|CNavLadder}}. 
+     */
+    GetNormal(): CNavLadder;
+    
+    /**
+     * Returns the world position based on given height relative to the ladder. 
+     * @param height The Z position in world space coordinates. 
+     * @returns The closest point on the ladder to that height. 
+     */
+    GetPosAtHeight(height: number): Vector;
+    
+    /**
+     * Returns the topmost position of the ladder. 
+     * @returns The topmost position of the ladder. 
+     */
+    GetTop(): Vector;
+    
+    /**
+     * Returns the top behind {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
+     * @returns The top behind {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
+     */
+    GetTopBehindArea(): CNavArea;
+    
+    /**
+     * Returns the top forward {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
+     * @returns The top forward {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
+     */
+    GetTopForwardArea(): CNavArea;
+    
+    /**
+     * Returns the top left {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
+     * @returns The top left {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
+     */
+    GetTopLeftArea(): CNavArea;
+    
+    /**
+     * Returns the top right {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
+     * @returns The top right {{Type|CNavArea}} of the {{Type|CNavLadder}}. 
+     */
+    GetTopRightArea(): CNavArea;
+    
+    /**
+     * Returns the width of the ladder in Hammer Units. 
+     * @returns The width of the ladder in Hammer Units. 
+     */
+    GetWidth(): number;
+    
+    /**
+     * Returns whether this {{Type|CNavLadder}} has an outgoing ( one or two way ) connection '''to''' given {{Type|CNavArea}} in given direction. 
+     * @param navArea The {{Type|CNavArea}} to test against. 
+     * @param navDirType The direction, in which to look for the connection. See {{Enum|NavDir}} 
+     * @returns Whether this {{Type|CNavLadder}} has an outgoing ( one or two way ) connection '''to''' given {{Type|CNavArea}} in given direction. 
+     */
+    IsConnectedAtSide(navArea: CNavArea, navDirType: NavDir): boolean;
+    
+    /**
+     * Returns whether this {{Type|CNavLadder}} is valid or not. 
+     * @returns Whether this {{Type|CNavLadder}} is valid or not. 
+     */
+    IsValid(): CNavLadder;
+    
+    /**
+     * Removes the given nav ladder. 
+     */
+    Remove(): void;
+    
+    /**
+     * Sets the bottom area of the {{Type|CNavLadder}}. 
+     * @param area  
+     */
+    SetBottomArea(area: CNavArea): void;
+    
+    /**
+     * Sets the top behind area of the {{Type|CNavLadder}}. 
+     * @param area  
+     */
+    SetTopBehindArea(area: CNavArea): void;
+    
+    /**
+     * Sets the top forward area of the {{Type|CNavLadder}}. 
+     * @param area  
+     */
+    SetTopForwardArea(area: CNavArea): void;
+    
+    /**
+     * Sets the top left area of the {{Type|CNavLadder}}. 
+     * @param area  
+     */
+    SetTopLeftArea(area: CNavArea): void;
+    
+    /**
+     * Sets the top right area of the {{Type|CNavLadder}}. 
+     * @param area  
+     */
+    SetTopRightArea(area: CNavArea): void;
 }
 
 /**
  * {{Panel
- * |Parent=DProperties
- * |Description={{Internal|Unless you know what you are doing and you benefit from this panel, you should be using the {{Type|DProperties}} instead.}}
+ * |Parent=DPanel
+ * |Description={{Internal}}
  * 
- * A panel used by the [[Editable Entities]] system.
+ * A VGUI base panel providing drag/drop functionality. Used by {{Type|DIconLayout}}, {{Type|DListLayout}} and {{Type|DTileLayout}}.
+ * }}
+ * {{Example
+ * |Code=local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 300, 500 )
+ * frame:Center()
+ * frame:MakePopup()
+ * 
+ * local dragbase = vgui.Create( "DDragBase", frame )
+ * dragbase:Dock( FILL )
+ * dragbase:MakeDroppable( "test" )
+ * dragbase:SetDropPos( "82" )
+ * 
+ * for i = 0, 10 do
+ * 	local butt = dragbase:Add( "DButton" )
+ * 	//butt:Dock( TOP )
+ * 	butt:SetPos( 25, i * 25 )
+ * 	butt:SetWidth( 100 )
+ * 	butt:Droppable( "test" )
+ * 	butt.id = i
+ * 	butt.Think = function( s ) s:SetText( "ID: " .. i .. " ZPOS: " .. s:GetZPos() ) end
+ * end
  * }} 
  */
-declare class DEntityProperties extends DProperties {
+declare class DDragBase extends DPanel {
     /**
-     * @param varname  
-     * @param editdata  
+     * @param drops  
+     * @param bDoDrop  
+     * @param command  
+     * @param y  
+     * @param x  
      */
-    EditVariable(varname: string, editdata: table): void;
+    DropAction_Copy(drops: table, bDoDrop: boolean, command: string, y: number, x: number): void;
+    
+    /**
+     * @param drops  
+     * @param bDoDrop  
+     * @param command  
+     * @param y  
+     * @param x  
+     */
+    DropAction_Normal(drops: table, bDoDrop: boolean, command: string, y: number, x: number): void;
+    
+    /**
+     * @param drops  
+     * @param bDoDrop  
+     * @param command  
+     * @param y  
+     * @param x  
+     */
+    DropAction_Simple(drops: table, bDoDrop: boolean, command: string, y: number, x: number): void;
+    
+    /**
+     * @returns Name of the DnD family. 
+     */
+    GetDnD(): string;
+    
+    /**
+     * @returns  
+     */
+    GetUseLiveDrag(): boolean;
+    
+    /**
+     * @param name The unique name for the receiver slot. Only droppable panels with the same DnD name as this can be dropped on the panel. 
+     * @param allowCopy Whether or not to allow droppable panels to be copied when the {{Key|Ctrl}} key is held down. 
+     */
+    MakeDroppable(name: string, allowCopy: boolean): void;
     
     /**
      */
-    EntityLost(): void;
+    OnModified(): void;
     
     /**
+     * @param name Name of the DnD family. 
      */
-    OnEntityLost(): void;
+    SetDnD(name: string): void;
     
     /**
+     * @param pos [=5] Where you're allowed to drop things. 
      */
-    RebuildControls(): void;
+    SetDropPos(pos?: string): void;
     
     /**
-     * @param ent The entity to edit 
+     * @param newState  
      */
-    SetEntity(ent: Entity): void;
-}
-
-/**
- * {{Panel
- * |Parent=DButton
- * |Description={{Internal}}The little "+" button used by {{Type|DProperties}} and {{Type|DTree_Node}}.
- * }} 
- */
-declare class DExpandButton extends DButton {
-    /**
-     * @returns True if expanded, false otherwise 
-     */
-    GetExpanded(): boolean;
+    SetUseLiveDrag(newState: boolean): void;
     
     /**
-     * @param expanded True to expand ( visually will show a "-" ) 
+     * @param drop  
+     * @param pnl  
      */
-    SetExpanded(expanded: boolean): void;
+    UpdateDropTarget(drop: number, pnl: Panel): void;
 }
 
 /**
@@ -27608,9 +27639,269 @@ declare namespace ents {
 }
 
 /**
- * This object represents a .pcf ( Orange Box ) particle system. Created by {{ClassFunction|Entity|CreateParticleEffect}} and {{GlobalFunction|CreateParticleSystem}}. 
+ * {{Panel
+ * |Name=DDrawer
+ * |Parent=Panel
+ * |Preview=DDrawer_ex1.png
+ * |Description=A simple Derma Drawer
+ * }}
+ * {{Example
+ * |Description=Creates a DDrawer in a DFrame; set the open size and time; add a panel in the drawer; open the DDrawer.
+ * |Code=
+ * local Frame = vgui.Create( "DFrame" )
+ * Frame:SetSize( 400, 200 )
+ * Frame:Center()
+ * Frame:MakePopup()
+ * 
+ * local Drawer = vgui.Create( "DDrawer", Frame )
+ * Drawer:SetOpenSize( 75 )		-- Default OpenSize is 100
+ * Drawer:SetOpenTime( 0.2 )		-- Default OpenTime is 0.3
+ * Drawer:Open()				-- You can also use Drawer:Close()  and  Drawer:Toggle()
+ * 
+ * //Let's add a panel, because Drawer is empty
+ * local PanelInDrawer = vgui.Create( "DPanel", Drawer )
+ * PanelInDrawer:Dock( FILL )		-- Make PanelInDrawer fill place of Drawer
+ * PanelInDrawer:DockMargin( 3, 0, 3, 3 ) 	-- Margins for the dock. Search on wiki for more info
+ * }} 
  */
+declare class DDrawer extends Panel {
+    /**
+     */
+    Close(): void;
+    
+    /**
+     * @returns Open size. 
+     */
+    GetOpenSize(): number;
+    
+    /**
+     * @returns Time in seconds. 
+     */
+    GetOpenTime(): number;
+    
+    /**
+     */
+    Open(): void;
+    
+    /**
+     * @param Value Height of DDrawer. Default is 100. 
+     */
+    SetOpenSize(Value: number): void;
+    
+    /**
+     * @param value Length in seconds. Default is 0.3 
+     */
+    SetOpenTime(value: number): void;
+    
+    /**
+     */
+    Toggle(): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=DProperties
+ * |Description={{Internal|Unless you know what you are doing and you benefit from this panel, you should be using the {{Type|DProperties}} instead.}}
+ * 
+ * A panel used by the [[Editable Entities]] system.
+ * }} 
+ */
+declare class DEntityProperties extends DProperties {
+    /**
+     * @param varname  
+     * @param editdata  
+     */
+    EditVariable(varname: string, editdata: table): void;
+    
+    /**
+     */
+    EntityLost(): void;
+    
+    /**
+     */
+    OnEntityLost(): void;
+    
+    /**
+     */
+    RebuildControls(): void;
+    
+    /**
+     * @param ent The entity to edit 
+     */
+    SetEntity(ent: Entity): void;
+}
+
+/**
+ * The file library provides functions for finding, reading and writing to files. <br/>
+ * The following path values are most commonly used:
+ * * “LUA” searches the lua files (in /lua/, in your gamemodes, in all the addons).
+ * * “GAME” searches all the mounted content (main folder, addons, mounted games etc).
+ * * “MOD” searches only the garrysmod folder.
+ * * “DATA” searches in the data folder.
+ * For the full list of path values, type “path” in the console. 
+ */
+declare namespace file {
+    /**
+     * Appends a file relative to the ''data'' folder. 
+     * @param name The file's name. 
+     * @param content The content which should be appended to the file. 
+     */
+    function Append(name: string, content: string): void;
+    
+    /**
+     * Creates a directory that is relative to the ''data'' folder. 
+     * @param name The directory's name. 
+     */
+    function CreateDir(name: string): void;
+    
+    /**
+     * Deletes a file or ''empty'' folder that is relative to the '''data''' folder.
+     * You can't remove any files outside of '''data''' folder. 
+     * @param name The file name 
+     */
+    function Delete(name: string): void;
+    
+    /**
+     * Returns a boolean of whether the file or directory exists or not. 
+     * @param name The file or directory's name. 
+     * @param path The path of where to look for the file.
+     * 
+     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
+     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
+     * * "DATA" Data folder (garrysmod/data)
+     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting. 
+     * @returns Returns true if the file exists and false if it is not. 
+     */
+    function Exists(name: string, path: string): boolean;
+    
+    /**
+     * Returns a list of files and directories inside a single folder.
+     * 
+     * {{Bug|Issue=3437|This will have undefined results if a path contains 3+ slashes.}} 
+     * @param name The wildcard to search for. "models/*.mdl" will list .mdl files in the models/ folder. 
+     * @param path The path to look for the files and directories in. See [[File_Search_Paths|this list]] for a list of valid paths. 
+     * @param sorting [="nameasc"] The sorting to be used, optional.
+     * 
+     * * "nameasc" sort the files ascending by name
+     * * "namedesc" sort the files descending by name
+     * * "dateasc" sort the files ascending by date
+     * * "datedesc" sort the files descending by date 
+     * @returns [A table of found files, or nil if the path is invalid, A table of found directories, or nil if the path is invalid]
+     * !TupleReturn 
+     */
+    function Find(name: string, path: string, sorting?: string): [table, table];
+    
+    /**
+     * Returns whether the given file is a directory or not. 
+     * @param fileName The file or directory's name. 
+     * @param path The path type. 
+     * @returns True if the given path is a directory or false if it is a file. 
+     */
+    function IsDir(fileName: string, path: string): boolean;
+    
+    /**
+     * Attempts to open a file with the given mode. 
+     * @param fileName The files name. See {{LibraryFunction|file|Write}} for details on filename restrictions when writing to files. 
+     * @param fileMode The mode to open the file in. Possible values are:
+     * * '''r''' - read mode
+     * * '''w''' - write mode
+     * * '''a''' - append mode
+     * 
+     * * '''rb''' - binary read mode
+     * * '''wb''' - binary write mode
+     * * '''ab''' - binary append mode 
+     * @param path The path type.
+     * 
+     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
+     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
+     * * "DATA" Data folder (garrysmod/data)
+     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting. 
+     * @returns The opened file object, or nil if it failed to open due to it not existing or being used by another process. 
+     */
+    function Open(fileName: string, fileMode: string, path: string): File;
+    
+    /**
+     * Returns the content of a file.
+     * 
+     * Beware of casing -- some filesystems are case-sensitive. SRCDS on Linux seems to force file/directory creation to lowercase, but will not modify read operations. 
+     * @param fileName The name of the file. 
+     * @param path [="DATA"] The path used to look up the file.
+     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
+     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
+     * * "DATA" Data folder (garrysmod/data)
+     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting.
+     * 
+     * It can also be a boolean:
+     * * true = "GAME"
+     * * false = "DATA" 
+     * @returns The data from the file as a string, or nil if the file isn't found 
+     */
+    function Read(fileName: string, path?: string): string;
+    
+    /**
+     * Attempts to rename a file with the given name to another given name.
+     * 
+     * This function is constrained to the data/ folder. 
+     * @param orignalFileName The original file or folder name. See {{LibraryFunction|file|Write}} for details on filename restrictions when writing to files. 
+     * @param targetFileName The target file or folder name. See {{LibraryFunction|file|Write}} for details on filename restrictions when writing to files. 
+     * @returns True on success, false otherwise. 
+     */
+    function Rename(orignalFileName: string, targetFileName: string): boolean;
+    
+    /**
+     * Returns the file's size in bytes. If the file is not found, returns -1. 
+     * @param fileName The file's name. 
+     * @param path The path type.
+     * 
+     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
+     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
+     * * "DATA" Data folder (garrysmod/data)
+     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting. 
+     */
+    function Size(fileName: string, path: string): void;
+    
+    /**
+     * Returns when the file or folder was lasted modified in Unix time. 
+     * @param path The '''file''' or '''folder''' path. 
+     * @param gamePath The game path to be used.
+     * 
+     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
+     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
+     * * "DATA" Data folder (garrysmod/data)
+     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting. 
+     * @returns Seconds passed since Unix epoch. 
+     */
+    function Time(path: string, gamePath: string): number;
+    
+    /**
+     * Writes the given string to a file. Erases all previous data in the file. To add data without deleting previous data, use {{LibraryFunction|file|Append}}.
+     * 
+     * It is recommended to write only to lowercase file paths and names because some filesystems are case-sensitive. The Linux build of SRCDS seems to auto-lower directory and file names on write, but not on read. 
+     * @param fileName The name of the file being written into.
+     * 
+     * The filename '''must''' end with ".txt", ".jpg", ".png", ".vtf" or ".dat" and the path is relative to the '''data/''' folder.
+     * Restricted symbols are: '''" :''' 
+     * @param content The content that will be written into the file. 
+     */
+    function Write(fileName: string, content: string): void;
+}
+
+/**
+ * This object represents a .pcf ( Orange Box ) particle system. Created by {{ClassFunction|Entity|CreateParticleEffect}} and {{GlobalFunction|CreateParticleSystem}}. 
+ * !CustomConstructor CreateParticleSystem */
 declare class CNewParticleEffect {
+    /**
+     * Creates a new particle system.
+     * 
+     * {{Note|The particle effect must be precached with {{GlobalFunction|PrecacheParticleSystem}} and the file its from must be added via {{LibraryFunction|game|AddParticles}} before it can be used!}} 
+     * @param ent The entity to attach the control point to. 
+     * @param effect The name of the effect to create. It must be precached. 
+     * @param partAttachment See {{Enum|PATTACH}}. 
+     * @param entAttachment [=0] The attachment ID on the entity to attach the particle system to 
+     * @param offset [=Vector( 0, 0, 0 )] The offset from the {{ClassFunction|Entity|GetPos}} of the entity we are attaching this CP to. 
+     */
+    constructor(ent: Entity, effect: string, partAttachment: PATTACH, entAttachment?: number, offset?: Vector);
+    
     /**
      * Adds a control point to the particle system.
      * 
@@ -27775,232 +28066,21 @@ declare class CNewParticleEffect {
 }
 
 /**
- * The file library provides functions for finding, reading and writing to files. <br/>
- * The following path values are most commonly used:
- * * “LUA” searches the lua files (in /lua/, in your gamemodes, in all the addons).
- * * “GAME” searches all the mounted content (main folder, addons, mounted games etc).
- * * “MOD” searches only the garrysmod folder.
- * * “DATA” searches in the data folder.
- * For the full list of path values, type “path” in the console. 
+ * {{Panel
+ * |Parent=DButton
+ * |Description={{Internal}}The little "+" button used by {{Type|DProperties}} and {{Type|DTree_Node}}.
+ * }} 
  */
-declare namespace file {
+declare class DExpandButton extends DButton {
     /**
-     * Appends a file relative to the ''data'' folder. 
-     * @param name The file's name. 
-     * @param content The content which should be appended to the file. 
+     * @returns True if expanded, false otherwise 
      */
-    function Append(name: string, content: string): void;
+    GetExpanded(): boolean;
     
     /**
-     * Creates a directory that is relative to the ''data'' folder. 
-     * @param name The directory's name. 
+     * @param expanded True to expand ( visually will show a "-" ) 
      */
-    function CreateDir(name: string): void;
-    
-    /**
-     * Deletes a file or ''empty'' folder that is relative to the '''data''' folder.
-     * You can't remove any files outside of '''data''' folder. 
-     * @param name The file name 
-     */
-    function Delete(name: string): void;
-    
-    /**
-     * Returns a boolean of whether the file or directory exists or not. 
-     * @param name The file or directory's name. 
-     * @param path The path of where to look for the file.
-     * 
-     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
-     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
-     * * "DATA" Data folder (garrysmod/data)
-     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting. 
-     * @returns Returns true if the file exists and false if it is not. 
-     */
-    function Exists(name: string, path: string): boolean;
-    
-    /**
-     * Returns a list of files and directories inside a single folder.
-     * 
-     * {{Bug|Issue=3437|This will have undefined results if a path contains 3+ slashes.}} 
-     * @param name The wildcard to search for. "models/*.mdl" will list .mdl files in the models/ folder. 
-     * @param path The path to look for the files and directories in. See [[File_Search_Paths|this list]] for a list of valid paths. 
-     * @param sorting [="nameasc"] The sorting to be used, optional.
-     * 
-     * * "nameasc" sort the files ascending by name
-     * * "namedesc" sort the files descending by name
-     * * "dateasc" sort the files ascending by date
-     * * "datedesc" sort the files descending by date 
-     * @returns [A table of found files, or nil if the path is invalid, A table of found directories, or nil if the path is invalid]
-     * !TupleReturn 
-     */
-    function Find(name: string, path: string, sorting?: string): [table, table];
-    
-    /**
-     * Returns whether the given file is a directory or not. 
-     * @param fileName The file or directory's name. 
-     * @param path The path type. 
-     * @returns True if the given path is a directory or false if it is a file. 
-     */
-    function IsDir(fileName: string, path: string): boolean;
-    
-    /**
-     * Attempts to open a file with the given mode. 
-     * @param fileName The files name. See {{LibraryFunction|file|Write}} for details on filename restrictions when writing to files. 
-     * @param fileMode The mode to open the file in. Possible values are:
-     * * '''r''' - read mode
-     * * '''w''' - write mode
-     * * '''a''' - append mode
-     * 
-     * * '''rb''' - binary read mode
-     * * '''wb''' - binary write mode
-     * * '''ab''' - binary append mode 
-     * @param path The path type.
-     * 
-     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
-     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
-     * * "DATA" Data folder (garrysmod/data)
-     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting. 
-     * @returns The opened file object, or nil if it failed to open due to it not existing or being used by another process. 
-     */
-    function Open(fileName: string, fileMode: string, path: string): File;
-    
-    /**
-     * Returns the content of a file.
-     * 
-     * Beware of casing -- some filesystems are case-sensitive. SRCDS on Linux seems to force file/directory creation to lowercase, but will not modify read operations. 
-     * @param fileName The name of the file. 
-     * @param path [="DATA"] The path used to look up the file.
-     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
-     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
-     * * "DATA" Data folder (garrysmod/data)
-     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting.
-     * 
-     * It can also be a boolean:
-     * * true = "GAME"
-     * * false = "DATA" 
-     * @returns The data from the file as a string, or nil if the file isn't found 
-     */
-    function Read(fileName: string, path?: string): string;
-    
-    /**
-     * Attempts to rename a file with the given name to another given name.
-     * 
-     * This function is constrained to the data/ folder. 
-     * @param orignalFileName The original file or folder name. See {{LibraryFunction|file|Write}} for details on filename restrictions when writing to files. 
-     * @param targetFileName The target file or folder name. See {{LibraryFunction|file|Write}} for details on filename restrictions when writing to files. 
-     * @returns True on success, false otherwise. 
-     */
-    function Rename(orignalFileName: string, targetFileName: string): boolean;
-    
-    /**
-     * Returns the file's size in bytes. If the file is not found, returns -1. 
-     * @param fileName The file's name. 
-     * @param path The path type.
-     * 
-     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
-     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
-     * * "DATA" Data folder (garrysmod/data)
-     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting. 
-     */
-    function Size(fileName: string, path: string): void;
-    
-    /**
-     * Returns when the file or folder was lasted modified in Unix time. 
-     * @param path The '''file''' or '''folder''' path. 
-     * @param gamePath The game path to be used.
-     * 
-     * * "GAME" Structured like base folder (garrysmod/), searches all the mounted content (main folder, addons, mounted games etc)
-     * * "LUA" or "lsv" - All Lua folders (lua/) including gamesmodes and addons
-     * * "DATA" Data folder (garrysmod/data)
-     * * "MOD" Strictly the game folder (garrysmod/), ignores mounting. 
-     * @returns Seconds passed since Unix epoch. 
-     */
-    function Time(path: string, gamePath: string): number;
-    
-    /**
-     * Writes the given string to a file. Erases all previous data in the file. To add data without deleting previous data, use {{LibraryFunction|file|Append}}.
-     * 
-     * It is recommended to write only to lowercase file paths and names because some filesystems are case-sensitive. The Linux build of SRCDS seems to auto-lower directory and file names on write, but not on read. 
-     * @param fileName The name of the file being written into.
-     * 
-     * The filename '''must''' end with ".txt", ".jpg", ".png", ".vtf" or ".dat" and the path is relative to the '''data/''' folder.
-     * Restricted symbols are: '''" :''' 
-     * @param content The content that will be written into the file. 
-     */
-    function Write(fileName: string, content: string): void;
-}
-
-/**
- * An object returned by {{GlobalFunction|GetConVar}}. It represents a console variable. See [http://wiki.garrysmod.com/page/ConVars this] page for more information. 
- */
-declare class ConVar {
-    /**
-     * Tries to convert the current string value of a {{Type|ConVar}} to a boolean. 
-     * @returns The boolean value of the console variable. If the variable is numeric and not 0, the result will be true. Otherwise the result will be false. 
-     */
-    GetBool(): boolean;
-    
-    /**
-     * Returns the default value of the {{Type|ConVar}} 
-     * @returns The default value of the console variable. 
-     */
-    GetDefault(): string;
-    
-    /**
-     * Attempts to convert the {{Type|ConVar}} value to a float 
-     * @returns The float value of the console variable.<br/>
-     * If the value cannot be converted to a float, it will return 0. 
-     */
-    GetFloat(): number;
-    
-    /**
-     * Returns the help text assigned to that convar. 
-     * @returns The help text 
-     */
-    GetHelpText(): string;
-    
-    /**
-     * Attempts to convert the {{Type|ConVar}} value to a integer. 
-     * @returns The integer value of the console variable.<br/>
-     * If it fails to convert to an integer, it will return 0.<br/>
-     * All float/decimal values will be rounded down. ( With {{LibraryFunction|math|floor}} ) 
-     */
-    GetInt(): number;
-    
-    /**
-     * Returns the name of the {{Type|ConVar}}. 
-     * @returns The name of the console variable. 
-     */
-    GetName(): string;
-    
-    /**
-     * Returns the current {{Type|ConVar}} value as a string. 
-     * @returns The current console variable value as a string. 
-     */
-    GetString(): string;
-    
-    /**
-     * Sets a ConVar's value to 1 or 0 based on the input boolean. This can only be ran on ConVars created from within Lua. 
-     * @param value Value to set the ConVar to. 
-     */
-    SetBool(value: boolean): void;
-    
-    /**
-     * Sets a ConVar's value to to the input number. This can only be ran on ConVars created from within Lua. 
-     * @param value Value to set the ConVar to. 
-     */
-    SetFloat(value: number): void;
-    
-    /**
-     * Sets a ConVar's value to the input number after converting it to an integer. This can only be ran on ConVars created from within Lua. 
-     * @param value Value to set the ConVar to. 
-     */
-    SetInt(value: number): void;
-    
-    /**
-     * Sets a ConVar's value to the input string. This can only be ran on ConVars created from within Lua. 
-     * @param value Value to set the ConVar to. 
-     */
-    SetString(value: string): void;
+    SetExpanded(expanded: boolean): void;
 }
 
 /**
@@ -28196,14 +28276,6 @@ declare class GM {
      * Called when derma menus are closed with {{GlobalFunction|CloseDermaMenus}}. 
      */
     protected CloseDermaMenus(): void;
-    
-    /**
-     * Called when the context menu is trying to be opened. Return false to disallow it.
-     * 
-     * {{Warning|This only exists in Sandbox.}} 
-     * @returns Allow menu to open. 
-     */
-    protected ContextMenuOpen(): boolean;
     
     /**
      * Called whenever an entity becomes a clientside ragdoll.
@@ -29364,20 +29436,6 @@ declare class GM {
     protected PopulateMenuBar(menubar: DMenuBar): void;
     
     /**
-     * Called to populate the Scripted Tool menu.
-     * 
-     * {{Deprecated|This hook is never called. Use {{HookFunction|GM|PopulateToolMenu}}, instead.}} 
-     */
-    protected PopulateSTOOLMenu(): void;
-    
-    /**
-     * Add the STOOLS to the tool menu. You want to call {{LibraryFunction|spawnmenu|AddToolMenuOption}} in this hook.
-     * 
-     * {{Warning|This only exists in Sandbox.}} 
-     */
-    protected PopulateToolMenu(): void;
-    
-    /**
      * Called right after the map has cleaned up (usually because {{LibraryFunction|game|CleanUpMap}} was called)
      * 
      * See also {{HookFunction|GM|PreCleanupMap}}. 
@@ -29484,13 +29542,6 @@ declare class GM {
      * @returns Return true/false depending on whether this post process should be allowed 
      */
     protected PostProcessPermitted(ppeffect: string): boolean;
-    
-    /**
-     * Called right after the Lua Loaded tool menus are reloaded. This is a good place to set up any ControlPanels.
-     * 
-     * {{Warning|This only exists in Sandbox.}} 
-     */
-    protected PostReloadToolsMenu(): void;
     
     /**
      * Called after the frame has been rendered.
@@ -29601,14 +29652,6 @@ declare class GM {
      * @returns Prevent default player rendering. Return true to hide the player. 
      */
     protected PrePlayerDraw(player: Player): boolean;
-    
-    /**
-     * Called right before the Lua Loaded tool menus are reloaded.
-     * 
-     * {{Warning|This only exists in Sandbox.}}
-     * {{Bug|Pull=1517|This isn't actually called.}} 
-     */
-    protected PreReloadToolsMenu(): void;
     
     /**
      * Called before the renderer is about to start rendering the next frame.
@@ -30038,6 +30081,173 @@ declare namespace frame_blend {
 }
 
 /**
+ * An object returned by {{GlobalFunction|GetConVar}}. It represents a console variable. See [http://wiki.garrysmod.com/page/ConVars this] page for more information. 
+ */
+declare class ConVar {
+    /**
+     * Tries to convert the current string value of a {{Type|ConVar}} to a boolean. 
+     * @returns The boolean value of the console variable. If the variable is numeric and not 0, the result will be true. Otherwise the result will be false. 
+     */
+    GetBool(): boolean;
+    
+    /**
+     * Returns the default value of the {{Type|ConVar}} 
+     * @returns The default value of the console variable. 
+     */
+    GetDefault(): string;
+    
+    /**
+     * Attempts to convert the {{Type|ConVar}} value to a float 
+     * @returns The float value of the console variable.<br/>
+     * If the value cannot be converted to a float, it will return 0. 
+     */
+    GetFloat(): number;
+    
+    /**
+     * Returns the help text assigned to that convar. 
+     * @returns The help text 
+     */
+    GetHelpText(): string;
+    
+    /**
+     * Attempts to convert the {{Type|ConVar}} value to a integer. 
+     * @returns The integer value of the console variable.<br/>
+     * If it fails to convert to an integer, it will return 0.<br/>
+     * All float/decimal values will be rounded down. ( With {{LibraryFunction|math|floor}} ) 
+     */
+    GetInt(): number;
+    
+    /**
+     * Returns the name of the {{Type|ConVar}}. 
+     * @returns The name of the console variable. 
+     */
+    GetName(): string;
+    
+    /**
+     * Returns the current {{Type|ConVar}} value as a string. 
+     * @returns The current console variable value as a string. 
+     */
+    GetString(): string;
+    
+    /**
+     * Sets a ConVar's value to 1 or 0 based on the input boolean. This can only be ran on ConVars created from within Lua. 
+     * @param value Value to set the ConVar to. 
+     */
+    SetBool(value: boolean): void;
+    
+    /**
+     * Sets a ConVar's value to to the input number. This can only be ran on ConVars created from within Lua. 
+     * @param value Value to set the ConVar to. 
+     */
+    SetFloat(value: number): void;
+    
+    /**
+     * Sets a ConVar's value to the input number after converting it to an integer. This can only be ran on ConVars created from within Lua. 
+     * @param value Value to set the ConVar to. 
+     */
+    SetInt(value: number): void;
+    
+    /**
+     * Sets a ConVar's value to the input string. This can only be ran on ConVars created from within Lua. 
+     * @param value Value to set the ConVar to. 
+     */
+    SetString(value: string): void;
+}
+
+/**
+ * List of all possible functions to manipulate Recipient Filters. Can be created with {{GlobalFunction|RecipientFilter}}. 
+ */
+declare class CRecipientFilter {
+    /**
+     * Adds all players to the recipient filter. 
+     */
+    AddAllPlayers(): void;
+    
+    /**
+     * Adds all players that are in the same PAS as this position. 
+     * @param pos PAS position that players may be able to see. 
+     */
+    AddPAS(pos: Vector): void;
+    
+    /**
+     * Adds a player to the recipient filter 
+     * @param Player Player to add to the recipient filter. 
+     */
+    AddPlayer(Player: Player): void;
+    
+    /**
+     * Adds all players that are in the same PVS as this position. 
+     * @param Position PVS position. 
+     */
+    AddPVS(Position: Vector): void;
+    
+    /**
+     * Adds all players that are on the given team to the filter. 
+     * @param teamid Team index to add players from. 
+     */
+    AddRecipientsByTeam(teamid: number): void;
+    
+    /**
+     * Returns the number of valid players in the recipient filter. 
+     * @returns Number of valid players in the recipient filter. 
+     */
+    GetCount(): number;
+    
+    /**
+     * Returns a table of all valid players currently in the recipient filter. 
+     * @returns A table of all valid players currently in the recipient filter. 
+     */
+    GetPlayers(): table;
+    
+    /**
+     * Removes all players from the recipient filter. 
+     */
+    RemoveAllPlayers(): void;
+    
+    /**
+     * Removes all players from the filter that are in Potentially Audible Set for given position. 
+     * @param position The position to test 
+     */
+    RemovePAS(position: Vector): void;
+    
+    /**
+     * Removes the player from the recipient filter. 
+     * @param Player The player that should be in the recipient filter if you call this function. 
+     */
+    RemovePlayer(Player: Player): void;
+    
+    /**
+     * Removes all players that can see this PVS from the recipient filter. 
+     * @param pos Position that players may be able to see. 
+     */
+    RemovePVS(pos: Vector): void;
+    
+    /**
+     * Removes all players that are on the given team from the filter. 
+     * @param teamid Team index to remove players from. 
+     */
+    RemoveRecipientsByTeam(teamid: number): void;
+    
+    /**
+     * Removes all players that are not on the given team from the filter. 
+     * @param teamid Team index. 
+     */
+    RemoveRecipientsNotOnTeam(teamid: number): void;
+}
+
+/**
+ * '''CSEnt''' is a client-side only entity which can be created with {{GlobalFunction|ClientsideModel}}, {{GlobalFunction|ClientsideRagdoll}}, {{GlobalFunction|ClientsideScene}}, and {{LibraryFunction|ents|CreateClientProp}}.
+ * 
+ * Its base class is {{Type|Entity}} so it inherits all of the {{Type|Client}} and {{Type|Shared}} functions used by {{Type|Entity}}. 
+ */
+declare class CSEnt extends Entity {
+    /**
+     * Removes the clientside entity 
+     */
+    Remove(): void;
+}
+
+/**
  * {{Panel
  * |Parent=DPanel
  * |Description=A tree and list-based file browser.
@@ -30246,217 +30456,23 @@ declare class DFileBrowser extends DPanel {
 }
 
 /**
- * List of all possible functions to manipulate Recipient Filters. Can be created with {{GlobalFunction|RecipientFilter}}. 
- */
-declare class CRecipientFilter {
-    /**
-     * Adds all players to the recipient filter. 
-     */
-    AddAllPlayers(): void;
-    
-    /**
-     * Adds all players that are in the same PAS as this position. 
-     * @param pos PAS position that players may be able to see. 
-     */
-    AddPAS(pos: Vector): void;
-    
-    /**
-     * Adds a player to the recipient filter 
-     * @param Player Player to add to the recipient filter. 
-     */
-    AddPlayer(Player: Player): void;
-    
-    /**
-     * Adds all players that are in the same PVS as this position. 
-     * @param Position PVS position. 
-     */
-    AddPVS(Position: Vector): void;
-    
-    /**
-     * Adds all players that are on the given team to the filter. 
-     * @param teamid Team index to add players from. 
-     */
-    AddRecipientsByTeam(teamid: number): void;
-    
-    /**
-     * Returns the number of valid players in the recipient filter. 
-     * @returns Number of valid players in the recipient filter. 
-     */
-    GetCount(): number;
-    
-    /**
-     * Returns a table of all valid players currently in the recipient filter. 
-     * @returns A table of all valid players currently in the recipient filter. 
-     */
-    GetPlayers(): table;
-    
-    /**
-     * Removes all players from the recipient filter. 
-     */
-    RemoveAllPlayers(): void;
-    
-    /**
-     * Removes all players from the filter that are in Potentially Audible Set for given position. 
-     * @param position The position to test 
-     */
-    RemovePAS(position: Vector): void;
-    
-    /**
-     * Removes the player from the recipient filter. 
-     * @param Player The player that should be in the recipient filter if you call this function. 
-     */
-    RemovePlayer(Player: Player): void;
-    
-    /**
-     * Removes all players that can see this PVS from the recipient filter. 
-     * @param pos Position that players may be able to see. 
-     */
-    RemovePVS(pos: Vector): void;
-    
-    /**
-     * Removes all players that are on the given team from the filter. 
-     * @param teamid Team index to remove players from. 
-     */
-    RemoveRecipientsByTeam(teamid: number): void;
-    
-    /**
-     * Removes all players that are not on the given team from the filter. 
-     * @param teamid Team index. 
-     */
-    RemoveRecipientsNotOnTeam(teamid: number): void;
-}
-
-/**
- * '''CSEnt''' is a client-side only entity which can be created with {{GlobalFunction|ClientsideModel}}, {{GlobalFunction|ClientsideRagdoll}}, {{GlobalFunction|ClientsideScene}}, and {{LibraryFunction|ents|CreateClientProp}}.
- * 
- * Its base class is {{Type|Entity}} so it inherits all of the {{Type|Client}} and {{Type|Shared}} functions used by {{Type|Entity}}. 
- */
-declare class CSEnt {
-    /**
-     * Removes the clientside entity 
-     */
-    Remove(): void;
-}
-
-/**
- * {{Panel
- * |Name=DForm
- * |Parent=DCollapsibleCategory
- * |Description=An easy form with functions to quickly add form elements
- * }}
- * = Methods =
- * * {{VGUIElementMethodInternal|GetAutoSize}}
- * * {{VGUIElementMethodInternal|GetPadding}}
- * * {{VGUIElementMethodInternal|GetSpacing}}
- * * {{VGUIElementMethodInternal|SetAutoSize}}
- * * {{VGUIElementMethodInternal|SetPadding}}
- * * {{VGUIElementMethodInternal|SetSpacing}} 
- */
-declare class DForm extends DCollapsibleCategory {
-    /**
-     * @param left Left-hand element to add to the DForm. 
-     * @param right Right-hand element to add to the DForm. 
-     */
-    AddItem(left: Panel, right: Panel): void;
-    
-    /**
-     * @param text The text on the button 
-     * @param concmd The concommand to run when the button is clicked 
-     * @param concmd_args The arguments to pass on to the concommand when the button is clicked 
-     * @returns The created {{Type|DButton}} 
-     */
-    Button(text: string, concmd: string, ...concmd_args: any[]): DButton;
-    
-    /**
-     * @param label The label to be set next to the check box 
-     * @param convar The console variable to change when this is changed 
-     * @returns The created {{Type|DCheckBoxLabel}} 
-     */
-    CheckBox(label: string, convar: string): DCheckBoxLabel;
-    
-    /**
-     * @param title Text to the left of the combo box 
-     * @param convar Console variable to change when the user selects something from the dropdown. 
-     * @returns [The created {{Type|DComboBox}}, The created {{Type|DLabel}}]
-     * !TupleReturn 
-     */
-    ComboBox(title: string, convar: string): [DComboBox, DLabel];
-    
-    /**
-     * @param help The help message to be displayed. 
-     * @returns The created {{Type|DLabel}} 
-     */
-    ControlHelp(help: string): DLabel;
-    
-    /**
-     * @param help The help message to be displayed 
-     * @returns The created {{Type|DLabel}} 
-     */
-    Help(help: string): DLabel;
-    
-    /**
-     * @param label The label to set on the DListBox 
-     * @returns [The created {{Type|DListBox}}, The created {{Type|DLabel}}]
-     * !TupleReturn 
-     */
-    ListBox(label: string): [DListBox, DLabel];
-    
-    /**
-     * @param label The label to be placed next to the DNumberWang 
-     * @param convar The console variable to change when the slider is changed 
-     * @param min The minimum value of the slider 
-     * @param max The maximum value of the slider 
-     * @param decimals [=nil] The number of decimals to allow in the slider (Optional) 
-     * @returns [The created {{Type|DNumberWang}}, The created {{Type|DLabel}}]
-     * !TupleReturn 
-     */
-    NumberWang(label: string, convar: string, min: number, max: number, decimals?: number): [DNumberWang, DLabel];
-    
-    /**
-     * @param label The label of the DNumSlider 
-     * @param convar The console variable to change when the slider is changed 
-     * @param min The minimum value of the slider 
-     * @param max The maximum value of the slider 
-     * @param decimals [=nil] The number of decimals to allow on the slider. (Optional) 
-     * @returns The created {{Type|DNumSlider}} 
-     */
-    NumSlider(label: string, convar: string, min: number, max: number, decimals?: number): DNumSlider;
-    
-    /**
-     * @returns The created DPanelSelect. 
-     */
-    PanelSelect(): Panel;
-    
-    /**
-     */
-    Rebuild(): void;
-    
-    /**
-     * Sets the internal name of the panel. 
-     * @param name The new name of the panel. 
-     */
-    SetName(name: string): void;
-    
-    /**
-     * @param name The new header name. 
-     */
-    SetName(name: string): void;
-    
-    /**
-     * @param label The label to be next to the text entry 
-     * @param convar The console variable to be changed when the text entry is changed 
-     * @returns [The created {{Type|DTextEntry}}, The created {{Type|DLabel}}]
-     * !TupleReturn 
-     */
-    TextEntry(label: string, convar: string): [DTextEntry, DLabel];
-}
-
-/**
  * CSoundPatch class.
  * 
  * Created with {{GlobalFunction|CreateSound}} 
- */
+ * !CustomConstructor CreateSound */
 declare class CSoundPatch {
+    /**
+     * Returns a sound parented to the specified entity.
+     * 
+     * {{Note|You can only create one CSoundPatch per audio file, per entity at the same time.}} 
+     * @param targetEnt The target entity. 
+     * @param soundName The sound to play. 
+     * @param filter [=[https://developer.valvesoftware.com/wiki/CRecipientFilter#Derived_classes CPASAttenuationFilter]] A {{Type|CRecipientFilter}} of the players that will have this sound networked to them.
+     * 
+     * {{Note|This argument only works serverside.}} 
+     */
+    constructor(targetEnt: Entity, soundName: string, filter?: CRecipientFilter);
+    
     /**
      * Adjust the pitch, alias the speed at which the sound is being played.
      * 
@@ -30850,6 +30866,119 @@ declare namespace game {
 }
 
 /**
+ * {{Panel
+ * |Name=DForm
+ * |Parent=DCollapsibleCategory
+ * |Description=An easy form with functions to quickly add form elements
+ * }}
+ * = Methods =
+ * * {{VGUIElementMethodInternal|GetAutoSize}}
+ * * {{VGUIElementMethodInternal|GetPadding}}
+ * * {{VGUIElementMethodInternal|GetSpacing}}
+ * * {{VGUIElementMethodInternal|SetAutoSize}}
+ * * {{VGUIElementMethodInternal|SetPadding}}
+ * * {{VGUIElementMethodInternal|SetSpacing}} 
+ */
+declare class DForm extends DCollapsibleCategory {
+    /**
+     * @param left Left-hand element to add to the DForm. 
+     * @param right Right-hand element to add to the DForm. 
+     */
+    AddItem(left: Panel, right: Panel): void;
+    
+    /**
+     * @param text The text on the button 
+     * @param concmd The concommand to run when the button is clicked 
+     * @param concmd_args The arguments to pass on to the concommand when the button is clicked 
+     * @returns The created {{Type|DButton}} 
+     */
+    Button(text: string, concmd: string, ...concmd_args: any[]): DButton;
+    
+    /**
+     * @param label The label to be set next to the check box 
+     * @param convar The console variable to change when this is changed 
+     * @returns The created {{Type|DCheckBoxLabel}} 
+     */
+    CheckBox(label: string, convar: string): DCheckBoxLabel;
+    
+    /**
+     * @param title Text to the left of the combo box 
+     * @param convar Console variable to change when the user selects something from the dropdown. 
+     * @returns [The created {{Type|DComboBox}}, The created {{Type|DLabel}}]
+     * !TupleReturn 
+     */
+    ComboBox(title: string, convar: string): [DComboBox, DLabel];
+    
+    /**
+     * @param help The help message to be displayed. 
+     * @returns The created {{Type|DLabel}} 
+     */
+    ControlHelp(help: string): DLabel;
+    
+    /**
+     * @param help The help message to be displayed 
+     * @returns The created {{Type|DLabel}} 
+     */
+    Help(help: string): DLabel;
+    
+    /**
+     * @param label The label to set on the DListBox 
+     * @returns [The created {{Type|DListBox}}, The created {{Type|DLabel}}]
+     * !TupleReturn 
+     */
+    ListBox(label: string): [DListBox, DLabel];
+    
+    /**
+     * @param label The label to be placed next to the DNumberWang 
+     * @param convar The console variable to change when the slider is changed 
+     * @param min The minimum value of the slider 
+     * @param max The maximum value of the slider 
+     * @param decimals [=nil] The number of decimals to allow in the slider (Optional) 
+     * @returns [The created {{Type|DNumberWang}}, The created {{Type|DLabel}}]
+     * !TupleReturn 
+     */
+    NumberWang(label: string, convar: string, min: number, max: number, decimals?: number): [DNumberWang, DLabel];
+    
+    /**
+     * @param label The label of the DNumSlider 
+     * @param convar The console variable to change when the slider is changed 
+     * @param min The minimum value of the slider 
+     * @param max The maximum value of the slider 
+     * @param decimals [=nil] The number of decimals to allow on the slider. (Optional) 
+     * @returns The created {{Type|DNumSlider}} 
+     */
+    NumSlider(label: string, convar: string, min: number, max: number, decimals?: number): DNumSlider;
+    
+    /**
+     * @returns The created DPanelSelect. 
+     */
+    PanelSelect(): Panel;
+    
+    /**
+     */
+    Rebuild(): void;
+    
+    /**
+     * Sets the internal name of the panel. 
+     * @param name The new name of the panel. 
+     */
+    SetName(name: string): void;
+    
+    /**
+     * @param name The new header name. 
+     */
+    SetName(name: string): void;
+    
+    /**
+     * @param label The label to be next to the text entry 
+     * @param convar The console variable to be changed when the text entry is changed 
+     * @returns [The created {{Type|DTextEntry}}, The created {{Type|DLabel}}]
+     * !TupleReturn 
+     */
+    TextEntry(label: string, convar: string): [DTextEntry, DLabel];
+}
+
+/**
  * Used to interface with the built in game events system. 
  */
 declare namespace gameevent {
@@ -31134,151 +31263,110 @@ declare class PANEL {
 }
 
 /**
- * {{Panel
- * |Name=DFrame
- * |Parent=EditablePanel
- * |Description=The DFrame control is the foundation for any Derma menu. It holds all of your controls.
- * |File=lua/vgui/dframe.lua
- * }}
- * {{Example
- * |Description=Creates a DFrame.
- * |Code=local DermaPanel = vgui.Create( "DFrame" )
- * DermaPanel:SetPos( 100, 100 )
- * DermaPanel:SetSize( 300, 200 )
- * DermaPanel:SetTitle( "My new Derma frame" )
- * DermaPanel:SetDraggable( true )
- * DermaPanel:MakePopup()
+ * A list of hooks available in player classes. Target the player by using
+ *  self.Player
+ * 
+ * {{ClassFields
+ * |Fields=
+ * {{ClassField|Player|Player|The player for which a hook is called.}}
  * }} 
  */
-declare class DFrame extends EditablePanel {
+declare class PLAYER {
     /**
+     * The player for which a hook is called. 
      */
-    Center(): void;
+    Player: Player;
     
     /**
-     */
-    Close(): void;
-    
-    /**
-     * @returns Whether or not background blur is enabled. 
-     */
-    GetBackgroundBlur(): boolean;
-    
-    /**
-     * @returns Whether or not the frame will be removed on close. 
-     */
-    GetDeleteOnClose(): boolean;
-    
-    /**
-     * @returns Whether the frame is draggable or not. 
-     */
-    GetDraggable(): boolean;
-    
-    /**
-     * @returns Whether or not this frame is a menu component. 
-     */
-    GetIsMenu(): boolean;
-    
-    /**
-     * @returns The minimum height the user can resize the frame to. 
-     */
-    GetMinHeight(): number;
-    
-    /**
-     * @returns The minimum width the user can resize the frame to. 
-     */
-    GetMinWidth(): number;
-    
-    /**
-     * @returns Whether or not the shadow is being drawn. 
-     */
-    GetPaintShadow(): boolean;
-    
-    /**
-     * @returns Whether or not the frame is restricted. 
-     */
-    GetScreenLock(): boolean;
-    
-    /**
-     * @returns Whether the frame can be resized or not. 
-     */
-    GetSizable(): boolean;
-    
-    /**
-     * @returns Title of the frame. 
-     */
-    GetTitle(): string;
-    
-    /**
-     * @returns Whether or not the frame has focus. 
-     */
-    IsActive(): boolean;
-    
-    /**
-     */
-    OnClose(): void;
-    
-    /**
-     * @param blur Whether or not to create background blur or not. 
-     */
-    SetBackgroundBlur(blur: boolean): void;
-    
-    /**
-     * @param shouldDelete Whether or not to delete the frame on close. This is ''true'' by default. 
-     */
-    SetDeleteOnClose(shouldDelete: boolean): void;
-    
-    /**
-     * @param draggable Whether to be draggable or not. 
-     */
-    SetDraggable(draggable: boolean): void;
-    
-    /**
-     * @param path Set to nil to remove the icon.
+     * Called from {{HookFunction|GM|FinishMove}}.
      * 
-     * Otherwise, set to file path to create the icon. 
+     * {{Warning|This hook will not work if the current gamemode overrides {{HookFunction|GM|FinishMove}} and does not call this hook.}}
+     * 
+     * {{Note|This hook is run after the {{LibraryFunction|drive|FinishMove}} has been called.}} 
+     * @param mv  
+     * @returns Return true to prevent default action 
      */
-    SetIcon(path: string): void;
+    protected FinishMove(mv: CMoveData): boolean;
     
     /**
-     * @param isMenu Whether or not this frame is a menu component. 
+     * Called on player spawn to determine which hand model to use 
+     * @returns A table containing info about view model hands model to be set. See examples. 
      */
-    SetIsMenu(isMenu: boolean): void;
+    protected GetHandsModel(): table;
     
     /**
-     * @param minH The minimum height the user can resize the frame to. 
+     * Called when the class object is created 
      */
-    SetMinHeight(minH: number): void;
+    protected Init(): void;
     
     /**
-     * @param minW The minimum width the user can resize the frame to. 
+     * Called on spawn to give the player their default loadout 
      */
-    SetMinWidth(minW: number): void;
+    protected Loadout(): void;
     
     /**
-     * @param shouldPaint Whether or not to draw the shadow. This is ''true'' by default. 
+     * Called from {{HookFunction|GM|Move}}.
+     * 
+     * {{Warning|This hook will not work if the current gamemode overrides {{HookFunction|GM|Move}} and does not call this hook.}}
+     * 
+     * {{Note|This hook is run after the {{LibraryFunction|drive|Move}} has been called.}} 
+     * @param mv Movement information 
+     * @returns Return true to prevent default action 
      */
-    SetPaintShadow(shouldPaint: boolean): void;
+    protected Move(mv: CMoveData): boolean;
     
     /**
-     * @param lock If ''true'', the frame cannot be dragged outside of the screen bounds 
+     * Called after the viewmodel has been drawn 
+     * @param viewmodel The viewmodel 
+     * @param weapon The weapon 
      */
-    SetScreenLock(lock: boolean): void;
+    protected PostDrawViewModel(viewmodel: Entity, weapon: Entity): void;
     
     /**
-     * @param sizeable Whether the frame should be resizeable or not. 
+     * Called before the viewmodel is drawn 
+     * @param viewmodel The viewmodel 
+     * @param weapon The weapon 
      */
-    SetSizable(sizeable: boolean): void;
+    protected PreDrawViewModel(viewmodel: Entity, weapon: Entity): void;
     
     /**
-     * @param title New title of the frame. 
+     * Called when we need to set player model from the class.
+     * 
+     * {{Note|This will only be called if you have not overridden {{HookFunction|GM|PlayerSetModel}} or call this function from it or anywhere else using {{LibraryFunction|player_manager|RunClass}}}} 
      */
-    SetTitle(title: string): void;
+    protected SetModel(): void;
     
     /**
-     * @param show ''false'' hides the control box; this is ''true'' by default. 
+     * Setup the network table accessors.
+     * 
+     * {{Bug|Issue=892|This is only called for the local player clientside.}} 
      */
-    ShowCloseButton(show: boolean): void;
+    protected SetupDataTables(): void;
+    
+    /**
+     * Called when the player spawns 
+     */
+    protected Spawn(): void;
+    
+    /**
+     * Called from {{HookFunction|GM|CreateMove}}.
+     * 
+     * {{Warning|This hook will not work if the current gamemode overrides {{HookFunction|GM|SetupMove}} and does not call this hook.}}
+     * 
+     * {{Note|This hook is run after the {{LibraryFunction|drive|StartMove}} has been called.}} 
+     * @param mv  
+     * @param cmd  
+     * @returns Return true to prevent default action 
+     */
+    protected StartMove(mv: CMoveData, cmd: CUserCmd): boolean;
+    
+    /**
+     * Called when the player changes their weapon to another one causing their viewmodel model to change 
+     * @param viewmodel The viewmodel that is changing 
+     * @param old The old model 
+     * @param newVal The new model 
+     */
+    protected ViewModelChanged(viewmodel: Entity, old: string, newVal: string): void;
 }
 
 /**
@@ -31496,110 +31584,151 @@ declare class CTakeDamageInfo {
 }
 
 /**
- * A list of hooks available in player classes. Target the player by using
- *  self.Player
- * 
- * {{ClassFields
- * |Fields=
- * {{ClassField|Player|Player|The player for which a hook is called.}}
+ * {{Panel
+ * |Name=DFrame
+ * |Parent=EditablePanel
+ * |Description=The DFrame control is the foundation for any Derma menu. It holds all of your controls.
+ * |File=lua/vgui/dframe.lua
+ * }}
+ * {{Example
+ * |Description=Creates a DFrame.
+ * |Code=local DermaPanel = vgui.Create( "DFrame" )
+ * DermaPanel:SetPos( 100, 100 )
+ * DermaPanel:SetSize( 300, 200 )
+ * DermaPanel:SetTitle( "My new Derma frame" )
+ * DermaPanel:SetDraggable( true )
+ * DermaPanel:MakePopup()
  * }} 
  */
-declare class PLAYER {
+declare class DFrame extends EditablePanel {
     /**
-     * The player for which a hook is called. 
      */
-    Player: Player;
+    Center(): void;
     
     /**
-     * Called from {{HookFunction|GM|FinishMove}}.
+     */
+    Close(): void;
+    
+    /**
+     * @returns Whether or not background blur is enabled. 
+     */
+    GetBackgroundBlur(): boolean;
+    
+    /**
+     * @returns Whether or not the frame will be removed on close. 
+     */
+    GetDeleteOnClose(): boolean;
+    
+    /**
+     * @returns Whether the frame is draggable or not. 
+     */
+    GetDraggable(): boolean;
+    
+    /**
+     * @returns Whether or not this frame is a menu component. 
+     */
+    GetIsMenu(): boolean;
+    
+    /**
+     * @returns The minimum height the user can resize the frame to. 
+     */
+    GetMinHeight(): number;
+    
+    /**
+     * @returns The minimum width the user can resize the frame to. 
+     */
+    GetMinWidth(): number;
+    
+    /**
+     * @returns Whether or not the shadow is being drawn. 
+     */
+    GetPaintShadow(): boolean;
+    
+    /**
+     * @returns Whether or not the frame is restricted. 
+     */
+    GetScreenLock(): boolean;
+    
+    /**
+     * @returns Whether the frame can be resized or not. 
+     */
+    GetSizable(): boolean;
+    
+    /**
+     * @returns Title of the frame. 
+     */
+    GetTitle(): string;
+    
+    /**
+     * @returns Whether or not the frame has focus. 
+     */
+    IsActive(): boolean;
+    
+    /**
+     */
+    OnClose(): void;
+    
+    /**
+     * @param blur Whether or not to create background blur or not. 
+     */
+    SetBackgroundBlur(blur: boolean): void;
+    
+    /**
+     * @param shouldDelete Whether or not to delete the frame on close. This is ''true'' by default. 
+     */
+    SetDeleteOnClose(shouldDelete: boolean): void;
+    
+    /**
+     * @param draggable Whether to be draggable or not. 
+     */
+    SetDraggable(draggable: boolean): void;
+    
+    /**
+     * @param path Set to nil to remove the icon.
      * 
-     * {{Warning|This hook will not work if the current gamemode overrides {{HookFunction|GM|FinishMove}} and does not call this hook.}}
-     * 
-     * {{Note|This hook is run after the {{LibraryFunction|drive|FinishMove}} has been called.}} 
-     * @param mv  
-     * @returns Return true to prevent default action 
+     * Otherwise, set to file path to create the icon. 
      */
-    protected FinishMove(mv: CMoveData): boolean;
+    SetIcon(path: string): void;
     
     /**
-     * Called on player spawn to determine which hand model to use 
-     * @returns A table containing info about view model hands model to be set. See examples. 
+     * @param isMenu Whether or not this frame is a menu component. 
      */
-    protected GetHandsModel(): table;
+    SetIsMenu(isMenu: boolean): void;
     
     /**
-     * Called when the class object is created 
+     * @param minH The minimum height the user can resize the frame to. 
      */
-    protected Init(): void;
+    SetMinHeight(minH: number): void;
     
     /**
-     * Called on spawn to give the player their default loadout 
+     * @param minW The minimum width the user can resize the frame to. 
      */
-    protected Loadout(): void;
+    SetMinWidth(minW: number): void;
     
     /**
-     * Called from {{HookFunction|GM|Move}}.
-     * 
-     * {{Warning|This hook will not work if the current gamemode overrides {{HookFunction|GM|Move}} and does not call this hook.}}
-     * 
-     * {{Note|This hook is run after the {{LibraryFunction|drive|Move}} has been called.}} 
-     * @param mv Movement information 
-     * @returns Return true to prevent default action 
+     * @param shouldPaint Whether or not to draw the shadow. This is ''true'' by default. 
      */
-    protected Move(mv: CMoveData): boolean;
+    SetPaintShadow(shouldPaint: boolean): void;
     
     /**
-     * Called after the viewmodel has been drawn 
-     * @param viewmodel The viewmodel 
-     * @param weapon The weapon 
+     * @param lock If ''true'', the frame cannot be dragged outside of the screen bounds 
      */
-    protected PostDrawViewModel(viewmodel: Entity, weapon: Entity): void;
+    SetScreenLock(lock: boolean): void;
     
     /**
-     * Called before the viewmodel is drawn 
-     * @param viewmodel The viewmodel 
-     * @param weapon The weapon 
+     * @param sizeable Whether the frame should be resizeable or not. 
      */
-    protected PreDrawViewModel(viewmodel: Entity, weapon: Entity): void;
+    SetSizable(sizeable: boolean): void;
     
     /**
-     * Called when we need to set player model from the class.
-     * 
-     * {{Note|This will only be called if you have not overridden {{HookFunction|GM|PlayerSetModel}} or call this function from it or anywhere else using {{LibraryFunction|player_manager|RunClass}}}} 
+     * @param title New title of the frame. 
      */
-    protected SetModel(): void;
+    SetTitle(title: string): void;
     
     /**
-     * Setup the network table accessors.
-     * 
-     * {{Bug|Issue=892|This is only called for the local player clientside.}} 
+     * @param show ''false'' hides the control box; this is ''true'' by default. 
      */
-    protected SetupDataTables(): void;
-    
-    /**
-     * Called when the player spawns 
-     */
-    protected Spawn(): void;
-    
-    /**
-     * Called from {{HookFunction|GM|CreateMove}}.
-     * 
-     * {{Warning|This hook will not work if the current gamemode overrides {{HookFunction|GM|SetupMove}} and does not call this hook.}}
-     * 
-     * {{Note|This hook is run after the {{LibraryFunction|drive|StartMove}} has been called.}} 
-     * @param mv  
-     * @param cmd  
-     * @returns Return true to prevent default action 
-     */
-    protected StartMove(mv: CMoveData, cmd: CUserCmd): boolean;
-    
-    /**
-     * Called when the player changes their weapon to another one causing their viewmodel model to change 
-     * @param viewmodel The viewmodel that is changing 
-     * @param old The old model 
-     * @param newVal The new model 
-     */
-    protected ViewModelChanged(viewmodel: Entity, old: string, newVal: string): void;
+    ShowCloseButton(show: boolean): void;
 }
 
 /**
@@ -31683,128 +31812,6 @@ declare class DGrid extends Panel {
      * @param desc [=true] True for descending order, false for ascending. 
      */
     SortByMember(key: string, desc?: boolean): void;
-}
-
-/**
- * {{Panel
- * |Parent=DPanel
- * |Preview=DHorizontalDivider_ex1.png
- * |Description=Creates an invisible vertical divider between two GUI elements.
- * }}
- * {{Example
- * |Description=Insert a horizontal divider between two {{Type|DPanel}}s in a {{Type|DFrame}}.
- * |Code=local f = vgui.Create( "DFrame" )
- * f:SetSize( 400, 200 )
- * f:Center()
- * f:MakePopup()
- * 
- * local LeftPanel = vgui.Create( "DPanel", f ) -- Can be any panel, it will be stretched
- * local RightPanel = vgui.Create( "DPanel", f )
- * 
- * local div = vgui.Create( "DHorizontalDivider", f )
- * div:Dock( FILL ) -- Make the divider fill the space of the DFrame
- * div:SetLeft( LeftPanel ) -- Set what panel is in left side of the divider
- * div:SetRight( RightPanel )
- * div:SetDividerWidth( 4 ) -- Set the divider width. Default is 8
- * div:SetLeftMin( 20 ) -- Set the Minimum width of left side
- * div:SetRightMin( 20 )
- * div:SetLeftWidth( 50 ) -- Set the default left side width
- * }} 
- */
-declare class DHorizontalDivider extends DPanel {
-    /**
-     * @returns The width of the horizontal divider bar 
-     */
-    GetDividerWidth(): number;
-    
-    /**
-     * @returns Whether or not the player is currently dragging the middle divider bar. 
-     */
-    GetDragging(): boolean;
-    
-    /**
-     * @returns  
-     */
-    GetHoldPos(): number;
-    
-    /**
-     * @returns The content on the left side 
-     */
-    GetLeft(): Panel;
-    
-    /**
-     * @returns The minimum width of the left side 
-     */
-    GetLeftMin(): number;
-    
-    /**
-     * @returns The current width of the left side 
-     */
-    GetLeftWidth(): number;
-    
-    /**
-     * @returns The middle content 
-     */
-    GetMiddle(): Panel;
-    
-    /**
-     * @returns The right side content 
-     */
-    GetRight(): Panel;
-    
-    /**
-     * @returns The minimum width of the right side 
-     */
-    GetRightMin(): number;
-    
-    /**
-     * @param width The width of the horizontal divider bar. 
-     */
-    SetDividerWidth(width: number): void;
-    
-    /**
-     * @param dragonot  
-     */
-    SetDragging(dragonot: boolean): void;
-    
-    /**
-     * @param x  
-     */
-    SetHoldPos(x: number): void;
-    
-    /**
-     * @param pnl The panel to set as the left side 
-     */
-    SetLeft(pnl: Panel): void;
-    
-    /**
-     * @param minWidth The minimum width of the left side 
-     */
-    SetLeftMin(minWidth: number): void;
-    
-    /**
-     * @param width The current/starting width of the left side 
-     */
-    SetLeftWidth(width: number): void;
-    
-    /**
-     * @param middle The middle content 
-     */
-    SetMiddle(middle: Panel): void;
-    
-    /**
-     * @param pnl The right side content 
-     */
-    SetRight(pnl: Panel): void;
-    
-    /**
-     * @param minWidth The minimum width of the right side 
-     */
-    SetRightMin(minWidth: number): void;
-    
-    /**
-     */
-    StartGrab(): void;
 }
 
 /**
@@ -32001,97 +32008,124 @@ declare class CUserCmd {
 
 /**
  * {{Panel
- * |Parent=Panel
- * |Description=A very basic horizontal scrollable panel, similar to {{Type|DScrollPanel}}.
- * 
- * Used internally in {{Type|DPropertySheet}}.
+ * |Parent=DPanel
+ * |Preview=DHorizontalDivider_ex1.png
+ * |Description=Creates an invisible vertical divider between two GUI elements.
  * }}
  * {{Example
- * |Description=Creates a DHorizontalScroller with a bunch of {{Type|DImage}}s attached to it.
- * |Code=local DFrame = vgui.Create( "DFrame" )
- * DFrame:SetTitle( "DHorizontalScroller Example" )
- * DFrame:SetSize( 500, 100 )
- * DFrame:Center()
- * DFrame:MakePopup()
+ * |Description=Insert a horizontal divider between two {{Type|DPanel}}s in a {{Type|DFrame}}.
+ * |Code=local f = vgui.Create( "DFrame" )
+ * f:SetSize( 400, 200 )
+ * f:Center()
+ * f:MakePopup()
  * 
- * local DHorizontalScroller = vgui.Create( "DHorizontalScroller", DFrame )
- * DHorizontalScroller:Dock( FILL )
- * DHorizontalScroller:SetOverlap( -4 )
+ * local LeftPanel = vgui.Create( "DPanel", f ) -- Can be any panel, it will be stretched
+ * local RightPanel = vgui.Create( "DPanel", f )
  * 
- * for i = 0, 16 do
- * 	local DImage = vgui.Create( "DImage", DHorizontalScroller )
- * 	DImage:SetImage( "scripted/breen_fakemonitor_1" )
- * 	DHorizontalScroller:AddPanel( DImage )
- * end
- * }}
- * {{Example
- * |Description=Creates a DHorizontalScroller with a bunch of {{Type|DImage}}s attached to it and demonstrates how to color the left/right scroll buttons.
- * |Code=local DFrame = vgui.Create( "DFrame" )
- * DFrame:SetSize( 500, 100 )
- * DFrame:Center()
- * DFrame:MakePopup()
- * DFrame:SetTitle( "DHorizontalScroller Example" )
- * function DFrame:Paint( w, h )
- * 	draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 100, 100 ) )
- * end
- * 
- * local DHorizontalScroller = vgui.Create( "DHorizontalScroller", DFrame )
- * DHorizontalScroller:Dock( FILL )
- * DHorizontalScroller:SetOverlap( -4 )
- * 
- * function DHorizontalScroller.btnLeft:Paint( w, h )
- * 	draw.RoundedBox( 0, 0, 0, w, h, Color( 200, 100, 0 ) )
- * end
- * function DHorizontalScroller.btnRight:Paint( w, h )
- * 	draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 100, 200 ) )
- * end
- * 
- * for i = 0, 16 do
- * 	local DImage = vgui.Create( "DImage", DHorizontalScroller )
- * 	DImage:SetImage( "scripted/breen_fakemonitor_1" )
- * 	DHorizontalScroller:AddPanel( DImage )
- * end
+ * local div = vgui.Create( "DHorizontalDivider", f )
+ * div:Dock( FILL ) -- Make the divider fill the space of the DFrame
+ * div:SetLeft( LeftPanel ) -- Set what panel is in left side of the divider
+ * div:SetRight( RightPanel )
+ * div:SetDividerWidth( 4 ) -- Set the divider width. Default is 8
+ * div:SetLeftMin( 20 ) -- Set the Minimum width of left side
+ * div:SetRightMin( 20 )
+ * div:SetLeftWidth( 50 ) -- Set the default left side width
  * }} 
  */
-declare class DHorizontalScroller extends Panel {
+declare class DHorizontalDivider extends DPanel {
     /**
-     * @param pnl The panel to add. It will be automatically parented. 
+     * @returns The width of the horizontal divider bar 
      */
-    AddPanel(pnl: Panel): void;
+    GetDividerWidth(): number;
+    
+    /**
+     * @returns Whether or not the player is currently dragging the middle divider bar. 
+     */
+    GetDragging(): boolean;
     
     /**
      * @returns  
      */
-    GetOverlap(): number;
+    GetHoldPos(): number;
     
     /**
-     * @returns  
+     * @returns The content on the left side 
      */
-    GetShowDropTargets(): boolean;
+    GetLeft(): Panel;
     
     /**
-     * @param name  
+     * @returns The minimum width of the left side 
      */
-    MakeDroppable(name: string): void;
+    GetLeftMin(): number;
+    
+    /**
+     * @returns The current width of the left side 
+     */
+    GetLeftWidth(): number;
+    
+    /**
+     * @returns The middle content 
+     */
+    GetMiddle(): Panel;
+    
+    /**
+     * @returns The right side content 
+     */
+    GetRight(): Panel;
+    
+    /**
+     * @returns The minimum width of the right side 
+     */
+    GetRightMin(): number;
+    
+    /**
+     * @param width The width of the horizontal divider bar. 
+     */
+    SetDividerWidth(width: number): void;
+    
+    /**
+     * @param dragonot  
+     */
+    SetDragging(dragonot: boolean): void;
+    
+    /**
+     * @param x  
+     */
+    SetHoldPos(x: number): void;
+    
+    /**
+     * @param pnl The panel to set as the left side 
+     */
+    SetLeft(pnl: Panel): void;
+    
+    /**
+     * @param minWidth The minimum width of the left side 
+     */
+    SetLeftMin(minWidth: number): void;
+    
+    /**
+     * @param width The current/starting width of the left side 
+     */
+    SetLeftWidth(width: number): void;
+    
+    /**
+     * @param middle The middle content 
+     */
+    SetMiddle(middle: Panel): void;
+    
+    /**
+     * @param pnl The right side content 
+     */
+    SetRight(pnl: Panel): void;
+    
+    /**
+     * @param minWidth The minimum width of the right side 
+     */
+    SetRightMin(minWidth: number): void;
     
     /**
      */
-    OnDragModified(): void;
-    
-    /**
-     * @param overlap Overlap in pixels. Positive numbers will make elements ''overlap'' each other, negative will add spacing. 
-     */
-    SetOverlap(overlap: number): void;
-    
-    /**
-     * @param newState  
-     */
-    SetShowDropTargets(newState: boolean): void;
-    
-    /**
-     * @param newState  
-     */
-    SetUseLiveDrag(newState: boolean): void;
+    StartGrab(): void;
 }
 
 /**
@@ -32105,7 +32139,7 @@ declare class DHorizontalScroller extends Panel {
  * end
  * </pre> 
  */
-declare class SANDBOX {
+declare class SANDBOX extends GM {
     /**
      * {{Internal}}
      * 
@@ -32172,6 +32206,12 @@ declare class SANDBOX {
      * @param g_ContextMenu The created context menu panel 
      */
     protected ContextMenuCreated(g_ContextMenu: Panel): void;
+    
+    /**
+     * Called when the context menu is trying to be opened. Return false to disallow it. 
+     * @returns Allow menu to open. 
+     */
+    protected ContextMenuOpen(): boolean;
     
     /**
      * Called from {{HookFunction|GM|HUDPaint}}; does nothing by default.
@@ -32337,6 +32377,30 @@ declare class SANDBOX {
     protected PopulatePropMenu(): void;
     
     /**
+     * Called to populate the Scripted Tool menu.
+     * 
+     * {{Deprecated|This hook is never called. Use {{HookFunction|SANDBOX|PopulateToolMenu}}, instead.}} 
+     */
+    protected PopulateSTOOLMenu(): void;
+    
+    /**
+     * Add the STOOLS to the tool menu. You want to call {{LibraryFunction|spawnmenu|AddToolMenuOption}} in this hook. 
+     */
+    protected PopulateToolMenu(): void;
+    
+    /**
+     * Called right after the Lua Loaded tool menus are reloaded. This is a good place to set up any ControlPanels. 
+     */
+    protected PostReloadToolsMenu(): void;
+    
+    /**
+     * Called right before the Lua Loaded tool menus are reloaded.
+     * 
+     * {{Bug|Pull=1517|This isn't actually called.}} 
+     */
+    protected PreReloadToolsMenu(): void;
+    
+    /**
      * If false is returned then the spawn menu is never created. This saves load times if your mod doesn't actually use the spawn menu for any reason.
      * 
      * {{Bug|Pull=1517|This isn't actually called.}} 
@@ -32351,6 +32415,101 @@ declare class SANDBOX {
      * @returns Return false to dissallow opening the spawnmenu 
      */
     protected SpawnMenuOpen(): boolean;
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * |Description=A very basic horizontal scrollable panel, similar to {{Type|DScrollPanel}}.
+ * 
+ * Used internally in {{Type|DPropertySheet}}.
+ * }}
+ * {{Example
+ * |Description=Creates a DHorizontalScroller with a bunch of {{Type|DImage}}s attached to it.
+ * |Code=local DFrame = vgui.Create( "DFrame" )
+ * DFrame:SetTitle( "DHorizontalScroller Example" )
+ * DFrame:SetSize( 500, 100 )
+ * DFrame:Center()
+ * DFrame:MakePopup()
+ * 
+ * local DHorizontalScroller = vgui.Create( "DHorizontalScroller", DFrame )
+ * DHorizontalScroller:Dock( FILL )
+ * DHorizontalScroller:SetOverlap( -4 )
+ * 
+ * for i = 0, 16 do
+ * 	local DImage = vgui.Create( "DImage", DHorizontalScroller )
+ * 	DImage:SetImage( "scripted/breen_fakemonitor_1" )
+ * 	DHorizontalScroller:AddPanel( DImage )
+ * end
+ * }}
+ * {{Example
+ * |Description=Creates a DHorizontalScroller with a bunch of {{Type|DImage}}s attached to it and demonstrates how to color the left/right scroll buttons.
+ * |Code=local DFrame = vgui.Create( "DFrame" )
+ * DFrame:SetSize( 500, 100 )
+ * DFrame:Center()
+ * DFrame:MakePopup()
+ * DFrame:SetTitle( "DHorizontalScroller Example" )
+ * function DFrame:Paint( w, h )
+ * 	draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 100, 100 ) )
+ * end
+ * 
+ * local DHorizontalScroller = vgui.Create( "DHorizontalScroller", DFrame )
+ * DHorizontalScroller:Dock( FILL )
+ * DHorizontalScroller:SetOverlap( -4 )
+ * 
+ * function DHorizontalScroller.btnLeft:Paint( w, h )
+ * 	draw.RoundedBox( 0, 0, 0, w, h, Color( 200, 100, 0 ) )
+ * end
+ * function DHorizontalScroller.btnRight:Paint( w, h )
+ * 	draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 100, 200 ) )
+ * end
+ * 
+ * for i = 0, 16 do
+ * 	local DImage = vgui.Create( "DImage", DHorizontalScroller )
+ * 	DImage:SetImage( "scripted/breen_fakemonitor_1" )
+ * 	DHorizontalScroller:AddPanel( DImage )
+ * end
+ * }} 
+ */
+declare class DHorizontalScroller extends Panel {
+    /**
+     * @param pnl The panel to add. It will be automatically parented. 
+     */
+    AddPanel(pnl: Panel): void;
+    
+    /**
+     * @returns  
+     */
+    GetOverlap(): number;
+    
+    /**
+     * @returns  
+     */
+    GetShowDropTargets(): boolean;
+    
+    /**
+     * @param name  
+     */
+    MakeDroppable(name: string): void;
+    
+    /**
+     */
+    OnDragModified(): void;
+    
+    /**
+     * @param overlap Overlap in pixels. Positive numbers will make elements ''overlap'' each other, negative will add spacing. 
+     */
+    SetOverlap(overlap: number): void;
+    
+    /**
+     * @param newState  
+     */
+    SetShowDropTargets(newState: boolean): void;
+    
+    /**
+     * @param newState  
+     */
+    SetUseLiveDrag(newState: boolean): void;
 }
 
 /**
@@ -33003,11 +33162,6 @@ declare class DImageButton extends DButton {
     GetStretchToFit(): boolean;
     
     /**
-     * @param color The color to set. Uses the Color structure. 
-     */
-    SetColor(color: table): void;
-    
-    /**
      * @param color The {{GlobalFunction|Color}} to set 
      */
     SetColor(color: table): void;
@@ -33057,20 +33211,6 @@ declare class DImageButton extends DButton {
      * @param stretch True to stretch, false to not to stretch 
      */
     SetStretchToFit(stretch: boolean): void;
-    
-    /**
-     * Resizes the panel so that its width and height fit all of the content inside.
-     * 
-     * {{Note|Only works on {{Type|Label}} derived panels such as {{Type|DLabel}} by default, and on any panel that manually implemented the {{ClassFunction|Panel|SizeToContents}} method, such as {{Type|DNumberWang}} and {{Type|DImage}}.}}
-     * 
-     * {{Warning|You must call this function '''AFTER''' setting text/font, adjusting child panels or otherwise altering the panel.}}
-     * 
-     * [[Category:DImage]]
-     * [[Category:DImageButton]]
-     * [[Category:DNumberWang]]
-     * [[Category:DListView]] 
-     */
-    SizeToContents(): void;
     
     /**
      * Resizes the panel so that its width and height fit all of the content inside.
@@ -33149,31 +33289,15 @@ declare class DKillIcon extends Panel {
  * |Output=[[Image:DLabel.png]]
  * }}
  * = Methods =
- * *{{VGUIElementMethodInternal|DoDoubleClick}}
  * *{{VGUIElementMethodInternal|DoClickInternal}}
  * *{{VGUIElementMethodInternal|DoDoubleClickInternal}}
- * *{{VGUIElementMethodInternal|DoMiddleClick}}
- * *{{VGUIElementMethodInternal|OnDepressed}}
- * *{{VGUIElementMethodInternal|OnReleased}}
- * *{{VGUIElementMethodInternal|GetAutoStretchVertical}}
- * *{{VGUIElementMethodInternal|GetBright}}
- * *{{VGUIElementMethodInternal|GetColor}}
- * *{{VGUIElementMethodInternal|GetDark}}
- * *{{VGUIElementMethodInternal|GetDoubleClickingEnabled}}
  * *{{VGUIElementMethodInternal|GetDrawBackground}}
- * *{{VGUIElementMethodInternal|GetHighlight}}
  * *{{VGUIElementMethodInternal|GetIsMenu}}
  * *{{VGUIElementMethodInternal|GetPaintBackground}}
- * *{{VGUIElementMethodInternal|GetText}}
- * *{{VGUIElementMethodInternal|GetTextColor}}
- * *{{VGUIElementMethodInternal|GetTextStyleColor}}
- * *{{VGUIElementMethodInternal|SetDoubleClickingEnabled}}
  * *{{VGUIElementMethodInternal|SetDrawBackground}}
- * *{{VGUIElementMethodInternal|SetHighlight}}
  * *{{VGUIElementMethodInternal|SetIsMenu}}
- * *{{VGUIElementMethodInternal|SetPaintBackground}}
- * *{{VGUIElementMethodInternal|SetTextStyleColor}} 
- */
+ * *{{VGUIElementMethodInternal|SetPaintBackground}} 
+ * !CustomConstructor Label */
 declare class DLabel extends Label {
     /**
      * Convenience function that creates a DLabel, sets the text, and returns it 
@@ -33192,12 +33316,41 @@ declare class DLabel extends Label {
     
     /**
      */
+    DoMiddleClick(): void;
+    
+    /**
+     */
     DoRightClick(): void;
+    
+    /**
+     * @returns Whether the label stretches vertically or not. 
+     */
+    GetAutoStretchVertical(): boolean;
+    
+    /**
+     * @returns  
+     */
+    GetBright(): boolean;
+    
+    /**
+     * @returns The "internal" desired color of the text 
+     */
+    GetColor(): table;
+    
+    /**
+     * @returns  
+     */
+    GetDark(): boolean;
     
     /**
      * @returns The disabled state of the label. 
      */
     GetDisabled(): boolean;
+    
+    /**
+     * @returns true = enabled, false means disabled 
+     */
+    GetDoubleClickingEnabled(): boolean;
     
     /**
      * Returns the name of the font that the panel renders its text with.
@@ -33213,14 +33366,37 @@ declare class DLabel extends Label {
     GetFont(): string;
     
     /**
+     * @returns  
+     */
+    GetHighlight(): boolean;
+    
+    /**
      * @returns Whether or not toggle functionality is enabled. 
      */
     GetIsToggle(): boolean;
     
     /**
+     * @returns The color of the text, or nil. 
+     */
+    GetTextColor(): table;
+    
+    /**
+     * @returns The "internal" color of the text 
+     */
+    GetTextStyleColor(): table;
+    
+    /**
      * @returns The current toggle state. 
      */
     GetToggle(): boolean;
+    
+    /**
+     */
+    OnDepressed(): void;
+    
+    /**
+     */
+    OnReleased(): void;
     
     /**
      * @param toggleState The new toggle state. 
@@ -33253,12 +33429,22 @@ declare class DLabel extends Label {
     SetDisabled(disable: boolean): void;
     
     /**
+     * @param enable true to enable, false to disable 
+     */
+    SetDoubleClickingEnabled(enable: boolean): void;
+    
+    /**
      * @param fontName The name of the font.
      * 
      * See [[Default_Fonts|here]] for a list of existing fonts.
      * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
      */
     SetFont(fontName: string): void;
+    
+    /**
+     * @param highlight true to set the label's color to skins's text highlight color, false otherwise. 
+     */
+    SetHighlight(highlight: boolean): void;
     
     /**
      * @param allowToggle Whether or not to enable toggle functionality. 
@@ -33269,6 +33455,11 @@ declare class DLabel extends Label {
      * @param color The text color. Uses the {{Struct|Color}}. 
      */
     SetTextColor(color: Color): void;
+    
+    /**
+     * @param color The text color. Uses the {{Struct|Color}}. 
+     */
+    SetTextStyleColor(color: Color): void;
     
     /**
      * @param toggleState The toggle state to be set. 
@@ -33283,6 +33474,10 @@ declare class DLabel extends Label {
      * @param skin A table supposed to contain the color values listed above. 
      */
     UpdateColours(skin: table): void;
+    
+    /**
+     */
+    UpdateFGColor(): void;
     
     /**
      * Sets the alignment of the contents.
@@ -33424,9 +33619,19 @@ declare class DLabelEditable extends DLabel {
  */
 declare class DLabelURL extends DLabel {
     /**
+     * @returns The "internal" desired color of the text 
+     */
+    GetColor(): table;
+    
+    /**
      * @returns The current text {{GlobalFunction|Color}}. 
      */
     GetColor(): table;
+    
+    /**
+     * @returns The color of the text, or nil. 
+     */
+    GetTextColor(): table;
     
     /**
      * @returns The current text {{GlobalFunction|Color}}. 
@@ -33901,6 +34106,17 @@ declare class DListViewLabel extends DLabel {
 }
 
 /**
+ * Similar purpose to the {{Lib|game}} and {{Lib|engine}}, allows access to various features of the game's engine. 
+ */
+declare namespace gmod {
+    /**
+     * Returns {{GlobalVar|GAMEMODE}}. 
+     * @returns GAMEMODE 
+     */
+    function GetGamemode(): table;
+}
+
+/**
  * {{Panel
  * |Parent=Panel
  * |Description={{Internal|Alias of {{Type|DListView_Line}}.}}
@@ -33908,6 +34124,47 @@ declare class DListViewLabel extends DLabel {
  */
 declare class DListViewLine extends Panel {
 
+}
+
+/**
+ * The gmsave library provides functions relating to the singleplayer save system in Garry's Mod. 
+ */
+declare namespace gmsave {
+    /**
+     * Loads a saved map. 
+     * @param mapData The JSON encoded string containing all the map data. 
+     * @param ply The player to load positions for 
+     */
+    function LoadMap(mapData: string, ply: Player): void;
+    
+    /**
+     * Sets player position and angles from supplied table 
+     * @param ply The player to "load" values for 
+     * @param data A table containing Origin and Angle keys for position and angles to set. 
+     */
+    function PlayerLoad(ply: Player, data: table): void;
+    
+    /**
+     * Returns a table containing player position and angles. Used by {{LibraryFunction|gmsave|SaveMap}}. 
+     * @param ply The player to "save" 
+     * @returns A table containing player position ( Origin ) and angles ( Angle ) 
+     */
+    function PlayerSave(ply: Player): table;
+    
+    /**
+     * Saves the map 
+     * @param ply The player, whose position should be saved for loading the save 
+     * @returns The encoded to JSON string containing save data 
+     */
+    function SaveMap(ply: Player): string;
+    
+    /**
+     * Returns if we should save this entity in a duplication or a map save or not. 
+     * @param ent The entity 
+     * @param t A table containing classname key with entities classname. 
+     * @returns Should save entity or not 
+     */
+    function ShouldSaveEntity(ent: Entity, t: table): boolean;
 }
 
 /**
@@ -34082,228 +34339,6 @@ declare class DMenu extends DScrollPanel {
 }
 
 /**
- * {{Panel
- * |Name=DMenuBar
- * |Parent=DPanel
- * |Preview=DMenuBar_ex1.png
- * |Description=A simple Derma MenuBar
- * }}
- * {{Example
- * |Description=Creates a DMenuBar in a DFrame.
- * |Code=local Frame = vgui.Create( "DFrame" )
- * Frame:SetSize( 300, 200 )
- * Frame:Center()
- * Frame:MakePopup()
- * 
- * local MenuBar = vgui.Create( "DMenuBar", Frame )
- * MenuBar:DockMargin( -3, -6, -3, 0 ) --corrects MenuBar pos
- * 
- * local M1 = MenuBar:AddMenu( "File" )
- * M1:AddOption("New", function() Msg("Chose File:New\n") end):SetIcon("icon16/page_white_go.png")
- * M1:AddOption("Open", function() Msg("Chose File:Open\n") end):SetIcon("icon16/folder_go.png")
- * 
- * local M2 = MenuBar:AddMenu("Edit")
- * M2:AddOption("Copy", function() Msg("Chose Edit:Copy\n") end)
- * 
- * local M3 = MenuBar:AddMenu("Help")
- * M3:AddOption("About", function() Msg("Chose Help:About\n") end)
- * }} 
- */
-declare class DMenuBar extends DPanel {
-    /**
-     * @param label The name (label) of the derma menu to create. 
-     * @returns The new {{Type|DMenu}} which will be opened when the button is clicked. 
-     */
-    AddMenu(label: string): DMenu;
-    
-    /**
-     * @param label The name (label) of the derma menu to get or create. 
-     * @returns The {{Type|DMenu}} with the given label. 
-     */
-    AddOrGetMenu(label: string): DMenu;
-    
-    /**
-     * @returns Color of the panel's background. 
-     */
-    GetBackgroundColor(): table;
-    
-    /**
-     * @returns The background's color. See {{Struct|Color}} 
-     */
-    GetBackgroundColor(): Color;
-    
-    /**
-     * @returns True if the panel is disabled (mouse input disabled and background alpha set to 75), false if its enabled (mouse input enabled and background alpha set to 255). 
-     */
-    GetDisabled(): boolean;
-    
-    /**
-     * @returns Is disabled 
-     */
-    GetDisabled(): boolean;
-    
-    /**
-     * @returns True if the panel background is drawn, false otherwise. 
-     */
-    GetDrawBackground(): boolean;
-    
-    /**
-     * @returns Should the background be painted 
-     */
-    GetDrawBackground(): boolean;
-    
-    /**
-     * @returns Is a menu 
-     */
-    GetIsMenu(): boolean;
-    
-    /**
-     * @returns Returns the visible/open menu or nil. 
-     */
-    GetOpenMenu(): Panel;
-    
-    /**
-     * @returns True if the panel background is drawn, false otherwise. 
-     */
-    GetPaintBackground(): boolean;
-    
-    /**
-     * @returns Should the background be painted 
-     */
-    GetPaintBackground(): boolean;
-    
-    /**
-     * @param color The background color. 
-     */
-    SetBackgroundColor(color: table): void;
-    
-    /**
-     * @param color See {{Struct|Color}} 
-     */
-    SetBackgroundColor(color: Color): void;
-    
-    /**
-     * @param disabled True to disable the panel (mouse input disabled and background alpha set to 75), false to enable it (mouse input enabled and background alpha set to 255). 
-     */
-    SetDisabled(disabled: boolean): void;
-    
-    /**
-     * @param disable Should be disabled or not 
-     */
-    SetDisabled(disable: boolean): void;
-    
-    /**
-     * @param draw True to show the panel's background, false to hide it. 
-     */
-    SetDrawBackground(draw: boolean): void;
-    
-    /**
-     * @param shouldPaint Should the background be painted 
-     */
-    SetDrawBackground(shouldPaint: boolean): void;
-    
-    /**
-     * @param isMenu Is this a menu 
-     */
-    SetIsMenu(isMenu: boolean): void;
-    
-    /**
-     * @param paint True to show the panel's background, false to hide it. 
-     */
-    SetPaintBackground(paint: boolean): void;
-    
-    /**
-     * @param shouldPaint Should the background be painted 
-     */
-    SetPaintBackground(shouldPaint: boolean): void;
-}
-
-/**
- * {{Panel
- * |Name=DMenuOption
- * |Parent=DButton
- * |Description={{Internal}}Internal subpanel of a {{Type|DMenu}}.
- * }}
- * = Methods =
- * * {{VGUIElementMethodInternal|SetMenu}}
- * * {{VGUIElementMethodInternal|GetMenu}}
- * * {{VGUIElementMethodInternal|SetChecked}}
- * * {{VGUIElementMethodInternal|GetChecked}}
- * * {{VGUIElementMethodInternal|SetIsCheckable}}
- * * {{VGUIElementMethodInternal|GetIsCheckable}}
- * 
- * * {{VGUIElementMethodInternal|SetSubMenu}}
- * * {{VGUIElementMethodInternal|AddSubMenu}}
- * 
- * * {{VGUIElementMethodInternal|OnChecked}} 
- */
-declare class DMenuOption extends DButton {
-
-}
-
-/**
- * Similar purpose to the {{Lib|game}} and {{Lib|engine}}, allows access to various features of the game's engine. 
- */
-declare namespace gmod {
-    /**
-     * Returns {{GlobalVar|GAMEMODE}}. 
-     * @returns GAMEMODE 
-     */
-    function GetGamemode(): table;
-}
-
-/**
- * {{Panel
- * |Parent=DMenuOption
- * |Description={{Internal|Used by {{Type|DMenu}}.}}
- * }} 
- */
-declare class DMenuOptionCVar extends DMenuOption {
-
-}
-
-/**
- * The gmsave library provides functions relating to the singleplayer save system in Garry's Mod. 
- */
-declare namespace gmsave {
-    /**
-     * Loads a saved map. 
-     * @param mapData The JSON encoded string containing all the map data. 
-     * @param ply The player to load positions for 
-     */
-    function LoadMap(mapData: string, ply: Player): void;
-    
-    /**
-     * Sets player position and angles from supplied table 
-     * @param ply The player to "load" values for 
-     * @param data A table containing Origin and Angle keys for position and angles to set. 
-     */
-    function PlayerLoad(ply: Player, data: table): void;
-    
-    /**
-     * Returns a table containing player position and angles. Used by {{LibraryFunction|gmsave|SaveMap}}. 
-     * @param ply The player to "save" 
-     * @returns A table containing player position ( Origin ) and angles ( Angle ) 
-     */
-    function PlayerSave(ply: Player): table;
-    
-    /**
-     * Saves the map 
-     * @param ply The player, whose position should be saved for loading the save 
-     * @returns The encoded to JSON string containing save data 
-     */
-    function SaveMap(ply: Player): string;
-    
-    /**
-     * Returns if we should save this entity in a duplication or a map save or not. 
-     * @param ent The entity 
-     * @param t A table containing classname key with entities classname. 
-     * @returns Should save entity or not 
-     */
-    function ShouldSaveEntity(ent: Entity, t: table): boolean;
-}
-
-/**
  * The gui library is similar to the {{Lib|input}} but features functions that are more focused on the mouse's interaction with GUI panels. 
  */
 declare namespace gui {
@@ -34447,189 +34482,6 @@ declare namespace gui {
 }
 
 /**
- * {{Panel
- * |Name=DModelPanel
- * |Parent=DButton
- * |Preview=dmodelpanel.jpg
- * |Description=DModelPanel is a VGUI element that projects a 3D model onto a 2D plane.
- * }}
- * {{Example
- * |Description=Creates a DModelPanel and sets its model to your playermodel.
- * |Code=local Panel = vgui.Create( "DPanel" )
- * Panel:SetPos( 10, 10 )
- * Panel:SetSize( 200, 200 )
- * 
- * local icon = vgui.Create( "DModelPanel", Panel )
- * icon:SetSize( 200, 200 )
- * icon:SetModel( LocalPlayer():GetModel() )
- * }}
- * {{Example
- * |Description=Creates a DModelPanel and sets its model to the Alyx playermodel, then changes its player color to red. Also disables default rotation animation.
- * |Code=
- * local Panel = vgui.Create( "DPanel" )
- * Panel:SetPos( 10, 10 )
- * Panel:SetSize( 200, 200 )
- * 
- * local icon = vgui.Create( "DModelPanel", Panel )
- * icon:SetSize(200,200)
- * icon:SetModel( "models/player/alyx.mdl" ) -- you can only change colors on playermodels
- * function icon:LayoutEntity( Entity ) return end -- disables default rotation
- * function icon.Entity:GetPlayerColor() return Vector (1, 0, 0) end --we need to set it to a Vector not a Color, so the values are normal RGB values divided by 255.
- * |Output=<br/><br/>
- * [[Image:dmodelpanel_color.jpg‎]]
- * }} 
- */
-declare class DModelPanel extends DButton {
-    /**
-     */
-    DrawModel(): void;
-    
-    /**
-     * @returns The color of the ambient lighting. 
-     */
-    GetAmbientLight(): table;
-    
-    /**
-     * @returns True if the panel entity can be animated with {{ClassFunction|Entity|SetSequence}} directly, false otherwise. 
-     */
-    GetAnimated(): boolean;
-    
-    /**
-     * @returns The animation speed. 
-     */
-    GetAnimSpeed(): number;
-    
-    /**
-     * @returns The position of the camera. 
-     */
-    GetCamPos(): Vector;
-    
-    /**
-     * @returns The color of the entity, see {{Struct|Color}}. 
-     */
-    GetColor(): Color;
-    
-    /**
-     * @returns The rendered entity (client-side) 
-     */
-    GetEntity(): CSEnt;
-    
-    /**
-     * @returns The FOV of the camera. 
-     */
-    GetFOV(): number;
-    
-    /**
-     * @returns The angles of the camera. 
-     */
-    GetLookAng(): Angle;
-    
-    /**
-     * @returns The position the camera is pointing toward. 
-     */
-    GetLookAt(): Vector;
-    
-    /**
-     * @returns The model of the rendered entity. 
-     */
-    GetModel(): string;
-    
-    /**
-     * @param entity The entity that is being rendered. 
-     */
-    LayoutEntity(entity: Entity): void;
-    
-    /**
-     * @param ent The clientside entity of the {{Type|DModelPanel}} that has been drawn. 
-     */
-    PostDrawModel(ent: DModelPanel): void;
-    
-    /**
-     * @param ent The clientside entity of the {{Type|DModelPanel}} that has been drawn. 
-     * @returns Return false to stop the entity from being drawn. This will also cause {{ClassFunction|DModelPanel|PostDrawModel}} to stop being called. 
-     */
-    PreDrawModel(ent: DModelPanel): boolean;
-    
-    /**
-     */
-    RunAnimation(): void;
-    
-    /**
-     * @param color The color of the ambient lighting. 
-     */
-    SetAmbientLight(color: table): void;
-    
-    /**
-     * @param animated True to animate, false otherwise. 
-     */
-    SetAnimated(animated: boolean): void;
-    
-    /**
-     * @param animSpeed The animation speed. 
-     */
-    SetAnimSpeed(animSpeed: number): void;
-    
-    /**
-     * @param pos The position to set the camera at. 
-     */
-    SetCamPos(pos: Vector): void;
-    
-    /**
-     * @param color The color to set. Uses the Color structure. 
-     */
-    SetColor(color: table): void;
-    
-    /**
-     * @param color The render color of the entity. 
-     */
-    SetColor(color: table): void;
-    
-    /**
-     * @param direction The light direction, see {{Enum|BOX}}. 
-     * @param color The color of the directional lighting. 
-     */
-    SetDirectionalLight(direction: BOX, color: table): void;
-    
-    /**
-     * @param ent The new panel entity. 
-     */
-    SetEntity(ent: Entity): void;
-    
-    /**
-     * @param fov The field of view value. 
-     */
-    SetFOV(fov: number): void;
-    
-    /**
-     * @param ang The angles to set the camera to. 
-     */
-    SetLookAng(ang: Angle): void;
-    
-    /**
-     * @param pos The position to orient the camera toward. 
-     */
-    SetLookAt(pos: Vector): void;
-    
-    /**
-     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the model to be displayed by {{Type|SpawnIcon}}.[[Category:SpawnIcon]] 
-     * @param ModelPath The path of the model to set 
-     * @param skin [=0] The skin to set 
-     * @param bodygroups [=""] The body groups to set. Each single-digit number in the string represents a separate bodygroup. '''This make it impossible to set any body group to a value higher than 9!''' 
-     */
-    SetModel(ModelPath: string, skin?: number, bodygroups?: string): void;
-    
-    /**
-     * @param model The model to apply to the entity 
-     */
-    SetModel(model: string): void;
-    
-    /**
-     * @param path The path to the scene file. (.vcd) 
-     */
-    StartScene(path: string): void;
-}
-
-/**
  * GWEN is a system that allows you to load a spritesheet and generate a skin out of it. 
  */
 declare namespace GWEN {
@@ -34697,63 +34549,139 @@ declare namespace GWEN {
 
 /**
  * {{Panel
- * |Name=DModelSelect
- * |Parent=DPanelSelect
- * |Description={{Deprecated|This is derived from the deprecated {{Type|DPanelList}}.}} A vertical list of models.
- * |Preview=dmodelselect.png
+ * |Name=DMenuBar
+ * |Parent=DPanel
+ * |Preview=DMenuBar_ex1.png
+ * |Description=A simple Derma MenuBar
  * }}
  * {{Example
- * |Description=Creates a DModelSelect within a {{Type|DFrame}} and adds four models.
- * |Code=-- Create a table of models
- * local models = {
- * 	["models/props_c17/oildrum001_explosive.mdl"] = {}, 
- * 	["models/props_c17/oildrum001.mdl"] = {}, 
- * 	["models/props_junk/TrafficCone001a.mdl"] = {},
- * 	["models/props_c17/gravestone004a.mdl"] = {}
- * }
- * 	
- * local frame = vgui.Create("DFrame")
- * frame:SetSize(220, 220)
- * frame:SetTitle("DModelSelect Example")
- * frame:MakePopup()
- * frame:Center()
+ * |Description=Creates a DMenuBar in a DFrame.
+ * |Code=local Frame = vgui.Create( "DFrame" )
+ * Frame:SetSize( 300, 200 )
+ * Frame:Center()
+ * Frame:MakePopup()
  * 
- * local mselect = vgui.Create( "DModelSelect", frame ) 
- * mselect:SetModelList( models, "", false, true )
- * mselect:SetSize(150, 150)
- * mselect:Center()
- * |Output=''See Preview''
+ * local MenuBar = vgui.Create( "DMenuBar", Frame )
+ * MenuBar:DockMargin( -3, -6, -3, 0 ) --corrects MenuBar pos
+ * 
+ * local M1 = MenuBar:AddMenu( "File" )
+ * M1:AddOption("New", function() Msg("Chose File:New\n") end):SetIcon("icon16/page_white_go.png")
+ * M1:AddOption("Open", function() Msg("Chose File:Open\n") end):SetIcon("icon16/folder_go.png")
+ * 
+ * local M2 = MenuBar:AddMenu("Edit")
+ * M2:AddOption("Copy", function() Msg("Chose Edit:Copy\n") end)
+ * 
+ * local M3 = MenuBar:AddMenu("Help")
+ * M3:AddOption("About", function() Msg("Chose Help:About\n") end)
  * }} 
  */
-declare class DModelSelect extends DPanelSelect {
+declare class DMenuBar extends DPanel {
     /**
-     * Sets the height of the panel. 
-     * @param height The height to be set. 
+     * @param label The name (label) of the derma menu to create. 
+     * @returns The new {{Type|DMenu}} which will be opened when the button is clicked. 
      */
-    SetHeight(height: number): void;
+    AddMenu(label: string): DMenu;
     
     /**
-     * @param num [=2] Basically how many rows of 64x64 px spawnicons should fit in this DModelSelect 
+     * @param label The name (label) of the derma menu to get or create. 
+     * @returns The {{Type|DMenu}} with the given label. 
      */
-    SetHeight(num?: number): void;
+    AddOrGetMenu(label: string): DMenu;
     
     /**
-     * @param models Each key is a model path, the value is a kay-value table where they key is a convar name and value is the value to set to that convar. 
-     * @param convar  
-     * @param dontSort  
-     * @param DontCallListConVars  
+     * @returns Color of the panel's background. 
      */
-    SetModelList(models: table, convar: string, dontSort: boolean, DontCallListConVars: boolean): void;
-}
-
-/**
- * {{Panel
- * |Parent=DPropertySheet
- * |Description=A combination of {{Type|DModelSelect}} and {{Type|DPropertySheet}}.
- * }} 
- */
-declare class DModelSelectMulti extends DPropertySheet {
-
+    GetBackgroundColor(): table;
+    
+    /**
+     * @returns The background's color. See {{Struct|Color}} 
+     */
+    GetBackgroundColor(): Color;
+    
+    /**
+     * @returns True if the panel is disabled (mouse input disabled and background alpha set to 75), false if its enabled (mouse input enabled and background alpha set to 255). 
+     */
+    GetDisabled(): boolean;
+    
+    /**
+     * @returns Is disabled 
+     */
+    GetDisabled(): boolean;
+    
+    /**
+     * @returns True if the panel background is drawn, false otherwise. 
+     */
+    GetDrawBackground(): boolean;
+    
+    /**
+     * @returns Should the background be painted 
+     */
+    GetDrawBackground(): boolean;
+    
+    /**
+     * @returns Is a menu 
+     */
+    GetIsMenu(): boolean;
+    
+    /**
+     * @returns Returns the visible/open menu or nil. 
+     */
+    GetOpenMenu(): Panel;
+    
+    /**
+     * @returns True if the panel background is drawn, false otherwise. 
+     */
+    GetPaintBackground(): boolean;
+    
+    /**
+     * @returns Should the background be painted 
+     */
+    GetPaintBackground(): boolean;
+    
+    /**
+     * @param color The background color. 
+     */
+    SetBackgroundColor(color: table): void;
+    
+    /**
+     * @param color See {{Struct|Color}} 
+     */
+    SetBackgroundColor(color: Color): void;
+    
+    /**
+     * @param disabled True to disable the panel (mouse input disabled and background alpha set to 75), false to enable it (mouse input enabled and background alpha set to 255). 
+     */
+    SetDisabled(disabled: boolean): void;
+    
+    /**
+     * @param disable Should be disabled or not 
+     */
+    SetDisabled(disable: boolean): void;
+    
+    /**
+     * @param draw True to show the panel's background, false to hide it. 
+     */
+    SetDrawBackground(draw: boolean): void;
+    
+    /**
+     * @param shouldPaint Should the background be painted 
+     */
+    SetDrawBackground(shouldPaint: boolean): void;
+    
+    /**
+     * @param isMenu Is this a menu 
+     */
+    SetIsMenu(isMenu: boolean): void;
+    
+    /**
+     * @param paint True to show the panel's background, false to hide it. 
+     */
+    SetPaintBackground(paint: boolean): void;
+    
+    /**
+     * @param shouldPaint Should the background be painted 
+     */
+    SetPaintBackground(shouldPaint: boolean): void;
 }
 
 /**
@@ -34788,6 +34716,29 @@ declare namespace halo {
 }
 
 /**
+ * {{Panel
+ * |Name=DMenuOption
+ * |Parent=DButton
+ * |Description={{Internal}}Internal subpanel of a {{Type|DMenu}}.
+ * }}
+ * = Methods =
+ * * {{VGUIElementMethodInternal|SetMenu}}
+ * * {{VGUIElementMethodInternal|GetMenu}}
+ * * {{VGUIElementMethodInternal|SetChecked}}
+ * * {{VGUIElementMethodInternal|GetChecked}}
+ * * {{VGUIElementMethodInternal|SetIsCheckable}}
+ * * {{VGUIElementMethodInternal|GetIsCheckable}}
+ * 
+ * * {{VGUIElementMethodInternal|SetSubMenu}}
+ * * {{VGUIElementMethodInternal|AddSubMenu}}
+ * 
+ * * {{VGUIElementMethodInternal|OnChecked}} 
+ */
+declare class DMenuOption extends DButton {
+
+}
+
+/**
  * The hammer library. 
  */
 declare namespace hammer {
@@ -34815,6 +34766,16 @@ declare namespace hammer {
      * <b>All changes only happen in hammer, there is *NO* in game representation/feedback</b> 
      */
     function SendCommand(cmd: string): string;
+}
+
+/**
+ * {{Panel
+ * |Parent=DMenuOption
+ * |Description={{Internal|Used by {{Type|DMenu}}.}}
+ * }} 
+ */
+declare class DMenuOptionCVar extends DMenuOption {
+
 }
 
 /**
@@ -35087,18 +35048,6 @@ declare namespace hook {
      * @param func see {@link GM#CloseDermaMenus} 
      */
     function Add(eventName: "CloseDermaMenus", identifier: any, func: () => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName The name of the GM Hook 
-     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func see {@link GM#ContextMenuOpen} 
-     */
-    function Add(eventName: "ContextMenuOpen", identifier: any, func: () => boolean | void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -36776,30 +36725,6 @@ declare namespace hook {
      * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func see {@link GM#PopulateSTOOLMenu} 
-     */
-    function Add(eventName: "PopulateSTOOLMenu", identifier: any, func: () => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName The name of the GM Hook 
-     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func see {@link GM#PopulateToolMenu} 
-     */
-    function Add(eventName: "PopulateToolMenu", identifier: any, func: () => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName The name of the GM Hook 
-     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
      * @param func see {@link GM#PostCleanupMap} 
      */
     function Add(eventName: "PostCleanupMap", identifier: any, func: () => void): void;
@@ -36956,18 +36881,6 @@ declare namespace hook {
      * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func see {@link GM#PostReloadToolsMenu} 
-     */
-    function Add(eventName: "PostReloadToolsMenu", identifier: any, func: () => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName The name of the GM Hook 
-     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
      * @param func see {@link GM#PostRender} 
      */
     function Add(eventName: "PostRender", identifier: any, func: () => void): void;
@@ -37115,18 +37028,6 @@ declare namespace hook {
      * @param func see {@link GM#PrePlayerDraw} 
      */
     function Add(eventName: "PrePlayerDraw", identifier: any, func: (player: Player) => boolean | void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName The name of the GM Hook 
-     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func see {@link GM#PreReloadToolsMenu} 
-     */
-    function Add(eventName: "PreReloadToolsMenu", identifier: any, func: () => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -37772,6 +37673,18 @@ declare namespace hook {
      * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func see {@link SANDBOX#ContextMenuOpen} 
+     */
+    function Add(eventName: "ContextMenuOpen", identifier: any, func: () => boolean | void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName The name of the GM Hook 
+     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
      * @param func see {@link SANDBOX#PaintNotes} 
      */
     function Add(eventName: "PaintNotes", identifier: any, func: () => void): void;
@@ -38024,6 +37937,54 @@ declare namespace hook {
      * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func see {@link SANDBOX#PopulateSTOOLMenu} 
+     */
+    function Add(eventName: "PopulateSTOOLMenu", identifier: any, func: () => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName The name of the GM Hook 
+     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func see {@link SANDBOX#PopulateToolMenu} 
+     */
+    function Add(eventName: "PopulateToolMenu", identifier: any, func: () => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName The name of the GM Hook 
+     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func see {@link SANDBOX#PostReloadToolsMenu} 
+     */
+    function Add(eventName: "PostReloadToolsMenu", identifier: any, func: () => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName The name of the GM Hook 
+     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func see {@link SANDBOX#PreReloadToolsMenu} 
+     */
+    function Add(eventName: "PreReloadToolsMenu", identifier: any, func: () => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName The name of the GM Hook 
+     * @param identifier The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier '''should''' be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a {{Type|string}}, or a {{Type|table}}/object with an IsValid function defined such as an {{Type|Entity}} or {{Type|Panel}}. {{Type|number}}s and {{Type|boolean}}s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
      * @param func see {@link SANDBOX#SpawnMenuEnabled} 
      */
     function Add(eventName: "SpawnMenuEnabled", identifier: any, func: () => boolean | void): void;
@@ -38072,108 +38033,6 @@ declare namespace http {
      * @param headers [={}] KeyValue table for headers 
      */
     function Post(url: string, parameters: table, onSuccess?: Function, onFailure?: Function, headers?: table): void;
-}
-
-/**
- * {{Panel
- * |Parent=Panel
- * |Preview=DNotify.gif
- * |Description=A panel that fades its contents in and out once, like a notification.
- * }}
- * {{Example
- * |Description=Creates a notification panel with a text label inside.
- * |Code=--Notification panel
- * NotifyPanel = vgui.Create("DNotify")
- * NotifyPanel:SetPos(10, 5)
- * NotifyPanel:SetSize(200, 40)
- * 
- * -- Text label
- * local lbl = vgui.Create("DLabel", NotifyPanel)
- * lbl:Dock(FILL)
- * lbl:SetText("This is a notification.")
- * lbl:SetFont("GModNotify")
- * lbl:SetDark(true)
- * 
- * -- Add the label to the notification and begin fading
- * NotifyPanel:AddItem(lbl)
- * }}
- * {{Example
- * |Description=Creates a notification panel of Dr. Kleiner reminding the player to wear their HEV suit.
- * |Code=-- Notification panel
- * NotifyPanel = vgui.Create("DNotify")
- * NotifyPanel:SetPos(15, 15)
- * NotifyPanel:SetSize(150, 210)
- * 
- * -- Gray background panel
- * local bg = vgui.Create("DPanel", NotifyPanel)
- * bg:Dock(FILL)
- * bg:SetBackgroundColor(Color(64, 64, 64))
- * 
- * -- Image of Dr. Kleiner (parented to background panel)
- * local img = vgui.Create("DImage", bg)
- * img:SetPos(11, 11)
- * img:SetSize(128, 128)
- * img:SetImage("entities/npc_kleiner.png")
- * 
- * -- A yellow label message (parented to background panel)
- * local lbl = vgui.Create("DLabel", bg)
- * lbl:SetPos(11, 136)
- * lbl:SetSize(128, 72)
- * lbl:SetText("Remember to wear your HEV suit!")
- * lbl:SetTextColor(Color(255, 200, 0))
- * lbl:SetFont("GModNotify")
- * lbl:SetWrap(true)
- * 
- * -- Add the background panel to the notification
- * NotifyPanel:AddItem(bg)
- * |Output=[[Image:DNotify_example2.gif]]
- * }} 
- */
-declare class DNotify extends Panel {
-    /**
-     * @param pnl The panel to add 
-     * @param lifeLength [=nil] If set, overrides {{ClassFunction|DNotify|SetLife}}. 
-     */
-    AddItem(pnl: Panel, lifeLength?: number): void;
-    
-    /**
-     * @returns The numpad alignment 
-     */
-    GetAlignment(): number;
-    
-    /**
-     * @returns A table of panels. 
-     */
-    GetItems(): table;
-    
-    /**
-     * @returns The display time in seconds. 
-     */
-    GetLife(): number;
-    
-    /**
-     * @returns  
-     */
-    GetSpacing(): number;
-    
-    /**
-     * @param alignment It's the Numpad alignment, 6 is right, 9 is top left, etc. 
-     */
-    SetAlignment(alignment: number): void;
-    
-    /**
-     * @param time The time in seconds. 
-     */
-    SetLife(time: number): void;
-    
-    /**
-     * @param spacing  
-     */
-    SetSpacing(spacing: number): void;
-    
-    /**
-     */
-    Shuffle(): void;
 }
 
 /**
@@ -38333,6 +38192,550 @@ declare namespace input {
      * @returns True if the mouse key was initially pressed the same frame that this function was called, false otherwise. 
      */
     function WasMousePressed(key: MOUSE): boolean;
+}
+
+/**
+ * {{Panel
+ * |Name=DModelPanel
+ * |Parent=DButton
+ * |Preview=dmodelpanel.jpg
+ * |Description=DModelPanel is a VGUI element that projects a 3D model onto a 2D plane.
+ * }}
+ * {{Example
+ * |Description=Creates a DModelPanel and sets its model to your playermodel.
+ * |Code=local Panel = vgui.Create( "DPanel" )
+ * Panel:SetPos( 10, 10 )
+ * Panel:SetSize( 200, 200 )
+ * 
+ * local icon = vgui.Create( "DModelPanel", Panel )
+ * icon:SetSize( 200, 200 )
+ * icon:SetModel( LocalPlayer():GetModel() )
+ * }}
+ * {{Example
+ * |Description=Creates a DModelPanel and sets its model to the Alyx playermodel, then changes its player color to red. Also disables default rotation animation.
+ * |Code=
+ * local Panel = vgui.Create( "DPanel" )
+ * Panel:SetPos( 10, 10 )
+ * Panel:SetSize( 200, 200 )
+ * 
+ * local icon = vgui.Create( "DModelPanel", Panel )
+ * icon:SetSize(200,200)
+ * icon:SetModel( "models/player/alyx.mdl" ) -- you can only change colors on playermodels
+ * function icon:LayoutEntity( Entity ) return end -- disables default rotation
+ * function icon.Entity:GetPlayerColor() return Vector (1, 0, 0) end --we need to set it to a Vector not a Color, so the values are normal RGB values divided by 255.
+ * |Output=<br/><br/>
+ * [[Image:dmodelpanel_color.jpg‎]]
+ * }} 
+ */
+declare class DModelPanel extends DButton {
+    /**
+     */
+    DrawModel(): void;
+    
+    /**
+     * @returns The color of the ambient lighting. 
+     */
+    GetAmbientLight(): table;
+    
+    /**
+     * @returns True if the panel entity can be animated with {{ClassFunction|Entity|SetSequence}} directly, false otherwise. 
+     */
+    GetAnimated(): boolean;
+    
+    /**
+     * @returns The animation speed. 
+     */
+    GetAnimSpeed(): number;
+    
+    /**
+     * @returns The position of the camera. 
+     */
+    GetCamPos(): Vector;
+    
+    /**
+     * @returns The color of the entity, see {{Struct|Color}}. 
+     */
+    GetColor(): Color;
+    
+    /**
+     * @returns The rendered entity (client-side) 
+     */
+    GetEntity(): CSEnt;
+    
+    /**
+     * @returns The FOV of the camera. 
+     */
+    GetFOV(): number;
+    
+    /**
+     * @returns The angles of the camera. 
+     */
+    GetLookAng(): Angle;
+    
+    /**
+     * @returns The position the camera is pointing toward. 
+     */
+    GetLookAt(): Vector;
+    
+    /**
+     * @returns The model of the rendered entity. 
+     */
+    GetModel(): string;
+    
+    /**
+     * @param entity The entity that is being rendered. 
+     */
+    LayoutEntity(entity: Entity): void;
+    
+    /**
+     * @param ent The clientside entity of the {{Type|DModelPanel}} that has been drawn. 
+     */
+    PostDrawModel(ent: DModelPanel): void;
+    
+    /**
+     * @param ent The clientside entity of the {{Type|DModelPanel}} that has been drawn. 
+     * @returns Return false to stop the entity from being drawn. This will also cause {{ClassFunction|DModelPanel|PostDrawModel}} to stop being called. 
+     */
+    PreDrawModel(ent: DModelPanel): boolean;
+    
+    /**
+     */
+    RunAnimation(): void;
+    
+    /**
+     * @param color The color of the ambient lighting. 
+     */
+    SetAmbientLight(color: table): void;
+    
+    /**
+     * @param animated True to animate, false otherwise. 
+     */
+    SetAnimated(animated: boolean): void;
+    
+    /**
+     * @param animSpeed The animation speed. 
+     */
+    SetAnimSpeed(animSpeed: number): void;
+    
+    /**
+     * @param pos The position to set the camera at. 
+     */
+    SetCamPos(pos: Vector): void;
+    
+    /**
+     * @param color The render color of the entity. 
+     */
+    SetColor(color: table): void;
+    
+    /**
+     * @param direction The light direction, see {{Enum|BOX}}. 
+     * @param color The color of the directional lighting. 
+     */
+    SetDirectionalLight(direction: BOX, color: table): void;
+    
+    /**
+     * @param ent The new panel entity. 
+     */
+    SetEntity(ent: Entity): void;
+    
+    /**
+     * @param fov The field of view value. 
+     */
+    SetFOV(fov: number): void;
+    
+    /**
+     * @param ang The angles to set the camera to. 
+     */
+    SetLookAng(ang: Angle): void;
+    
+    /**
+     * @param pos The position to orient the camera toward. 
+     */
+    SetLookAt(pos: Vector): void;
+    
+    /**
+     * @param model The model to apply to the entity 
+     */
+    SetModel(model: string): void;
+    
+    /**
+     * @param path The path to the scene file. (.vcd) 
+     */
+    StartScene(path: string): void;
+}
+
+/**
+ * {{Panel
+ * |Name=DModelSelect
+ * |Parent=DPanelSelect
+ * |Description={{Deprecated|This is derived from the deprecated {{Type|DPanelList}}.}} A vertical list of models.
+ * |Preview=dmodelselect.png
+ * }}
+ * {{Example
+ * |Description=Creates a DModelSelect within a {{Type|DFrame}} and adds four models.
+ * |Code=-- Create a table of models
+ * local models = {
+ * 	["models/props_c17/oildrum001_explosive.mdl"] = {}, 
+ * 	["models/props_c17/oildrum001.mdl"] = {}, 
+ * 	["models/props_junk/TrafficCone001a.mdl"] = {},
+ * 	["models/props_c17/gravestone004a.mdl"] = {}
+ * }
+ * 	
+ * local frame = vgui.Create("DFrame")
+ * frame:SetSize(220, 220)
+ * frame:SetTitle("DModelSelect Example")
+ * frame:MakePopup()
+ * frame:Center()
+ * 
+ * local mselect = vgui.Create( "DModelSelect", frame ) 
+ * mselect:SetModelList( models, "", false, true )
+ * mselect:SetSize(150, 150)
+ * mselect:Center()
+ * |Output=''See Preview''
+ * }} 
+ */
+declare class DModelSelect extends DPanelSelect {
+    /**
+     * Sets the height of the panel. 
+     * @param height The height to be set. 
+     */
+    SetHeight(height: number): void;
+    
+    /**
+     * @param num [=2] Basically how many rows of 64x64 px spawnicons should fit in this DModelSelect 
+     */
+    SetHeight(num?: number): void;
+    
+    /**
+     * @param models Each key is a model path, the value is a kay-value table where they key is a convar name and value is the value to set to that convar. 
+     * @param convar  
+     * @param dontSort  
+     * @param DontCallListConVars  
+     */
+    SetModelList(models: table, convar: string, dontSort: boolean, DontCallListConVars: boolean): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=DPropertySheet
+ * |Description=A combination of {{Type|DModelSelect}} and {{Type|DPropertySheet}}.
+ * }} 
+ */
+declare class DModelSelectMulti extends DPropertySheet {
+
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * |Preview=DNotify.gif
+ * |Description=A panel that fades its contents in and out once, like a notification.
+ * }}
+ * {{Example
+ * |Description=Creates a notification panel with a text label inside.
+ * |Code=--Notification panel
+ * NotifyPanel = vgui.Create("DNotify")
+ * NotifyPanel:SetPos(10, 5)
+ * NotifyPanel:SetSize(200, 40)
+ * 
+ * -- Text label
+ * local lbl = vgui.Create("DLabel", NotifyPanel)
+ * lbl:Dock(FILL)
+ * lbl:SetText("This is a notification.")
+ * lbl:SetFont("GModNotify")
+ * lbl:SetDark(true)
+ * 
+ * -- Add the label to the notification and begin fading
+ * NotifyPanel:AddItem(lbl)
+ * }}
+ * {{Example
+ * |Description=Creates a notification panel of Dr. Kleiner reminding the player to wear their HEV suit.
+ * |Code=-- Notification panel
+ * NotifyPanel = vgui.Create("DNotify")
+ * NotifyPanel:SetPos(15, 15)
+ * NotifyPanel:SetSize(150, 210)
+ * 
+ * -- Gray background panel
+ * local bg = vgui.Create("DPanel", NotifyPanel)
+ * bg:Dock(FILL)
+ * bg:SetBackgroundColor(Color(64, 64, 64))
+ * 
+ * -- Image of Dr. Kleiner (parented to background panel)
+ * local img = vgui.Create("DImage", bg)
+ * img:SetPos(11, 11)
+ * img:SetSize(128, 128)
+ * img:SetImage("entities/npc_kleiner.png")
+ * 
+ * -- A yellow label message (parented to background panel)
+ * local lbl = vgui.Create("DLabel", bg)
+ * lbl:SetPos(11, 136)
+ * lbl:SetSize(128, 72)
+ * lbl:SetText("Remember to wear your HEV suit!")
+ * lbl:SetTextColor(Color(255, 200, 0))
+ * lbl:SetFont("GModNotify")
+ * lbl:SetWrap(true)
+ * 
+ * -- Add the background panel to the notification
+ * NotifyPanel:AddItem(bg)
+ * |Output=[[Image:DNotify_example2.gif]]
+ * }} 
+ */
+declare class DNotify extends Panel {
+    /**
+     * @param pnl The panel to add 
+     * @param lifeLength [=nil] If set, overrides {{ClassFunction|DNotify|SetLife}}. 
+     */
+    AddItem(pnl: Panel, lifeLength?: number): void;
+    
+    /**
+     * @returns The numpad alignment 
+     */
+    GetAlignment(): number;
+    
+    /**
+     * @returns A table of panels. 
+     */
+    GetItems(): table;
+    
+    /**
+     * @returns The display time in seconds. 
+     */
+    GetLife(): number;
+    
+    /**
+     * @returns  
+     */
+    GetSpacing(): number;
+    
+    /**
+     * @param alignment It's the Numpad alignment, 6 is right, 9 is top left, etc. 
+     */
+    SetAlignment(alignment: number): void;
+    
+    /**
+     * @param time The time in seconds. 
+     */
+    SetLife(time: number): void;
+    
+    /**
+     * @param spacing  
+     */
+    SetSpacing(spacing: number): void;
+    
+    /**
+     */
+    Shuffle(): void;
+}
+
+/**
+ * Function to work with the [http://luajit.org/ LuaJIT] functionality of gmod. 
+ */
+declare namespace jit {
+    /**
+     */
+    function arch(): void;
+    
+    /**
+     * You can attach callbacks to a number of compiler events with jit.attach. The callback can be called:
+     * 
+     * *when a function has been compiled to bytecode ("bc");
+     * *when trace recording starts or stops ("trace");
+     * *as a trace is being recorded ("record");
+     * *or when a trace exits through a side exit ("texit").
+     * 
+     * Set a callback with jit.attach(callback, "event") and clear the same callback with jit.attach(callback)
+     * 
+     * {{Warning|This function isn't officially documented on LuJIT wiki, use it at your own risk.}} 
+     * @param callback The callback function.
+     * 
+     * The arguments passed to the callback depend on the event being reported:
+     * 
+     * *"bc":
+     * {{FuncArg|function|func|The function that's just been recorded}}<br/>
+     * 
+     * *"trace":
+     * {{FuncArg|string|what|description of the trace event: "flush", "start", "stop", "abort". Available for all events.}}<br/>
+     * {{FuncArg|number|tr|The trace number. Not available for flush.}}<br/>
+     * {{FuncArg|function|func|The function being traced. Available for start and abort.}}<br/>
+     * {{FuncArg|number|pc|The program counter - the bytecode number of the function being recorded (if this a Lua function). Available for start and abort.}}<br/>
+     * {{FuncArg|number|otr|start: the parent trace number if this is a side trace, abort: abort code}}<br/>
+     * {{FuncArg|string|oex|start: the exit number for the parent trace, abort: abort reason (string)}}<br/>
+     * 
+     * *"record":
+     * {{FuncArg|number|tr|The trace number. Not available for flush.}}<br/>
+     * {{FuncArg|function|func|The function being traced. Available for start and abort.}}<br/>
+     * {{FuncArg|number|pc|The program counter - the bytecode number of the function being recorded (if this a Lua function). Available for start and abort.}}<br/>
+     * {{FuncArg|number|depth |The depth of the inlining of the current bytecode.}}<br/>
+     * 
+     * *"texit":
+     * {{FuncArg|number|tr|The trace number. Not available for flush.}}<br/>
+     * {{FuncArg|number|ex|The exit number}}<br/>
+     * {{FuncArg|number|ngpr|The number of general-purpose and floating point registers that are active at the exit.}}<br/>
+     * {{FuncArg|number|nfpr|The number of general-purpose and floating point registers that are active at the exit.}} 
+     * @param event The event to hook into. 
+     */
+    function attach(callback: Function, event: string): void;
+    
+    /**
+     * Flushes the whole cache of compiled code. 
+     */
+    function flush(): void;
+    
+    /**
+     * Disables LuaJIT Lua compilation. 
+     */
+    function off(): void;
+    
+    /**
+     * Enables LuaJIT Lua compilation. 
+     */
+    function on(): void;
+    
+    /**
+     */
+    function os(): void;
+    
+    /**
+     * Returns the status of the JIT compiler and the current optimizations enabled. 
+     * @returns [Is JIT enabled, Strings for CPU-specific features and enabled optimizations]
+     * !TupleReturn 
+     */
+    function status(): [boolean, any];
+    
+    /**
+     */
+    function version(): void;
+    
+    /**
+     */
+    function version_num(): void;
+}
+
+/**
+ * The killicon library is used to add to and control the icons that appear in the top right of your screen when a player is killed. 
+ */
+declare namespace killicon {
+    /**
+     * Creates new kill icon using a texture. 
+     * @param classRef Weapon or entity class 
+     * @param texture Path to the texture 
+     * @param color Color of the kill icon 
+     */
+    function Add(classRef: string, texture: string, color: table): void;
+    
+    /**
+     * Creates kill icon from existing one. 
+     * @param new_class New class of the kill icon 
+     * @param existing_class Already existing kill icon class 
+     */
+    function AddAlias(new_class: string, existing_class: string): void;
+    
+    /**
+     * Adds kill icon for given weapon/entity class using special font. 
+     * @param classRef Weapon or entity class 
+     * @param font Font to be used 
+     * @param symbol The symbol to be used 
+     * @param color Color of the killicon 
+     */
+    function AddFont(classRef: string, font: string, symbol: string, color: table): void;
+    
+    /**
+     * Draws a kill icon. 
+     * @param x X coordinate of the icon 
+     * @param y Y coordinate of the icon 
+     * @param name Classname of the kill icon 
+     * @param alpha Alpha/transparency value ( 0 - 255 ) of the icon 
+     */
+    function Draw(x: number, y: number, name: string, alpha: number): void;
+    
+    /**
+     * Checks if kill icon exists for given class. 
+     * @param classRef The class to test 
+     * @returns Returns true if kill icon exists 
+     */
+    function Exists(classRef: string): boolean;
+    
+    /**
+     * Returns the size of a kill icon. 
+     * @param name Classname of the kill icon 
+     * @returns [Width of the kill icon, Height of the kill icon]
+     * !TupleReturn 
+     */
+    function GetSize(name: string): [number, number];
+}
+
+/**
+ * The language library is used for translation. 
+ */
+declare namespace language {
+    /**
+     * Adds a language item. Language placeholders preceded with "#" are replaced with full text in Garry's Mod once registered with this function. 
+     * @param placeholder The key for this phrase, without the preceding "#". 
+     * @param fulltext The phrase that should be displayed whenever this key is used. 
+     */
+    function Add(placeholder: string, fulltext: string): void;
+    
+    /**
+     * Retrieves the translated version of inputted string. Useful for concentrating multiple translated strings. 
+     * @param phrase The phrase to translate 
+     * @returns The translated phrase 
+     */
+    function GetPhrase(phrase: string): string;
+}
+
+/**
+ * The list library allows you add and retrieve values to and from lists. The list library is basically a fancy wrapper for a table, but with much more limited functionality. 
+ */
+declare namespace list {
+    /**
+     * Adds an item to a named list 
+     * @param identifier The list identifier 
+     * @param item The item to add to the list 
+     */
+    function Add(identifier: string, item: any): void;
+    
+    /**
+     * Returns true if the list contains the value. (as a value - not a key) 
+     * @param list List to search through 
+     * @param value The value to test 
+     * @returns Returns true if the list contains the value, false otherwise 
+     */
+    function Contains(list: string, value: any): boolean;
+    
+    /**
+     * Returns a copy of the list stored at identifier 
+     * @param identifier The list identifier 
+     * @returns listCopy 
+     */
+    function Get(identifier: string): table;
+    
+    /**
+     * Returns the actual table of the list stored at identifier. Modifying this will affect the stored list 
+     * @param identifier The list identifier 
+     * @returns The actual list 
+     */
+    function GetForEdit(identifier: string): table;
+    
+    /**
+     * Sets a specific position in the named list to a value. 
+     * @param identifier The list identifier 
+     * @param key The key in the list to set 
+     * @param item The item to set to the list as key 
+     */
+    function Set(identifier: string, key: any, item: any): void;
+}
+
+/**
+ * The markup library only contains a single function to create a {{Type|MarkupObject}}. 
+ */
+declare namespace markup {
+    /**
+     * Parses markup into a {{Type| MarkupObject}}. Currently, this only supports fonts and colors as demonstrated in the example. 
+     * @param markup The markup to be parsed. 
+     * @param maxwidth The max width of the output 
+     * @returns parsed 
+     */
+    function Parse(markup: string, maxwidth: number): MarkupObject;
 }
 
 /**
@@ -38501,90 +38904,6 @@ declare class DNumberScratch extends DImageButton {
 }
 
 /**
- * Function to work with the [http://luajit.org/ LuaJIT] functionality of gmod. 
- */
-declare namespace jit {
-    /**
-     */
-    function arch(): void;
-    
-    /**
-     * You can attach callbacks to a number of compiler events with jit.attach. The callback can be called:
-     * 
-     * *when a function has been compiled to bytecode ("bc");
-     * *when trace recording starts or stops ("trace");
-     * *as a trace is being recorded ("record");
-     * *or when a trace exits through a side exit ("texit").
-     * 
-     * Set a callback with jit.attach(callback, "event") and clear the same callback with jit.attach(callback)
-     * 
-     * {{Warning|This function isn't officially documented on LuJIT wiki, use it at your own risk.}} 
-     * @param callback The callback function.
-     * 
-     * The arguments passed to the callback depend on the event being reported:
-     * 
-     * *"bc":
-     * {{FuncArg|function|func|The function that's just been recorded}}<br/>
-     * 
-     * *"trace":
-     * {{FuncArg|string|what|description of the trace event: "flush", "start", "stop", "abort". Available for all events.}}<br/>
-     * {{FuncArg|number|tr|The trace number. Not available for flush.}}<br/>
-     * {{FuncArg|function|func|The function being traced. Available for start and abort.}}<br/>
-     * {{FuncArg|number|pc|The program counter - the bytecode number of the function being recorded (if this a Lua function). Available for start and abort.}}<br/>
-     * {{FuncArg|number|otr|start: the parent trace number if this is a side trace, abort: abort code}}<br/>
-     * {{FuncArg|string|oex|start: the exit number for the parent trace, abort: abort reason (string)}}<br/>
-     * 
-     * *"record":
-     * {{FuncArg|number|tr|The trace number. Not available for flush.}}<br/>
-     * {{FuncArg|function|func|The function being traced. Available for start and abort.}}<br/>
-     * {{FuncArg|number|pc|The program counter - the bytecode number of the function being recorded (if this a Lua function). Available for start and abort.}}<br/>
-     * {{FuncArg|number|depth |The depth of the inlining of the current bytecode.}}<br/>
-     * 
-     * *"texit":
-     * {{FuncArg|number|tr|The trace number. Not available for flush.}}<br/>
-     * {{FuncArg|number|ex|The exit number}}<br/>
-     * {{FuncArg|number|ngpr|The number of general-purpose and floating point registers that are active at the exit.}}<br/>
-     * {{FuncArg|number|nfpr|The number of general-purpose and floating point registers that are active at the exit.}} 
-     * @param event The event to hook into. 
-     */
-    function attach(callback: Function, event: string): void;
-    
-    /**
-     * Flushes the whole cache of compiled code. 
-     */
-    function flush(): void;
-    
-    /**
-     * Disables LuaJIT Lua compilation. 
-     */
-    function off(): void;
-    
-    /**
-     * Enables LuaJIT Lua compilation. 
-     */
-    function on(): void;
-    
-    /**
-     */
-    function os(): void;
-    
-    /**
-     * Returns the status of the JIT compiler and the current optimizations enabled. 
-     * @returns [Is JIT enabled, Strings for CPU-specific features and enabled optimizations]
-     * !TupleReturn 
-     */
-    function status(): [boolean, any];
-    
-    /**
-     */
-    function version(): void;
-    
-    /**
-     */
-    function version_num(): void;
-}
-
-/**
  * {{Panel
  * |Parent=DTextEntry
  * |Name=DNumberWang
@@ -38722,133 +39041,6 @@ declare class DNumberWang extends DTextEntry {
  */
 declare class DNumPad extends DPanel {
 
-}
-
-/**
- * The killicon library is used to add to and control the icons that appear in the top right of your screen when a player is killed. 
- */
-declare namespace killicon {
-    /**
-     * Creates new kill icon using a texture. 
-     * @param classRef Weapon or entity class 
-     * @param texture Path to the texture 
-     * @param color Color of the kill icon 
-     */
-    function Add(classRef: string, texture: string, color: table): void;
-    
-    /**
-     * Creates kill icon from existing one. 
-     * @param new_class New class of the kill icon 
-     * @param existing_class Already existing kill icon class 
-     */
-    function AddAlias(new_class: string, existing_class: string): void;
-    
-    /**
-     * Adds kill icon for given weapon/entity class using special font. 
-     * @param classRef Weapon or entity class 
-     * @param font Font to be used 
-     * @param symbol The symbol to be used 
-     * @param color Color of the killicon 
-     */
-    function AddFont(classRef: string, font: string, symbol: string, color: table): void;
-    
-    /**
-     * Draws a kill icon. 
-     * @param x X coordinate of the icon 
-     * @param y Y coordinate of the icon 
-     * @param name Classname of the kill icon 
-     * @param alpha Alpha/transparency value ( 0 - 255 ) of the icon 
-     */
-    function Draw(x: number, y: number, name: string, alpha: number): void;
-    
-    /**
-     * Checks if kill icon exists for given class. 
-     * @param classRef The class to test 
-     * @returns Returns true if kill icon exists 
-     */
-    function Exists(classRef: string): boolean;
-    
-    /**
-     * Returns the size of a kill icon. 
-     * @param name Classname of the kill icon 
-     * @returns [Width of the kill icon, Height of the kill icon]
-     * !TupleReturn 
-     */
-    function GetSize(name: string): [number, number];
-}
-
-/**
- * The language library is used for translation. 
- */
-declare namespace language {
-    /**
-     * Adds a language item. Language placeholders preceded with "#" are replaced with full text in Garry's Mod once registered with this function. 
-     * @param placeholder The key for this phrase, without the preceding "#". 
-     * @param fulltext The phrase that should be displayed whenever this key is used. 
-     */
-    function Add(placeholder: string, fulltext: string): void;
-    
-    /**
-     * Retrieves the translated version of inputted string. Useful for concentrating multiple translated strings. 
-     * @param phrase The phrase to translate 
-     * @returns The translated phrase 
-     */
-    function GetPhrase(phrase: string): string;
-}
-
-/**
- * The list library allows you add and retrieve values to and from lists. The list library is basically a fancy wrapper for a table, but with much more limited functionality. 
- */
-declare namespace list {
-    /**
-     * Adds an item to a named list 
-     * @param identifier The list identifier 
-     * @param item The item to add to the list 
-     */
-    function Add(identifier: string, item: any): void;
-    
-    /**
-     * Returns true if the list contains the value. (as a value - not a key) 
-     * @param list List to search through 
-     * @param value The value to test 
-     * @returns Returns true if the list contains the value, false otherwise 
-     */
-    function Contains(list: string, value: any): boolean;
-    
-    /**
-     * Returns a copy of the list stored at identifier 
-     * @param identifier The list identifier 
-     * @returns listCopy 
-     */
-    function Get(identifier: string): table;
-    
-    /**
-     * Returns the actual table of the list stored at identifier. Modifying this will affect the stored list 
-     * @param identifier The list identifier 
-     * @returns The actual list 
-     */
-    function GetForEdit(identifier: string): table;
-    
-    /**
-     * Sets a specific position in the named list to a value. 
-     * @param identifier The list identifier 
-     * @param key The key in the list to set 
-     * @param item The item to set to the list as key 
-     */
-    function Set(identifier: string, key: any, item: any): void;
-}
-
-/**
- * The markup library only contains a single function to create a {{Type|MarkupObject}}. 
- */
-declare namespace markup {
-    /**
-     * Parses markup into a {{Type| MarkupObject}}. Currently, this only supports fonts and colors as demonstrated in the example. 
-     * @param markup The markup to be parsed. 
-     * @param maxwidth The max width of the output 
-     * @returns parsed 
-     */
-    function Parse(markup: string, maxwidth: number): MarkupObject;
 }
 
 /**
@@ -38998,337 +39190,6 @@ declare class DNumSlider extends Panel {
      * @param value The value the slider has been changed to. 
      */
     ValueChanged(value: number): void;
-}
-
-/**
- * {{Panel
- * |Name=DPanel
- * |Parent=Panel
- * |Description=A simple rectangular box, commonly used for parenting other elements to. Pretty much all elements are based on this.
- * }}
- * {{Example
- * |Description=Creates a DPanel and adds a {{Type|DLabel}} to it
- * |Code=local DPanel = vgui.Create( "DPanel" )
- * DPanel:SetPos( 10, 30 ) -- Set the position of the panel
- * DPanel:SetSize( 200, 200 ) -- Set the size of the panel
- * 
- * local DLabel = vgui.Create( "DLabel", DPanel )
- * DLabel:SetPos( 10, 10 ) -- Set the position of the label
- * DLabel:SetText( "I'm a DLabel inside a DPanel! :)" ) --  Set the text of the label
- * DLabel:SizeToContents() -- Size the label to fit the text in it
- * DLabel:SetDark( 1 ) -- Set the colour of the text inside the label to a darker one
- * |Output=<br/>
- * [[Image:DPanel_large.png]]
- * }}
- * = Methods =
- * *{{VGUIElementMethodInternal|SetIsMenu}}
- * *{{VGUIElementMethodInternal|SetTabbingDisabled}}
- * *{{VGUIElementMethodInternal|GetIsMenu}}
- * *{{VGUIElementMethodInternal|GetTabbingDisabled}} 
- */
-declare class DPanel extends Panel {
-    /**
-     * @returns Color of the panel's background. 
-     */
-    GetBackgroundColor(): table;
-    
-    /**
-     * @returns True if the panel is disabled (mouse input disabled and background alpha set to 75), false if its enabled (mouse input enabled and background alpha set to 255). 
-     */
-    GetDisabled(): boolean;
-    
-    /**
-     * @returns True if the panel background is drawn, false otherwise. 
-     */
-    GetDrawBackground(): boolean;
-    
-    /**
-     * @returns True if the panel background is drawn, false otherwise. 
-     */
-    GetPaintBackground(): boolean;
-    
-    /**
-     * @param color The background color. 
-     */
-    SetBackgroundColor(color: table): void;
-    
-    /**
-     * @param disabled True to disable the panel (mouse input disabled and background alpha set to 75), false to enable it (mouse input enabled and background alpha set to 255). 
-     */
-    SetDisabled(disabled: boolean): void;
-    
-    /**
-     * @param draw True to show the panel's background, false to hide it. 
-     */
-    SetDrawBackground(draw: boolean): void;
-    
-    /**
-     * @param paint True to show the panel's background, false to hide it. 
-     */
-    SetPaintBackground(paint: boolean): void;
-}
-
-/**
- * {{Panel
- * |Parent=DPanel
- * |Description={{Deprecated
- * |DPanelList was succeeded in version 13 by more specialised layout elements, such as a combination of {{Type|DIconLayout}}, {{Type|DListLayout}} and {{Type|DScrollPanel}}.
- * }}
- * 
- * Displays elements in a horizontal or vertical list. A scrollbar is automatically shown if necessary.
- * Use is not recommended due to deprecation.
- * }}
- * = Methods =
- * * {{VGUIElementMethodInternal|GetItems}}
- * * {{VGUIElementMethodInternal|EnableHorizontal}}
- * * {{VGUIElementMethodInternal|EnableVerticalScrollbar}}
- * * {{VGUIElementMethodInternal|GetCanvas}}
- * * {{VGUIElementMethodInternal|Clear}}
- * * {{VGUIElementMethodInternal|AddItem}}
- * * {{VGUIElementMethodInternal|InsertBefore}}
- * * {{VGUIElementMethodInternal|InsertAfter}}
- * * {{VGUIElementMethodInternal|InsertAtTop}}
- * * {{VGUIElementMethodInternal|RemoveItem}}
- * * {{VGUIElementMethodInternal|CleanList}}
- * * {{VGUIElementMethodInternal|Rebuild}}
- * * {{VGUIElementMethodInternal|ScrollToChild}}
- * * {{VGUIElementMethodInternal|SortByMember}}
- * 
- * * {{VGUIElementMethodInternal|SetAutoSize}}
- * * {{VGUIElementMethodInternal|GetAutoSize}}
- * * {{VGUIElementMethodInternal|SetStretchHorizontally}}
- * * {{VGUIElementMethodInternal|GetStretchHorizontally}}
- * * {{VGUIElementMethodInternal|SetNoSizing}}
- * * {{VGUIElementMethodInternal|GetNoSizing}}
- * * {{VGUIElementMethodInternal|SetSortable}}
- * * {{VGUIElementMethodInternal|GetSortable}}
- * * {{VGUIElementMethodInternal|SetAnimTime}}
- * * {{VGUIElementMethodInternal|GetAnimTime}}
- * * {{VGUIElementMethodInternal|SetAnimEase}}
- * * {{VGUIElementMethodInternal|GetAnimEase}}
- * * {{VGUIElementMethodInternal|SetDraggableName}}
- * * {{VGUIElementMethodInternal|GetDraggableName}}
- * * {{VGUIElementMethodInternal|SetSpacing}}
- * * {{VGUIElementMethodInternal|GetSpacing}}
- * * {{VGUIElementMethodInternal|SetPadding}}
- * * {{VGUIElementMethodInternal|GetPadding}}
- * 
- * * {{VGUIElementMethodInternal|OnModified}} 
- */
-declare class DPanelList extends DPanel {
-    /**
-     * @param insert The panel to insert 
-     * @param strLineState If set to "ownline", no other panels will be placed to the left or right of the panel we are inserting 
-     */
-    InsertAtTop(insert: Panel, strLineState: string): void;
-}
-
-/**
- * {{Panel
- * |Parent=DPanel
- * |Description=Adds curved corners.
- * }}
- * {{Example
- * |Description=Creates a {{Type|DPanel}} with a DPanelOverlay and adds a {{Type|DLabel}} to it
- * |Code=local DFrame = vgui.Create( "DFrame" )
- * DFrame:SetSize( 350, 200 ) -- Set the size of the panel
- * DFrame:Center()
- * DFrame:MakePopup()
- * 
- * local DPanel = vgui.Create( "Panel", DFrame )
- * DPanel:Dock( FILL )
- * 
- * local DLabel = vgui.Create( "DLabel", DPanel )
- * DLabel:SetPos( 10, 10 ) -- Set the position of the label
- * DLabel:SetText( "I'm a DLabel inside a DPanel that has a DPanelOverlay border!" ) -- Set the text of the label
- * DLabel:SizeToContents() -- Size the label to fit the text in it
- * 
- * local DPanelOverlay = vgui.Create( "DPanelOverlay", DPanel )
- * DPanelOverlay:SetType( 1 ) -- Sets the type of overlay to add to the DPanel
- * DPanelOverlay:SetColor( Color( 255, 0, 0 ) ) -- Sets the colour of the borders
- * }} 
- */
-declare class DPanelOverlay extends DPanel {
-    /**
-     * @returns The set color. Uses the {{Struct|Color}}. 
-     */
-    GetColor(): Color;
-    
-    /**
-     * @returns The set type. 
-     */
-    GetType(): number;
-    
-    /**
-     * @param cola  
-     * @param colb  
-     * @param colc  
-     * @param cold  
-     * @param size  
-     */
-    PaintDifferentColours(cola: table, colb: table, colc: table, cold: table, size: number): void;
-    
-    /**
-     * @param size  
-     */
-    PaintInnerCorners(size: number): void;
-    
-    /**
-     * @param color The color to set. Uses the {{Struct|Color}}. 
-     */
-    SetColor(color: Color): void;
-    
-    /**
-     * @param type The type to set.
-     * 
-     * Possible value are:
-     * * 1 - 8px corners of given color
-     * * 2 - 4px corners of given type
-     * * 3 - 2 top? corners of hardcoded color, 2 other corners of given color 
-     */
-    SetType(type: number): void;
-}
-
-/**
- * {{Panel
- * |Parent=DPanelList
- * |Description={{Deprecated|This is derived from the deprecated {{Type|DPanelList}}.}} A base panel for things like {{Type|DModelSelect}}. Basically, a list of panels that can be selected. Selected panel can be retrieved and has visual indication of being selected.
- * }} 
- */
-declare class DPanelSelect extends DPanelList {
-
-}
-
-/**
- * {{Panel
- * |Name=DProgress
- * |Parent=Panel
- * |Description=A progressbar, works with a fraction between 0 and 1 where 0 is 0% and 1 is 100%.
- * }}
- * {{Example
- * |Description=Creates a DProgress set to 75% (0.75 out of 1)
- * |Code=local DProgress = vgui.Create( "DProgress" )
- * DProgress:SetPos( 10, 30 )
- * DProgress:SetSize( 200, 20 )
- * DProgress:SetFraction( 0.75 )
- * |Output=<br/><br/>
- * [[Image:DProgress_large.png]]
- * }} 
- */
-declare class DProgress extends Panel {
-    /**
-     * @returns Current fraction of the progress bar. 
-     */
-    GetFraction(): number;
-    
-    /**
-     * @param fraction Fraction of the progress bar. Range is 0 to 1 (0% to 100%). 
-     */
-    SetFraction(fraction: number): void;
-}
-
-/**
- * {{Panel
- * |Parent=Panel
- * |Description=A grid for editing the properties of something using names and values. Properties can be categorized and strongly typed.
- * 
- * == Associated controls ==
- * *{{Type|DProperty_VectorColor}}
- * *{{Type|DProperty_Boolean}}
- * *{{Type|DProperty_Generic}}
- * *{{Type|DProperty_Combo}}
- * *{{Type|DProperty_Float}}
- * *{{Type|DProperty_Int}}
- * 
- * }}
- * {{Example
- * |Description=Creates a DProperties control with a few properties set up
- * |Code=local f = vgui.Create( "DFrame" )
- * f:SetSize( 500, 300 )
- * f:Center()
- * f:MakePopup()
- * 
- * local DProperties = vgui.Create( "DProperties", f )
- * DProperties:Dock( FILL )
- * 
- * local Row1 = DProperties:CreateRow( "Category1", "Vector Color" )
- * Row1:Setup( "VectorColor" )
- * Row1:SetValue( Vector( 1, 0, 0 ) )
- * Row1.DataChanged = function( _, val ) print( val ) end
- * 
- * local Row2 = DProperties:CreateRow( "Category1", "Combo" )
- * Row2:Setup( "Combo", { text = "Select type..." } )
- * Row2:AddChoice( "Table", {} )
- * Row2:AddChoice( "String", "Hello world" )
- * Row2.DataChanged = function( self, data )
- * 	print( "You selected: ", data )
- * end
- * 
- * local Row3 = DProperties:CreateRow( "Category1", "Boolean" )
- * Row3:Setup( "Boolean" )
- * Row3:SetValue( true )
- * 
- * local Row4 = DProperties:CreateRow( "Category2", "Float" )
- * Row4:Setup( "Float", { min = 0, max = 5 } )
- * Row4:SetValue( 2.5 )
- * 
- * local Row5 = DProperties:CreateRow( "Category2", "Integer" )
- * Row5:Setup( "Int", { min = 0, max = 5 } )
- * Row5:SetValue( 2.5 )
- * 
- * local Row6 = DProperties:CreateRow( "Category2", "Generic" )
- * Row6:Setup( "Generic" )
- * Row6:SetValue( "Hello World!" )
- * Row6.DataChanged = function( _, val ) print( val ) end
- * |Output=When you change the "Hello World!" textbox, it will print its new contents to the console.
- * }} 
- */
-declare class DProperties extends Panel {
-    /**
-     * @param category The category to list this row under 
-     * @param name The label of this row 
-     * @returns An internal Row panel. 
-     */
-    CreateRow(category: string, name: string): Panel;
-    
-    /**
-     * @returns A {{Type|DScrollPanel}} canvas 
-     */
-    GetCanvas(): DScrollPanel;
-    
-    /**
-     * @param name Name of the category 
-     * @param create Create a new category if it doesn't exist. 
-     * @returns An internal panel. 
-     */
-    GetCategory(name: string, create: boolean): Panel;
-}
-
-/**
- * {{Panel
- * |Parent=DProperty_Generic
- * |Description={{Internal}}
- * Checkbox control for the {{Type|DProperties}} panel.
- * }}
- * {{Example
- * |Description=Example of this panel
- * |Code=local Panel = vgui.Create( "DFrame" )
- * Panel:SetSize( 500, 500 )
- * Panel:MakePopup()
- * 
- * local props = vgui.Create( "DProperties", Panel )
- * props:Dock( FILL )
- * 
- * local boolRow = props:CreateRow( "MyCategory", "CheckboxExample" )
- * boolRow:Setup( "Boolean" )
- * boolRow:SetValue( true )
- * boolRow.DataChanged = function( self, data )
- * 	MsgN( "Data changed: ", data )
- * end
- * }} 
- */
-declare class DProperty_Boolean extends DProperty_Generic {
-
 }
 
 /**
@@ -39644,16 +39505,16 @@ declare namespace math {
      * When called with an integer number m, returns a uniform pseudo-random integer in the range 1 to m inclusive.
      * 
      * When called with two integer numbers m and n, returns a uniform pseudo-random integer in the range m to n inclusive. 
-     * @param m If m is the only parameter: upper limit.<br />
+     * @param m [=nil] If m is the only parameter: upper limit.<br />
      * If n is also provided: lower limit.
      * 
      * If provided, this must be an integer. 
-     * @param n Upper limit.
+     * @param n [=nil] Upper limit.
      * 
      * If provided, this must be an integer. 
      * @returns Random value 
      */
-    function random(m: number, n: number): number;
+    function random(m?: number, n?: number): number;
     
     /**
      * Seeds the random number generator. The same seed will guarantee the same sequence of numbers each time with {{LibraryFunction|math|random}}.
@@ -39737,81 +39598,6 @@ declare namespace math {
 }
 
 /**
- * {{Panel
- * |Description={{Internal}}Combo control for a {{Type|DProperties}} panel.
- * |Parent=DProperty_Generic
- * |Preview=DProperty_Combo_preview.png
- * }}
- * {{Example
- * |Code=
- * local Panel = vgui.Create( "DFrame" )
- * Panel:SetSize( 500, 500 )
- * Panel:MakePopup()
- * 
- * local DP = vgui.Create( "DProperties", Panel )
- * DP:Dock( FILL )
- * 
- * local choice = DP:CreateRow( "Choices", "Combo #1: Default" )
- * choice:Setup( "Combo", {} )
- * choice:AddChoice( "Allow", true )
- * choice:AddChoice( "Disallow", false )
- * 
- * local choice = DP:CreateRow( "Choices", "Combo #2: Custom default text" )
- * choice:Setup( "Combo", { text = "Select type..." } )
- * choice:AddChoice( "Table", {} )
- * choice:AddChoice( "Function", function() end )
- * choice:AddChoice( "String", "Hello world" )
- * choice.DataChanged = function( self, data )
- *     print( "You selected: ", data )
- * end
- * }} 
- */
-declare class DProperty_Combo extends DProperty_Generic {
-    /**
-     * @param Text Shown text. 
-     * @param data Stored Data. 
-     * @param select [=false] Select this element? 
-     */
-    AddChoice(Text: string, data: any, select?: boolean): void;
-    
-    /**
-     * @param data The new data that was selected. 
-     */
-    DataChanged(data: any): void;
-    
-    /**
-     * Sets the selected state of a selectable panel object. This functionality is set with {{ClassFunction|Panel|SetSelectable}} and checked with {{ClassFunction|Panel|IsSelectable}}. 
-     * @param selected [=false] Whether the object should be selected or deselected. {{ClassFunction|Panel|IsSelected}} can be used to determine the selected state of the object. 
-     */
-    SetSelected(selected?: boolean): void;
-    
-    /**
-     * @param Id Id of the choice to be selected. 
-     */
-    SetSelected(Id: number): void;
-    
-    /**
-     * @param prop [="Combo"] The name of DProperty sub control to add. 
-     * @param data [={ text = "Select..." }] Data to use to set up the combo box control.
-     * 
-     * Structure:
-     * * {{FuncArg|string|text|The default label for this combo box}}
-     * * {{FuncArg|table|values|The values to add to the combo box}} 
-     */
-    Setup(prop?: string, data?: table): void;
-}
-
-/**
- * {{Panel
- * |Description={{Internal}}Float control for the {{Type|DProperties}} panel.
- * |Parent=DProperty_Generic
- * }} 
- */
-declare class DProperty_Float extends DProperty_Generic {
-
-}
-
-/**
  * Add proxies to materials. 
  */
 declare namespace matproxy {
@@ -39848,28 +39634,70 @@ declare namespace matproxy {
 
 /**
  * {{Panel
+ * |Name=DPanel
  * |Parent=Panel
- * |Description=A base for other controls for {{Type|DProperties}}. Acts as a generic text input on its own.
+ * |Description=A simple rectangular box, commonly used for parenting other elements to. Pretty much all elements are based on this.
  * }}
  * {{Example
- * |Description=Example usage of this control
- * |Code=local Panel = vgui.Create( "DFrame" )
- * Panel:SetSize( 500, 500 )
- * Panel:MakePopup()
+ * |Description=Creates a DPanel and adds a {{Type|DLabel}} to it
+ * |Code=local DPanel = vgui.Create( "DPanel" )
+ * DPanel:SetPos( 10, 30 ) -- Set the position of the panel
+ * DPanel:SetSize( 200, 200 ) -- Set the size of the panel
  * 
- * local props = vgui.Create( "DProperties", Panel )
- * props:Dock( FILL )
- * 
- * local textRow = props:CreateRow( "MyCategory", "GenericTextArea" )
- * textRow:Setup( "Generic" )
- * textRow:SetValue( "test" )
- * textRow.DataChanged = function( self, data )
- * 	MsgN( "Text changed: ", data )
- * end
- * }} 
+ * local DLabel = vgui.Create( "DLabel", DPanel )
+ * DLabel:SetPos( 10, 10 ) -- Set the position of the label
+ * DLabel:SetText( "I'm a DLabel inside a DPanel! :)" ) --  Set the text of the label
+ * DLabel:SizeToContents() -- Size the label to fit the text in it
+ * DLabel:SetDark( 1 ) -- Set the colour of the text inside the label to a darker one
+ * |Output=<br/>
+ * [[Image:DPanel_large.png]]
+ * }}
+ * = Methods =
+ * *{{VGUIElementMethodInternal|SetIsMenu}}
+ * *{{VGUIElementMethodInternal|SetTabbingDisabled}}
+ * *{{VGUIElementMethodInternal|GetIsMenu}}
+ * *{{VGUIElementMethodInternal|GetTabbingDisabled}} 
  */
-declare class DProperty_Generic extends Panel {
-
+declare class DPanel extends Panel {
+    /**
+     * @returns Color of the panel's background. 
+     */
+    GetBackgroundColor(): table;
+    
+    /**
+     * @returns True if the panel is disabled (mouse input disabled and background alpha set to 75), false if its enabled (mouse input enabled and background alpha set to 255). 
+     */
+    GetDisabled(): boolean;
+    
+    /**
+     * @returns True if the panel background is drawn, false otherwise. 
+     */
+    GetDrawBackground(): boolean;
+    
+    /**
+     * @returns True if the panel background is drawn, false otherwise. 
+     */
+    GetPaintBackground(): boolean;
+    
+    /**
+     * @param color The background color. 
+     */
+    SetBackgroundColor(color: table): void;
+    
+    /**
+     * @param disabled True to disable the panel (mouse input disabled and background alpha set to 75), false to enable it (mouse input enabled and background alpha set to 255). 
+     */
+    SetDisabled(disabled: boolean): void;
+    
+    /**
+     * @param draw True to show the panel's background, false to hide it. 
+     */
+    SetDrawBackground(draw: boolean): void;
+    
+    /**
+     * @param paint True to show the panel's background, false to hide it. 
+     */
+    SetPaintBackground(paint: boolean): void;
 }
 
 /**
@@ -39884,12 +39712,57 @@ declare namespace menu {
 
 /**
  * {{Panel
- * |Description={{Internal}}Integer control for the {{Type|DProperties}} panel.
- * |Parent=DProperty_Float
- * }} 
+ * |Parent=DPanel
+ * |Description={{Deprecated
+ * |DPanelList was succeeded in version 13 by more specialised layout elements, such as a combination of {{Type|DIconLayout}}, {{Type|DListLayout}} and {{Type|DScrollPanel}}.
+ * }}
+ * 
+ * Displays elements in a horizontal or vertical list. A scrollbar is automatically shown if necessary.
+ * Use is not recommended due to deprecation.
+ * }}
+ * = Methods =
+ * * {{VGUIElementMethodInternal|GetItems}}
+ * * {{VGUIElementMethodInternal|EnableHorizontal}}
+ * * {{VGUIElementMethodInternal|EnableVerticalScrollbar}}
+ * * {{VGUIElementMethodInternal|GetCanvas}}
+ * * {{VGUIElementMethodInternal|Clear}}
+ * * {{VGUIElementMethodInternal|AddItem}}
+ * * {{VGUIElementMethodInternal|InsertBefore}}
+ * * {{VGUIElementMethodInternal|InsertAfter}}
+ * * {{VGUIElementMethodInternal|InsertAtTop}}
+ * * {{VGUIElementMethodInternal|RemoveItem}}
+ * * {{VGUIElementMethodInternal|CleanList}}
+ * * {{VGUIElementMethodInternal|Rebuild}}
+ * * {{VGUIElementMethodInternal|ScrollToChild}}
+ * * {{VGUIElementMethodInternal|SortByMember}}
+ * 
+ * * {{VGUIElementMethodInternal|SetAutoSize}}
+ * * {{VGUIElementMethodInternal|GetAutoSize}}
+ * * {{VGUIElementMethodInternal|SetStretchHorizontally}}
+ * * {{VGUIElementMethodInternal|GetStretchHorizontally}}
+ * * {{VGUIElementMethodInternal|SetNoSizing}}
+ * * {{VGUIElementMethodInternal|GetNoSizing}}
+ * * {{VGUIElementMethodInternal|SetSortable}}
+ * * {{VGUIElementMethodInternal|GetSortable}}
+ * * {{VGUIElementMethodInternal|SetAnimTime}}
+ * * {{VGUIElementMethodInternal|GetAnimTime}}
+ * * {{VGUIElementMethodInternal|SetAnimEase}}
+ * * {{VGUIElementMethodInternal|GetAnimEase}}
+ * * {{VGUIElementMethodInternal|SetDraggableName}}
+ * * {{VGUIElementMethodInternal|GetDraggableName}}
+ * * {{VGUIElementMethodInternal|SetSpacing}}
+ * * {{VGUIElementMethodInternal|GetSpacing}}
+ * * {{VGUIElementMethodInternal|SetPadding}}
+ * * {{VGUIElementMethodInternal|GetPadding}}
+ * 
+ * * {{VGUIElementMethodInternal|OnModified}} 
  */
-declare class DProperty_Int extends DProperty_Float {
-
+declare class DPanelList extends DPanel {
+    /**
+     * @param insert The panel to insert 
+     * @param strLineState If set to "ownline", no other panels will be placed to the left or right of the panel we are inserting 
+     */
+    InsertAtTop(insert: Panel, strLineState: string): void;
 }
 
 /**
@@ -39918,45 +39791,106 @@ declare namespace menubar {
 
 /**
  * {{Panel
- * |Parent=DProperty_Generic
- * |Preview=DProperty_VectorColor_preview.png
- * |Description=Color picker control for a DProperties panel. Opens a {{Type|DColorCombo}} if the color preview is clicked.
- * 
- * See [[Editable Entities]] for how this is used ingame.
+ * |Parent=DPanel
+ * |Description=Adds curved corners.
  * }}
  * {{Example
- * |Description=Creates a demo VectorColor property.
- * |Code=local Panel = vgui.Create( "DFrame" )
- * Panel:SetSize( 500, 500 )
- * Panel:MakePopup()
+ * |Description=Creates a {{Type|DPanel}} with a DPanelOverlay and adds a {{Type|DLabel}} to it
+ * |Code=local DFrame = vgui.Create( "DFrame" )
+ * DFrame:SetSize( 350, 200 ) -- Set the size of the panel
+ * DFrame:Center()
+ * DFrame:MakePopup()
  * 
- * local props = vgui.Create( "DProperties", Panel )
- * props:Dock( FILL )
+ * local DPanel = vgui.Create( "Panel", DFrame )
+ * DPanel:Dock( FILL )
  * 
- * local colorPicker = props:CreateRow( "Color", "Select Color" )
- * colorPicker:Setup( "VectorColor", {} )
- * colorPicker:SetValue( Vector( 0.61, 0.1, 0.1 ) )
- * colorPicker.DataChanged = function( self, data )
- * 	MsgN( "Selected color: ", data )
- * end
+ * local DLabel = vgui.Create( "DLabel", DPanel )
+ * DLabel:SetPos( 10, 10 ) -- Set the position of the label
+ * DLabel:SetText( "I'm a DLabel inside a DPanel that has a DPanelOverlay border!" ) -- Set the text of the label
+ * DLabel:SizeToContents() -- Size the label to fit the text in it
+ * 
+ * local DPanelOverlay = vgui.Create( "DPanelOverlay", DPanel )
+ * DPanelOverlay:SetType( 1 ) -- Sets the type of overlay to add to the DPanel
+ * DPanelOverlay:SetColor( Color( 255, 0, 0 ) ) -- Sets the colour of the borders
  * }} 
  */
-declare class DProperty_VectorColor extends DProperty_Generic {
+declare class DPanelOverlay extends DPanel {
     /**
-     * @param prop [="VectorColor"]  
-     * @param settings A table of settings. None of the values are used for this property. See [[Editable Entities]]. 
+     * @returns The set color. Uses the {{Struct|Color}}. 
      */
-    Setup(prop?: string, settings?: table): void;
+    GetColor(): Color;
     
     /**
-     * @param settings A table of settings. None of the values are used for this property. See [[Editable Entities]]. 
+     * @returns The set type. 
      */
-    Setup(settings: table): void;
+    GetType(): number;
     
     /**
-     * @param color Sets the color to use in a {{Type|DProperty_VectorColor}}. 
+     * @param cola  
+     * @param colb  
+     * @param colc  
+     * @param cold  
+     * @param size  
      */
-    SetValue(color: DProperty_VectorColor): void;
+    PaintDifferentColours(cola: table, colb: table, colc: table, cold: table, size: number): void;
+    
+    /**
+     * @param size  
+     */
+    PaintInnerCorners(size: number): void;
+    
+    /**
+     * @param color The color to set. Uses the {{Struct|Color}}. 
+     */
+    SetColor(color: Color): void;
+    
+    /**
+     * @param type The type to set.
+     * 
+     * Possible value are:
+     * * 1 - 8px corners of given color
+     * * 2 - 4px corners of given type
+     * * 3 - 2 top? corners of hardcoded color, 2 other corners of given color 
+     */
+    SetType(type: number): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=DPanelList
+ * |Description={{Deprecated|This is derived from the deprecated {{Type|DPanelList}}.}} A base panel for things like {{Type|DModelSelect}}. Basically, a list of panels that can be selected. Selected panel can be retrieved and has visual indication of being selected.
+ * }} 
+ */
+declare class DPanelSelect extends DPanelList {
+
+}
+
+/**
+ * {{Panel
+ * |Name=DProgress
+ * |Parent=Panel
+ * |Description=A progressbar, works with a fraction between 0 and 1 where 0 is 0% and 1 is 100%.
+ * }}
+ * {{Example
+ * |Description=Creates a DProgress set to 75% (0.75 out of 1)
+ * |Code=local DProgress = vgui.Create( "DProgress" )
+ * DProgress:SetPos( 10, 30 )
+ * DProgress:SetSize( 200, 20 )
+ * DProgress:SetFraction( 0.75 )
+ * |Output=<br/><br/>
+ * [[Image:DProgress_large.png]]
+ * }} 
+ */
+declare class DProgress extends Panel {
+    /**
+     * @returns Current fraction of the progress bar. 
+     */
+    GetFraction(): number;
+    
+    /**
+     * @param fraction Fraction of the progress bar. Range is 0 to 1 (0% to 100%). 
+     */
+    SetFraction(fraction: number): void;
 }
 
 /**
@@ -40080,6 +40014,520 @@ declare namespace mesh {
      * @returns vertexCount 
      */
     function VertexCount(): number;
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * |Description=A grid for editing the properties of something using names and values. Properties can be categorized and strongly typed.
+ * 
+ * == Associated controls ==
+ * *{{Type|DProperty_VectorColor}}
+ * *{{Type|DProperty_Boolean}}
+ * *{{Type|DProperty_Generic}}
+ * *{{Type|DProperty_Combo}}
+ * *{{Type|DProperty_Float}}
+ * *{{Type|DProperty_Int}}
+ * 
+ * }}
+ * {{Example
+ * |Description=Creates a DProperties control with a few properties set up
+ * |Code=local f = vgui.Create( "DFrame" )
+ * f:SetSize( 500, 300 )
+ * f:Center()
+ * f:MakePopup()
+ * 
+ * local DProperties = vgui.Create( "DProperties", f )
+ * DProperties:Dock( FILL )
+ * 
+ * local Row1 = DProperties:CreateRow( "Category1", "Vector Color" )
+ * Row1:Setup( "VectorColor" )
+ * Row1:SetValue( Vector( 1, 0, 0 ) )
+ * Row1.DataChanged = function( _, val ) print( val ) end
+ * 
+ * local Row2 = DProperties:CreateRow( "Category1", "Combo" )
+ * Row2:Setup( "Combo", { text = "Select type..." } )
+ * Row2:AddChoice( "Table", {} )
+ * Row2:AddChoice( "String", "Hello world" )
+ * Row2.DataChanged = function( self, data )
+ * 	print( "You selected: ", data )
+ * end
+ * 
+ * local Row3 = DProperties:CreateRow( "Category1", "Boolean" )
+ * Row3:Setup( "Boolean" )
+ * Row3:SetValue( true )
+ * 
+ * local Row4 = DProperties:CreateRow( "Category2", "Float" )
+ * Row4:Setup( "Float", { min = 0, max = 5 } )
+ * Row4:SetValue( 2.5 )
+ * 
+ * local Row5 = DProperties:CreateRow( "Category2", "Integer" )
+ * Row5:Setup( "Int", { min = 0, max = 5 } )
+ * Row5:SetValue( 2.5 )
+ * 
+ * local Row6 = DProperties:CreateRow( "Category2", "Generic" )
+ * Row6:Setup( "Generic" )
+ * Row6:SetValue( "Hello World!" )
+ * Row6.DataChanged = function( _, val ) print( val ) end
+ * |Output=When you change the "Hello World!" textbox, it will print its new contents to the console.
+ * }} 
+ */
+declare class DProperties extends Panel {
+    /**
+     * @param category The category to list this row under 
+     * @param name The label of this row 
+     * @returns An internal Row panel. 
+     */
+    CreateRow(category: string, name: string): Panel;
+    
+    /**
+     * @returns A {{Type|DScrollPanel}} canvas 
+     */
+    GetCanvas(): DScrollPanel;
+    
+    /**
+     * @param name Name of the category 
+     * @param create Create a new category if it doesn't exist. 
+     * @returns An internal panel. 
+     */
+    GetCategory(name: string, create: boolean): Panel;
+}
+
+/**
+ * {{Panel
+ * |Parent=DProperty_Generic
+ * |Description={{Internal}}
+ * Checkbox control for the {{Type|DProperties}} panel.
+ * }}
+ * {{Example
+ * |Description=Example of this panel
+ * |Code=local Panel = vgui.Create( "DFrame" )
+ * Panel:SetSize( 500, 500 )
+ * Panel:MakePopup()
+ * 
+ * local props = vgui.Create( "DProperties", Panel )
+ * props:Dock( FILL )
+ * 
+ * local boolRow = props:CreateRow( "MyCategory", "CheckboxExample" )
+ * boolRow:Setup( "Boolean" )
+ * boolRow:SetValue( true )
+ * boolRow.DataChanged = function( self, data )
+ * 	MsgN( "Data changed: ", data )
+ * end
+ * }} 
+ */
+declare class DProperty_Boolean extends DProperty_Generic {
+
+}
+
+/**
+ * {{Panel
+ * |Description={{Internal}}Combo control for a {{Type|DProperties}} panel.
+ * |Parent=DProperty_Generic
+ * |Preview=DProperty_Combo_preview.png
+ * }}
+ * {{Example
+ * |Code=
+ * local Panel = vgui.Create( "DFrame" )
+ * Panel:SetSize( 500, 500 )
+ * Panel:MakePopup()
+ * 
+ * local DP = vgui.Create( "DProperties", Panel )
+ * DP:Dock( FILL )
+ * 
+ * local choice = DP:CreateRow( "Choices", "Combo #1: Default" )
+ * choice:Setup( "Combo", {} )
+ * choice:AddChoice( "Allow", true )
+ * choice:AddChoice( "Disallow", false )
+ * 
+ * local choice = DP:CreateRow( "Choices", "Combo #2: Custom default text" )
+ * choice:Setup( "Combo", { text = "Select type..." } )
+ * choice:AddChoice( "Table", {} )
+ * choice:AddChoice( "Function", function() end )
+ * choice:AddChoice( "String", "Hello world" )
+ * choice.DataChanged = function( self, data )
+ *     print( "You selected: ", data )
+ * end
+ * }} 
+ */
+declare class DProperty_Combo extends DProperty_Generic {
+    /**
+     * @param Text Shown text. 
+     * @param data Stored Data. 
+     * @param select [=false] Select this element? 
+     */
+    AddChoice(Text: string, data: any, select?: boolean): void;
+    
+    /**
+     * @param data The new data that was selected. 
+     */
+    DataChanged(data: any): void;
+    
+    /**
+     * Sets the selected state of a selectable panel object. This functionality is set with {{ClassFunction|Panel|SetSelectable}} and checked with {{ClassFunction|Panel|IsSelectable}}. 
+     * @param selected [=false] Whether the object should be selected or deselected. {{ClassFunction|Panel|IsSelected}} can be used to determine the selected state of the object. 
+     */
+    SetSelected(selected?: boolean): void;
+    
+    /**
+     * @param Id Id of the choice to be selected. 
+     */
+    SetSelected(Id: number): void;
+    
+    /**
+     * @param prop [="Combo"] The name of DProperty sub control to add. 
+     * @param data [={ text = "Select..." }] Data to use to set up the combo box control.
+     * 
+     * Structure:
+     * * {{FuncArg|string|text|The default label for this combo box}}
+     * * {{FuncArg|table|values|The values to add to the combo box}} 
+     */
+    Setup(prop?: string, data?: table): void;
+}
+
+/**
+ * {{Panel
+ * |Description={{Internal}}Float control for the {{Type|DProperties}} panel.
+ * |Parent=DProperty_Generic
+ * }} 
+ */
+declare class DProperty_Float extends DProperty_Generic {
+
+}
+
+/**
+ * Functions related to Kinect for Windows usage in GMod. 
+ */
+declare namespace motionsensor {
+    /**
+     *  
+     * @param translator  
+     * @param player  
+     * @param rotation  
+     * @returns [Pos, ang, sensor]
+     * !TupleReturn 
+     */
+    function BuildSkeleton(translator: table, player: Player, rotation: Angle): [Vector, Angle, sensor];
+    
+    /**
+     *  
+     * @param ent Entity to choose builder for 
+     * @returns Chosen builder 
+     */
+    function ChooseBuilderFromEntity(ent: Entity): string;
+    
+    /**
+     * Returns the depth map material. 
+     * @returns The material 
+     */
+    function GetColourMaterial(): IMaterial;
+    
+    /**
+     *  
+     */
+    function GetSkeleton(): void;
+    
+    /**
+     * Return whether a kinect is connected - and active (ie - Start has been called). 
+     * @returns Connected and active or not 
+     */
+    function IsActive(): boolean;
+    
+    /**
+     * Returns true if we have detected that there's a kinect connected to the PC 
+     * @returns Connected or not 
+     */
+    function IsAvailable(): boolean;
+    
+    /**
+     *  
+     * @param translator  
+     * @param sensor  
+     * @param pos  
+     * @param ang  
+     * @param special_vectors  
+     * @param boneid  
+     * @param v  
+     * @returns Return nil on failure 
+     */
+    function ProcessAngle(translator: table, sensor: table, pos: Vector, ang: Angle, special_vectors: table, boneid: number, v: table): boolean;
+    
+    /**
+     *  
+     * @param translator  
+     * @param sensor  
+     * @param pos  
+     * @param rotation  
+     * @returns Ang. If !translator.AnglesTable then return - {} 
+     */
+    function ProcessAnglesTable(translator: table, sensor: table, pos: Vector, rotation: Angle): Angle;
+    
+    /**
+     *  
+     * @param translator  
+     * @param sensor  
+     * @returns Pos. if !translator.PositionTable then return - {} 
+     */
+    function ProcessPositionTable(translator: table, sensor: table): Vector;
+    
+    /**
+     * This starts access to the kinect sensor. Note that this usually freezes the game for a couple of seconds. 
+     */
+    function Start(): void;
+    
+    /**
+     * Stops the motion capture. 
+     */
+    function Stop(): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * |Description=A base for other controls for {{Type|DProperties}}. Acts as a generic text input on its own.
+ * }}
+ * {{Example
+ * |Description=Example usage of this control
+ * |Code=local Panel = vgui.Create( "DFrame" )
+ * Panel:SetSize( 500, 500 )
+ * Panel:MakePopup()
+ * 
+ * local props = vgui.Create( "DProperties", Panel )
+ * props:Dock( FILL )
+ * 
+ * local textRow = props:CreateRow( "MyCategory", "GenericTextArea" )
+ * textRow:Setup( "Generic" )
+ * textRow:SetValue( "test" )
+ * textRow.DataChanged = function( self, data )
+ * 	MsgN( "Text changed: ", data )
+ * end
+ * }} 
+ */
+declare class DProperty_Generic extends Panel {
+
+}
+
+/**
+ * {{Panel
+ * |Description={{Internal}}Integer control for the {{Type|DProperties}} panel.
+ * |Parent=DProperty_Float
+ * }} 
+ */
+declare class DProperty_Int extends DProperty_Float {
+
+}
+
+/**
+ * {{Panel
+ * |Parent=DProperty_Generic
+ * |Preview=DProperty_VectorColor_preview.png
+ * |Description=Color picker control for a DProperties panel. Opens a {{Type|DColorCombo}} if the color preview is clicked.
+ * 
+ * See [[Editable Entities]] for how this is used ingame.
+ * }}
+ * {{Example
+ * |Description=Creates a demo VectorColor property.
+ * |Code=local Panel = vgui.Create( "DFrame" )
+ * Panel:SetSize( 500, 500 )
+ * Panel:MakePopup()
+ * 
+ * local props = vgui.Create( "DProperties", Panel )
+ * props:Dock( FILL )
+ * 
+ * local colorPicker = props:CreateRow( "Color", "Select Color" )
+ * colorPicker:Setup( "VectorColor", {} )
+ * colorPicker:SetValue( Vector( 0.61, 0.1, 0.1 ) )
+ * colorPicker.DataChanged = function( self, data )
+ * 	MsgN( "Selected color: ", data )
+ * end
+ * }} 
+ */
+declare class DProperty_VectorColor extends DProperty_Generic {
+    /**
+     * @param prop [="VectorColor"]  
+     * @param settings A table of settings. None of the values are used for this property. See [[Editable Entities]]. 
+     */
+    Setup(prop?: string, settings?: table): void;
+    
+    /**
+     * @param settings A table of settings. None of the values are used for this property. See [[Editable Entities]]. 
+     */
+    Setup(settings: table): void;
+    
+    /**
+     * @param color Sets the color to use in a {{Type|DProperty_VectorColor}}. 
+     */
+    SetValue(color: DProperty_VectorColor): void;
+}
+
+/**
+ * The navigation mesh library. To be used with {{Type|CNavArea}}.<br/>
+ * The navigation mesh is used by {{Type|NextBot}} to calculate path to its target. 
+ */
+declare namespace navmesh {
+    /**
+     * Add this position and normal to the list of walkable positions, used before map generation with {{LibraryFunction|navmesh|BeginGeneration}} 
+     * @param pos The terrain position. 
+     * @param dir The normal of this terrain position. 
+     */
+    function AddWalkableSeed(pos: Vector, dir: Vector): void;
+    
+    /**
+     * Starts the generation of a new navmesh.
+     * 
+     * {{Note|This process is highly resource intensive and it's not wise to use during normal gameplay}} 
+     */
+    function BeginGeneration(): void;
+    
+    /**
+     * Clears all the walkable positions, used before calling {{LibraryFunction|navmesh|BeginGeneration}}. 
+     */
+    function ClearWalkableSeeds(): void;
+    
+    /**
+     * Creates a new {{Type|CNavArea}}. 
+     * @param corner The first corner of the new {{Type|CNavArea}} 
+     * @param opposite_corner The opposite (diagonally) corner of the new {{Type|CNavArea}} 
+     * @returns The new {{Type|CNavArea}} or {{Type|nil}} if we failed for some reason. 
+     */
+    function CreateNavArea(corner: CNavArea, opposite_corner: CNavArea): CNavArea;
+    
+    /**
+     * Returns a bunch of areas within distance, used to find hiding spots by {{Type|NextBot}}s for example. 
+     * @param pos The position to search around 
+     * @param radius Radius to search within 
+     * @param stepdown Maximum stepdown( fall distance ) allowed 
+     * @param stepup Maximum stepup( jump height ) allowed 
+     * @returns A table of {{Type|CNavArea}}s 
+     */
+    function Find(pos: Vector, radius: number, stepdown: number, stepup: number): table;
+    
+    /**
+     * Returns an integer indexed table of all {{Type|CNavArea}}s on the current map. If the map doesn't have a navmesh generated then this will return an empty table. 
+     * @returns A table of all the {{Type|CNavArea}}s on the current map. 
+     */
+    function GetAllNavAreas(): table;
+    
+    /**
+     * Returns the position of the edit cursor when nav_edit is set to 1. 
+     * @returns The position of the edit cursor. 
+     */
+    function GetEditCursorPosition(): Vector;
+    
+    /**
+     *  
+     * @param pos  
+     * @returns [The height, The normal]
+     * !TupleReturn 
+     */
+    function GetGroundHeight(pos: Vector): [number, Vector];
+    
+    /**
+     * Returns the currently marked {{Type|CNavArea}}, for use with editing console commands. 
+     * @returns The currently marked {{Type|CNavArea}}. 
+     */
+    function GetMarkedArea(): CNavArea;
+    
+    /**
+     * Returns the currently marked {{Type|CNavLadder}}, for use with editing console commands. 
+     * @returns The currently marked {{Type|CNavLadder}}. 
+     */
+    function GetMarkedLadder(): CNavLadder;
+    
+    /**
+     * Returns the Nav Area contained in this position that also satisfies the elevation limit. 
+     * @param pos The position to search for. 
+     * @param beneathLimit The elevation limit at which the Nav Area will be searched. 
+     * @returns The nav area. 
+     */
+    function GetNavArea(pos: Vector, beneathLimit: number): CNavArea;
+    
+    /**
+     * Returns a {{Type|CNavArea}} by the given ID.
+     * 
+     * {{Note|Avoid calling this function every frame, as internally it does a lookup trough all the {{Type|CNavArea}}s, call this once and store the result}} 
+     * @param id ID of the {{Type|CNavArea}} to get. Starts with 1. 
+     * @returns The {{Type|CNavArea}} with given ID. 
+     */
+    function GetNavAreaByID(id: number): CNavArea;
+    
+    /**
+     * Returns the highest ID of all nav areas on the map. While this can be used to get all nav areas, this number may not actually be the actual number of nav areas on the map. 
+     * @returns The highest ID of all nav areas on the map. 
+     */
+    function GetNavAreaCount(): number;
+    
+    /**
+     * Returns a {{Type|CNavLadder}} by the given ID. 
+     * @param id ID of the {{Type|CNavLadder}} to get. Starts with 1. 
+     * @returns The {{Type|CNavLadder}} with given ID. 
+     */
+    function GetNavLadderByID(id: number): CNavLadder;
+    
+    /**
+     * Returns the closest {{Type|CNavArea}} to given position at the same height, or beneath it. 
+     * @param pos The position to look from 
+     * @param anyZ [=false] This argument is ignored and has no effect 
+     * @param maxDist [=10000] This is the maximum distance from the given position that the function will look for a {{Type|CNavArea}} 
+     * @param checkLOS [=false] If this is set to true then the function will internally do a {{LibraryFunction|util|TraceLine}} from the starting position to each potential {{Type|CNavArea}} with a MASK_NPCSOLID_BRUSHONLY {{Enum|MASK|Test}}. If the trace fails then the {{Type|CNavArea}} is ignored.
+     * 
+     * If this is set to false then the function will find the closest {{Type|CNavArea}} through anything, including the world. 
+     * @param checkGround [=true] If checkGround is true then this function will internally call {{LibraryFunction|navmesh|GetNavArea}} to check if there is a {{Type|CNavArea}} directly below the position, and return it if so, before checking anywhere else. 
+     * @param team [=TEAM_ANY=-2] This will internally call {{ClassFunction|CNavArea|IsBlocked}} to check if the target {{Type|CNavArea}} is not to be navigated by the given team. Currently this appears to do nothing. 
+     * @returns The closest {{Type|CNavArea}} found with the given parameters. 
+     */
+    function GetNearestNavArea(pos: Vector, anyZ?: boolean, maxDist?: number, checkLOS?: boolean, checkGround?: CNavArea, team?: number): CNavArea;
+    
+    /**
+     * Returns the classname of the player spawn entity. 
+     * @returns The classname of the spawn point entity. By default returns "info_player_start" 
+     */
+    function GetPlayerSpawnName(): string;
+    
+    /**
+     * Whether we're currently generating a new navmesh with {{LibraryFunction|navmesh|BeginGeneration}}. 
+     * @returns Whether we're generating a nav mesh or not. 
+     */
+    function IsGenerating(): boolean;
+    
+    /**
+     * Returns true if a navmesh has been loaded when loading the map. 
+     * @returns Whether a navmesh has been loaded when loading the map. 
+     */
+    function IsLoaded(): boolean;
+    
+    /**
+     * Loads a new navmesh from the .nav file for current map discarding any changes made to the navmesh previously. 
+     */
+    function Load(): void;
+    
+    /**
+     * Deletes every {{Type|CNavArea}} and {{Type|CNavLadder}} on the map '''without saving the changes'''. 
+     */
+    function Reset(): void;
+    
+    /**
+     * Saves any changes made to navmesh to the .nav file. 
+     */
+    function Save(): void;
+    
+    /**
+     * Sets the {{Type|CNavArea}} as marked, so it can be used with editing console commands. 
+     * @param area The {{Type|CNavArea}} to set as the marked area. 
+     */
+    function SetMarkedArea(area: CNavArea): void;
+    
+    /**
+     * Sets the {{Type|CNavLadder}} as marked, so it can be used with editing console commands. 
+     * @param area The {{Type|CNavLadder}} to set as the marked ladder. 
+     */
+    function SetMarkedLadder(area: CNavLadder): void;
+    
+    /**
+     * Sets the classname of the default spawn point entity, used before generating a new navmesh with {{LibraryFunction|navmesh|BeginGeneration}}. 
+     * @param spawnPointClass The classname of what the player uses to spawn, automatically adds it to the walkable positions during map generation. 
+     */
+    function SetPlayerSpawnName(spawnPointClass: string): void;
 }
 
 /**
@@ -40338,92 +40786,6 @@ declare class DScrollBarGrip extends DPanel {
 }
 
 /**
- * Functions related to Kinect for Windows usage in GMod. 
- */
-declare namespace motionsensor {
-    /**
-     *  
-     * @param translator  
-     * @param player  
-     * @param rotation  
-     * @returns [Pos, ang, sensor]
-     * !TupleReturn 
-     */
-    function BuildSkeleton(translator: table, player: Player, rotation: Angle): [Vector, Angle, sensor];
-    
-    /**
-     *  
-     * @param ent Entity to choose builder for 
-     * @returns Chosen builder 
-     */
-    function ChooseBuilderFromEntity(ent: Entity): string;
-    
-    /**
-     * Returns the depth map material. 
-     * @returns The material 
-     */
-    function GetColourMaterial(): IMaterial;
-    
-    /**
-     *  
-     */
-    function GetSkeleton(): void;
-    
-    /**
-     * Return whether a kinect is connected - and active (ie - Start has been called). 
-     * @returns Connected and active or not 
-     */
-    function IsActive(): boolean;
-    
-    /**
-     * Returns true if we have detected that there's a kinect connected to the PC 
-     * @returns Connected or not 
-     */
-    function IsAvailable(): boolean;
-    
-    /**
-     *  
-     * @param translator  
-     * @param sensor  
-     * @param pos  
-     * @param ang  
-     * @param special_vectors  
-     * @param boneid  
-     * @param v  
-     * @returns Return nil on failure 
-     */
-    function ProcessAngle(translator: table, sensor: table, pos: Vector, ang: Angle, special_vectors: table, boneid: number, v: table): boolean;
-    
-    /**
-     *  
-     * @param translator  
-     * @param sensor  
-     * @param pos  
-     * @param rotation  
-     * @returns Ang. If !translator.AnglesTable then return - {} 
-     */
-    function ProcessAnglesTable(translator: table, sensor: table, pos: Vector, rotation: Angle): Angle;
-    
-    /**
-     *  
-     * @param translator  
-     * @param sensor  
-     * @returns Pos. if !translator.PositionTable then return - {} 
-     */
-    function ProcessPositionTable(translator: table, sensor: table): Vector;
-    
-    /**
-     * This starts access to the kinect sensor. Note that this usually freezes the game for a couple of seconds. 
-     */
-    function Start(): void;
-    
-    /**
-     * Stops the motion capture. 
-     */
-    function Stop(): void;
-}
-
-/**
  * {{Panel
  * |Parent=DPanel
  * |Description=DScrollPanel is a VGUI Element similar to DPanel however it has a vertical scrollbar docked to the right which can be used to put more content in a smaller area. DScrollPanels are essentially {{Type|DPanel}}s with the Scroll Bar.
@@ -40573,307 +40935,8 @@ declare class DSizeToContents extends Panel {
 }
 
 /**
- * The navigation mesh library. To be used with {{Type|CNavArea}}.<br/>
- * The navigation mesh is used by {{Type|NextBot}} to calculate path to its target. 
- */
-declare namespace navmesh {
-    /**
-     * Add this position and normal to the list of walkable positions, used before map generation with {{LibraryFunction|navmesh|BeginGeneration}} 
-     * @param pos The terrain position. 
-     * @param dir The normal of this terrain position. 
-     */
-    function AddWalkableSeed(pos: Vector, dir: Vector): void;
-    
-    /**
-     * Starts the generation of a new navmesh.
-     * 
-     * {{Note|This process is highly resource intensive and it's not wise to use during normal gameplay}} 
-     */
-    function BeginGeneration(): void;
-    
-    /**
-     * Clears all the walkable positions, used before calling {{LibraryFunction|navmesh|BeginGeneration}}. 
-     */
-    function ClearWalkableSeeds(): void;
-    
-    /**
-     * Creates a new {{Type|CNavArea}}. 
-     * @param corner The first corner of the new {{Type|CNavArea}} 
-     * @param opposite_corner The opposite (diagonally) corner of the new {{Type|CNavArea}} 
-     * @returns The new {{Type|CNavArea}} or {{Type|nil}} if we failed for some reason. 
-     */
-    function CreateNavArea(corner: CNavArea, opposite_corner: CNavArea): CNavArea;
-    
-    /**
-     * Returns a bunch of areas within distance, used to find hiding spots by {{Type|NextBot}}s for example. 
-     * @param pos The position to search around 
-     * @param radius Radius to search within 
-     * @param stepdown Maximum stepdown( fall distance ) allowed 
-     * @param stepup Maximum stepup( jump height ) allowed 
-     * @returns A table of {{Type|CNavArea}}s 
-     */
-    function Find(pos: Vector, radius: number, stepdown: number, stepup: number): table;
-    
-    /**
-     * Returns an integer indexed table of all {{Type|CNavArea}}s on the current map. If the map doesn't have a navmesh generated then this will return an empty table. 
-     * @returns A table of all the {{Type|CNavArea}}s on the current map. 
-     */
-    function GetAllNavAreas(): table;
-    
-    /**
-     * Returns the position of the edit cursor when nav_edit is set to 1. 
-     * @returns The position of the edit cursor. 
-     */
-    function GetEditCursorPosition(): Vector;
-    
-    /**
-     *  
-     * @param pos  
-     * @returns [The height, The normal]
-     * !TupleReturn 
-     */
-    function GetGroundHeight(pos: Vector): [number, Vector];
-    
-    /**
-     * Returns the currently marked {{Type|CNavArea}}, for use with editing console commands. 
-     * @returns The currently marked {{Type|CNavArea}}. 
-     */
-    function GetMarkedArea(): CNavArea;
-    
-    /**
-     * Returns the currently marked {{Type|CNavLadder}}, for use with editing console commands. 
-     * @returns The currently marked {{Type|CNavLadder}}. 
-     */
-    function GetMarkedLadder(): CNavLadder;
-    
-    /**
-     * Returns the Nav Area contained in this position that also satisfies the elevation limit. 
-     * @param pos The position to search for. 
-     * @param beneathLimit The elevation limit at which the Nav Area will be searched. 
-     * @returns The nav area. 
-     */
-    function GetNavArea(pos: Vector, beneathLimit: number): CNavArea;
-    
-    /**
-     * Returns a {{Type|CNavArea}} by the given ID.
-     * 
-     * {{Note|Avoid calling this function every frame, as internally it does a lookup trough all the {{Type|CNavArea}}s, call this once and store the result}} 
-     * @param id ID of the {{Type|CNavArea}} to get. Starts with 1. 
-     * @returns The {{Type|CNavArea}} with given ID. 
-     */
-    function GetNavAreaByID(id: number): CNavArea;
-    
-    /**
-     * Returns the highest ID of all nav areas on the map. While this can be used to get all nav areas, this number may not actually be the actual number of nav areas on the map. 
-     * @returns The highest ID of all nav areas on the map. 
-     */
-    function GetNavAreaCount(): number;
-    
-    /**
-     * Returns a {{Type|CNavLadder}} by the given ID. 
-     * @param id ID of the {{Type|CNavLadder}} to get. Starts with 1. 
-     * @returns The {{Type|CNavLadder}} with given ID. 
-     */
-    function GetNavLadderByID(id: number): CNavLadder;
-    
-    /**
-     * Returns the closest {{Type|CNavArea}} to given position at the same height, or beneath it. 
-     * @param pos The position to look from 
-     * @param anyZ [=false] This argument is ignored and has no effect 
-     * @param maxDist [=10000] This is the maximum distance from the given position that the function will look for a {{Type|CNavArea}} 
-     * @param checkLOS [=false] If this is set to true then the function will internally do a {{LibraryFunction|util|TraceLine}} from the starting position to each potential {{Type|CNavArea}} with a MASK_NPCSOLID_BRUSHONLY {{Enum|MASK|Test}}. If the trace fails then the {{Type|CNavArea}} is ignored.
-     * 
-     * If this is set to false then the function will find the closest {{Type|CNavArea}} through anything, including the world. 
-     * @param checkGround [=true] If checkGround is true then this function will internally call {{LibraryFunction|navmesh|GetNavArea}} to check if there is a {{Type|CNavArea}} directly below the position, and return it if so, before checking anywhere else. 
-     * @param team [=TEAM_ANY=-2] This will internally call {{ClassFunction|CNavArea|IsBlocked}} to check if the target {{Type|CNavArea}} is not to be navigated by the given team. Currently this appears to do nothing. 
-     * @returns The closest {{Type|CNavArea}} found with the given parameters. 
-     */
-    function GetNearestNavArea(pos: Vector, anyZ?: boolean, maxDist?: number, checkLOS?: boolean, checkGround?: CNavArea, team?: number): CNavArea;
-    
-    /**
-     * Returns the classname of the player spawn entity. 
-     * @returns The classname of the spawn point entity. By default returns "info_player_start" 
-     */
-    function GetPlayerSpawnName(): string;
-    
-    /**
-     * Whether we're currently generating a new navmesh with {{LibraryFunction|navmesh|BeginGeneration}}. 
-     * @returns Whether we're generating a nav mesh or not. 
-     */
-    function IsGenerating(): boolean;
-    
-    /**
-     * Returns true if a navmesh has been loaded when loading the map. 
-     * @returns Whether a navmesh has been loaded when loading the map. 
-     */
-    function IsLoaded(): boolean;
-    
-    /**
-     * Loads a new navmesh from the .nav file for current map discarding any changes made to the navmesh previously. 
-     */
-    function Load(): void;
-    
-    /**
-     * Deletes every {{Type|CNavArea}} and {{Type|CNavLadder}} on the map '''without saving the changes'''. 
-     */
-    function Reset(): void;
-    
-    /**
-     * Saves any changes made to navmesh to the .nav file. 
-     */
-    function Save(): void;
-    
-    /**
-     * Sets the {{Type|CNavArea}} as marked, so it can be used with editing console commands. 
-     * @param area The {{Type|CNavArea}} to set as the marked area. 
-     */
-    function SetMarkedArea(area: CNavArea): void;
-    
-    /**
-     * Sets the {{Type|CNavLadder}} as marked, so it can be used with editing console commands. 
-     * @param area The {{Type|CNavLadder}} to set as the marked ladder. 
-     */
-    function SetMarkedLadder(area: CNavLadder): void;
-    
-    /**
-     * Sets the classname of the default spawn point entity, used before generating a new navmesh with {{LibraryFunction|navmesh|BeginGeneration}}. 
-     * @param spawnPointClass The classname of what the player uses to spawn, automatically adds it to the walkable positions during map generation. 
-     */
-    function SetPlayerSpawnName(spawnPointClass: string): void;
-}
-
-/**
- * {{Panel
- * |Parent=DPanel
- * |Description=Creates a slider that can be moved along the X and/or Y axis
- * }}
- * {{Example
- * |Description=Make a slider at 50, 50 that can move 100 pixels on the X axis.
- * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 500, 300 )
- * frame:Center()
- * frame:MakePopup()
- * 
- * local Slider = vgui.Create( "DSlider", frame )
- * Slider:SetPos( 50, 50 )
- * Slider:SetSize( 100, 20 )
- * }} 
- */
-declare class DSlider extends DPanel {
-    /**
-     * @returns  
-     */
-    GetDragging(): boolean;
-    
-    /**
-     * @returns  
-     */
-    GetLockX(): number;
-    
-    /**
-     * @returns  
-     */
-    GetLockY(): number;
-    
-    /**
-     * @returns  
-     */
-    GetNotches(): number;
-    
-    /**
-     * @returns  
-     */
-    GetNumSlider(): any;
-    
-    /**
-     * @returns The value range seems to be from 0 to 1 
-     */
-    GetSlideX(): number;
-    
-    /**
-     * @returns The value range seems to be from 0 to 1 
-     */
-    GetSlideY(): number;
-    
-    /**
-     * @returns  
-     */
-    GetTrapInside(): boolean;
-    
-    /**
-     * @returns  
-     */
-    IsEditing(): boolean;
-    
-    /**
-     * @param path Path to the image. 
-     */
-    SetBackground(path: string): void;
-    
-    /**
-     * @param dragging  
-     */
-    SetDragging(dragging: boolean): void;
-    
-    /**
-     */
-    SetImage(): void;
-    
-    /**
-     */
-    SetImageColor(): void;
-    
-    /**
-     * @param lockX [=nil] Set to nil to reset lock.
-     * 
-     * The value range is from 0 to 1. 
-     */
-    SetLockX(lockX?: number): void;
-    
-    /**
-     * @param lockY [=nil] Set to nil to reset lock.
-     * 
-     * The value range is from 0 to 1. 
-     */
-    SetLockY(lockY?: number): void;
-    
-    /**
-     * @param notches  
-     */
-    SetNotches(notches: number): void;
-    
-    /**
-     * @param slider  
-     */
-    SetNumSlider(slider: any): void;
-    
-    /**
-     * @param x The value range seems to be from 0 to 1 
-     */
-    SetSlideX(x: number): void;
-    
-    /**
-     * @param y The value range seems to be from 0 to 1 
-     */
-    SetSlideY(y: number): void;
-    
-    /**
-     * @param trap  
-     */
-    SetTrapInside(trap: boolean): void;
-    
-    /**
-     * @param x  
-     * @param y  
-     * @returns [x, y]
-     * !TupleReturn 
-     */
-    TranslateValues(x: number, y: number): [number, number];
-}
-
-/**
  * This is a list of all available methods for entites, which includes [http://wiki.garrysmod.com/page/Category:Player Players], [http://wiki.garrysmod.com/page/Category:Weapon Weapons], [http://wiki.garrysmod.com/page/Category:NPC NPCs] and [http://wiki.garrysmod.com/page/Category:Vehicle Vehicles]. 
- */
+ * !CustomConstructor Entity */
 declare class Entity {
     /**
      * Returns the entity with the matching {{ClassFunction|Entity|EntIndex}}.
@@ -45310,85 +45373,6 @@ declare class Entity {
 }
 
 /**
- * {{Panel
- * |Name=DSprite
- * |Parent=DPanel
- * |Description=A panel that draws a sprite on the player's HUD with the given {{Type|IMaterial}}, {{GlobalFunction|Color}} and rotation.
- * 
- * A shortcut for this is {{GlobalFunction|CreateSprite}}().
- * }}
- * {{Example
- * |Description=Creates a DSprite with the ''sent_ball'' material, and sets the color to cyan.
- * |Code=local sprite = vgui.Create("DSprite")
- * sprite:SetMaterial(Material("sprites/sent_ball"))
- * sprite:SetColor(Color(0, 255, 255))
- * sprite:Center()
- * sprite:SetSize(200, 200)
- * |Output=''See Preview above.''
- * }} 
- */
-declare class DSprite extends DPanel {
-    /**
-     * @returns The {{GlobalFunction|Color}} being used. 
-     */
-    GetColor(): table;
-    
-    /**
-     * @returns  
-     */
-    GetHandle(): Vector;
-    
-    /**
-     * @returns The material in use. 
-     */
-    GetMaterial(): IMaterial;
-    
-    /**
-     * @returns The anti-clockwise rotation in degrees. 
-     */
-    GetRotation(): number;
-    
-    /**
-     * @param color The {{GlobalFunction|Color}} to use. 
-     */
-    SetColor(color: table): void;
-    
-    /**
-     * @param vec  
-     */
-    SetHandle(vec: Vector): void;
-    
-    /**
-     * @param material The material to use. This will ideally be an [https://developer.valvesoftware.com/wiki/UnlitGeneric UnlitGeneric]. 
-     */
-    SetMaterial(material: IMaterial): void;
-    
-    /**
-     * @param ang The anti-clockwise rotation in degrees. 
-     */
-    SetRotation(ang: number): void;
-}
-
-/**
- * {{Panel
- * |Name=DTab
- * |Parent=DButton
- * |Description={{Internal}}A tab for internal use on the DPropertySheet.
- * }}
- * = Methods =
- * * {{VGUIElementMethodInternal|DragHoverClick}}
- * * {{VGUIElementMethodInternal|GetPanel}}
- * * {{VGUIElementMethodInternal|GetPropertySheet}}
- * * {{VGUIElementMethodInternal|IsActive}}
- * * {{VGUIElementMethodInternal|SetPanel}}
- * * {{VGUIElementMethodInternal|SetPropertySheet}}
- * * {{VGUIElementMethodInternal|Setup}} 
- */
-declare class DTab extends DButton {
-
-}
-
-/**
  * The net library is one of a number of ways to send data between the client and server. 
  * 
  * The major advantages of the net library are the large size limit (64kb/message) and the ability to send data backwards - from the client to the server.
@@ -45845,6 +45829,284 @@ declare namespace net {
 }
 
 /**
+ * Used to display notifications on the screen (mid-right). 
+ */
+declare namespace notification {
+    /**
+     * Adds a standard notification to your screen. 
+     * @param Text The string to display 
+     * @param Type Determines the method for displaying the notification. See the {{Enum|NOTIFY}} 
+     * @param Length The number of seconds to display the notification for 
+     */
+    function AddLegacy(Text: string, Type: NOTIFY, Length: number): void;
+    
+    /**
+     * Adds a notification with an animated progress bar. 
+     * @param id Can be any type. It's used as an index. 
+     * @param strText The text to show 
+     */
+    function AddProgress(id: any, strText: string): void;
+    
+    /**
+     * Removes the notification after 0.8 seconds. 
+     * @param uid The unique ID of the notification 
+     */
+    function Kill(uid: any): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=DPanel
+ * |Description=Creates a slider that can be moved along the X and/or Y axis
+ * }}
+ * {{Example
+ * |Description=Make a slider at 50, 50 that can move 100 pixels on the X axis.
+ * |Code=local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 500, 300 )
+ * frame:Center()
+ * frame:MakePopup()
+ * 
+ * local Slider = vgui.Create( "DSlider", frame )
+ * Slider:SetPos( 50, 50 )
+ * Slider:SetSize( 100, 20 )
+ * }} 
+ */
+declare class DSlider extends DPanel {
+    /**
+     * @returns  
+     */
+    GetDragging(): boolean;
+    
+    /**
+     * @returns  
+     */
+    GetLockX(): number;
+    
+    /**
+     * @returns  
+     */
+    GetLockY(): number;
+    
+    /**
+     * @returns  
+     */
+    GetNotches(): number;
+    
+    /**
+     * @returns  
+     */
+    GetNumSlider(): any;
+    
+    /**
+     * @returns The value range seems to be from 0 to 1 
+     */
+    GetSlideX(): number;
+    
+    /**
+     * @returns The value range seems to be from 0 to 1 
+     */
+    GetSlideY(): number;
+    
+    /**
+     * @returns  
+     */
+    GetTrapInside(): boolean;
+    
+    /**
+     * @returns  
+     */
+    IsEditing(): boolean;
+    
+    /**
+     * @param path Path to the image. 
+     */
+    SetBackground(path: string): void;
+    
+    /**
+     * @param dragging  
+     */
+    SetDragging(dragging: boolean): void;
+    
+    /**
+     */
+    SetImage(): void;
+    
+    /**
+     */
+    SetImageColor(): void;
+    
+    /**
+     * @param lockX [=nil] Set to nil to reset lock.
+     * 
+     * The value range is from 0 to 1. 
+     */
+    SetLockX(lockX?: number): void;
+    
+    /**
+     * @param lockY [=nil] Set to nil to reset lock.
+     * 
+     * The value range is from 0 to 1. 
+     */
+    SetLockY(lockY?: number): void;
+    
+    /**
+     * @param notches  
+     */
+    SetNotches(notches: number): void;
+    
+    /**
+     * @param slider  
+     */
+    SetNumSlider(slider: any): void;
+    
+    /**
+     * @param x The value range seems to be from 0 to 1 
+     */
+    SetSlideX(x: number): void;
+    
+    /**
+     * @param y The value range seems to be from 0 to 1 
+     */
+    SetSlideY(y: number): void;
+    
+    /**
+     * @param trap  
+     */
+    SetTrapInside(trap: boolean): void;
+    
+    /**
+     * @param x  
+     * @param y  
+     * @returns [x, y]
+     * !TupleReturn 
+     */
+    TranslateValues(x: number, y: number): [number, number];
+}
+
+/**
+ * The numpad module allows you to execute functions on a key press or release. 
+ */
+declare namespace numpad {
+    /**
+     * Activates numpad key owned by the player 
+     * @param ply The player whose numpad should be simulated 
+     * @param key The key to press, see {{Enum|KEY}} 
+     * @param isButton Should this keypress pretend to be a from a gmod_button? (causes {{LibraryFunction|numpad|FromButton}} to return true) 
+     */
+    function Activate(ply: Player, key: KEY, isButton: boolean): void;
+    
+    /**
+     * Deactivates numpad key owned by the player 
+     * @param ply The player whose numpad should be simulated 
+     * @param key The key to press, corresponding to {{Enum|KEY}} 
+     * @param isButton Should this keypress pretend to be a from a gmod_button? (causes {{LibraryFunction|numpad|FromButton}} to return true) 
+     */
+    function Deactivate(ply: Player, key: KEY, isButton: boolean): void;
+    
+    /**
+     * Returns true during a function added with {{LibraryFunction| numpad|Register}} when the third argument to {{LibraryFunction|numpad|Activate}} is true.
+     * 
+     * This is caused when a numpad function is triggered by a button SENT being used. 
+     * @returns wasButton 
+     */
+    function FromButton(): boolean;
+    
+    /**
+     * Calls a function registered with {{LibraryFunction|numpad|Register}} when a player presses specified key.
+     * 
+     * See for key released action: {{LibraryFunction|numpad|OnUp}} 
+     * @param ply The player whose numpad should be watched 
+     * @param key The key, corresponding to {{Enum|KEY}} 
+     * @param name The name of the function to run, corresponding with the one used in {{LibraryFunction|numpad|Register}} 
+     * @param args Arguments to pass to the function passed to {{LibraryFunction|numpad|Register}}. 
+     * @returns The impulse ID 
+     */
+    function OnDown(ply: Player, key: KEY, name: string, ...args: any[]): number;
+    
+    /**
+     * Calls a function registered with {{LibraryFunction|numpad|Register}} when a player releases specified key.
+     * 
+     * See for key pressed action: {{LibraryFunction|numpad|OnDown}} 
+     * @param ply The player whose numpad should be watched 
+     * @param key The key, corresponding to {{Enum|KEY}} 
+     * @param name The name of the function to run, corresponding with the one used in {{LibraryFunction|numpad|Register}} 
+     * @param args Arguments to pass to the function passed to {{LibraryFunction|numpad|Register}}. 
+     * @returns The impulse ID 
+     */
+    function OnUp(ply: Player, key: KEY, name: string, ...args: any[]): number;
+    
+    /**
+     * Registers a numpad library action for use with {{LibraryFunction|numpad|OnDown}} and {{LibraryFunction|numpad|OnUp}} 
+     * @param id The unique id of your action. 
+     * @param func The function to be executed.
+     * 
+     * Arguments are:<br>
+     * {{FuncArg|Player|ply|The player who pressed the button}}<br>
+     * {{FuncArg|vararg|...|The 4th and all subsequent arguments passed from {{LibraryFunction|numpad|OnDown}} and/or {{LibraryFunction|numpad|OnUp}}}}<br>
+     * <br>
+     * 
+     * Returning <b>false</b> in this function will remove the listener which triggered this function (example: return false if one of your varargs is an entity which is no longer valid) 
+     */
+    function Register(id: string, func: Function): void;
+    
+    /**
+     * Removes a function added by either {{LibraryFunction|numpad|OnUp}} or {{LibraryFunction|numpad|OnDown}} 
+     * @param ID The impulse ID returned by {{LibraryFunction|numpad|OnUp}} or {{LibraryFunction|numpad|OnDown}} 
+     */
+    function Remove(ID: number): void;
+    
+    /**
+     * Either runs {{LibraryFunction|numpad|Activate}} or {{LibraryFunction|numpad|Deactivate}} depending on the key's current state 
+     * @param ply The player whose numpad should be simulated 
+     * @param key The key to press, corresponding to {{Enum|KEY}} 
+     */
+    function Toggle(ply: Player, key: KEY): void;
+}
+
+/**
+ * The os library is a standard Lua library originally intended to allow Lua access to various features of the Operating System it's running on, however many of the features and functions have been removed in Garry's Mod due to security issues. It's only used in Garry's Mod for date & time operations. 
+ */
+declare namespace os {
+    /**
+     * Returns the approximate cpu time the application ran. 
+     * @returns runtime 
+     */
+    function clock(): number;
+    
+    /**
+     * Returns the date/time as a formatted string or in a table. 
+     * @param format The format string.
+     * 
+     * If this is equal to '*t' then this function will return a table, otherwise it will return a string.
+     * 
+     * If this starts with an '!', the returned data will use the UTC timezone rather than the local timezone.
+     * 
+     * See http://www.mkssoftware.com/docs/man3/strftime.3.asp for available format flags.
+     * 
+     * {{Bug|Issue=3438|'''Not all flags are available on all operating systems''' and the result of using an invalid flag is undefined. This currently crashes the game on Windows. Most or all flags are available on OS X and Linux but considerably fewer are available on Windows. See http://msdn.microsoft.com/en-us/library/fe06s4ak.aspx for a list of available flags on Windows. Note that the '''#''' flags also crashes the game on Windows.}} 
+     * @param time Time to use for the format. 
+     * @returns Formatted date
+     * {{Note|This can be a table if the first argument equals to '*t'!}} 
+     */
+    function date(format: string, time: number): string;
+    
+    /**
+     * Subtracts the second of the first value and rounds the result. 
+     * @param timeA The first value. 
+     * @param timeB The value to subtract. 
+     * @returns diffTime 
+     */
+    function difftime(timeA: number, timeB: number): number;
+    
+    /**
+     * Returns the system time in seconds past the unix epoch. If a table is supplied, the function attempts to build a system time with the specified table members. 
+     * @param dateData [=nil] Table to generate the time from. This table's data is interpreted as being in the local timezone. See {{Struct|DateData}} 
+     * @returns Seconds passed since Unix epoch 
+     */
+    function time(dateData?: DateData): number;
+}
+
+/**
  * This is the file object. It used used primarily to read or write binary data from files.
  * 
  * The object is returned by {{LibraryFunction|file|Open}}. 
@@ -46002,29 +46264,246 @@ declare class File {
 }
 
 /**
- * Used to display notifications on the screen (mid-right). 
+ * The package library is a standard Lua library, it's mainly for use with the module system built into Lua. 
  */
-declare namespace notification {
+declare namespace package {
     /**
-     * Adds a standard notification to your screen. 
-     * @param Text The string to display 
-     * @param Type Determines the method for displaying the notification. See the {{Enum|NOTIFY}} 
-     * @param Length The number of seconds to display the notification for 
+     * Sets a metatable for module with its __index field referring to the global environment, so that this module inherits values from the global environment. To be used as an option to {{GlobalFunction|module}}. 
+     * @param module The module table to be given a metatable 
      */
-    function AddLegacy(Text: string, Type: NOTIFY, Length: number): void;
+    function seeall(module: table): void;
+}
+
+/**
+ * {{Panel
+ * |Name=DSprite
+ * |Parent=DPanel
+ * |Description=A panel that draws a sprite on the player's HUD with the given {{Type|IMaterial}}, {{GlobalFunction|Color}} and rotation.
+ * 
+ * A shortcut for this is {{GlobalFunction|CreateSprite}}().
+ * }}
+ * {{Example
+ * |Description=Creates a DSprite with the ''sent_ball'' material, and sets the color to cyan.
+ * |Code=local sprite = vgui.Create("DSprite")
+ * sprite:SetMaterial(Material("sprites/sent_ball"))
+ * sprite:SetColor(Color(0, 255, 255))
+ * sprite:Center()
+ * sprite:SetSize(200, 200)
+ * |Output=''See Preview above.''
+ * }} 
+ * !CustomConstructor CreateSprite */
+declare class DSprite extends DPanel {
+    /**
+     * Creates and returns a new {{Type|DSprite}} element with the supplied material. 
+     * @param material Material the sprite should draw. 
+     */
+    constructor(material: IMaterial);
     
     /**
-     * Adds a notification with an animated progress bar. 
-     * @param id Can be any type. It's used as an index. 
-     * @param strText The text to show 
+     * @returns The {{GlobalFunction|Color}} being used. 
      */
-    function AddProgress(id: any, strText: string): void;
+    GetColor(): table;
     
     /**
-     * Removes the notification after 0.8 seconds. 
-     * @param uid The unique ID of the notification 
+     * @returns  
      */
-    function Kill(uid: any): void;
+    GetHandle(): Vector;
+    
+    /**
+     * @returns The material in use. 
+     */
+    GetMaterial(): IMaterial;
+    
+    /**
+     * @returns The anti-clockwise rotation in degrees. 
+     */
+    GetRotation(): number;
+    
+    /**
+     * @param color The {{GlobalFunction|Color}} to use. 
+     */
+    SetColor(color: table): void;
+    
+    /**
+     * @param vec  
+     */
+    SetHandle(vec: Vector): void;
+    
+    /**
+     * @param material The material to use. This will ideally be an [https://developer.valvesoftware.com/wiki/UnlitGeneric UnlitGeneric]. 
+     */
+    SetMaterial(material: IMaterial): void;
+    
+    /**
+     * @param ang The anti-clockwise rotation in degrees. 
+     */
+    SetRotation(ang: number): void;
+}
+
+/**
+ * {{Panel
+ * |Name=DTab
+ * |Parent=DButton
+ * |Description={{Internal}}A tab for internal use on the DPropertySheet.
+ * }}
+ * = Methods =
+ * * {{VGUIElementMethodInternal|DragHoverClick}}
+ * * {{VGUIElementMethodInternal|GetPanel}}
+ * * {{VGUIElementMethodInternal|GetPropertySheet}}
+ * * {{VGUIElementMethodInternal|IsActive}}
+ * * {{VGUIElementMethodInternal|SetPanel}}
+ * * {{VGUIElementMethodInternal|SetPropertySheet}}
+ * * {{VGUIElementMethodInternal|Setup}} 
+ */
+declare class DTab extends DButton {
+
+}
+
+/**
+ * The physenv library allows you to control the physics environment created by the engine, and lets you modify constants such as gravity and maximum velocity. 
+ */
+declare namespace physenv {
+    /**
+     * Adds surface properties to the game's physics environment.
+     * 
+     * {{Bug|Issue=2604|The game has a limit of 128 surface properties - this includes properties loaded automatically from [https://github.com/Facepunch/garrysmod/blob/master/garrysmod/scripts/surfaceproperties.txt surfaceproperties.txt]. Due to this, there's only a small amount of open slots that can be registered with GMod's provided surfaceproperties.txt.}} 
+     * @param properties The properties to add. 
+     */
+    function AddSurfaceData(properties: string): void;
+    
+    /**
+     * Returns the air density. 
+     * @returns airDensity 
+     */
+    function GetAirDensity(): number;
+    
+    /**
+     * Gets the global gravity. 
+     * @returns gravity 
+     */
+    function GetGravity(): Vector;
+    
+    /**
+     * Gets the current performance settings in table form. 
+     * @returns Performance settings. See {{Struct|PhysEnvPerformanceSettings}} 
+     */
+    function GetPerformanceSettings(): PhysEnvPerformanceSettings;
+    
+    /**
+     * Sets the air density. 
+     * @param airDensity The new air density. 
+     */
+    function SetAirDensity(airDensity: number): void;
+    
+    /**
+     * Sets the directional gravity, does not work on players. 
+     * @param gravity The new gravity. 
+     */
+    function SetGravity(gravity: Vector): void;
+    
+    /**
+     * Sets the performance settings. 
+     * @param performanceSettings The new performance settings. See {{Struct|PhysEnvPerformanceSettings}} 
+     */
+    function SetPerformanceSettings(performanceSettings: PhysEnvPerformanceSettings): void;
+}
+
+/**
+ * The player_manager library lets you manage players, such as setting their models or creating player classes. 
+ */
+declare namespace player_manager {
+    /**
+     * Assigns view model hands to player model. 
+     * @param name Player model name 
+     * @param model Hands model 
+     * @param skin Skin to apply to the hands 
+     * @param bodygroups Bodygroups to apply to the hands 
+     */
+    function AddValidHands(name: string, model: string, skin: number, bodygroups: string): void;
+    
+    /**
+     * Associates a simplified name with a path to a valid player model.<br/>
+     * Only used internally. 
+     * @param name Simplified name 
+     * @param model Valid PlayerModel path 
+     */
+    function AddValidModel(name: string, model: string): void;
+    
+    /**
+     * Returns the entire list of valid player models. 
+     */
+    function AllValidModels(): void;
+    
+    /**
+     * Clears a player's class association by setting their ClassID to 0 
+     * @param ply Player to clear class from 
+     */
+    function ClearPlayerClass(ply: Player): void;
+    
+    /**
+     * Gets a players class 
+     * @param ply Player to get class 
+     * @returns The players class 
+     */
+    function GetPlayerClass(ply: Player): string;
+    
+    /**
+     * Applies basic class variables when the player spawns.
+     * 
+     * Called from {{HookFunction|GM|PlayerSpawn}} in the base gamemode. 
+     * @param ply Player to setup 
+     */
+    function OnPlayerSpawn(ply: Player): void;
+    
+    /**
+     * Register a class metatable to be assigned to players later 
+     * @param name Class name 
+     * @param table Class metatable 
+     * @param base Base class name 
+     */
+    function RegisterClass(name: string, table: table, base: string): void;
+    
+    /**
+     * Execute a named function within the player's set class 
+     * @param ply Player to execute function on. 
+     * @param funcName Name of function. 
+     * @param arguments Optional arguments. Can be of any type. 
+     * @returns The values returned by the called function. 
+     */
+    function RunClass(ply: Player, funcName: string, ...arguments: any[]): any[];
+    
+    /**
+     * Sets a player's class 
+     * @param ply Player to set class 
+     * @param classname Name of class to set 
+     */
+    function SetPlayerClass(ply: Player, classname: string): void;
+    
+    /**
+     * Retrieves correct hands for given player model. By default returns citizen hands. 
+     * @param name Player model name 
+     * @returns A table with following contents:
+     * * {{Type|string}} model - Model of hands
+     * * {{Type|number}} skin - Skin of hands
+     * * {{Type|string}} body - Bodygroups of hands 
+     */
+    function TranslatePlayerHands(name: string): table;
+    
+    /**
+     * Returns the valid model path for a simplified name. 
+     * @param shortName The short name of the model. 
+     * @returns The valid model path for the short name. 
+     */
+    function TranslatePlayerModel(shortName: string): string;
+    
+    /**
+     * Returns the simplified name for a valid model path of a player model.
+     * 
+     * Opposite of {{LibraryFunction|player_manager|TranslatePlayerModel}}. 
+     * @param model The model path to a player model 
+     * @returns The simplified name for that model 
+     */
+    function TranslateToPlayerModelName(model: string): string;
 }
 
 /**
@@ -46184,348 +46663,6 @@ declare class DTextEntry extends TextEntry {
      * @param text The value to set. 
      */
     SetValue(text: string): void;
-}
-
-/**
- * The numpad module allows you to execute functions on a key press or release. 
- */
-declare namespace numpad {
-    /**
-     * Activates numpad key owned by the player 
-     * @param ply The player whose numpad should be simulated 
-     * @param key The key to press, see {{Enum|KEY}} 
-     * @param isButton Should this keypress pretend to be a from a gmod_button? (causes {{LibraryFunction|numpad|FromButton}} to return true) 
-     */
-    function Activate(ply: Player, key: KEY, isButton: boolean): void;
-    
-    /**
-     * Deactivates numpad key owned by the player 
-     * @param ply The player whose numpad should be simulated 
-     * @param key The key to press, corresponding to {{Enum|KEY}} 
-     * @param isButton Should this keypress pretend to be a from a gmod_button? (causes {{LibraryFunction|numpad|FromButton}} to return true) 
-     */
-    function Deactivate(ply: Player, key: KEY, isButton: boolean): void;
-    
-    /**
-     * Returns true during a function added with {{LibraryFunction| numpad|Register}} when the third argument to {{LibraryFunction|numpad|Activate}} is true.
-     * 
-     * This is caused when a numpad function is triggered by a button SENT being used. 
-     * @returns wasButton 
-     */
-    function FromButton(): boolean;
-    
-    /**
-     * Calls a function registered with {{LibraryFunction|numpad|Register}} when a player presses specified key.
-     * 
-     * See for key released action: {{LibraryFunction|numpad|OnUp}} 
-     * @param ply The player whose numpad should be watched 
-     * @param key The key, corresponding to {{Enum|KEY}} 
-     * @param name The name of the function to run, corresponding with the one used in {{LibraryFunction|numpad|Register}} 
-     * @param args Arguments to pass to the function passed to {{LibraryFunction|numpad|Register}}. 
-     * @returns The impulse ID 
-     */
-    function OnDown(ply: Player, key: KEY, name: string, ...args: any[]): number;
-    
-    /**
-     * Calls a function registered with {{LibraryFunction|numpad|Register}} when a player releases specified key.
-     * 
-     * See for key pressed action: {{LibraryFunction|numpad|OnDown}} 
-     * @param ply The player whose numpad should be watched 
-     * @param key The key, corresponding to {{Enum|KEY}} 
-     * @param name The name of the function to run, corresponding with the one used in {{LibraryFunction|numpad|Register}} 
-     * @param args Arguments to pass to the function passed to {{LibraryFunction|numpad|Register}}. 
-     * @returns The impulse ID 
-     */
-    function OnUp(ply: Player, key: KEY, name: string, ...args: any[]): number;
-    
-    /**
-     * Registers a numpad library action for use with {{LibraryFunction|numpad|OnDown}} and {{LibraryFunction|numpad|OnUp}} 
-     * @param id The unique id of your action. 
-     * @param func The function to be executed.
-     * 
-     * Arguments are:<br>
-     * {{FuncArg|Player|ply|The player who pressed the button}}<br>
-     * {{FuncArg|vararg|...|The 4th and all subsequent arguments passed from {{LibraryFunction|numpad|OnDown}} and/or {{LibraryFunction|numpad|OnUp}}}}<br>
-     * <br>
-     * 
-     * Returning <b>false</b> in this function will remove the listener which triggered this function (example: return false if one of your varargs is an entity which is no longer valid) 
-     */
-    function Register(id: string, func: Function): void;
-    
-    /**
-     * Removes a function added by either {{LibraryFunction|numpad|OnUp}} or {{LibraryFunction|numpad|OnDown}} 
-     * @param ID The impulse ID returned by {{LibraryFunction|numpad|OnUp}} or {{LibraryFunction|numpad|OnDown}} 
-     */
-    function Remove(ID: number): void;
-    
-    /**
-     * Either runs {{LibraryFunction|numpad|Activate}} or {{LibraryFunction|numpad|Deactivate}} depending on the key's current state 
-     * @param ply The player whose numpad should be simulated 
-     * @param key The key to press, corresponding to {{Enum|KEY}} 
-     */
-    function Toggle(ply: Player, key: KEY): void;
-}
-
-/**
- * The os library is a standard Lua library originally intended to allow Lua access to various features of the Operating System it's running on, however many of the features and functions have been removed in Garry's Mod due to security issues. It's only used in Garry's Mod for date & time operations. 
- */
-declare namespace os {
-    /**
-     * Returns the approximate cpu time the application ran. 
-     * @returns runtime 
-     */
-    function clock(): number;
-    
-    /**
-     * Returns the date/time as a formatted string or in a table. 
-     * @param format The format string.
-     * 
-     * If this is equal to '*t' then this function will return a table, otherwise it will return a string.
-     * 
-     * If this starts with an '!', the returned data will use the UTC timezone rather than the local timezone.
-     * 
-     * See http://www.mkssoftware.com/docs/man3/strftime.3.asp for available format flags.
-     * 
-     * {{Bug|Issue=3438|'''Not all flags are available on all operating systems''' and the result of using an invalid flag is undefined. This currently crashes the game on Windows. Most or all flags are available on OS X and Linux but considerably fewer are available on Windows. See http://msdn.microsoft.com/en-us/library/fe06s4ak.aspx for a list of available flags on Windows. Note that the '''#''' flags also crashes the game on Windows.}} 
-     * @param time Time to use for the format. 
-     * @returns Formatted date
-     * {{Note|This can be a table if the first argument equals to '*t'!}} 
-     */
-    function date(format: string, time: number): string;
-    
-    /**
-     * Subtracts the second of the first value and rounds the result. 
-     * @param timeA The first value. 
-     * @param timeB The value to subtract. 
-     * @returns diffTime 
-     */
-    function difftime(timeA: number, timeB: number): number;
-    
-    /**
-     * Returns the system time in seconds past the unix epoch. If a table is supplied, the function attempts to build a system time with the specified table members. 
-     * @param dateData [=nil] Table to generate the time from. This table's data is interpreted as being in the local timezone. See {{Struct|DateData}} 
-     * @returns Seconds passed since Unix epoch 
-     */
-    function time(dateData?: DateData): number;
-}
-
-/**
- * The package library is a standard Lua library, it's mainly for use with the module system built into Lua. 
- */
-declare namespace package {
-    /**
-     * Sets a metatable for module with its __index field referring to the global environment, so that this module inherits values from the global environment. To be used as an option to {{GlobalFunction|module}}. 
-     * @param module The module table to be given a metatable 
-     */
-    function seeall(module: table): void;
-}
-
-/**
- * {{Panel
- * |Name=DTileLayout
- * |Parent=DDragBase
- * |Description=Similarly to {{Type|DIconLayout}}, this lays out panels in two dimensions as tiles. The difference between this and {{Type|DIconLayout}} is that {{Type|DIconLayout}} items all have the same height while {{Type|DTileLayout}} items do not have this enforcement. {{Type|DTileLayout}} will find the best way to "pack" its chidren. For example, in a two column layout, a item of height 2 units will be placed in one column while two items of height 1 unit will be placed in the other column. It is worth noting however that because this panel iterates through its children in an undefined order and lays out while it is iterating, there is no guarentee that this packing will lead to the lowest possible height.
- * 
- * This is used by the spawnmenu to arrange spawnicons.
- * 
- * The base size defines the smallest a tile can be, and it will resize vertically to accommodate all child panels. The number of elements in each row is determinded by the base size and width.
- * 
- * It also optionally permits the rearrangement of these tiles. To enable this functionality, call {{ClassFunction|DDragBase|MakeDroppable}} on the DTileLayout with a unique identifier. All panels added following this will be moveable.
- * }}
- * {{Example
- * |Description=Creates a DTileLayout within a {{Type|DFrame}}, sets the base size and adds 32 {{Type|DLabel}}s.
- * |Code=local frame = vgui.Create("DFrame")
- * frame:SetSize(300, 300)
- * frame:SetTitle("DTileLayout Example")
- * frame:MakePopup()
- * frame:Center()
- * 
- * local layout = vgui.Create("DTileLayout", frame)
- * layout:SetBaseSize(32) -- Tile size
- * layout:Dock(FILL)
- * 
- * //Draw a background so we can see what it's doing
- * layout:SetDrawBackground(true)
- * layout:SetBackgroundColor(Color(0, 100, 100))
- * 
- * layout:MakeDroppable("unique_name") -- Allows us to rearrange children
- * 
- * for i = 1, 32 do
- * 	layout:Add(Label(" Label " .. i))
- * end
- * |Output=''See Preview above.''
- * }} 
- */
-declare class DTileLayout extends DDragBase {
-    /**
-     */
-    ClearTiles(): void;
-    
-    /**
-     * @param x The x coordinate of the top-left corner of the panel. 
-     * @param y The y coordinate of the top-left corner of the panel. 
-     * @param w The panel's width. 
-     * @param h The panel's height. 
-     */
-    ConsumeTiles(x: number, y: number, w: number, h: number): void;
-    
-    /**
-     * @returns The created copy. 
-     */
-    Copy(): Panel;
-    
-    /**
-     * @param source The source panel from which to copy all children. 
-     */
-    CopyContents(source: Panel): void;
-    
-    /**
-     * @param x The x coordinate to start looking from. 
-     * @param y The y coordinate to start looking from. 
-     * @param w The needed width. 
-     * @param h The needed height. 
-     * @returns [The x coordinate of the found available space., The y coordinate of the found available space.]
-     * !TupleReturn 
-     */
-    FindFreeTile(x: number, y: number, w: number, h: number): [number, number];
-    
-    /**
-     * @param x The x coordinate of the first tile. 
-     * @param y The y coordinate of the first tile. 
-     * @param w The width needed. 
-     * @param h The height needed. 
-     * @returns Whether or not this group is available for occupation. 
-     */
-    FitsInTile(x: number, y: number, w: number, h: number): boolean;
-    
-    /**
-     * @returns Base tile size. 
-     */
-    GetBaseSize(): number;
-    
-    /**
-     * @returns  
-     */
-    GetBorder(): number;
-    
-    /**
-     * @returns The minimum height the panel can shrink to. 
-     */
-    GetMinHeight(): number;
-    
-    /**
-     * @returns  
-     */
-    GetSpaceX(): number;
-    
-    /**
-     * @returns  
-     */
-    GetSpaceY(): number;
-    
-    /**
-     * @param x The x coordinate of the tile. 
-     * @param y The y coordinate of the tile. 
-     * @returns The occupied state of the tile, normally ''1'' or ''nil''. 
-     */
-    GetTile(x: number, y: number): any;
-    
-    /**
-     */
-    Layout(): void;
-    
-    /**
-     */
-    LayoutTiles(): void;
-    
-    /**
-     */
-    OnModified(): void;
-    
-    /**
-     */
-    OnModified(): void;
-    
-    /**
-     * @param size The size of each tile. It is recommended you use 2<sup>n</sup> (''16, 32, 64...'') numbers, and those above ''4'', as numbers lower than this will result in many tiles being processed and therefore slow operation. 
-     */
-    SetBaseSize(size: number): void;
-    
-    /**
-     * @param border  
-     */
-    SetBorder(border: number): void;
-    
-    /**
-     * @param minH The minimum height the panel can shrink to. 
-     */
-    SetMinHeight(minH: number): void;
-    
-    /**
-     * @param spacingX  
-     */
-    SetSpaceX(spacingX: number): void;
-    
-    /**
-     * @param spaceY  
-     */
-    SetSpaceY(spaceY: number): void;
-    
-    /**
-     * @param x The x coordinate of the tile. 
-     * @param y The y coordinate of the tile. 
-     * @param state The new state of the tile, normally ''1'' or ''nil''. 
-     */
-    SetTile(x: number, y: number, state: any): void;
-}
-
-/**
- * The physenv library allows you to control the physics environment created by the engine, and lets you modify constants such as gravity and maximum velocity. 
- */
-declare namespace physenv {
-    /**
-     * Adds surface properties to the game's physics environment.
-     * 
-     * {{Bug|Issue=2604|The game has a limit of 128 surface properties - this includes properties loaded automatically from [https://github.com/Facepunch/garrysmod/blob/master/garrysmod/scripts/surfaceproperties.txt surfaceproperties.txt]. Due to this, there's only a small amount of open slots that can be registered with GMod's provided surfaceproperties.txt.}} 
-     * @param properties The properties to add. 
-     */
-    function AddSurfaceData(properties: string): void;
-    
-    /**
-     * Returns the air density. 
-     * @returns airDensity 
-     */
-    function GetAirDensity(): number;
-    
-    /**
-     * Gets the global gravity. 
-     * @returns gravity 
-     */
-    function GetGravity(): Vector;
-    
-    /**
-     * Gets the current performance settings in table form. 
-     * @returns Performance settings. See {{Struct|PhysEnvPerformanceSettings}} 
-     */
-    function GetPerformanceSettings(): PhysEnvPerformanceSettings;
-    
-    /**
-     * Sets the air density. 
-     * @param airDensity The new air density. 
-     */
-    function SetAirDensity(airDensity: number): void;
-    
-    /**
-     * Sets the directional gravity, does not work on players. 
-     * @param gravity The new gravity. 
-     */
-    function SetGravity(gravity: Vector): void;
-    
-    /**
-     * Sets the performance settings. 
-     * @param performanceSettings The new performance settings. See {{Struct|PhysEnvPerformanceSettings}} 
-     */
-    function SetPerformanceSettings(performanceSettings: PhysEnvPerformanceSettings): void;
 }
 
 /**
@@ -46735,155 +46872,6 @@ declare class IGModAudioChannel {
 }
 
 /**
- * {{Panel
- * |Parent=DLabel
- * |Description={{Internal}}
- * 
- * The panel used internally for tool tips. See {{ClassFunction|Panel|SetTooltip}}.
- * }}
- * {{Example
- * |Description=Drawing a Tool Tip manually, then painting over it.
- * |Code=local DFrame = vgui.Create( "DFrame" )
- * DFrame:SetPos( 100, 100 )
- * DFrame:SetSize( 100, 100 )
- * 
- * local DTooltip = vgui.Create( "DTooltip" )
- * DTooltip:SetPos( 0, 0 )
- * DTooltip:SetSize( 250, 50 )
- * DTooltip:SetText( "Manual Tooltip" )
- * DTooltip:OpenForPanel( DFrame )
- * DTooltip:PositionTooltip()
- * DTooltip.Paint = function()
- * 	draw.RoundedBox( 5, 0, 0, 250, 50, Color( 255, 255, 255, 255 ) )
- * end
- * }} 
- */
-declare class DTooltip extends DLabel {
-    /**
-     */
-    Close(): void;
-    
-    /**
-     * @param x arrow location on the x axis 
-     * @param y arrow location on the y axis 
-     */
-    DrawArrow(x: number, y: number): void;
-    
-    /**
-     * @param pnl  
-     */
-    OpenForPanel(pnl: Panel): void;
-    
-    /**
-     */
-    PositionTooltip(): void;
-    
-    /**
-     * @param panel Contents 
-     * @param bDelete [=false] If set to true, the panel in the first argument will be automatically removed when {{Type|DTooltip}} is closed via {{ClassFunction|DTooltip|Close}}. 
-     */
-    SetContents(panel: Panel, bDelete?: DTooltip): void;
-}
-
-/**
- * The player_manager library lets you manage players, such as setting their models or creating player classes. 
- */
-declare namespace player_manager {
-    /**
-     * Assigns view model hands to player model. 
-     * @param name Player model name 
-     * @param model Hands model 
-     * @param skin Skin to apply to the hands 
-     * @param bodygroups Bodygroups to apply to the hands 
-     */
-    function AddValidHands(name: string, model: string, skin: number, bodygroups: string): void;
-    
-    /**
-     * Associates a simplified name with a path to a valid player model.<br/>
-     * Only used internally. 
-     * @param name Simplified name 
-     * @param model Valid PlayerModel path 
-     */
-    function AddValidModel(name: string, model: string): void;
-    
-    /**
-     * Returns the entire list of valid player models. 
-     */
-    function AllValidModels(): void;
-    
-    /**
-     * Clears a player's class association by setting their ClassID to 0 
-     * @param ply Player to clear class from 
-     */
-    function ClearPlayerClass(ply: Player): void;
-    
-    /**
-     * Gets a players class 
-     * @param ply Player to get class 
-     * @returns The players class 
-     */
-    function GetPlayerClass(ply: Player): string;
-    
-    /**
-     * Applies basic class variables when the player spawns.
-     * 
-     * Called from {{HookFunction|GM|PlayerSpawn}} in the base gamemode. 
-     * @param ply Player to setup 
-     */
-    function OnPlayerSpawn(ply: Player): void;
-    
-    /**
-     * Register a class metatable to be assigned to players later 
-     * @param name Class name 
-     * @param table Class metatable 
-     * @param base Base class name 
-     */
-    function RegisterClass(name: string, table: table, base: string): void;
-    
-    /**
-     * Execute a named function within the player's set class 
-     * @param ply Player to execute function on. 
-     * @param funcName Name of function. 
-     * @param arguments Optional arguments. Can be of any type. 
-     * @returns The values returned by the called function. 
-     */
-    function RunClass(ply: Player, funcName: string, ...arguments: any[]): any[];
-    
-    /**
-     * Sets a player's class 
-     * @param ply Player to set class 
-     * @param classname Name of class to set 
-     */
-    function SetPlayerClass(ply: Player, classname: string): void;
-    
-    /**
-     * Retrieves correct hands for given player model. By default returns citizen hands. 
-     * @param name Player model name 
-     * @returns A table with following contents:
-     * * {{Type|string}} model - Model of hands
-     * * {{Type|number}} skin - Skin of hands
-     * * {{Type|string}} body - Bodygroups of hands 
-     */
-    function TranslatePlayerHands(name: string): table;
-    
-    /**
-     * Returns the valid model path for a simplified name. 
-     * @param shortName The short name of the model. 
-     * @returns The valid model path for the short name. 
-     */
-    function TranslatePlayerModel(shortName: string): string;
-    
-    /**
-     * Returns the simplified name for a valid model path of a player model.
-     * 
-     * Opposite of {{LibraryFunction|player_manager|TranslatePlayerModel}}. 
-     * @param model The model path to a player model 
-     * @returns The simplified name for that model 
-     */
-    function TranslateToPlayerModelName(model: string): string;
-}
-
-/**
  * The player library is used to get the Lua objects that represent players in-game. 
  */
 declare namespace player {
@@ -46969,149 +46957,323 @@ declare namespace player {
 }
 
 /**
+ * The presets library lets you add and modify the pre-set options for scripted tools (selected via the white bar at the top of each tools control panel). 
+ */
+declare namespace presets {
+    /**
+     * Adds preset to a preset group. 
+     * @param groupname The preset group name, usually it's tool class name. 
+     * @param name Preset name, must be unique. 
+     * @param values A table of preset console commands. 
+     */
+    function Add(groupname: string, name: string, values: table): void;
+    
+    /**
+     * {{Internal}}
+     * 
+     * Used internally to tell the player that the name they tried to use in their preset is not acceptable. 
+     */
+    function BadNameAlert(): void;
+    
+    /**
+     * Returns whether a preset with given name exists or not 
+     * @param type The preset group name, usually it's tool class name. 
+     * @param name Name of the preset to test 
+     * @returns true if the preset does exist 
+     */
+    function Exists(type: string, name: string): boolean;
+    
+    /**
+     * Returns a table with preset names and values from a single preset group. 
+     * @param groupname Preset group name. 
+     * @returns All presets in specified group. 
+     */
+    function GetTable(groupname: string): table;
+    
+    /**
+     * {{Internal}}
+     * 
+     * Used internally to ask the player if they want to override an already existing preset. 
+     * @param callback  
+     */
+    function OverwritePresetPrompt(callback: Function): void;
+    
+    /**
+     * Removes a preset entry from a preset group. 
+     * @param groupname Preset group to remove from 
+     * @param name Name of preset to remove 
+     */
+    function Remove(groupname: string, name: string): void;
+    
+    /**
+     * Renames preset. 
+     * @param groupname Preset group name 
+     * @param oldname Old preset name 
+     * @param newname New preset name 
+     */
+    function Rename(groupname: string, oldname: string, newname: string): void;
+}
+
+/**
  * {{Panel
- * |Parent=DScrollPanel
- * |Preview=DTree.jpg
- * |Description=A tree view element for Derma.
+ * |Name=DTileLayout
+ * |Parent=DDragBase
+ * |Description=Similarly to {{Type|DIconLayout}}, this lays out panels in two dimensions as tiles. The difference between this and {{Type|DIconLayout}} is that {{Type|DIconLayout}} items all have the same height while {{Type|DTileLayout}} items do not have this enforcement. {{Type|DTileLayout}} will find the best way to "pack" its chidren. For example, in a two column layout, a item of height 2 units will be placed in one column while two items of height 1 unit will be placed in the other column. It is worth noting however that because this panel iterates through its children in an undefined order and lays out while it is iterating, there is no guarentee that this packing will lead to the lowest possible height.
  * 
- * See also {{Type|DTree_Node}}.
+ * This is used by the spawnmenu to arrange spawnicons.
+ * 
+ * The base size defines the smallest a tile can be, and it will resize vertically to accommodate all child panels. The number of elements in each row is determinded by the base size and width.
+ * 
+ * It also optionally permits the rearrangement of these tiles. To enable this functionality, call {{ClassFunction|DDragBase|MakeDroppable}} on the DTileLayout with a unique identifier. All panels added following this will be moveable.
  * }}
  * {{Example
- * |Description=Example of using DTree
- * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 300, 500 )
- * frame:Center()
+ * |Description=Creates a DTileLayout within a {{Type|DFrame}}, sets the base size and adds 32 {{Type|DLabel}}s.
+ * |Code=local frame = vgui.Create("DFrame")
+ * frame:SetSize(300, 300)
+ * frame:SetTitle("DTileLayout Example")
  * frame:MakePopup()
+ * frame:Center()
  * 
- * local dtree  = vgui.Create( "DTree", frame )
- * dtree:Dock( FILL )
+ * local layout = vgui.Create("DTileLayout", frame)
+ * layout:SetBaseSize(32) -- Tile size
+ * layout:Dock(FILL)
  * 
- * local node = dtree:AddNode( "Node One" )
- * local node = dtree:AddNode( "Node Two" )
- * local cnode = node:AddNode( "Node 2.1" )
- * local cnode = node:AddNode( "Node 2.2" )
- * local cnode = node:AddNode( "Node 2.3" )
- * local cnode = node:AddNode( "Node 2.4" )
- * local cnode = node:AddNode( "Node 2.5" )
- * local gcnode = cnode:AddNode( "Node 2.5" )
- * local cnode = node:AddNode( "Node 2.6" )
- * local node = dtree:AddNode( "Node Three ( Maps Folder )" )
- * node:MakeFolder( "maps", "GAME", true )
- * local node = dtree:AddNode( "Node Four" )
+ * //Draw a background so we can see what it's doing
+ * layout:SetDrawBackground(true)
+ * layout:SetBackgroundColor(Color(0, 100, 100))
+ * 
+ * layout:MakeDroppable("unique_name") -- Allows us to rearrange children
+ * 
+ * for i = 1, 32 do
+ * 	layout:Add(Label(" Label " .. i))
+ * end
+ * |Output=''See Preview above.''
  * }} 
  */
-declare class DTree extends DScrollPanel {
+declare class DTileLayout extends DDragBase {
     /**
-     * @param name Name of the option. 
-     * @param icon [="icon16/folder.png"] The icon that will show nexto the node in the DTree. 
-     * @returns Returns the created {{Type|DTree_Node}} panel. 
      */
-    AddNode(name: string, icon?: string): DTree_Node;
+    ClearTiles(): void;
     
     /**
-     * @param bExpand  
+     * @param x The x coordinate of the top-left corner of the panel. 
+     * @param y The y coordinate of the top-left corner of the panel. 
+     * @param w The panel's width. 
+     * @param h The panel's height. 
      */
-    ChildExpanded(bExpand: boolean): void;
+    ConsumeTiles(x: number, y: number, w: number, h: number): void;
     
     /**
+     * @returns The created copy. 
      */
-    DoClick(): void;
+    Copy(): Panel;
     
     /**
+     * @param source The source panel from which to copy all children. 
      */
-    DoRightClick(): void;
+    CopyContents(source: Panel): void;
     
     /**
-     * @param bExpand  
+     * @param x The x coordinate to start looking from. 
+     * @param y The y coordinate to start looking from. 
+     * @param w The needed width. 
+     * @param h The needed height. 
+     * @returns [The x coordinate of the found available space., The y coordinate of the found available space.]
+     * !TupleReturn 
      */
-    ExpandTo(bExpand: boolean): void;
+    FindFreeTile(x: number, y: number, w: number, h: number): [number, number];
+    
+    /**
+     * @param x The x coordinate of the first tile. 
+     * @param y The y coordinate of the first tile. 
+     * @param w The width needed. 
+     * @param h The height needed. 
+     * @returns Whether or not this group is available for occupation. 
+     */
+    FitsInTile(x: number, y: number, w: number, h: number): boolean;
+    
+    /**
+     * @returns Base tile size. 
+     */
+    GetBaseSize(): number;
     
     /**
      * @returns  
      */
-    GetClickOnDragHover(): boolean;
+    GetBorder(): number;
     
     /**
-     * @returns The indentation size. 
+     * @returns The minimum height the panel can shrink to. 
      */
-    GetIndentSize(): number;
+    GetMinHeight(): number;
     
     /**
-     * @returns The height of each {{Type|DTree_Node}} in the tree. 
+     * @returns  
      */
-    GetLineHeight(): number;
+    GetSpaceX(): number;
     
     /**
-     * @returns Curently selected node. 
+     * @returns  
      */
-    GetSelectedItem(): Panel;
+    GetSpaceY(): number;
     
     /**
-     * @returns Whether or not the silkicons next to each node will be displayed. 
+     * @param x The x coordinate of the tile. 
+     * @param y The y coordinate of the tile. 
+     * @returns The occupied state of the tile, normally ''1'' or ''nil''. 
      */
-    GetShowIcons(): boolean;
+    GetTile(x: number, y: number): any;
     
     /**
      */
-    LayoutTree(): void;
+    Layout(): void;
     
     /**
-     * @param child The node to move 
-     * @param pos {{Deprecated}} Unused, does nothing. 
      */
-    MoveChildTo(child: Panel, pos: number): void;
+    LayoutTiles(): void;
     
     /**
-     * @param node The node that was selected. 
      */
-    OnNodeSelected(node: Panel): void;
+    OnModified(): void;
     
     /**
-     * @returns Root node. 
      */
-    Root(): Panel;
+    OnModified(): void;
     
     /**
-     * @param enable  
+     * @param size The size of each tile. It is recommended you use 2<sup>n</sup> (''16, 32, 64...'') numbers, and those above ''4'', as numbers lower than this will result in many tiles being processed and therefore slow operation. 
      */
-    SetClickOnDragHover(enable: boolean): void;
+    SetBaseSize(size: number): void;
     
     /**
-     * @param bExpand  
+     * @param border  
      */
-    SetExpanded(bExpand: boolean): void;
+    SetBorder(border: number): void;
     
     /**
-     * @param size The new indentation size. 
+     * @param minH The minimum height the panel can shrink to. 
      */
-    SetIndentSize(size: number): void;
+    SetMinHeight(minH: number): void;
     
     /**
-     * @param h The height to set. 
+     * @param spacingX  
      */
-    SetLineHeight(h: number): void;
+    SetSpaceX(spacingX: number): void;
     
     /**
-     * @param node {{Type|DTree_Node}} to select. 
+     * @param spaceY  
      */
-    SetSelectedItem(node: DTree_Node): void;
+    SetSpaceY(spaceY: number): void;
     
     /**
-     * @param show Whether or not to show icons. 
+     * @param x The x coordinate of the tile. 
+     * @param y The y coordinate of the tile. 
+     * @param state The new state of the tile, normally ''1'' or ''nil''. 
      */
-    SetShowIcons(show: boolean): void;
+    SetTile(x: number, y: number, state: any): void;
+}
+
+/**
+ * The properties library gives you access to the menu that shows up when right clicking entities while holding C. 
+ */
+declare namespace properties {
+    /**
+     * Add properties to the properties module 
+     * @param name A unique name used to identify the property 
+     * @param propertyData A table that defines the property. Uses the {{Struct|PropertyAdd}}. 
+     */
+    function Add(name: string, propertyData: PropertyAdd): void;
     
     /**
-     * @returns Whether or not the silkicons next to each node will be displayed. 
+     * {{NextUpdate}}
+     * Returns true if given entity can be targeted by the player via the properties system.
+     * 
+     * This should be used serverside in your properties to prevent abuse by clientside scripting. 
+     * @param ent The entity to test 
+     * @param ply If given, will also perform a distance check based on the entity's Orientated Bounding Box. 
+     * @returns True if entity can be targeted, false otherwise 
      */
-    ShowIcons(): boolean;
+    function CanBeTargeted(ent: Entity, ply: Player): boolean;
+    
+    /**
+     * Returns an entity player is hovering over with his cursor. 
+     * @param pos Eye position of local player, {{ClassFunction|Entity|EyePos}} 
+     * @param aimVec Aim vector of local player, {{ClassFunction|Player|GetAimVector}} 
+     * @returns The hovered entity 
+     */
+    function GetHovered(pos: Vector, aimVec: Vector): Entity;
+    
+    /**
+     * Checks if player hovers over any entities and open a properties menu for it. 
+     * @param eyepos The eye pos of a player 
+     * @param eyevec The aim vector of a player 
+     */
+    function OnScreenClick(eyepos: Vector, eyevec: Vector): void;
+    
+    /**
+     * Opens properties menu for given entity. 
+     * @param ent The entity to open menu for 
+     * @param tr The trace that is passed as second argument to Action callback of a property 
+     */
+    function OpenEntityMenu(ent: Entity, tr: table): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=DLabel
+ * |Description={{Internal}}
+ * 
+ * The panel used internally for tool tips. See {{ClassFunction|Panel|SetTooltip}}.
+ * }}
+ * {{Example
+ * |Description=Drawing a Tool Tip manually, then painting over it.
+ * |Code=local DFrame = vgui.Create( "DFrame" )
+ * DFrame:SetPos( 100, 100 )
+ * DFrame:SetSize( 100, 100 )
+ * 
+ * local DTooltip = vgui.Create( "DTooltip" )
+ * DTooltip:SetPos( 0, 0 )
+ * DTooltip:SetSize( 250, 50 )
+ * DTooltip:SetText( "Manual Tooltip" )
+ * DTooltip:OpenForPanel( DFrame )
+ * DTooltip:PositionTooltip()
+ * DTooltip.Paint = function()
+ * 	draw.RoundedBox( 5, 0, 0, 250, 50, Color( 255, 255, 255, 255 ) )
+ * end
+ * }} 
+ */
+declare class DTooltip extends DLabel {
+    /**
+     */
+    Close(): void;
+    
+    /**
+     * @param x arrow location on the x axis 
+     * @param y arrow location on the y axis 
+     */
+    DrawArrow(x: number, y: number): void;
+    
+    /**
+     * @param pnl  
+     */
+    OpenForPanel(pnl: Panel): void;
+    
+    /**
+     */
+    PositionTooltip(): void;
+    
+    /**
+     * @param panel Contents 
+     * @param bDelete [=false] If set to true, the panel in the first argument will be automatically removed when {{Type|DTooltip}} is closed via {{ClassFunction|DTooltip|Close}}. 
+     */
+    SetContents(panel: Panel, bDelete?: DTooltip): void;
 }
 
 /**
  * A Material object. It represents a game material, similarly to how a .vmt file does.
  * 
  * It can be created with {{GlobalFunction|Material}} or {{GlobalFunction|CreateMaterial}}. 
- */
+ * !CustomConstructor Material */
 declare class IMaterial {
     /**
      * Either returns the material with the given name, or loads the material interpreting the first argument as the path.
@@ -47294,69 +47456,17 @@ declare class IMaterial {
 }
 
 /**
- * The presets library lets you add and modify the pre-set options for scripted tools (selected via the white bar at the top of each tools control panel). 
- */
-declare namespace presets {
-    /**
-     * Adds preset to a preset group. 
-     * @param groupname The preset group name, usually it's tool class name. 
-     * @param name Preset name, must be unique. 
-     * @param values A table of preset console commands. 
-     */
-    function Add(groupname: string, name: string, values: table): void;
-    
-    /**
-     * {{Internal}}
-     * 
-     * Used internally to tell the player that the name they tried to use in their preset is not acceptable. 
-     */
-    function BadNameAlert(): void;
-    
-    /**
-     * Returns whether a preset with given name exists or not 
-     * @param type The preset group name, usually it's tool class name. 
-     * @param name Name of the preset to test 
-     * @returns true if the preset does exist 
-     */
-    function Exists(type: string, name: string): boolean;
-    
-    /**
-     * Returns a table with preset names and values from a single preset group. 
-     * @param groupname Preset group name. 
-     * @returns All presets in specified group. 
-     */
-    function GetTable(groupname: string): table;
-    
-    /**
-     * {{Internal}}
-     * 
-     * Used internally to ask the player if they want to override an already existing preset. 
-     * @param callback  
-     */
-    function OverwritePresetPrompt(callback: Function): void;
-    
-    /**
-     * Removes a preset entry from a preset group. 
-     * @param groupname Preset group to remove from 
-     * @param name Name of preset to remove 
-     */
-    function Remove(groupname: string, name: string): void;
-    
-    /**
-     * Renames preset. 
-     * @param groupname Preset group name 
-     * @param oldname Old preset name 
-     * @param newname New preset name 
-     */
-    function Rename(groupname: string, oldname: string, newname: string): void;
-}
-
-/**
  * Renderable mesh object, can be used to create models on the fly. The only way to create your own IMesh object is to call [[Global/Mesh|Mesh]].
  * 
  * {{Bug|Issue=2301|IMeshes only respond to one projected texture.}} 
- */
+ * !CustomConstructor Mesh */
 declare class IMesh {
+    /**
+     * Returns a new mesh object. 
+     * @param mat [=nil] The material the mesh is intended to be rendered with. It's merely a hint that tells that mesh what vertex format it should use. 
+     */
+    constructor(mat?: IMaterial);
+    
     /**
      * Builds the mesh from a table mesh vertexes. 
      * @param vertexes A table consisting of {{Struct|MeshVertex}}s. 
@@ -47372,51 +47482,6 @@ declare class IMesh {
      * Renders the mesh with the active matrix. 
      */
     Draw(): void;
-}
-
-/**
- * The properties library gives you access to the menu that shows up when right clicking entities while holding C. 
- */
-declare namespace properties {
-    /**
-     * Add properties to the properties module 
-     * @param name A unique name used to identify the property 
-     * @param propertyData A table that defines the property. Uses the {{Struct|PropertyAdd}}. 
-     */
-    function Add(name: string, propertyData: PropertyAdd): void;
-    
-    /**
-     * {{NextUpdate}}
-     * Returns true if given entity can be targeted by the player via the properties system.
-     * 
-     * This should be used serverside in your properties to prevent abuse by clientside scripting. 
-     * @param ent The entity to test 
-     * @param ply If given, will also perform a distance check based on the entity's Orientated Bounding Box. 
-     * @returns True if entity can be targeted, false otherwise 
-     */
-    function CanBeTargeted(ent: Entity, ply: Player): boolean;
-    
-    /**
-     * Returns an entity player is hovering over with his cursor. 
-     * @param pos Eye position of local player, {{ClassFunction|Entity|EyePos}} 
-     * @param aimVec Aim vector of local player, {{ClassFunction|Player|GetAimVector}} 
-     * @returns The hovered entity 
-     */
-    function GetHovered(pos: Vector, aimVec: Vector): Entity;
-    
-    /**
-     * Checks if player hovers over any entities and open a properties menu for it. 
-     * @param eyepos The eye pos of a player 
-     * @param eyevec The aim vector of a player 
-     */
-    function OnScreenClick(eyepos: Vector, eyevec: Vector): void;
-    
-    /**
-     * Opens properties menu for given entity. 
-     * @param ent The entity to open menu for 
-     * @param tr The trace that is passed as second argument to Action callback of a property 
-     */
-    function OpenEntityMenu(ent: Entity, tr: table): void;
 }
 
 /**
@@ -47541,6 +47606,145 @@ declare class ISave {
      * @param vec The vector to write. 
      */
     WriteVector(vec: Vector): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=DScrollPanel
+ * |Preview=DTree.jpg
+ * |Description=A tree view element for Derma.
+ * 
+ * See also {{Type|DTree_Node}}.
+ * }}
+ * {{Example
+ * |Description=Example of using DTree
+ * |Code=local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 300, 500 )
+ * frame:Center()
+ * frame:MakePopup()
+ * 
+ * local dtree  = vgui.Create( "DTree", frame )
+ * dtree:Dock( FILL )
+ * 
+ * local node = dtree:AddNode( "Node One" )
+ * local node = dtree:AddNode( "Node Two" )
+ * local cnode = node:AddNode( "Node 2.1" )
+ * local cnode = node:AddNode( "Node 2.2" )
+ * local cnode = node:AddNode( "Node 2.3" )
+ * local cnode = node:AddNode( "Node 2.4" )
+ * local cnode = node:AddNode( "Node 2.5" )
+ * local gcnode = cnode:AddNode( "Node 2.5" )
+ * local cnode = node:AddNode( "Node 2.6" )
+ * local node = dtree:AddNode( "Node Three ( Maps Folder )" )
+ * node:MakeFolder( "maps", "GAME", true )
+ * local node = dtree:AddNode( "Node Four" )
+ * }} 
+ */
+declare class DTree extends DScrollPanel {
+    /**
+     * @param name Name of the option. 
+     * @param icon [="icon16/folder.png"] The icon that will show nexto the node in the DTree. 
+     * @returns Returns the created {{Type|DTree_Node}} panel. 
+     */
+    AddNode(name: string, icon?: string): DTree_Node;
+    
+    /**
+     * @param bExpand  
+     */
+    ChildExpanded(bExpand: boolean): void;
+    
+    /**
+     */
+    DoClick(): void;
+    
+    /**
+     */
+    DoRightClick(): void;
+    
+    /**
+     * @param bExpand  
+     */
+    ExpandTo(bExpand: boolean): void;
+    
+    /**
+     * @returns  
+     */
+    GetClickOnDragHover(): boolean;
+    
+    /**
+     * @returns The indentation size. 
+     */
+    GetIndentSize(): number;
+    
+    /**
+     * @returns The height of each {{Type|DTree_Node}} in the tree. 
+     */
+    GetLineHeight(): number;
+    
+    /**
+     * @returns Curently selected node. 
+     */
+    GetSelectedItem(): Panel;
+    
+    /**
+     * @returns Whether or not the silkicons next to each node will be displayed. 
+     */
+    GetShowIcons(): boolean;
+    
+    /**
+     */
+    LayoutTree(): void;
+    
+    /**
+     * @param child The node to move 
+     * @param pos {{Deprecated}} Unused, does nothing. 
+     */
+    MoveChildTo(child: Panel, pos: number): void;
+    
+    /**
+     * @param node The node that was selected. 
+     */
+    OnNodeSelected(node: Panel): void;
+    
+    /**
+     * @returns Root node. 
+     */
+    Root(): Panel;
+    
+    /**
+     * @param enable  
+     */
+    SetClickOnDragHover(enable: boolean): void;
+    
+    /**
+     * @param bExpand  
+     */
+    SetExpanded(bExpand: boolean): void;
+    
+    /**
+     * @param size The new indentation size. 
+     */
+    SetIndentSize(size: number): void;
+    
+    /**
+     * @param h The height to set. 
+     */
+    SetLineHeight(h: number): void;
+    
+    /**
+     * @param node {{Type|DTree_Node}} to select. 
+     */
+    SetSelectedItem(node: DTree_Node): void;
+    
+    /**
+     * @param show Whether or not to show icons. 
+     */
+    SetShowIcons(show: boolean): void;
+    
+    /**
+     * @returns Whether or not the silkicons next to each node will be displayed. 
+     */
+    ShowIcons(): boolean;
 }
 
 /**
@@ -47680,7 +47884,7 @@ declare class MarkupObject {
  * 
  * See [[NextBot NPC Creation]] for more information on how to create NextBot NPCs. 
  */
-declare class NextBot {
+declare class NextBot extends Entity {
     /**
      * Become a ragdoll and remove the entity. 
      * @param info Damage info passed from an onkilled event 
@@ -48459,1113 +48663,6 @@ declare class FingerVar extends Panel {
  */
 declare class Frame extends Panel {
 
-}
-
-/**
- * {{Panel
- * |Parent=Panel
- * |Description=The HTML control can be used to display HTML code just like an internet browser. Unlike {{Type|DHTML}}, this control cannot accept user input or complex interaction, such as retrieving image data.
- * 
- * '''Blocked URL Extentions'''
- * 
- * ''This means your url cannot end in any of these extensions, e.g.: (http://yourdomain.com/garry.exe)''
- * * .exe
- * * .bat
- * * .dll
- * * .zip
- * * .mp3
- * * .swf
- * }}
- * {{Example
- * |Description=Creates an HTML control in the center of screen, and makes it display http://wiki.garrysmod.com/
- * |Code=HTMLTest = vgui.Create( "HTML" )
- * HTMLTest:SetPos( 50, 50 )
- * HTMLTest:SetSize( ScrW() - 100, ScrH() - 100 )
- * HTMLTest:OpenURL( "wiki.garrysmod.com" )
- * }} 
- */
-declare class HTML extends Panel {
-    /**
-     */
-    StopLoading(): void;
-    
-    /**
-     * Returns the panel's HTML material. Only works with {{Type|Awesomium}}, {{Type|HTML}} and {{Type|DHTML}} panels that have been fully loaded.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @returns The HTML material used by the panel. Typically starts with "__vgui_texture_" followed by an incremental number. 
-     */
-    GetHTMLMaterial(): IMaterial;
-    
-    /**
-     * Returns the panel's HTML material. Only works with {{Type|Awesomium}}, {{Type|HTML}} and {{Type|DHTML}} panels that have been fully loaded.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @returns The HTML material used by the panel. Typically starts with "__vgui_texture_" followed by an incremental number. 
-     */
-    GetHTMLMaterial(): IMaterial;
-    
-    /**
-     * Goes back one page in the HTML panel's history if available.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     */
-    GoBack(): void;
-    
-    /**
-     * Goes back one page in the HTML panel's history if available.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     */
-    GoBack(): void;
-    
-    /**
-     * Goes forward one page in the HTML panel's history if available.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     */
-    GoForward(): void;
-    
-    /**
-     * Goes forward one page in the HTML panel's history if available.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     */
-    GoForward(): void;
-    
-    /**
-     * Goes to the page in the HTML panel's history at the specified relative offset.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @param offset The offset in the panel's back/forward history, relative to the current page, that you would like to skip to. Because this is relative, 0 = current page while negative goes back and positive goes forward. For example, -2 will go back 2 pages in the history. 
-     */
-    GoToHistoryOffset(offset: number): void;
-    
-    /**
-     * Goes to the page in the HTML panel's history at the specified relative offset.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @param offset The offset in the panel's back/forward history, relative to the current page, that you would like to skip to. Because this is relative, 0 = current page while negative goes back and positive goes forward. For example, -2 will go back 2 pages in the history. 
-     */
-    GoToHistoryOffset(offset: number): void;
-    
-    /**
-     * {{Internal}}
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @param objectName  
-     */
-    NewObject(objectName: string): void;
-    
-    /**
-     * {{Internal}}
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @param objectName  
-     */
-    NewObject(objectName: string): void;
-    
-    /**
-     * {{Internal}}
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @param objectName  
-     * @param callbackName  
-     */
-    NewObjectCallback(objectName: string, callbackName: string): void;
-    
-    /**
-     * {{Internal}}
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @param objectName  
-     * @param callbackName  
-     */
-    NewObjectCallback(objectName: string, callbackName: string): void;
-    
-    /**
-     * [[Category:HTML]][[Category:Awesomium]]Instructs a HTML control to download and parse a HTML script using the passed URL. 
-     * @param URL URL to open 
-     */
-    OpenURL(URL: string): void;
-    
-    /**
-     * [[Category:HTML]][[Category:Awesomium]]Instructs a HTML control to download and parse a HTML script using the passed URL. 
-     * @param URL URL to open 
-     */
-    OpenURL(URL: string): void;
-    
-    /**
-     * Refreshes the HTML panel's current page.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @param ignoreCache [=false] If true, the refresh will ignore cached content similar to "ctrl+f5" in most browsers. 
-     */
-    Refresh(ignoreCache?: boolean): void;
-    
-    /**
-     * Refreshes the HTML panel's current page.
-     * [[Category:HTML]]
-     * [[Category:Awesomium]] 
-     * @param ignoreCache [=false] If true, the refresh will ignore cached content similar to "ctrl+f5" in most browsers. 
-     */
-    Refresh(ignoreCache?: boolean): void;
-    
-    /**
-     * [[Category:HTML]][[Category:Awesomium]]Allows you to set HTML code within a panel. 
-     * @param HTML_code The code to set. 
-     */
-    SetHTML(HTML_code: string): void;
-    
-    /**
-     * [[Category:HTML]][[Category:Awesomium]]Allows you to set HTML code within a panel. 
-     * @param HTML_code The code to set. 
-     */
-    SetHTML(HTML_code: string): void;
-    
-    /**
-     * Forcibly updates the panels' HTML Material, similar to when Paint is called on it.<br />This is only useful if the panel is not normally visible, i.e the panel exists purely for its HTML Material.
-     * {{Note|Only works on with panels that have a HTML Material. See {{ClassFunction|Panel|GetHTMLMaterial}} for more details.}}
-     * {{Note|A good place to call this is in the {{HookFunction|GM|PreRender}} hook}}
-     * [[Category:HTML]][[Category:Awesomium]] 
-     */
-    UpdateHTMLTexture(): void;
-    
-    /**
-     * Forcibly updates the panels' HTML Material, similar to when Paint is called on it.<br />This is only useful if the panel is not normally visible, i.e the panel exists purely for its HTML Material.
-     * {{Note|Only works on with panels that have a HTML Material. See {{ClassFunction|Panel|GetHTMLMaterial}} for more details.}}
-     * {{Note|A good place to call this is in the {{HookFunction|GM|PreRender}} hook}}
-     * [[Category:HTML]][[Category:Awesomium]] 
-     */
-    UpdateHTMLTexture(): void;
-}
-
-/**
- * {{Panel
- * |Name=IconEditor
- * |Parent=DFrame
- * |Description=An icon editor that permits a user to modify a {{Type|SpawnIcon}} and re-render it. This is used by the spawn menu and is what is shown when you right-click an icon and select ''Edit Icon''.
- * 
- * This makes use of the {{Type|DAdjustableModelPanel}} element.
- * 
- * {{Note|This panel is only available in Sandbox and Sandbox derived gamemodes!}}
- * |Preview=IconEditor.jpg
- * }}
- * {{Example
- * |Description=Creates an SpawnIcon with model <tt>"models/props_borealis/bluebarrel001.mdl"</tt> and IconEditor to modify it.
- * |Code=local frame = vgui.Create( "DFrame" ) -- Container for the SpawnIcon
- * frame:SetPos( 200, 200 )
- * frame:SetSize( 200, 200 )
- * frame:SetTitle( "Icon Editor Example" )
- * frame:MakePopup()
- * 
- * local icon = vgui.Create( "SpawnIcon" , frame ) -- SpawnIcon, with blue barrel model
- * icon:Center()
- * -- It is important below to include the SkinID (0 = default skin); the IconEditor will not work otherwise
- * icon:SetModel( "models/props_borealis/bluebarrel001.mdl", 0 )
- * 
- * local editor = vgui.Create( "IconEditor" ) -- Create IconEditor
- * editor:SetIcon( icon ) -- Set the SpawnIcon to modify
- * editor:Refresh() -- Sets up the internal DAdjustableModelPanel and SpawnIcon
- * editor:MakePopup()
- * editor:Center()
- * |Output=A {{Type|DFrame}} containing a {{Type|SpawnIcon}}, and a window identical to that in the [[#Preview|preview]] above.
- * }} 
- */
-declare class IconEditor extends DFrame {
-    /**
-     */
-    AboveLayout(): void;
-    
-    /**
-     */
-    BestGuessLayout(): void;
-    
-    /**
-     * @param ent The entity being rendered within the model panel. 
-     */
-    FillAnimations(ent: Entity): void;
-    
-    /**
-     */
-    FullFrontalLayout(): void;
-    
-    /**
-     */
-    OriginLayout(): void;
-    
-    /**
-     */
-    Refresh(): void;
-    
-    /**
-     */
-    RenderIcon(): void;
-    
-    /**
-     */
-    RightLayout(): void;
-    
-    /**
-     */
-    SetDefaultLighting(): void;
-    
-    /**
-     * @param ent The entity to retrieve the model and skin from. 
-     */
-    SetFromEntity(ent: Entity): void;
-    
-    /**
-     * @param path Set to nil to remove the icon.
-     * 
-     * Otherwise, set to file path to create the icon. 
-     */
-    SetIcon(path: string): void;
-    
-    /**
-     * @param icon The {{Type|SpawnIcon}} object to be modified. 
-     */
-    SetIcon(icon: SpawnIcon): void;
-    
-    /**
-     * @param ent The entity being rendered within the model panel. 
-     */
-    UpdateEntity(ent: Entity): void;
-}
-
-/**
- * {{Panel
- * |Parent=Button
- * }} 
- */
-declare class ImageCheckBox extends Button {
-
-}
-
-/**
- * This is a list of all methods only available for NPCs. It is also possible to call [http://wiki.garrysmod.com/index.php?title=Category:Entity Entity] functions on NPCs. 
- */
-declare class NPC {
-    /**
-     * Makes the NPC like, hate, feel neutral towards, or fear the entity in question. If you want to setup relationship towards a certain entity ''class'', use {{ClassFunction|NPC|AddRelationship}}. 
-     * @param target The entity for the relationship to be applied to. 
-     * @param disposition A {{Enum|D}} representing the relationship type. 
-     * @param priority How strong the relationship is. 
-     */
-    AddEntityRelationship(target: Entity, disposition: D, priority: number): void;
-    
-    /**
-     * Changes how an NPC feels towards another NPC.  If you want to setup relationship towards a certain ''entity'', use {{ClassFunction|NPC|AddEntityRelationship}}. 
-     * @param relationstring A string representing how the relationship should be set up.
-     * Should be formatted as "npc_class {{Enum|D}} numberPriority". 
-     */
-    AddRelationship(relationstring: string): void;
-    
-    /**
-     * Force an NPC to play his Alert sound. 
-     */
-    AlertSound(): void;
-    
-    /**
-     * Adds a capability to the NPC. 
-     * @param capabilities Capabilities to add, see {{Enum|CAP}} 
-     */
-    CapabilitiesAdd(capabilities: CAP): void;
-    
-    /**
-     * Removes all of Capabilities the NPC has. 
-     */
-    CapabilitiesClear(): void;
-    
-    /**
-     * Returns the NPC's capabilities along the ones defined on its weapon. 
-     * @returns The capabilities as a bitflag.
-     * See {{Enum|CAP}} 
-     */
-    CapabilitiesGet(): CAP;
-    
-    /**
-     * Remove a certain capability. 
-     * @param capabilities Capabilities to remove, see {{Enum|CAP}} 
-     */
-    CapabilitiesRemove(capabilities: CAP): void;
-    
-    /**
-     * Returns the NPC class. Do not confuse with {{ClassFunction|Entity|GetClass}}! 
-     * @returns See {{Enum|CLASS}} 
-     */
-    Classify(): CLASS;
-    
-    /**
-     * Clears out the specified {{Enum|COND}} on this NPC. 
-     * @param condition The {{Enum|COND}} to clear out. 
-     */
-    ClearCondition(condition: COND): void;
-    
-    /**
-     * Clears the Enemy from the NPC's memory, effectively forgetting it until met again with either the NPC vision or with {{ClassFunction|NPC|UpdateEnemyMemory}}. 
-     */
-    ClearEnemyMemory(): void;
-    
-    /**
-     * Clears the NPC's current expression which can be set with {{ClassFunction|NPC|SetExpression}}. 
-     */
-    ClearExpression(): void;
-    
-    /**
-     * Clears the current NPC goal or target. 
-     */
-    ClearGoal(): void;
-    
-    /**
-     * Stops the current schedule that the NPC is doing. 
-     */
-    ClearSchedule(): void;
-    
-    /**
-     * Translates condition ID to a string. 
-     * @param cond The NPCs condition ID, see {{Enum|COND}} 
-     * @returns A human understandable string equivalent of that condition. 
-     */
-    ConditionName(cond: COND): string;
-    
-    /**
-     * Returns the way the NPC "feels" about the entity. 
-     * @param ent The entity to get the disposition from. 
-     * @returns The NPCs disposition, see {{Enum|D}}. 
-     */
-    Disposition(ent: Entity): D;
-    
-    /**
-     * Makes an NPC exit a scripted sequence, if one is playing. 
-     */
-    ExitScriptedSequence(): void;
-    
-    /**
-     * Force an NPC to play his Fear sound. 
-     */
-    FearSound(): void;
-    
-    /**
-     * Force an NPC to play its FoundEnemy sound. 
-     */
-    FoundEnemySound(): void;
-    
-    /**
-     * Returns the weapon the NPC is currently carrying, or [http://wiki.garrysmod.com/page/Global_Variables NULL]. 
-     * @returns The NPCs current weapon 
-     */
-    GetActiveWeapon(): Entity;
-    
-    /**
-     * Returns the NPC's current activity. 
-     * @returns Current activity, see {{Enum|ACT}}. 
-     */
-    GetActivity(): ACT;
-    
-    /**
-     * Returns the aim vector of the NPC. NPC alternative of {{ClassFunction|Player|GetAimVector}}. 
-     * @returns The aim direction of the NPC. 
-     */
-    GetAimVector(): Vector;
-    
-    /**
-     * Returns the activity to be played when the NPC arrives at its goal 
-     * @returns  
-     */
-    GetArrivalActivity(): number;
-    
-    /**
-     *  
-     * @returns  
-     */
-    GetArrivalSequence(): number;
-    
-    /**
-     * Returns the entity blocking the NPC along its path. 
-     * @returns Blocking entity 
-     */
-    GetBlockingEntity(): Entity;
-    
-    /**
-     * Returns the NPC's current schedule. 
-     * @returns The NPCs schedule, see {{Enum|SCHED}} or -1 if we failed for some reason 
-     */
-    GetCurrentSchedule(): SCHED;
-    
-    /**
-     * Returns how proficient (skilled) an NPC is with its current weapon. 
-     * @returns NPC's proficiency for current weapon. See {{Enum|WEAPON_PROFICIENCY}}. 
-     */
-    GetCurrentWeaponProficiency(): WEAPON_PROFICIENCY;
-    
-    /**
-     * Returns the entity that this NPC is trying to fight.
-     * 
-     * {{Bug|Issue=3132|This returns nil if the NPC has no enemy. You should use {{GlobalFunction|IsValid}} (which accounts for nil and NULL) on the return to verify validity of the enemy.}} 
-     * @returns Enemy NPC. 
-     */
-    GetEnemy(): NPC;
-    
-    /**
-     * Returns the expression file the NPC is currently playing. 
-     * @returns The file path of the expression. 
-     */
-    GetExpression(): string;
-    
-    /**
-     * Returns NPCs hull type set by {{ClassFunction|NPC|SetHullType}}. 
-     * @returns Hull type, see {{Enum|HULL}} 
-     */
-    GetHullType(): HULL;
-    
-    /**
-     * Returns the NPC's current movement activity. 
-     * @returns Current NPC movement activity, see {{Enum|ACT}}. 
-     */
-    GetMovementActivity(): ACT;
-    
-    /**
-     * Returns the index of the sequence the NPC uses to move. 
-     * @returns The movement sequence index 
-     */
-    GetMovementSequence(): number;
-    
-    /**
-     * Returns the NPC's state. 
-     * @returns The NPC's current state, see {{Enum|NPC_STATE}}. 
-     */
-    GetNPCState(): NPC_STATE;
-    
-    /**
-     *  
-     * @returns  
-     */
-    GetPathDistanceToGoal(): number;
-    
-    /**
-     *  
-     * @returns  
-     */
-    GetPathTimeToGoal(): number;
-    
-    /**
-     * Returns the shooting position of the NPC.
-     * 
-     * {{Note|This only works properly when called on an NPC that can hold weapons, otherwise it will return the same value as {{ClassFunction|Entity|GetPos}}.}} 
-     * @returns The NPC's shooting position. 
-     */
-    GetShootPos(): Vector;
-    
-    /**
-     * Returns the NPC's current target set by {{ClassFunction|NPC|SetTarget}}.
-     * 
-     * {{Bug|Issue=3132|This returns nil if the NPC has no target. You should use {{GlobalFunction|IsValid}} (which accounts for nil and NULL) on the return to verify validity of the target.}} 
-     * @returns Target entity 
-     */
-    GetTarget(): Entity;
-    
-    /**
-     * Used to give a weapon to an already spawned NPC. 
-     * @param weapon Class name of the weapon to equip to the NPC. 
-     * @returns The weapon entity given to the NPC. 
-     */
-    Give(weapon: string): Weapon;
-    
-    /**
-     * Returns whether or not the NPC has the given condition. 
-     * @param condition The condition index, see {{Enum|COND}}. 
-     * @returns True if the NPC has the given condition, false otherwise. 
-     */
-    HasCondition(condition: COND): boolean;
-    
-    /**
-     * Force an NPC to play his Idle sound. 
-     */
-    IdleSound(): void;
-    
-    /**
-     * Returns whether or not the NPC is performing the given schedule. 
-     * @param schedule The schedule number, see {{Enum|SCHED}}. 
-     * @returns True if the NPC is performing the given schedule, false otherwise. 
-     */
-    IsCurrentSchedule(schedule: SCHED): boolean;
-    
-    /**
-     * Returns whether the NPC is moving or not. 
-     * @returns Whether the NPC is moving or not. 
-     */
-    IsMoving(): boolean;
-    
-    /**
-     *  
-     * @returns  
-     */
-    IsRunningBehavior(): boolean;
-    
-    /**
-     * Returns whether the entity given can be reached by this NPC. 
-     * @param testEntity The entity to test. 
-     * @returns If the entity is reachable or not. 
-     */
-    IsUnreachable(testEntity: Entity): boolean;
-    
-    /**
-     * Force an NPC to play his LostEnemy sound. 
-     */
-    LostEnemySound(): void;
-    
-    /**
-     *  
-     */
-    MaintainActivity(): void;
-    
-    /**
-     * Causes the NPC to temporarily forget the current enemy and switch on to a better one. 
-     */
-    MarkEnemyAsEluded(): void;
-    
-    /**
-     *  
-     */
-    MoveOrder(): void;
-    
-    /**
-     * Sets the goal position for the NPC. 
-     * @param position The position to set as the goal 
-     */
-    NavSetGoal(position: Vector): void;
-    
-    /**
-     * Set the goal target for an NPC. 
-     * @param target The targeted entity to set the goal to. 
-     * @param offset The offset to apply to the targeted entity's position. 
-     */
-    NavSetGoalTarget(target: Entity, offset: Vector): void;
-    
-    /**
-     * Creates a random path of specified minimum length between a closest start node and random node in the specified direction. 
-     * @param minPathLength Minimum length of path in units 
-     * @param dir Unit vector pointing in the direction of the target random node 
-     */
-    NavSetRandomGoal(minPathLength: number, dir: Vector): void;
-    
-    /**
-     * Sets a goal in x, y offsets for the npc to wander to 
-     * @param xoffset X offset 
-     * @param yoffset Y offset 
-     */
-    NavSetWanderGoal(xoffset: number, yoffset: number): void;
-    
-    /**
-     * Forces the NPC to play a sentence from scripts/sentences.txt 
-     * @param sentence The sentence string to speak. 
-     * @param delay Delay in seconds until the sentence starts playing. 
-     * @param volume The volume of the sentence, from 0 to 1. 
-     * @returns Returns the sentence index, -1 if the sentence couldn't be played. 
-     */
-    PlaySentence(sentence: string, delay: number, volume: number): number;
-    
-    /**
-     * {{Deprecated}}
-     * 
-     * This function crashes the game no matter how it is used and will be removed in a future update.
-     * 
-     * Use {{ClassFunction|NPC|ClearEnemyMemory}} instead. 
-     */
-    RemoveMemory(): void;
-    
-    /**
-     *  
-     * @param taskID The task ID, see [https://github.com/ValveSoftware/source-sdk-2013/blob/55ed12f8d1eb6887d348be03aee5573d44177ffb/mp/src/game/server/ai_task.h#L89-L502 ai_task.h] 
-     * @param taskData The task data. 
-     */
-    RunEngineTask(taskID: number, taskData: number): void;
-    
-    /**
-     *  
-     */
-    SentenceStop(): void;
-    
-    /**
-     *  
-     * @param act  
-     */
-    SetArrivalActivity(act: number): void;
-    
-    /**
-     *  
-     */
-    SetArrivalDirection(): void;
-    
-    /**
-     *  
-     */
-    SetArrivalDistance(): void;
-    
-    /**
-     *  
-     */
-    SetArrivalSequence(): void;
-    
-    /**
-     *  
-     */
-    SetArrivalSpeed(): void;
-    
-    /**
-     * Sets an NPC condition. 
-     * @param condition The condition index, see {{Enum|COND}}. 
-     */
-    SetCondition(condition: COND): void;
-    
-    /**
-     * Sets the weapon proficiency of an NPC (how skilled an NPC is with its current weapon). 
-     * @param proficiency The proficiency for the NPC's current weapon. See {{Enum|WEAPON_PROFICIENCY}}. 
-     */
-    SetCurrentWeaponProficiency(proficiency: WEAPON_PROFICIENCY): void;
-    
-    /**
-     * Sets the target for an NPC. 
-     * @param enemy The enemy that the NPC should target 
-     * @param newenemy [=true] Calls NPC:SetCondition(COND_NEW_ENEMY) if the new enemy is valid and not equal to the last enemy. 
-     */
-    SetEnemy(enemy: Entity, newenemy?: boolean): void;
-    
-    /**
-     * Sets the NPC's .vcd expression. Similar to {{ClassFunction|Entity|PlayScene}} except the scene is looped until it's interrupted by default NPC behavior or {{ClassFunction|NPC|ClearExpression}}. 
-     * @param expression The expression filepath. 
-     * @returns  
-     */
-    SetExpression(expression: string): number;
-    
-    /**
-     * Updates the NPC's hull and physics hull in order to match its model scale. {{ClassFunction|Entity|SetModelScale}} seems to take care of this regardless. 
-     */
-    SetHullSizeNormal(): void;
-    
-    /**
-     * Sets the hull type for the NPC. 
-     * @param hullType Hull type. See {{Enum|HULL}} 
-     */
-    SetHullType(hullType: HULL): void;
-    
-    /**
-     * Sets the last registered or memorized position for an npc. When using scheduling, the NPC will focus on navigating to the last position via nodes.
-     * 
-     * {{Note|The navigation requires ground nodes to function properly, otherwise the NPC could only navigate in a small area. (https://developer.valvesoftware.com/wiki/Info_node)}} 
-     * @param Position Where the NPC's last position will be set. 
-     */
-    SetLastPosition(Position: Vector): void;
-    
-    /**
-     *  
-     */
-    SetMaxRouteRebuildTime(): void;
-    
-    /**
-     * Sets the activity the NPC uses when it moves. 
-     * @param activity The movement activity, see {{Enum|ACT}}. 
-     */
-    SetMovementActivity(activity: ACT): void;
-    
-    /**
-     * Sets the sequence the NPC navigation path uses for speed calculation. Doesn't seem to have any visible effect on NPC movement. 
-     * @param sequenceId The movement sequence index 
-     */
-    SetMovementSequence(sequenceId: number): void;
-    
-    /**
-     * Sets the state the NPC is in to help it decide on a ideal schedule. 
-     * @param state New NPC state, see {{Enum|NPC_STATE}} 
-     */
-    SetNPCState(state: NPC_STATE): void;
-    
-    /**
-     * Sets the NPC's current schedule. 
-     * @param schedule The NPC schedule, see {{Enum|SCHED}}. 
-     */
-    SetSchedule(schedule: SCHED): void;
-    
-    /**
-     * Sets the NPC's target. This is used in some engine schedules. 
-     * @param entity The target of the NPC. 
-     */
-    SetTarget(entity: Entity): void;
-    
-    /**
-     * Forces the NPC to start an engine task, this has different results for every NPC. 
-     * @param task The id of the task to start, see [https://github.com/ValveSoftware/source-sdk-2013/blob/55ed12f8d1eb6887d348be03aee5573d44177ffb/mp/src/game/server/ai_task.h#L89-L502 ai_task.h] 
-     * @param taskData The task data as a float, not all tasks make use of it. 
-     */
-    StartEngineTask(task: number, taskData: number): void;
-    
-    /**
-     * Resets the NPC's movement animation and velocity. Does not actually stop the NPC from moving. 
-     */
-    StopMoving(): void;
-    
-    /**
-     *  
-     */
-    TargetOrder(): void;
-    
-    /**
-     *  
-     */
-    TaskComplete(): void;
-    
-    /**
-     *  
-     * @param task A string most likely defined as a Source Task, for more information on Tasks go to https://developer.valvesoftware.com/wiki/Task 
-     */
-    TaskFail(task: string): void;
-    
-    /**
-     * Force the NPC to update information on the supplied enemy, as if it had line of sight to it. 
-     * @param enemy The enemy to update. 
-     * @param pos The last known position of the enemy. 
-     */
-    UpdateEnemyMemory(enemy: Entity, pos: Vector): void;
-    
-    /**
-     *  
-     * @returns  
-     */
-    UseActBusyBehavior(): boolean;
-    
-    /**
-     *  
-     * @returns  
-     */
-    UseAssaultBehavior(): boolean;
-    
-    /**
-     *  
-     * @returns  
-     */
-    UseFollowBehavior(): boolean;
-    
-    /**
-     *  
-     * @returns  
-     */
-    UseFuncTankBehavior(): boolean;
-    
-    /**
-     *  
-     * @returns  
-     */
-    UseLeadBehavior(): boolean;
-    
-    /**
-     *  
-     */
-    UseNoBehavior(): void;
-}
-
-/**
- * {{Panel
- * |Parent=Panel
- * |Description=A basic label or "single line text area" that is non-editable.
- * }}
- * {{Example
- * |Description=Creates a label and fills it with the text "Lua Labels!" parented to a simple frame.
- * |Code=local frame = vgui.Create( "Frame" )
- * frame.Label1 = vgui.Create( "Label", frame )
- * frame.Label1:SetPos( 50, 50 )
- * frame.Label1:SetText("Lua Labels!")
- * frame.Label1:SizeToContents()
- *  
- * frame:SetSize( ScrW() * 0.25, ScrH() * 0.25 )
- * frame:Center()
- * frame:SetVisible( true )
- * frame:MakePopup()
- * }} 
- */
-declare class Label extends Panel {
-    /**
-     * Gets the size of the content/children within a panel object.
-     * 
-     * Only works with {{Type|Label}} derived panels by default such as {{Type|DLabel}}.<br/>
-     * Will also work on any panel that manually implements this method.
-     * 
-     * [[Category:Label]] 
-     * @returns [The content width of the object., The content height of the object.]
-     * !TupleReturn 
-     */
-    GetContentSize(): [number, number];
-    
-    /**
-     * Gets the size of the content/children within a panel object.
-     * 
-     * Only works with {{Type|Label}} derived panels by default such as {{Type|DLabel}}.<br/>
-     * Will also work on any panel that manually implements this method.
-     * 
-     * [[Category:Label]] 
-     * @returns [The content width of the object., The content height of the object.]
-     * !TupleReturn 
-     */
-    GetContentSize(): [number, number];
-    
-    /**
-     * Gets the left and top text margins of a text-based panel object, such as a {{Type|DButton}} or {{Type|DLabel}}. This is set with {{ClassFunction|Panel|SetTextInset}}.
-     * 
-     * [[Category:Label]] 
-     * @returns [The left margin of the text, in pixels., The top margin of the text, in pixels.]
-     * !TupleReturn 
-     */
-    GetTextInset(): [number, number];
-    
-    /**
-     * Gets the left and top text margins of a text-based panel object, such as a {{Type|DButton}} or {{Type|DLabel}}. This is set with {{ClassFunction|Panel|SetTextInset}}.
-     * 
-     * [[Category:Label]] 
-     * @returns [The left margin of the text, in pixels., The top margin of the text, in pixels.]
-     * !TupleReturn 
-     */
-    GetTextInset(): [number, number];
-    
-    /**
-     * Gets the size of the text within a {{Type|Label}} derived panel.
-     * 
-     * {{Bug|Issue=2576|This can return 0 incorrectly.}}
-     * 
-     * [[Category:Label]] 
-     * @returns [The width of the text in the DLabel., The height of the text in the DLabel.]
-     * !TupleReturn 
-     */
-    GetTextSize(): [number, number];
-    
-    /**
-     * Gets the size of the text within a {{Type|Label}} derived panel.
-     * 
-     * {{Bug|Issue=2576|This can return 0 incorrectly.}}
-     * 
-     * [[Category:Label]] 
-     * @returns [The width of the text in the DLabel., The height of the text in the DLabel.]
-     * !TupleReturn 
-     */
-    GetTextSize(): [number, number];
-    
-    /**
-     * Sets the alignment of the contents.
-     * 
-     * [[Category:Label]]
-     * [[Category:DLabel]] 
-     * @param alignment The direction of the content, based on the number pad.
-     * <table>
-     * <tr><td>{{Key|7}}: '''top-left'''</td><td>{{Key|8}}: '''top-center'''</td><td>{{Key|9}}: '''top-right'''</td></tr>
-     * <tr><td>{{Key|4}}: '''middle-left'''</td><td>{{Key|5}}: '''center'''</td><td>{{Key|6}}: '''middle-right'''</td></tr>
-     * <tr><td>{{Key|1}}: '''bottom-left'''</td><td>{{Key|2}}: '''bottom-center'''</td><td>{{Key|3}}: '''bottom-right'''</td></tr>
-     * </table>
-     * [[File:DLabel_SetContentAlignment.gif]] 
-     */
-    SetContentAlignment(alignment: number): void;
-    
-    /**
-     * Sets the alignment of the contents.
-     * 
-     * [[Category:Label]]
-     * [[Category:DLabel]] 
-     * @param alignment The direction of the content, based on the number pad.
-     * <table>
-     * <tr><td>{{Key|7}}: '''top-left'''</td><td>{{Key|8}}: '''top-center'''</td><td>{{Key|9}}: '''top-right'''</td></tr>
-     * <tr><td>{{Key|4}}: '''middle-left'''</td><td>{{Key|5}}: '''center'''</td><td>{{Key|6}}: '''middle-right'''</td></tr>
-     * <tr><td>{{Key|1}}: '''bottom-left'''</td><td>{{Key|2}}: '''bottom-center'''</td><td>{{Key|3}}: '''bottom-right'''</td></tr>
-     * </table>
-     * [[File:DLabel_SetContentAlignment.gif]] 
-     */
-    SetContentAlignment(alignment: number): void;
-    
-    /**
-     * Adds a shadow falling to the bottom right corner of the panel's text. This has no effect on panels that do not derive from Label.
-     * 
-     * [[Category:Label]] 
-     * @param distance The distance of the shadow from the panel. 
-     * @param Color The color of the shadow. Uses the {{Struct|Color}}. 
-     */
-    SetExpensiveShadow(distance: number, Color: Color): void;
-    
-    /**
-     * Adds a shadow falling to the bottom right corner of the panel's text. This has no effect on panels that do not derive from Label.
-     * 
-     * [[Category:Label]] 
-     * @param distance The distance of the shadow from the panel. 
-     * @param Color The color of the shadow. Uses the {{Struct|Color}}. 
-     */
-    SetExpensiveShadow(distance: number, Color: Color): void;
-    
-    /**
-     * Sets the font used to render this panel's text.
-     * 
-     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
-     * 
-     * [[Category:Label]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]] 
-     * @param fontName The name of the font.
-     * 
-     * See [[Default_Fonts|here]] for a list of existing fonts.
-     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
-     */
-    SetFontInternal(fontName: string): void;
-    
-    /**
-     * Sets the font used to render this panel's text.
-     * 
-     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
-     * 
-     * [[Category:Label]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]] 
-     * @param fontName The name of the font.
-     * 
-     * See [[Default_Fonts|here]] for a list of existing fonts.
-     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
-     */
-    SetFontInternal(fontName: string): void;
-    
-    /**
-     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
-     * 
-     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
-     * [[Category:Label]]
-     * [[Category:DLabel]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]]
-     * [[Category:DTree_Node]] 
-     * @param text The text value to set. 
-     */
-    SetText(text: string): void;
-    
-    /**
-     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
-     * 
-     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
-     * [[Category:Label]]
-     * [[Category:DLabel]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]]
-     * [[Category:DTree_Node]] 
-     * @param text The text value to set. 
-     */
-    SetText(text: string): void;
-    
-    /**
-     * Sets the left and top text margins of a text-based panel object, such as a {{Type|DButton}} or {{Type|DLabel}}.
-     * 
-     * [[Category:Label]] 
-     * @param insetX The left margin for the text, in pixels. This will only affect centered text if the margin is greater than its x-coordinate. 
-     * @param insetY The top margin for the text, in pixels. 
-     */
-    SetTextInset(insetX: number, insetY: number): void;
-    
-    /**
-     * Sets the left and top text margins of a text-based panel object, such as a {{Type|DButton}} or {{Type|DLabel}}.
-     * 
-     * [[Category:Label]] 
-     * @param insetX The left margin for the text, in pixels. This will only affect centered text if the margin is greater than its x-coordinate. 
-     * @param insetY The top margin for the text, in pixels. 
-     */
-    SetTextInset(insetX: number, insetY: number): void;
-}
-
-/**
- * {{Panel
- * |Name=Material
- * |Parent=Button
- * |Preview=Material_preview.gif
- * |Description=Material is a VGUI element that renders a VMT material.
- * }}
- * {{Example
- * |Description=Creates a Material panel with TV static under a {{Type|DModelPanel}} with a spinning Garry's Mod logo model.
- * |Code=-- Background panel
- * BGPanel = vgui.Create("DPanel")
- * BGPanel:SetSize(400, 400)
- * BGPanel:Center()
- * BGPanel:SetBackgroundColor(Color(0, 0, 0, 255))
- * 
- * -- Material panel with TV static
- * local mat = vgui.Create("Material", BGPanel)
- * mat:SetPos(10, 10)
- * mat:SetSize(380, 380)
- * mat:SetMaterial("effects/tvscreen_noise002a")	-- Path to material VMT
- * 
- * -- Set this to false to enable material stretching
- * mat.AutoSize = false
- * 
- * -- Model panel for GMod Logo
- * local mdl = vgui.Create("DModelPanel", BGPanel)
- * mdl:SetPos(10, 10)
- * mdl:SetSize(380, 380)
- * mdl:SetModel("models/maxofs2d/logo_gmod_b.mdl")
- * mdl:SetCamPos(Vector(240, 0, 0))
- * mdl:SetLookAt(Vector(0, 0, 0))
- * mdl:SetFOV(40)
- * 
- * -- Spin faster
- * function mdl:LayoutEntity(ent)
- * 	ent:SetAngles(Angle(0, RealTime()*100,  0))
- * end
- * |Output=<br/><br/>
- * [[Image:Material_example1.gif‎]]
- * }}
- * {{Example
- * |Description=Creates a custom VMT material (using existing textures) of a Portal background with scrolling scan lines, and then displays that material in a Material panel in the center of the screen.
- * |Code=-- Background panel
- * BGPanel = vgui.Create("DPanel")
- * BGPanel:SetSize(720, 480)
- * BGPanel:Center()
- * BGPanel:SetBackgroundColor(Color(0, 0, 0, 255))
- * 
- * -- Material data for the scanline background
- * local matdata = {
- * 	["$basetexture"]="vgui/appchooser/background_portal_widescreen",
- * 	["$texture2"]="dev/dev_scanline",
- * 	["Proxies"]={
- * 		["TextureScroll"]={
- * 			["texturescrollvar"]="$texture2transform",
- * 			["texturescrollrate"]=.06,
- * 			["texturescrollangle"]=-90
- * 		}
- * 	}
- * }
- * 
- * -- Create material and recompute just in case
- * local portal_scanlines = CreateMaterial("PortalScanlines", "UnlitTwoTexture", matdata)
- * portal_scanlines:Recompute()
- * 
- * -- Create material panel
- * local mat = vgui.Create("Material", BGPanel)
- * mat:SetPos(5, 5)
- * mat:SetSize(710, 470)
- * 
- * -- This has to be set manually since mat:SetMaterial only accepts string argument
- * mat.Material = portal_scanlines
- * 
- * -- Stretch to fit
- * mat.AutoSize = false
- * |Output=<br/><br/>
- * [[Image:Material_example2.gif‎]]
- * }} 
- */
-declare class Material extends Button {
-    /**
-     * Sets the alpha multiplier for the panel 
-     * @param alpha The alpha value in the range of 0-255. 
-     */
-    SetAlpha(alpha: number): void;
-    
-    /**
-     * @param alpha The alpha value, from 0 to 255. 
-     */
-    SetAlpha(alpha: number): void;
-    
-    /**
-     * @param matname The file path of the material to set (relative to "garrysmod/materials/"). 
-     */
-    SetMaterial(matname: string): void;
 }
 
 /**
@@ -50654,16 +49751,6 @@ declare namespace render {
 }
 
 /**
- * {{Panel
- * |Parent=ContextBase
- * |Description=The panel used by Material & Lamp Sandbox tools for texture selection.
- * }} 
- */
-declare class MatSelect extends ContextBase {
-
-}
-
-/**
  * The resource library is used to control what files are sent to clients who join a server, this includes models, materials, sounds, text files but not Lua files. 
  */
 declare namespace resource {
@@ -50706,43 +49793,796 @@ declare namespace resource {
 
 /**
  * {{Panel
- * |Description={{Internal}}Panel used to display models, used by {{Type|SpawnIcon}}.
+ * |Parent=Panel
+ * |Description=The HTML control can be used to display HTML code just like an internet browser. Unlike {{Type|DHTML}}, this control cannot accept user input or complex interaction, such as retrieving image data.
+ * 
+ * '''Blocked URL Extentions'''
+ * 
+ * ''This means your url cannot end in any of these extensions, e.g.: (http://yourdomain.com/garry.exe)''
+ * * .exe
+ * * .bat
+ * * .dll
+ * * .zip
+ * * .mp3
+ * * .swf
+ * }}
+ * {{Example
+ * |Description=Creates an HTML control in the center of screen, and makes it display http://wiki.garrysmod.com/
+ * |Code=HTMLTest = vgui.Create( "HTML" )
+ * HTMLTest:SetPos( 50, 50 )
+ * HTMLTest:SetSize( ScrW() - 100, ScrH() - 100 )
+ * HTMLTest:OpenURL( "wiki.garrysmod.com" )
  * }} 
  */
-declare class ModelImage {
+declare class HTML extends Panel {
     /**
-     * Causes a {{Type|SpawnIcon}} to rebuild its model image.
-     * [[Category:ModelImage]][[Category:SpawnIcon]] 
      */
-    RebuildSpawnIcon(): void;
+    StopLoading(): void;
     
     /**
-     * Re-renders a spawn icon with customized cam data.
+     * Returns the panel's HTML material. Only works with {{Type|Awesomium}}, {{Type|HTML}} and {{Type|DHTML}} panels that have been fully loaded.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @returns The HTML material used by the panel. Typically starts with "__vgui_texture_" followed by an incremental number. 
+     */
+    GetHTMLMaterial(): IMaterial;
+    
+    /**
+     * Returns the panel's HTML material. Only works with {{Type|Awesomium}}, {{Type|HTML}} and {{Type|DHTML}} panels that have been fully loaded.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @returns The HTML material used by the panel. Typically starts with "__vgui_texture_" followed by an incremental number. 
+     */
+    GetHTMLMaterial(): IMaterial;
+    
+    /**
+     * Goes back one page in the HTML panel's history if available.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     */
+    GoBack(): void;
+    
+    /**
+     * Goes back one page in the HTML panel's history if available.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     */
+    GoBack(): void;
+    
+    /**
+     * Goes forward one page in the HTML panel's history if available.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     */
+    GoForward(): void;
+    
+    /**
+     * Goes forward one page in the HTML panel's history if available.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     */
+    GoForward(): void;
+    
+    /**
+     * Goes to the page in the HTML panel's history at the specified relative offset.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @param offset The offset in the panel's back/forward history, relative to the current page, that you would like to skip to. Because this is relative, 0 = current page while negative goes back and positive goes forward. For example, -2 will go back 2 pages in the history. 
+     */
+    GoToHistoryOffset(offset: number): void;
+    
+    /**
+     * Goes to the page in the HTML panel's history at the specified relative offset.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @param offset The offset in the panel's back/forward history, relative to the current page, that you would like to skip to. Because this is relative, 0 = current page while negative goes back and positive goes forward. For example, -2 will go back 2 pages in the history. 
+     */
+    GoToHistoryOffset(offset: number): void;
+    
+    /**
+     * {{Internal}}
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @param objectName  
+     */
+    NewObject(objectName: string): void;
+    
+    /**
+     * {{Internal}}
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @param objectName  
+     */
+    NewObject(objectName: string): void;
+    
+    /**
+     * {{Internal}}
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @param objectName  
+     * @param callbackName  
+     */
+    NewObjectCallback(objectName: string, callbackName: string): void;
+    
+    /**
+     * {{Internal}}
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @param objectName  
+     * @param callbackName  
+     */
+    NewObjectCallback(objectName: string, callbackName: string): void;
+    
+    /**
+     * [[Category:HTML]][[Category:Awesomium]]Instructs a HTML control to download and parse a HTML script using the passed URL. 
+     * @param URL URL to open 
+     */
+    OpenURL(URL: string): void;
+    
+    /**
+     * [[Category:HTML]][[Category:Awesomium]]Instructs a HTML control to download and parse a HTML script using the passed URL. 
+     * @param URL URL to open 
+     */
+    OpenURL(URL: string): void;
+    
+    /**
+     * Refreshes the HTML panel's current page.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @param ignoreCache [=false] If true, the refresh will ignore cached content similar to "ctrl+f5" in most browsers. 
+     */
+    Refresh(ignoreCache?: boolean): void;
+    
+    /**
+     * Refreshes the HTML panel's current page.
+     * [[Category:HTML]]
+     * [[Category:Awesomium]] 
+     * @param ignoreCache [=false] If true, the refresh will ignore cached content similar to "ctrl+f5" in most browsers. 
+     */
+    Refresh(ignoreCache?: boolean): void;
+    
+    /**
+     * [[Category:HTML]][[Category:Awesomium]]Allows you to set HTML code within a panel. 
+     * @param HTML_code The code to set. 
+     */
+    SetHTML(HTML_code: string): void;
+    
+    /**
+     * [[Category:HTML]][[Category:Awesomium]]Allows you to set HTML code within a panel. 
+     * @param HTML_code The code to set. 
+     */
+    SetHTML(HTML_code: string): void;
+    
+    /**
+     * Forcibly updates the panels' HTML Material, similar to when Paint is called on it.<br />This is only useful if the panel is not normally visible, i.e the panel exists purely for its HTML Material.
+     * {{Note|Only works on with panels that have a HTML Material. See {{ClassFunction|Panel|GetHTMLMaterial}} for more details.}}
+     * {{Note|A good place to call this is in the {{HookFunction|GM|PreRender}} hook}}
+     * [[Category:HTML]][[Category:Awesomium]] 
+     */
+    UpdateHTMLTexture(): void;
+    
+    /**
+     * Forcibly updates the panels' HTML Material, similar to when Paint is called on it.<br />This is only useful if the panel is not normally visible, i.e the panel exists purely for its HTML Material.
+     * {{Note|Only works on with panels that have a HTML Material. See {{ClassFunction|Panel|GetHTMLMaterial}} for more details.}}
+     * {{Note|A good place to call this is in the {{HookFunction|GM|PreRender}} hook}}
+     * [[Category:HTML]][[Category:Awesomium]] 
+     */
+    UpdateHTMLTexture(): void;
+}
+
+/**
+ * This is a list of all methods only available for NPCs. It is also possible to call [http://wiki.garrysmod.com/index.php?title=Category:Entity Entity] functions on NPCs. 
+ */
+declare class NPC extends Entity {
+    /**
+     * Makes the NPC like, hate, feel neutral towards, or fear the entity in question. If you want to setup relationship towards a certain entity ''class'', use {{ClassFunction|NPC|AddRelationship}}. 
+     * @param target The entity for the relationship to be applied to. 
+     * @param disposition A {{Enum|D}} representing the relationship type. 
+     * @param priority How strong the relationship is. 
+     */
+    AddEntityRelationship(target: Entity, disposition: D, priority: number): void;
+    
+    /**
+     * Changes how an NPC feels towards another NPC.  If you want to setup relationship towards a certain ''entity'', use {{ClassFunction|NPC|AddEntityRelationship}}. 
+     * @param relationstring A string representing how the relationship should be set up.
+     * Should be formatted as "npc_class {{Enum|D}} numberPriority". 
+     */
+    AddRelationship(relationstring: string): void;
+    
+    /**
+     * Force an NPC to play his Alert sound. 
+     */
+    AlertSound(): void;
+    
+    /**
+     * Adds a capability to the NPC. 
+     * @param capabilities Capabilities to add, see {{Enum|CAP}} 
+     */
+    CapabilitiesAdd(capabilities: CAP): void;
+    
+    /**
+     * Removes all of Capabilities the NPC has. 
+     */
+    CapabilitiesClear(): void;
+    
+    /**
+     * Returns the NPC's capabilities along the ones defined on its weapon. 
+     * @returns The capabilities as a bitflag.
+     * See {{Enum|CAP}} 
+     */
+    CapabilitiesGet(): CAP;
+    
+    /**
+     * Remove a certain capability. 
+     * @param capabilities Capabilities to remove, see {{Enum|CAP}} 
+     */
+    CapabilitiesRemove(capabilities: CAP): void;
+    
+    /**
+     * Returns the NPC class. Do not confuse with {{ClassFunction|Entity|GetClass}}! 
+     * @returns See {{Enum|CLASS}} 
+     */
+    Classify(): CLASS;
+    
+    /**
+     * Clears out the specified {{Enum|COND}} on this NPC. 
+     * @param condition The {{Enum|COND}} to clear out. 
+     */
+    ClearCondition(condition: COND): void;
+    
+    /**
+     * Clears the Enemy from the NPC's memory, effectively forgetting it until met again with either the NPC vision or with {{ClassFunction|NPC|UpdateEnemyMemory}}. 
+     */
+    ClearEnemyMemory(): void;
+    
+    /**
+     * Clears the NPC's current expression which can be set with {{ClassFunction|NPC|SetExpression}}. 
+     */
+    ClearExpression(): void;
+    
+    /**
+     * Clears the current NPC goal or target. 
+     */
+    ClearGoal(): void;
+    
+    /**
+     * Stops the current schedule that the NPC is doing. 
+     */
+    ClearSchedule(): void;
+    
+    /**
+     * Translates condition ID to a string. 
+     * @param cond The NPCs condition ID, see {{Enum|COND}} 
+     * @returns A human understandable string equivalent of that condition. 
+     */
+    ConditionName(cond: COND): string;
+    
+    /**
+     * Returns the way the NPC "feels" about the entity. 
+     * @param ent The entity to get the disposition from. 
+     * @returns The NPCs disposition, see {{Enum|D}}. 
+     */
+    Disposition(ent: Entity): D;
+    
+    /**
+     * Makes an NPC exit a scripted sequence, if one is playing. 
+     */
+    ExitScriptedSequence(): void;
+    
+    /**
+     * Force an NPC to play his Fear sound. 
+     */
+    FearSound(): void;
+    
+    /**
+     * Force an NPC to play its FoundEnemy sound. 
+     */
+    FoundEnemySound(): void;
+    
+    /**
+     * Returns the weapon the NPC is currently carrying, or [http://wiki.garrysmod.com/page/Global_Variables NULL]. 
+     * @returns The NPCs current weapon 
+     */
+    GetActiveWeapon(): Entity;
+    
+    /**
+     * Returns the NPC's current activity. 
+     * @returns Current activity, see {{Enum|ACT}}. 
+     */
+    GetActivity(): ACT;
+    
+    /**
+     * Returns the aim vector of the NPC. NPC alternative of {{ClassFunction|Player|GetAimVector}}. 
+     * @returns The aim direction of the NPC. 
+     */
+    GetAimVector(): Vector;
+    
+    /**
+     * Returns the activity to be played when the NPC arrives at its goal 
+     * @returns  
+     */
+    GetArrivalActivity(): number;
+    
+    /**
+     *  
+     * @returns  
+     */
+    GetArrivalSequence(): number;
+    
+    /**
+     * Returns the entity blocking the NPC along its path. 
+     * @returns Blocking entity 
+     */
+    GetBlockingEntity(): Entity;
+    
+    /**
+     * Returns the NPC's current schedule. 
+     * @returns The NPCs schedule, see {{Enum|SCHED}} or -1 if we failed for some reason 
+     */
+    GetCurrentSchedule(): SCHED;
+    
+    /**
+     * Returns how proficient (skilled) an NPC is with its current weapon. 
+     * @returns NPC's proficiency for current weapon. See {{Enum|WEAPON_PROFICIENCY}}. 
+     */
+    GetCurrentWeaponProficiency(): WEAPON_PROFICIENCY;
+    
+    /**
+     * Returns the entity that this NPC is trying to fight.
      * 
-     * {{Note|This function does '''not''' accept the standard {{Struct|CamData}}.}}
-     * [[Category:ModelImage]][[Category:SpawnIcon]] 
-     * @param data A four-membered table containing the information needed to re-render:
-     * * {{FuncArg|Vector|cam_pos|The relative camera position the model is viewed from.}}
-     * * {{FuncArg|Angle|cam_ang|The camera angle the model is viewed from.}}
-     * * {{FuncArg|number|cam_fov|The camera's field of view (FOV).}}
-     * * {{FuncArg|Entity|ent|The entity object of the model.}}
-     * See the example below for how to retrieve these values. 
+     * {{Bug|Issue=3132|This returns nil if the NPC has no enemy. You should use {{GlobalFunction|IsValid}} (which accounts for nil and NULL) on the return to verify validity of the enemy.}} 
+     * @returns Enemy NPC. 
      */
-    RebuildSpawnIconEx(data: table): void;
+    GetEnemy(): NPC;
     
     /**
-     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the model to be displayed by {{Type|SpawnIcon}}.[[Category:SpawnIcon]] 
-     * @param ModelPath The path of the model to set 
-     * @param skin [=0] The skin to set 
-     * @param bodygroups [=""] The body groups to set. Each single-digit number in the string represents a separate bodygroup. '''This make it impossible to set any body group to a value higher than 9!''' 
+     * Returns the expression file the NPC is currently playing. 
+     * @returns The file path of the expression. 
      */
-    SetModel(ModelPath: string, skin?: number, bodygroups?: string): void;
+    GetExpression(): string;
     
     /**
-     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the [[Silkicons|silkicon]] of a panel object such as a {{Type|SpawnIcon}} and {{Type|ModelImage}}. 
-     * @param icon The [[Silkicons|silkicon]] to use. 
+     * Returns NPCs hull type set by {{ClassFunction|NPC|SetHullType}}. 
+     * @returns Hull type, see {{Enum|HULL}} 
      */
-    SetSpawnIcon(icon: string): void;
+    GetHullType(): HULL;
+    
+    /**
+     * Returns the NPC's current movement activity. 
+     * @returns Current NPC movement activity, see {{Enum|ACT}}. 
+     */
+    GetMovementActivity(): ACT;
+    
+    /**
+     * Returns the index of the sequence the NPC uses to move. 
+     * @returns The movement sequence index 
+     */
+    GetMovementSequence(): number;
+    
+    /**
+     * Returns the NPC's state. 
+     * @returns The NPC's current state, see {{Enum|NPC_STATE}}. 
+     */
+    GetNPCState(): NPC_STATE;
+    
+    /**
+     *  
+     * @returns  
+     */
+    GetPathDistanceToGoal(): number;
+    
+    /**
+     *  
+     * @returns  
+     */
+    GetPathTimeToGoal(): number;
+    
+    /**
+     * Returns the shooting position of the NPC.
+     * 
+     * {{Note|This only works properly when called on an NPC that can hold weapons, otherwise it will return the same value as {{ClassFunction|Entity|GetPos}}.}} 
+     * @returns The NPC's shooting position. 
+     */
+    GetShootPos(): Vector;
+    
+    /**
+     * Returns the NPC's current target set by {{ClassFunction|NPC|SetTarget}}.
+     * 
+     * {{Bug|Issue=3132|This returns nil if the NPC has no target. You should use {{GlobalFunction|IsValid}} (which accounts for nil and NULL) on the return to verify validity of the target.}} 
+     * @returns Target entity 
+     */
+    GetTarget(): Entity;
+    
+    /**
+     * Used to give a weapon to an already spawned NPC. 
+     * @param weapon Class name of the weapon to equip to the NPC. 
+     * @returns The weapon entity given to the NPC. 
+     */
+    Give(weapon: string): Weapon;
+    
+    /**
+     * Returns whether or not the NPC has the given condition. 
+     * @param condition The condition index, see {{Enum|COND}}. 
+     * @returns True if the NPC has the given condition, false otherwise. 
+     */
+    HasCondition(condition: COND): boolean;
+    
+    /**
+     * Force an NPC to play his Idle sound. 
+     */
+    IdleSound(): void;
+    
+    /**
+     * Returns whether or not the NPC is performing the given schedule. 
+     * @param schedule The schedule number, see {{Enum|SCHED}}. 
+     * @returns True if the NPC is performing the given schedule, false otherwise. 
+     */
+    IsCurrentSchedule(schedule: SCHED): boolean;
+    
+    /**
+     * Returns whether the NPC is moving or not. 
+     * @returns Whether the NPC is moving or not. 
+     */
+    IsMoving(): boolean;
+    
+    /**
+     *  
+     * @returns  
+     */
+    IsRunningBehavior(): boolean;
+    
+    /**
+     * Returns whether the entity given can be reached by this NPC. 
+     * @param testEntity The entity to test. 
+     * @returns If the entity is reachable or not. 
+     */
+    IsUnreachable(testEntity: Entity): boolean;
+    
+    /**
+     * Force an NPC to play his LostEnemy sound. 
+     */
+    LostEnemySound(): void;
+    
+    /**
+     *  
+     */
+    MaintainActivity(): void;
+    
+    /**
+     * Causes the NPC to temporarily forget the current enemy and switch on to a better one. 
+     */
+    MarkEnemyAsEluded(): void;
+    
+    /**
+     *  
+     */
+    MoveOrder(): void;
+    
+    /**
+     * Sets the goal position for the NPC. 
+     * @param position The position to set as the goal 
+     */
+    NavSetGoal(position: Vector): void;
+    
+    /**
+     * Set the goal target for an NPC. 
+     * @param target The targeted entity to set the goal to. 
+     * @param offset The offset to apply to the targeted entity's position. 
+     */
+    NavSetGoalTarget(target: Entity, offset: Vector): void;
+    
+    /**
+     * Creates a random path of specified minimum length between a closest start node and random node in the specified direction. 
+     * @param minPathLength Minimum length of path in units 
+     * @param dir Unit vector pointing in the direction of the target random node 
+     */
+    NavSetRandomGoal(minPathLength: number, dir: Vector): void;
+    
+    /**
+     * Sets a goal in x, y offsets for the npc to wander to 
+     * @param xoffset X offset 
+     * @param yoffset Y offset 
+     */
+    NavSetWanderGoal(xoffset: number, yoffset: number): void;
+    
+    /**
+     * Forces the NPC to play a sentence from scripts/sentences.txt 
+     * @param sentence The sentence string to speak. 
+     * @param delay Delay in seconds until the sentence starts playing. 
+     * @param volume The volume of the sentence, from 0 to 1. 
+     * @returns Returns the sentence index, -1 if the sentence couldn't be played. 
+     */
+    PlaySentence(sentence: string, delay: number, volume: number): number;
+    
+    /**
+     * {{Deprecated}}
+     * 
+     * This function crashes the game no matter how it is used and will be removed in a future update.
+     * 
+     * Use {{ClassFunction|NPC|ClearEnemyMemory}} instead. 
+     */
+    RemoveMemory(): void;
+    
+    /**
+     *  
+     * @param taskID The task ID, see [https://github.com/ValveSoftware/source-sdk-2013/blob/55ed12f8d1eb6887d348be03aee5573d44177ffb/mp/src/game/server/ai_task.h#L89-L502 ai_task.h] 
+     * @param taskData The task data. 
+     */
+    RunEngineTask(taskID: number, taskData: number): void;
+    
+    /**
+     *  
+     */
+    SentenceStop(): void;
+    
+    /**
+     *  
+     * @param act  
+     */
+    SetArrivalActivity(act: number): void;
+    
+    /**
+     *  
+     */
+    SetArrivalDirection(): void;
+    
+    /**
+     *  
+     */
+    SetArrivalDistance(): void;
+    
+    /**
+     *  
+     */
+    SetArrivalSequence(): void;
+    
+    /**
+     *  
+     */
+    SetArrivalSpeed(): void;
+    
+    /**
+     * Sets an NPC condition. 
+     * @param condition The condition index, see {{Enum|COND}}. 
+     */
+    SetCondition(condition: COND): void;
+    
+    /**
+     * Sets the weapon proficiency of an NPC (how skilled an NPC is with its current weapon). 
+     * @param proficiency The proficiency for the NPC's current weapon. See {{Enum|WEAPON_PROFICIENCY}}. 
+     */
+    SetCurrentWeaponProficiency(proficiency: WEAPON_PROFICIENCY): void;
+    
+    /**
+     * Sets the target for an NPC. 
+     * @param enemy The enemy that the NPC should target 
+     * @param newenemy [=true] Calls NPC:SetCondition(COND_NEW_ENEMY) if the new enemy is valid and not equal to the last enemy. 
+     */
+    SetEnemy(enemy: Entity, newenemy?: boolean): void;
+    
+    /**
+     * Sets the NPC's .vcd expression. Similar to {{ClassFunction|Entity|PlayScene}} except the scene is looped until it's interrupted by default NPC behavior or {{ClassFunction|NPC|ClearExpression}}. 
+     * @param expression The expression filepath. 
+     * @returns  
+     */
+    SetExpression(expression: string): number;
+    
+    /**
+     * Updates the NPC's hull and physics hull in order to match its model scale. {{ClassFunction|Entity|SetModelScale}} seems to take care of this regardless. 
+     */
+    SetHullSizeNormal(): void;
+    
+    /**
+     * Sets the hull type for the NPC. 
+     * @param hullType Hull type. See {{Enum|HULL}} 
+     */
+    SetHullType(hullType: HULL): void;
+    
+    /**
+     * Sets the last registered or memorized position for an npc. When using scheduling, the NPC will focus on navigating to the last position via nodes.
+     * 
+     * {{Note|The navigation requires ground nodes to function properly, otherwise the NPC could only navigate in a small area. (https://developer.valvesoftware.com/wiki/Info_node)}} 
+     * @param Position Where the NPC's last position will be set. 
+     */
+    SetLastPosition(Position: Vector): void;
+    
+    /**
+     *  
+     */
+    SetMaxRouteRebuildTime(): void;
+    
+    /**
+     * Sets the activity the NPC uses when it moves. 
+     * @param activity The movement activity, see {{Enum|ACT}}. 
+     */
+    SetMovementActivity(activity: ACT): void;
+    
+    /**
+     * Sets the sequence the NPC navigation path uses for speed calculation. Doesn't seem to have any visible effect on NPC movement. 
+     * @param sequenceId The movement sequence index 
+     */
+    SetMovementSequence(sequenceId: number): void;
+    
+    /**
+     * Sets the state the NPC is in to help it decide on a ideal schedule. 
+     * @param state New NPC state, see {{Enum|NPC_STATE}} 
+     */
+    SetNPCState(state: NPC_STATE): void;
+    
+    /**
+     * Sets the NPC's current schedule. 
+     * @param schedule The NPC schedule, see {{Enum|SCHED}}. 
+     */
+    SetSchedule(schedule: SCHED): void;
+    
+    /**
+     * Sets the NPC's target. This is used in some engine schedules. 
+     * @param entity The target of the NPC. 
+     */
+    SetTarget(entity: Entity): void;
+    
+    /**
+     * Forces the NPC to start an engine task, this has different results for every NPC. 
+     * @param task The id of the task to start, see [https://github.com/ValveSoftware/source-sdk-2013/blob/55ed12f8d1eb6887d348be03aee5573d44177ffb/mp/src/game/server/ai_task.h#L89-L502 ai_task.h] 
+     * @param taskData The task data as a float, not all tasks make use of it. 
+     */
+    StartEngineTask(task: number, taskData: number): void;
+    
+    /**
+     * Resets the NPC's movement animation and velocity. Does not actually stop the NPC from moving. 
+     */
+    StopMoving(): void;
+    
+    /**
+     *  
+     */
+    TargetOrder(): void;
+    
+    /**
+     *  
+     */
+    TaskComplete(): void;
+    
+    /**
+     *  
+     * @param task A string most likely defined as a Source Task, for more information on Tasks go to https://developer.valvesoftware.com/wiki/Task 
+     */
+    TaskFail(task: string): void;
+    
+    /**
+     * Force the NPC to update information on the supplied enemy, as if it had line of sight to it. 
+     * @param enemy The enemy to update. 
+     * @param pos The last known position of the enemy. 
+     */
+    UpdateEnemyMemory(enemy: Entity, pos: Vector): void;
+    
+    /**
+     *  
+     * @returns  
+     */
+    UseActBusyBehavior(): boolean;
+    
+    /**
+     *  
+     * @returns  
+     */
+    UseAssaultBehavior(): boolean;
+    
+    /**
+     *  
+     * @returns  
+     */
+    UseFollowBehavior(): boolean;
+    
+    /**
+     *  
+     * @returns  
+     */
+    UseFuncTankBehavior(): boolean;
+    
+    /**
+     *  
+     * @returns  
+     */
+    UseLeadBehavior(): boolean;
+    
+    /**
+     *  
+     */
+    UseNoBehavior(): void;
+}
+
+/**
+ * {{Panel
+ * |Name=IconEditor
+ * |Parent=DFrame
+ * |Description=An icon editor that permits a user to modify a {{Type|SpawnIcon}} and re-render it. This is used by the spawn menu and is what is shown when you right-click an icon and select ''Edit Icon''.
+ * 
+ * This makes use of the {{Type|DAdjustableModelPanel}} element.
+ * 
+ * {{Note|This panel is only available in Sandbox and Sandbox derived gamemodes!}}
+ * |Preview=IconEditor.jpg
+ * }}
+ * {{Example
+ * |Description=Creates an SpawnIcon with model <tt>"models/props_borealis/bluebarrel001.mdl"</tt> and IconEditor to modify it.
+ * |Code=local frame = vgui.Create( "DFrame" ) -- Container for the SpawnIcon
+ * frame:SetPos( 200, 200 )
+ * frame:SetSize( 200, 200 )
+ * frame:SetTitle( "Icon Editor Example" )
+ * frame:MakePopup()
+ * 
+ * local icon = vgui.Create( "SpawnIcon" , frame ) -- SpawnIcon, with blue barrel model
+ * icon:Center()
+ * -- It is important below to include the SkinID (0 = default skin); the IconEditor will not work otherwise
+ * icon:SetModel( "models/props_borealis/bluebarrel001.mdl", 0 )
+ * 
+ * local editor = vgui.Create( "IconEditor" ) -- Create IconEditor
+ * editor:SetIcon( icon ) -- Set the SpawnIcon to modify
+ * editor:Refresh() -- Sets up the internal DAdjustableModelPanel and SpawnIcon
+ * editor:MakePopup()
+ * editor:Center()
+ * |Output=A {{Type|DFrame}} containing a {{Type|SpawnIcon}}, and a window identical to that in the [[#Preview|preview]] above.
+ * }} 
+ */
+declare class IconEditor extends DFrame {
+    /**
+     */
+    AboveLayout(): void;
+    
+    /**
+     */
+    BestGuessLayout(): void;
+    
+    /**
+     * @param ent The entity being rendered within the model panel. 
+     */
+    FillAnimations(ent: Entity): void;
+    
+    /**
+     */
+    FullFrontalLayout(): void;
+    
+    /**
+     */
+    OriginLayout(): void;
+    
+    /**
+     */
+    Refresh(): void;
+    
+    /**
+     */
+    RenderIcon(): void;
+    
+    /**
+     */
+    RightLayout(): void;
+    
+    /**
+     */
+    SetDefaultLighting(): void;
+    
+    /**
+     * @param ent The entity to retrieve the model and skin from. 
+     */
+    SetFromEntity(ent: Entity): void;
+    
+    /**
+     * @param path Set to nil to remove the icon.
+     * 
+     * Otherwise, set to file path to create the icon. 
+     */
+    SetIcon(path: string): void;
+    
+    /**
+     * @param icon The {{Type|SpawnIcon}} object to be modified. 
+     */
+    SetIcon(icon: SpawnIcon): void;
+    
+    /**
+     * @param ent The entity being rendered within the model panel. 
+     */
+    UpdateEntity(ent: Entity): void;
 }
 
 /**
@@ -50864,6 +50704,15 @@ declare namespace saverestore {
 }
 
 /**
+ * {{Panel
+ * |Parent=Button
+ * }} 
+ */
+declare class ImageCheckBox extends Button {
+
+}
+
+/**
  * The scripted_ents library allows you to access information about any scripted entities loaded into the game, as well as register your own entities. 
  */
 declare namespace scripted_ents {
@@ -50945,6 +50794,213 @@ declare namespace scripted_ents {
 }
 
 /**
+ * {{Panel
+ * |Parent=Panel
+ * |Description=A basic label or "single line text area" that is non-editable.
+ * }}
+ * {{Example
+ * |Description=Creates a label and fills it with the text "Lua Labels!" parented to a simple frame.
+ * |Code=local frame = vgui.Create( "Frame" )
+ * frame.Label1 = vgui.Create( "Label", frame )
+ * frame.Label1:SetPos( 50, 50 )
+ * frame.Label1:SetText("Lua Labels!")
+ * frame.Label1:SizeToContents()
+ *  
+ * frame:SetSize( ScrW() * 0.25, ScrH() * 0.25 )
+ * frame:Center()
+ * frame:SetVisible( true )
+ * frame:MakePopup()
+ * }} 
+ */
+declare class Label extends Panel {
+    /**
+     * Gets the size of the content/children within a panel object.
+     * 
+     * Only works with {{Type|Label}} derived panels by default such as {{Type|DLabel}}.<br/>
+     * Will also work on any panel that manually implements this method.
+     * 
+     * [[Category:Label]] 
+     * @returns [The content width of the object., The content height of the object.]
+     * !TupleReturn 
+     */
+    GetContentSize(): [number, number];
+    
+    /**
+     * Gets the size of the content/children within a panel object.
+     * 
+     * Only works with {{Type|Label}} derived panels by default such as {{Type|DLabel}}.<br/>
+     * Will also work on any panel that manually implements this method.
+     * 
+     * [[Category:Label]] 
+     * @returns [The content width of the object., The content height of the object.]
+     * !TupleReturn 
+     */
+    GetContentSize(): [number, number];
+    
+    /**
+     * Gets the left and top text margins of a text-based panel object, such as a {{Type|DButton}} or {{Type|DLabel}}. This is set with {{ClassFunction|Panel|SetTextInset}}.
+     * 
+     * [[Category:Label]] 
+     * @returns [The left margin of the text, in pixels., The top margin of the text, in pixels.]
+     * !TupleReturn 
+     */
+    GetTextInset(): [number, number];
+    
+    /**
+     * Gets the left and top text margins of a text-based panel object, such as a {{Type|DButton}} or {{Type|DLabel}}. This is set with {{ClassFunction|Panel|SetTextInset}}.
+     * 
+     * [[Category:Label]] 
+     * @returns [The left margin of the text, in pixels., The top margin of the text, in pixels.]
+     * !TupleReturn 
+     */
+    GetTextInset(): [number, number];
+    
+    /**
+     * Gets the size of the text within a {{Type|Label}} derived panel.
+     * 
+     * {{Bug|Issue=2576|This can return 0 incorrectly.}}
+     * 
+     * [[Category:Label]] 
+     * @returns [The width of the text in the DLabel., The height of the text in the DLabel.]
+     * !TupleReturn 
+     */
+    GetTextSize(): [number, number];
+    
+    /**
+     * Gets the size of the text within a {{Type|Label}} derived panel.
+     * 
+     * {{Bug|Issue=2576|This can return 0 incorrectly.}}
+     * 
+     * [[Category:Label]] 
+     * @returns [The width of the text in the DLabel., The height of the text in the DLabel.]
+     * !TupleReturn 
+     */
+    GetTextSize(): [number, number];
+    
+    /**
+     * Sets the alignment of the contents.
+     * 
+     * [[Category:Label]]
+     * [[Category:DLabel]] 
+     * @param alignment The direction of the content, based on the number pad.
+     * <table>
+     * <tr><td>{{Key|7}}: '''top-left'''</td><td>{{Key|8}}: '''top-center'''</td><td>{{Key|9}}: '''top-right'''</td></tr>
+     * <tr><td>{{Key|4}}: '''middle-left'''</td><td>{{Key|5}}: '''center'''</td><td>{{Key|6}}: '''middle-right'''</td></tr>
+     * <tr><td>{{Key|1}}: '''bottom-left'''</td><td>{{Key|2}}: '''bottom-center'''</td><td>{{Key|3}}: '''bottom-right'''</td></tr>
+     * </table>
+     * [[File:DLabel_SetContentAlignment.gif]] 
+     */
+    SetContentAlignment(alignment: number): void;
+    
+    /**
+     * Sets the alignment of the contents.
+     * 
+     * [[Category:Label]]
+     * [[Category:DLabel]] 
+     * @param alignment The direction of the content, based on the number pad.
+     * <table>
+     * <tr><td>{{Key|7}}: '''top-left'''</td><td>{{Key|8}}: '''top-center'''</td><td>{{Key|9}}: '''top-right'''</td></tr>
+     * <tr><td>{{Key|4}}: '''middle-left'''</td><td>{{Key|5}}: '''center'''</td><td>{{Key|6}}: '''middle-right'''</td></tr>
+     * <tr><td>{{Key|1}}: '''bottom-left'''</td><td>{{Key|2}}: '''bottom-center'''</td><td>{{Key|3}}: '''bottom-right'''</td></tr>
+     * </table>
+     * [[File:DLabel_SetContentAlignment.gif]] 
+     */
+    SetContentAlignment(alignment: number): void;
+    
+    /**
+     * Adds a shadow falling to the bottom right corner of the panel's text. This has no effect on panels that do not derive from Label.
+     * 
+     * [[Category:Label]] 
+     * @param distance The distance of the shadow from the panel. 
+     * @param Color The color of the shadow. Uses the {{Struct|Color}}. 
+     */
+    SetExpensiveShadow(distance: number, Color: Color): void;
+    
+    /**
+     * Adds a shadow falling to the bottom right corner of the panel's text. This has no effect on panels that do not derive from Label.
+     * 
+     * [[Category:Label]] 
+     * @param distance The distance of the shadow from the panel. 
+     * @param Color The color of the shadow. Uses the {{Struct|Color}}. 
+     */
+    SetExpensiveShadow(distance: number, Color: Color): void;
+    
+    /**
+     * Sets the font used to render this panel's text.
+     * 
+     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
+     * 
+     * [[Category:Label]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]] 
+     * @param fontName The name of the font.
+     * 
+     * See [[Default_Fonts|here]] for a list of existing fonts.
+     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
+     */
+    SetFontInternal(fontName: string): void;
+    
+    /**
+     * Sets the font used to render this panel's text.
+     * 
+     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
+     * 
+     * [[Category:Label]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]] 
+     * @param fontName The name of the font.
+     * 
+     * See [[Default_Fonts|here]] for a list of existing fonts.
+     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
+     */
+    SetFontInternal(fontName: string): void;
+    
+    /**
+     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
+     * 
+     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
+     * [[Category:Label]]
+     * [[Category:DLabel]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]]
+     * [[Category:DTree_Node]] 
+     * @param text The text value to set. 
+     */
+    SetText(text: string): void;
+    
+    /**
+     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
+     * 
+     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
+     * [[Category:Label]]
+     * [[Category:DLabel]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]]
+     * [[Category:DTree_Node]] 
+     * @param text The text value to set. 
+     */
+    SetText(text: string): void;
+    
+    /**
+     * Sets the left and top text margins of a text-based panel object, such as a {{Type|DButton}} or {{Type|DLabel}}.
+     * 
+     * [[Category:Label]] 
+     * @param insetX The left margin for the text, in pixels. This will only affect centered text if the margin is greater than its x-coordinate. 
+     * @param insetY The top margin for the text, in pixels. 
+     */
+    SetTextInset(insetX: number, insetY: number): void;
+    
+    /**
+     * Sets the left and top text margins of a text-based panel object, such as a {{Type|DButton}} or {{Type|DLabel}}.
+     * 
+     * [[Category:Label]] 
+     * @param insetX The left margin for the text, in pixels. This will only affect centered text if the margin is greater than its x-coordinate. 
+     * @param insetY The top margin for the text, in pixels. 
+     */
+    SetTextInset(insetX: number, insetY: number): void;
+}
+
+/**
  * The search library. 
  */
 declare namespace search {
@@ -50966,6 +51022,103 @@ declare namespace search {
      * @returns A table of results ( Maximum 1024 items ) 
      */
     function GetResults(query: string): table;
+}
+
+/**
+ * {{Panel
+ * |Name=Material
+ * |Parent=Button
+ * |Preview=Material_preview.gif
+ * |Description=Material is a VGUI element that renders a VMT material.
+ * }}
+ * {{Example
+ * |Description=Creates a Material panel with TV static under a {{Type|DModelPanel}} with a spinning Garry's Mod logo model.
+ * |Code=-- Background panel
+ * BGPanel = vgui.Create("DPanel")
+ * BGPanel:SetSize(400, 400)
+ * BGPanel:Center()
+ * BGPanel:SetBackgroundColor(Color(0, 0, 0, 255))
+ * 
+ * -- Material panel with TV static
+ * local mat = vgui.Create("Material", BGPanel)
+ * mat:SetPos(10, 10)
+ * mat:SetSize(380, 380)
+ * mat:SetMaterial("effects/tvscreen_noise002a")	-- Path to material VMT
+ * 
+ * -- Set this to false to enable material stretching
+ * mat.AutoSize = false
+ * 
+ * -- Model panel for GMod Logo
+ * local mdl = vgui.Create("DModelPanel", BGPanel)
+ * mdl:SetPos(10, 10)
+ * mdl:SetSize(380, 380)
+ * mdl:SetModel("models/maxofs2d/logo_gmod_b.mdl")
+ * mdl:SetCamPos(Vector(240, 0, 0))
+ * mdl:SetLookAt(Vector(0, 0, 0))
+ * mdl:SetFOV(40)
+ * 
+ * -- Spin faster
+ * function mdl:LayoutEntity(ent)
+ * 	ent:SetAngles(Angle(0, RealTime()*100,  0))
+ * end
+ * |Output=<br/><br/>
+ * [[Image:Material_example1.gif‎]]
+ * }}
+ * {{Example
+ * |Description=Creates a custom VMT material (using existing textures) of a Portal background with scrolling scan lines, and then displays that material in a Material panel in the center of the screen.
+ * |Code=-- Background panel
+ * BGPanel = vgui.Create("DPanel")
+ * BGPanel:SetSize(720, 480)
+ * BGPanel:Center()
+ * BGPanel:SetBackgroundColor(Color(0, 0, 0, 255))
+ * 
+ * -- Material data for the scanline background
+ * local matdata = {
+ * 	["$basetexture"]="vgui/appchooser/background_portal_widescreen",
+ * 	["$texture2"]="dev/dev_scanline",
+ * 	["Proxies"]={
+ * 		["TextureScroll"]={
+ * 			["texturescrollvar"]="$texture2transform",
+ * 			["texturescrollrate"]=.06,
+ * 			["texturescrollangle"]=-90
+ * 		}
+ * 	}
+ * }
+ * 
+ * -- Create material and recompute just in case
+ * local portal_scanlines = CreateMaterial("PortalScanlines", "UnlitTwoTexture", matdata)
+ * portal_scanlines:Recompute()
+ * 
+ * -- Create material panel
+ * local mat = vgui.Create("Material", BGPanel)
+ * mat:SetPos(5, 5)
+ * mat:SetSize(710, 470)
+ * 
+ * -- This has to be set manually since mat:SetMaterial only accepts string argument
+ * mat.Material = portal_scanlines
+ * 
+ * -- Stretch to fit
+ * mat.AutoSize = false
+ * |Output=<br/><br/>
+ * [[Image:Material_example2.gif‎]]
+ * }} 
+ */
+declare class Material extends Button {
+    /**
+     * Sets the alpha multiplier for the panel 
+     * @param alpha The alpha value in the range of 0-255. 
+     */
+    SetAlpha(alpha: number): void;
+    
+    /**
+     * @param alpha The alpha value, from 0 to 255. 
+     */
+    SetAlpha(alpha: number): void;
+    
+    /**
+     * @param matname The file path of the material to set (relative to "garrysmod/materials/"). 
+     */
+    SetMaterial(matname: string): void;
 }
 
 /**
@@ -50995,6 +51148,57 @@ declare namespace serverlist {
      * @param data The information about what kind of servers we want. See {{Struct|ServerQueryData}}. 
      */
     function Query(data: ServerQueryData): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=ContextBase
+ * |Description=The panel used by Material & Lamp Sandbox tools for texture selection.
+ * }} 
+ */
+declare class MatSelect extends ContextBase {
+
+}
+
+/**
+ * {{Panel
+ * |Description={{Internal}}Panel used to display models, used by {{Type|SpawnIcon}}.
+ * }} 
+ */
+declare class ModelImage {
+    /**
+     * Causes a {{Type|SpawnIcon}} to rebuild its model image.
+     * [[Category:ModelImage]][[Category:SpawnIcon]] 
+     */
+    RebuildSpawnIcon(): void;
+    
+    /**
+     * Re-renders a spawn icon with customized cam data.
+     * 
+     * {{Note|This function does '''not''' accept the standard {{Struct|CamData}}.}}
+     * [[Category:ModelImage]][[Category:SpawnIcon]] 
+     * @param data A four-membered table containing the information needed to re-render:
+     * * {{FuncArg|Vector|cam_pos|The relative camera position the model is viewed from.}}
+     * * {{FuncArg|Angle|cam_ang|The camera angle the model is viewed from.}}
+     * * {{FuncArg|number|cam_fov|The camera's field of view (FOV).}}
+     * * {{FuncArg|Entity|ent|The entity object of the model.}}
+     * See the example below for how to retrieve these values. 
+     */
+    RebuildSpawnIconEx(data: table): void;
+    
+    /**
+     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the model to be displayed by {{Type|SpawnIcon}}.[[Category:SpawnIcon]] 
+     * @param ModelPath The path of the model to set 
+     * @param skin [=0] The skin to set 
+     * @param bodygroups [=""] The body groups to set. Each single-digit number in the string represents a separate bodygroup. '''This make it impossible to set any body group to a value higher than 9!''' 
+     */
+    SetModel(ModelPath: string, skin?: number, bodygroups?: string): void;
+    
+    /**
+     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the [[Silkicons|silkicon]] of a panel object such as a {{Type|SpawnIcon}} and {{Type|ModelImage}}. 
+     * @param icon The [[Silkicons|silkicon]] to use. 
+     */
+    SetSpawnIcon(icon: string): void;
 }
 
 /**
@@ -52966,6 +53170,173 @@ declare namespace timer {
      * @returns false if the timer didn't exist or was already running, true otherwise. 
      */
     function UnPause(identifier: any): boolean;
+}
+
+/**
+ * {{Deprecated|You should be using the {{Lib|net}} instead}}
+ * 
+ * The umsg (user message) library was previously the most common way of sending information from the server to the client. 
+ * 
+ * {{Warning|Usermessages have a limit of only 256 bytes!}} 
+ */
+declare namespace umsg {
+    /**
+     * Writes an angle to the usermessage. 
+     * @param angle The angle to be sent. 
+     */
+    function Angle(angle: Angle): void;
+    
+    /**
+     * Writes a bool to the usermessage. 
+     * @param bool The bool to be sent. 
+     */
+    function Bool(bool: boolean): void;
+    
+    /**
+     * Writes a signed char to the usermessage. 
+     * @param char The char to be sent. 
+     */
+    function Char(char: number): void;
+    
+    /**
+     * Dispatches the usermessage to the client(s). 
+     */
+    function End(): void;
+    
+    /**
+     * Writes an entity object to the usermessage. 
+     * @param entity The entity to be sent. 
+     */
+    function Entity(entity: Entity): void;
+    
+    /**
+     * Writes a float to the usermessage. 
+     * @param float The float to be sent. 
+     */
+    function Float(float: number): void;
+    
+    /**
+     * Writes a signed int (32 bit) to the usermessage. 
+     * @param int The int to be sent. 
+     */
+    function Long(int: number): void;
+    
+    /**
+     * {{Deprecated|Inferior version of {{LibraryFunction|util|AddNetworkString}}}}
+     * 
+     * The string specified will be networked to the client and receive a identifying number, which will be sent instead of the string to optimize networking. 
+     * @param str The string to be pooled. 
+     */
+    function PoolString(str: string): void;
+    
+    /**
+     * Writes a signed short (16 bit) to the usermessage. 
+     * @param short The short to be sent. 
+     */
+    function Short(short: number): void;
+    
+    /**
+     * {{Deprecated|You should be using {{Lib|net}} instead}}
+     * 
+     * Starts a new usermessage.
+     * 
+     * {{Warning|Usermessages have a limit of only 256 bytes!}} 
+     * @param name The name of the message to be sent. 
+     * @param filter If passed a player object, it will only be sent to the player, if passed a {{Type|CRecipientFilter}} of players, it will be sent to all specified players, if passed nil (or another invalid value), the message will be sent to all players. 
+     */
+    function Start(name: string, filter: CRecipientFilter): void;
+    
+    /**
+     * Writes a null terminated string to the usermessage. 
+     * @param str The string to be sent. 
+     */
+    function String(str: string): void;
+    
+    /**
+     * Writes a Vector to the usermessage. 
+     * @param vector The vector to be sent. 
+     */
+    function Vector(vector: Vector): void;
+    
+    /**
+     * Writes a vector normal to the usermessage. 
+     * @param normal The vector normal to be sent. 
+     */
+    function VectorNormal(normal: Vector): void;
+}
+
+/**
+ * The undo library allows you to add custom entities to the undo list, allowing users to "undo" their creation with their undo (default: Z) key. 
+ */
+declare namespace undo {
+    /**
+     * Adds an entity to the current undo block 
+     * @param ent The entity to add 
+     */
+    function AddEntity(ent: Entity): void;
+    
+    /**
+     * Adds a function to call when the current undo block is undone 
+     * @param func The function to call 
+     * @param arg2,_args Arguments to pass to the function (after the undo info table) 
+     */
+    function AddFunction(func: Function, arg2,_args: any): void;
+    
+    /**
+     * Begins a new undo entry 
+     * @param name Name of the undo message to show to players 
+     */
+    function Create(name: string): void;
+    
+    /**
+     * Processes an undo block (in table form). This is used internally by the undo manager when a player presses Z. 
+     * @param tab The undo block to process as an {{Struct|Undo}} 
+     * @returns Number of removed entities 
+     */
+    function Do_Undo(tab: Undo): number;
+    
+    /**
+     * Completes an undo entry, and registers it with the player's client 
+     */
+    function Finish(): void;
+    
+    /**
+     * Serverside, returns a table containing all undo blocks of all players. Clientside, returns a table of the local player's undo blocks. 
+     * @returns The undo table. 
+     */
+    function GetTable(): table;
+    
+    /**
+     * {{Internal}}
+     * Makes the UI dirty - it will re-create the controls the next time it is viewed. We also take this opportun 
+     */
+    function MakeUIDirty(): void;
+    
+    /**
+     * Replaces any instance of the "from" reference with the "to" reference, in any existing undo block. Returns true if something was replaced 
+     * @param from The old entity 
+     * @param to The new entity to replace the old one 
+     * @returns somethingReplaced 
+     */
+    function ReplaceEntity(from: Entity, to: Entity): boolean;
+    
+    /**
+     * Sets a custom undo text for the current undo block 
+     * @param customText The text to display when the undo block is undone 
+     */
+    function SetCustomUndoText(customText: string): void;
+    
+    /**
+     * Sets the player which the current undo block belongs to 
+     * @param ply The player responsible for undoing the block 
+     */
+    function SetPlayer(ply: Player): void;
+    
+    /**
+     * {{Internal}}
+     * Adds a hook (CPanelPaint) to the control panel paint function so we can determine when it is being drawn. 
+     */
+    function SetupUI(): void;
 }
 
 /**
@@ -55171,214 +55542,6 @@ declare class Panel {
 /**
  * {{Deprecated|You should be using the {{Lib|net}} instead}}
  * 
- * The umsg (user message) library was previously the most common way of sending information from the server to the client. 
- * 
- * {{Warning|Usermessages have a limit of only 256 bytes!}} 
- */
-declare namespace umsg {
-    /**
-     * Writes an angle to the usermessage. 
-     * @param angle The angle to be sent. 
-     */
-    function Angle(angle: Angle): void;
-    
-    /**
-     * Writes a bool to the usermessage. 
-     * @param bool The bool to be sent. 
-     */
-    function Bool(bool: boolean): void;
-    
-    /**
-     * Writes a signed char to the usermessage. 
-     * @param char The char to be sent. 
-     */
-    function Char(char: number): void;
-    
-    /**
-     * Dispatches the usermessage to the client(s). 
-     */
-    function End(): void;
-    
-    /**
-     * Writes an entity object to the usermessage. 
-     * @param entity The entity to be sent. 
-     */
-    function Entity(entity: Entity): void;
-    
-    /**
-     * Writes a float to the usermessage. 
-     * @param float The float to be sent. 
-     */
-    function Float(float: number): void;
-    
-    /**
-     * Writes a signed int (32 bit) to the usermessage. 
-     * @param int The int to be sent. 
-     */
-    function Long(int: number): void;
-    
-    /**
-     * {{Deprecated|Inferior version of {{LibraryFunction|util|AddNetworkString}}}}
-     * 
-     * The string specified will be networked to the client and receive a identifying number, which will be sent instead of the string to optimize networking. 
-     * @param str The string to be pooled. 
-     */
-    function PoolString(str: string): void;
-    
-    /**
-     * Writes a signed short (16 bit) to the usermessage. 
-     * @param short The short to be sent. 
-     */
-    function Short(short: number): void;
-    
-    /**
-     * {{Deprecated|You should be using {{Lib|net}} instead}}
-     * 
-     * Starts a new usermessage.
-     * 
-     * {{Warning|Usermessages have a limit of only 256 bytes!}} 
-     * @param name The name of the message to be sent. 
-     * @param filter If passed a player object, it will only be sent to the player, if passed a {{Type|CRecipientFilter}} of players, it will be sent to all specified players, if passed nil (or another invalid value), the message will be sent to all players. 
-     */
-    function Start(name: string, filter: CRecipientFilter): void;
-    
-    /**
-     * Writes a null terminated string to the usermessage. 
-     * @param str The string to be sent. 
-     */
-    function String(str: string): void;
-    
-    /**
-     * Writes a Vector to the usermessage. 
-     * @param vector The vector to be sent. 
-     */
-    function Vector(vector: Vector): void;
-    
-    /**
-     * Writes a vector normal to the usermessage. 
-     * @param normal The vector normal to be sent. 
-     */
-    function VectorNormal(normal: Vector): void;
-}
-
-/**
- * {{Panel
- * |Parent=Panel
- * }} 
- */
-declare class PanelList extends Panel {
-
-}
-
-/**
- * {{Panel
- * |Name=PresetEditor
- * |Parent=DFrame
- * |Description={{Internal}}A preset editor, which can be opened by {{Type|ControlPresets}}.
- * 
- * This control only exists in Sandbox derived gamemodes.
- * }} 
- */
-declare class PresetEditor extends DFrame {
-
-}
-
-/**
- * {{Panel
- * |Parent=ContextBase
- * |Description=Used in sandbox tools
- * }} 
- */
-declare class PropSelect extends ContextBase {
-
-}
-
-/**
- * {{Panel
- * |Description={{Internal}}Currently broken?
- * }} 
- */
-declare class RadioButton {
-
-}
-
-/**
- * The undo library allows you to add custom entities to the undo list, allowing users to "undo" their creation with their undo (default: Z) key. 
- */
-declare namespace undo {
-    /**
-     * Adds an entity to the current undo block 
-     * @param ent The entity to add 
-     */
-    function AddEntity(ent: Entity): void;
-    
-    /**
-     * Adds a function to call when the current undo block is undone 
-     * @param func The function to call 
-     * @param arg2,_args Arguments to pass to the function (after the undo info table) 
-     */
-    function AddFunction(func: Function, arg2,_args: any): void;
-    
-    /**
-     * Begins a new undo entry 
-     * @param name Name of the undo message to show to players 
-     */
-    function Create(name: string): void;
-    
-    /**
-     * Processes an undo block (in table form). This is used internally by the undo manager when a player presses Z. 
-     * @param tab The undo block to process as an {{Struct|Undo}} 
-     * @returns Number of removed entities 
-     */
-    function Do_Undo(tab: Undo): number;
-    
-    /**
-     * Completes an undo entry, and registers it with the player's client 
-     */
-    function Finish(): void;
-    
-    /**
-     * Serverside, returns a table containing all undo blocks of all players. Clientside, returns a table of the local player's undo blocks. 
-     * @returns The undo table. 
-     */
-    function GetTable(): table;
-    
-    /**
-     * {{Internal}}
-     * Makes the UI dirty - it will re-create the controls the next time it is viewed. We also take this opportun 
-     */
-    function MakeUIDirty(): void;
-    
-    /**
-     * Replaces any instance of the "from" reference with the "to" reference, in any existing undo block. Returns true if something was replaced 
-     * @param from The old entity 
-     * @param to The new entity to replace the old one 
-     * @returns somethingReplaced 
-     */
-    function ReplaceEntity(from: Entity, to: Entity): boolean;
-    
-    /**
-     * Sets a custom undo text for the current undo block 
-     * @param customText The text to display when the undo block is undone 
-     */
-    function SetCustomUndoText(customText: string): void;
-    
-    /**
-     * Sets the player which the current undo block belongs to 
-     * @param ply The player responsible for undoing the block 
-     */
-    function SetPlayer(ply: Player): void;
-    
-    /**
-     * {{Internal}}
-     * Adds a hook (CPanelPaint) to the control panel paint function so we can determine when it is being drawn. 
-     */
-    function SetupUI(): void;
-}
-
-/**
- * {{Deprecated|You should be using the {{Lib|net}} instead}}
- * 
  * The usermessage library is used to receive user messages from the server on the client.
  * 
  * {{Warning|Usermessages have a limit of only 256 bytes!}} 
@@ -55476,399 +55639,6 @@ declare namespace utf8 {
 }
 
 /**
- * {{Panel
- * |Name=RichText
- * |Parent=Panel
- * |Preview=RichText_preview.png
- * |Description=A very versatile text display element that's used to power the default chat and console.
- * 
- * Rich Text panels allows multicolored, highlight-able, and interactive text using individual text segment markup (segments are defined by the {{ClassFunction|Panel|AppendText}} method).
- * }}
- * {{Example
- * |Description=Creates a Rich Text frame with 3 text segments.
- * |Code=-- Window frame for containing text
- * local frame = vgui.Create("DFrame")
- * frame:SetSize(200, 150)
- * frame:Center()
- * frame:MakePopup()
- * 
- * -- Rich Text panel
- * local richtext = vgui.Create( "RichText", frame )
- * richtext:Dock( FILL )
- * 
- * -- Text segment #1 (grayish color)
- * richtext:InsertColorChange(192, 192, 192, 255)
- * richtext:AppendText("This \nRichText \nis \n")
- * 
- * -- Text segment #2 (light yellow)
- * richtext:InsertColorChange(255, 255, 224, 255)
- * richtext:AppendText("AWESOME\n\n")
- * 
- * -- Text segment #3 (red ESRB notice localized string)
- * richtext:InsertColorChange(255, 64, 64, 255)
- * richtext:AppendText("#ServerBrowser_ESRBNotice")
- * }} 
- */
-declare class RichText extends Panel {
-    /**
-     * Appends text to a {{Type|RichText}} element. This does not automatically add a new line.
-     * 
-     * [[Category:RichText]] 
-     * @param txt The text to append (add on). 
-     */
-    AppendText(txt: string): void;
-    
-    /**
-     * Appends text to a {{Type|RichText}} element. This does not automatically add a new line.
-     * 
-     * [[Category:RichText]] 
-     * @param txt The text to append (add on). 
-     */
-    AppendText(txt: string): void;
-    
-    /**
-     * Returns the number of lines in a {{Type|RichText}}. You must wait a couple frames before calling this after using {{ClassFunction|Panel|AppendText}} or {{ClassFunction|Panel|SetText}}, otherwise it will return the number of text lines before the text change.
-     * 
-     * {{Note|Even though this function can be called on any panel, it will only work with {{Type|RichText}}}}
-     * 
-     * [[Category:RichText]] 
-     * @returns The number of lines. 
-     */
-    GetNumLines(): number;
-    
-    /**
-     * Returns the number of lines in a {{Type|RichText}}. You must wait a couple frames before calling this after using {{ClassFunction|Panel|AppendText}} or {{ClassFunction|Panel|SetText}}, otherwise it will return the number of text lines before the text change.
-     * 
-     * {{Note|Even though this function can be called on any panel, it will only work with {{Type|RichText}}}}
-     * 
-     * [[Category:RichText]] 
-     * @returns The number of lines. 
-     */
-    GetNumLines(): number;
-    
-    /**
-     * Causes a {{Type|RichText}} element to scroll to the bottom of its text.
-     * 
-     * [[Category:RichText]] 
-     */
-    GotoTextEnd(): void;
-    
-    /**
-     * Causes a {{Type|RichText}} element to scroll to the bottom of its text.
-     * 
-     * [[Category:RichText]] 
-     */
-    GotoTextEnd(): void;
-    
-    /**
-     * Causes a {{Type|RichText}} element to scroll to the top of its text.
-     * 
-     * {{Bug|Issue=2239|This does not work on the same frame as {{ClassFunction|Panel|SetText}}.}}
-     * 
-     * [[Category:RichText]] 
-     */
-    GotoTextStart(): void;
-    
-    /**
-     * Causes a {{Type|RichText}} element to scroll to the top of its text.
-     * 
-     * {{Bug|Issue=2239|This does not work on the same frame as {{ClassFunction|Panel|SetText}}.}}
-     * 
-     * [[Category:RichText]] 
-     */
-    GotoTextStart(): void;
-    
-    /**
-     * Marks the end of a clickable text segment in a {{Type|RichText}} element, started with {{ClassFunction|Panel|InsertClickableTextStart}}.
-     * 
-     * [[Category:RichText]] 
-     */
-    InsertClickableTextEnd(): void;
-    
-    /**
-     * Marks the end of a clickable text segment in a {{Type|RichText}} element, started with {{ClassFunction|Panel|InsertClickableTextStart}}.
-     * 
-     * [[Category:RichText]] 
-     */
-    InsertClickableTextEnd(): void;
-    
-    /**
-     * Starts the insertion of clickable text for a {{Type|RichText}} element. Any text appended with {{ClassFunction|Panel|AppendText}} between this call and {{ClassFunction|Panel|InsertClickableTextEnd}} will become clickable text.
-     * 
-     * The hook {{HookFunction|PANEL|ActionSignal}} is called when the text is clicked, with "TextClicked" as the signal name and ''signalValue'' as the signal value.
-     * 
-     * {{Note|The clickable text is a separate Derma panel which will not inherit the current font from the ''RichText''.}}
-     * [[Category:RichText]] 
-     * @param signalValue The text passed as the action signal's value. 
-     */
-    InsertClickableTextStart(signalValue: string): void;
-    
-    /**
-     * Starts the insertion of clickable text for a {{Type|RichText}} element. Any text appended with {{ClassFunction|Panel|AppendText}} between this call and {{ClassFunction|Panel|InsertClickableTextEnd}} will become clickable text.
-     * 
-     * The hook {{HookFunction|PANEL|ActionSignal}} is called when the text is clicked, with "TextClicked" as the signal name and ''signalValue'' as the signal value.
-     * 
-     * {{Note|The clickable text is a separate Derma panel which will not inherit the current font from the ''RichText''.}}
-     * [[Category:RichText]] 
-     * @param signalValue The text passed as the action signal's value. 
-     */
-    InsertClickableTextStart(signalValue: string): void;
-    
-    /**
-     * Inserts a color change in a {{Type|RichText}} element, which affects the color of all text added with {{ClassFunction|Panel|AppendText}} until another color change is applied.
-     * [[Category:RichText]] 
-     * @param r The red value (0 - 255). 
-     * @param g The green value (0 - 255). 
-     * @param b The blue value (0 - 255). 
-     * @param a The alpha value (0 - 255). 
-     */
-    InsertColorChange(r: number, g: number, b: number, a: number): void;
-    
-    /**
-     * Inserts a color change in a {{Type|RichText}} element, which affects the color of all text added with {{ClassFunction|Panel|AppendText}} until another color change is applied.
-     * [[Category:RichText]] 
-     * @param r The red value (0 - 255). 
-     * @param g The green value (0 - 255). 
-     * @param b The blue value (0 - 255). 
-     * @param a The alpha value (0 - 255). 
-     */
-    InsertColorChange(r: number, g: number, b: number, a: number): void;
-    
-    /**
-     * Begins a text fade for a {{Type|RichText}} element where the last appended text segment is fully faded out after a specific amount of time, at a specific speed.
-     * 
-     * The alpha of the text at any given time is determined by the text's base alpha * ((''sustain'' - {{GlobalFunction|CurTime}}) / ''length'') where {{GlobalFunction|CurTime}} is added to ''sustain'' when this method is called.
-     * 
-     * [[Category:RichText]] 
-     * @param sustain The number of seconds the text remains visible. 
-     * @param length The number of seconds it takes the text to fade out.
-     * 
-     * If set '''lower''' than ''sustain'', the text will not begin fading out until (''sustain'' - ''length'') seconds have passed.
-     * 
-     * If set '''higher''' than ''sustain'', the text will begin fading out immediately at a fraction of the base alpha.
-     * 
-     * If set to '''-1''', the text doesn't fade out. 
-     */
-    InsertFade(sustain: number, length: number): void;
-    
-    /**
-     * Begins a text fade for a {{Type|RichText}} element where the last appended text segment is fully faded out after a specific amount of time, at a specific speed.
-     * 
-     * The alpha of the text at any given time is determined by the text's base alpha * ((''sustain'' - {{GlobalFunction|CurTime}}) / ''length'') where {{GlobalFunction|CurTime}} is added to ''sustain'' when this method is called.
-     * 
-     * [[Category:RichText]] 
-     * @param sustain The number of seconds the text remains visible. 
-     * @param length The number of seconds it takes the text to fade out.
-     * 
-     * If set '''lower''' than ''sustain'', the text will not begin fading out until (''sustain'' - ''length'') seconds have passed.
-     * 
-     * If set '''higher''' than ''sustain'', the text will begin fading out immediately at a fraction of the base alpha.
-     * 
-     * If set to '''-1''', the text doesn't fade out. 
-     */
-    InsertFade(sustain: number, length: number): void;
-    
-    /**
-     * Resets all text fades in a {{Type|RichText}} element made with {{ClassFunction|Panel|InsertFade}}.
-     * [[Category:RichText]] 
-     * @param hold True to reset fades, false otherwise. 
-     * @param expiredOnly Any value equating to ''true'' will reset fades only on text segments that are completely faded out. 
-     * @param newSustain The new sustain value of each faded text segment. Set to -1 to keep the old sustain value. 
-     */
-    ResetAllFades(hold: boolean, expiredOnly: boolean, newSustain: number): void;
-    
-    /**
-     * Resets all text fades in a {{Type|RichText}} element made with {{ClassFunction|Panel|InsertFade}}.
-     * [[Category:RichText]] 
-     * @param hold True to reset fades, false otherwise. 
-     * @param expiredOnly Any value equating to ''true'' will reset fades only on text segments that are completely faded out. 
-     * @param newSustain The new sustain value of each faded text segment. Set to -1 to keep the old sustain value. 
-     */
-    ResetAllFades(hold: boolean, expiredOnly: boolean, newSustain: number): void;
-    
-    /**
-     * Sets the font used to render this panel's text.
-     * 
-     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
-     * 
-     * [[Category:Label]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]] 
-     * @param fontName The name of the font.
-     * 
-     * See [[Default_Fonts|here]] for a list of existing fonts.
-     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
-     */
-    SetFontInternal(fontName: string): void;
-    
-    /**
-     * Sets the font used to render this panel's text.
-     * 
-     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
-     * 
-     * [[Category:Label]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]] 
-     * @param fontName The name of the font.
-     * 
-     * See [[Default_Fonts|here]] for a list of existing fonts.
-     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
-     */
-    SetFontInternal(fontName: string): void;
-    
-    /**
-     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
-     * 
-     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
-     * [[Category:Label]]
-     * [[Category:DLabel]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]]
-     * [[Category:DTree_Node]] 
-     * @param text The text value to set. 
-     */
-    SetText(text: string): void;
-    
-    /**
-     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
-     * 
-     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
-     * [[Category:Label]]
-     * [[Category:DLabel]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]]
-     * [[Category:DTree_Node]] 
-     * @param text The text value to set. 
-     */
-    SetText(text: string): void;
-    
-    /**
-     * Sets the height of a {{Type|RichText}} element to accommodate the text inside.
-     * 
-     * {{Note|This function internally relies on {{ClassFunction|Panel|GetNumLines}}, so it should be called at least a couple frames after modifying the text using {{ClassFunction|Panel|AppendText}}}}
-     * 
-     * [[Category:RichText]] 
-     */
-    SetToFullHeight(): void;
-    
-    /**
-     * Sets the height of a {{Type|RichText}} element to accommodate the text inside.
-     * 
-     * {{Note|This function internally relies on {{ClassFunction|Panel|GetNumLines}}, so it should be called at least a couple frames after modifying the text using {{ClassFunction|Panel|AppendText}}}}
-     * 
-     * [[Category:RichText]] 
-     */
-    SetToFullHeight(): void;
-    
-    /**
-     * Sets the visibility of the vertical scrollbar.
-     * 
-     * Works for {{Type|RichText}} and {{Type|TextEntry}}.
-     * 
-     * [[Category:RichText]]
-     * [[Category:TextEntry]] 
-     * @param display [=false] True to display the vertical text scroll bar, false to hide it. 
-     */
-    SetVerticalScrollbarEnabled(display?: boolean): void;
-    
-    /**
-     * Sets the visibility of the vertical scrollbar.
-     * 
-     * Works for {{Type|RichText}} and {{Type|TextEntry}}.
-     * 
-     * [[Category:RichText]]
-     * [[Category:TextEntry]] 
-     * @param display [=false] True to display the vertical text scroll bar, false to hide it. 
-     */
-    SetVerticalScrollbarEnabled(display?: boolean): void;
-}
-
-/**
- * {{Panel
- * |Parent=Panel
- * }} 
- */
-declare class SlideBar extends Panel {
-
-}
-
-/**
- * {{Panel
- * |Parent=Panel
- * |Preview=SliderExample.png
- * |Description={{Deprecated|Only exists for backwards compatibility with {{ClassFunction|Panel|SetActionFunction}} and {{ClassFunction|Panel|PostMessage}}. Use {{Type|DNumSlider}} instead.}}A simple slider featuring an numeric display.
- * }}
- * {{Example
- * |Description=Creates a slider atop a DFrame which prints its value as it's being dragged.
- * |Code=local frame = vgui.Create( "DFrame" )
- * frame:SetSize( 280, 70 )
- * frame:Center()
- * frame:SetTitle( "Bilderberg Group Dollar Value Slider" )
- * frame:MakePopup()
- * 
- * local DermaSlider = vgui.Create("Slider", frame)
- * DermaSlider:SetPos( 0, 30 ) 
- * DermaSlider:SetWide( 100 )
- * DermaSlider:SetMin( 0 )
- * DermaSlider:SetMax( 1.0 )
- * DermaSlider:SetValue( 0.5 )
- * DermaSlider:SetDecimals( 2 )
- * DermaSlider.OnValueChanged = function( panel, value )
- * 	print( tostring( value ) )
- * end
- * }} 
- */
-declare class Slider extends Panel {
-    /**
-     * {{Deprecated|Only used in deprecated Derma controls.}}Sends a command to the panel.
-     * [[Category:Slider]] 
-     * @param messageName The name of the message. 
-     * @param valueType The type of the variable to post. 
-     * @param value The value to post. 
-     */
-    PostMessage(messageName: string, valueType: string, value: string): void;
-    
-    /**
-     * {{Deprecated|Only used in deprecated Derma controls.}}Sends a command to the panel.
-     * [[Category:Slider]] 
-     * @param messageName The name of the message. 
-     * @param valueType The type of the variable to post. 
-     * @param value The value to post. 
-     */
-    PostMessage(messageName: string, valueType: string, value: string): void;
-    
-    /**
-     * {{Deprecated|Only used in deprecated Derma controls.}}
-     * Used in {{Type|Button}} to call a function when the button is clicked and in {{Type|Slider}} when the value changes.
-     * [[Category:Button]]
-     * [[Category:Slider]] 
-     * @param func Function to call when the {{Type|Button}} is clicked or the {{Type|Slider}} value is changed.
-     * 
-     * Arguments given are:
-     * * {{FuncArg|Panel|self|The panel itself}}
-     * * {{FuncArg|string|action|"Command" on button press, "SliderMoved" on slider move.}}
-     * * {{FuncArg|number|val|The new value of the {{Type|Slider}}. Will always equal 0 for buttons.}}
-     * * {{FuncArg|number||Always equals 0.}} 
-     */
-    SetActionFunction(func: Function): void;
-    
-    /**
-     * {{Deprecated|Only used in deprecated Derma controls.}}
-     * Used in {{Type|Button}} to call a function when the button is clicked and in {{Type|Slider}} when the value changes.
-     * [[Category:Button]]
-     * [[Category:Slider]] 
-     * @param func Function to call when the {{Type|Button}} is clicked or the {{Type|Slider}} value is changed.
-     * 
-     * Arguments given are:
-     * * {{FuncArg|Panel|self|The panel itself}}
-     * * {{FuncArg|string|action|"Command" on button press, "SliderMoved" on slider move.}}
-     * * {{FuncArg|number|val|The new value of the {{Type|Slider}}. Will always equal 0 for buttons.}}
-     * * {{FuncArg|number||Always equals 0.}} 
-     */
-    SetActionFunction(func: Function): void;
-}
-
-/**
  * util.worldpicker is for picking an entity in the world while GUI is open.
  * 
  * [[Category:util]] 
@@ -55897,514 +55667,226 @@ declare namespace util.worldpicker {
 }
 
 /**
- * {{Panel
- * |Name=SpawnIcon
- * |Parent=DButton
- * |Preview=SpawnIcon.jpg
- * |Description=A SpawnIcon displays an image for the given model path. It is mostly used in the Spawn Menu (Q).
- * }}
- * {{Example
- * |Description=Creates a DFrame with a SpawnIcon inside.
- * |Code=local Panel = vgui.Create( "DFrame" ) -- Main Frame
- * Panel:SetPos( 200, 200 )
- * Panel:SetSize( 200, 200 )
- * Panel:SetTitle( "Spawn Icon Test" )
- * Panel:SetVisible( true )
- * Panel:SetDraggable( false )
- * Panel:ShowCloseButton( true )
- * Panel:MakePopup()
- * 
- * local SpawnI = vgui.Create( "SpawnIcon" , Panel ) -- SpawnIcon
- * SpawnI:SetPos( 75, 75 )
- * SpawnI:SetModel( "models/props_borealis/bluebarrel001.mdl" ) -- Model we want for this spawn icon
- * }} 
+ * Path object for a NextBot NPC. Returned by {{GlobalFunction|Path}}. 
  */
-declare class SpawnIcon extends DButton {
+declare class PathFollower {
     /**
-     * Causes a {{Type|SpawnIcon}} to rebuild its model image.
-     * [[Category:ModelImage]][[Category:SpawnIcon]] 
+     * If you created your path with type "Chase" this functions should be used in place of {{ClassFunction|PathFollower|Update}} to cause the bot to chase the specified entity. 
+     * @param bot The bot to update along the path 
+     * @param ent The entity we want to chase 
      */
-    RebuildSpawnIcon(): void;
+    Chase(bot: NextBot, ent: Entity): void;
     
     /**
-     * Causes a {{Type|SpawnIcon}} to rebuild its model image.
-     * [[Category:ModelImage]][[Category:SpawnIcon]] 
+     * Compute shortest path from bot to 'goal' via A* algorithm. 
+     * @param from The nextbot we're generating for 
+     * @param to To point 
+     * @param generator [=nil] A funtion that allows you to alter the path generation. See example below for the default function. 
+     * @returns <br/>
+     * * If returns true, path was found to the goal position.
+     * * If returns false, path may either be invalid (use IsValid() to check), or valid but doesn't reach all the way to the goal. 
      */
-    RebuildSpawnIcon(): void;
+    Compute(from: NextBot, to: Vector, generator?: Function): boolean;
     
     /**
-     * Re-renders a spawn icon with customized cam data.
+     * Draws the path. This is meant for debugging - and uses debug overlay. 
+     */
+    Draw(): void;
+    
+    /**
+     * Returns the first segment of the path. 
+     * @returns A table with {{Struct|PathSegment}}. 
+     */
+    FirstSegment(): PathSegment;
+    
+    /**
+     * Returns the age since the path was built 
+     * @returns Path age 
+     */
+    GetAge(): number;
+    
+    /**
+     * Returns all of the segments of the given path. 
+     * @returns A table of tables with {{Struct|PathSegment}}. 
+     */
+    GetAllSegments(): PathSegment;
+    
+    /**
+     * The closest position along the path to a position 
+     * @param position The point we're querying for 
+     * @returns The closest position on the path 
+     */
+    GetClosestPosition(position: Vector): Vector;
+    
+    /**
+     * Returns the current goal data. Can return nil if the current goal is invalid, for example immediately after {{ClassFunction|PathFollower|Update}}. 
+     * @returns A table with {{Struct|PathSegment}}. 
+     */
+    GetCurrentGoal(): PathSegment;
+    
+    /**
+     * Returns the cursor data 
+     * @returns A table with 3 keys:
+     * {{FuncArg|number|curvature}}<br/>
+     * {{FuncArg|Vector|forward}}<br/>
+     * {{FuncArg|Vector|pos}}<br/>
+     * <br/> 
+     */
+    GetCursorData(): table;
+    
+    /**
+     * Returns the current progress along the path 
+     * @returns The current progress 
+     */
+    GetCursorPosition(): number;
+    
+    /**
+     * Returns the path end position 
+     * @returns The end position 
+     */
+    GetEnd(): Vector;
+    
+    /**
+     *  
+     * @returns  
+     */
+    GetHindrance(): Entity;
+    
+    /**
+     * Returns the total length of the path 
+     * @returns The length of the path 
+     */
+    GetLength(): number;
+    
+    /**
+     * Returns the vector position of distance along path 
+     * @param distance The distance along the path to query 
+     * @returns The position 
+     */
+    GetPositionOnPath(distance: number): Vector;
+    
+    /**
+     * Returns the path start position 
+     * @returns The start position 
+     */
+    GetStart(): Vector;
+    
+    /**
+     * Invalidates the current path 
+     */
+    Invalidate(): void;
+    
+    /**
+     * Returns true if the path is valid 
+     */
+    IsValid(): void;
+    
+    /**
+     * Returns the last segment of the path. 
+     * @returns A table with {{Struct|PathSegment}}. 
+     */
+    LastSegment(): PathSegment;
+    
+    /**
+     * Moves the cursor by give distance.
      * 
-     * {{Note|This function does '''not''' accept the standard {{Struct|CamData}}.}}
-     * [[Category:ModelImage]][[Category:SpawnIcon]] 
-     * @param data A four-membered table containing the information needed to re-render:
-     * * {{FuncArg|Vector|cam_pos|The relative camera position the model is viewed from.}}
-     * * {{FuncArg|Angle|cam_ang|The camera angle the model is viewed from.}}
-     * * {{FuncArg|number|cam_fov|The camera's field of view (FOV).}}
-     * * {{FuncArg|Entity|ent|The entity object of the model.}}
-     * See the example below for how to retrieve these values. 
+     * For a function that sets the distance, see {{ClassFunction|PathFollower|MoveCursorTo}}. 
+     * @param distance The distance to move the cursor (in relative world units) 
      */
-    RebuildSpawnIconEx(data: table): void;
+    MoveCursor(distance: number): void;
     
     /**
-     * Re-renders a spawn icon with customized cam data.
+     * Sets the cursor position to given distance.
      * 
-     * {{Note|This function does '''not''' accept the standard {{Struct|CamData}}.}}
-     * [[Category:ModelImage]][[Category:SpawnIcon]] 
-     * @param data A four-membered table containing the information needed to re-render:
-     * * {{FuncArg|Vector|cam_pos|The relative camera position the model is viewed from.}}
-     * * {{FuncArg|Angle|cam_ang|The camera angle the model is viewed from.}}
-     * * {{FuncArg|number|cam_fov|The camera's field of view (FOV).}}
-     * * {{FuncArg|Entity|ent|The entity object of the model.}}
-     * See the example below for how to retrieve these values. 
+     * For relative distance, see {{ClassFunction|PathFollower|MoveCursor}}. 
+     * @param distance The distance to move the cursor (in world units) 
      */
-    RebuildSpawnIconEx(data: table): void;
+    MoveCursorTo(distance: number): void;
     
     /**
-     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the model to be displayed by {{Type|SpawnIcon}}.[[Category:SpawnIcon]] 
-     * @param ModelPath The path of the model to set 
-     * @param skin [=0] The skin to set 
-     * @param bodygroups [=""] The body groups to set. Each single-digit number in the string represents a separate bodygroup. '''This make it impossible to set any body group to a value higher than 9!''' 
+     * Moves the cursor of the path to the closest position compared to given vector. 
+     * @param pos  
+     * @param type [=0] Seek type<br/>
+     * 0 = SEEK_ENTIRE_PATH - Search the entire path length<br/>
+     * 1 = SEEK_AHEAD - Search from current cursor position forward toward end of path<br/>
+     * 2 = SEEK_BEHIND - Search from current cursor position backward toward path start<br/>
+     * <br/> 
+     * @param alongLimit [=0]  
      */
-    SetModel(ModelPath: string, skin?: number, bodygroups?: string): void;
+    MoveCursorToClosestPosition(pos: Vector, type?: number, alongLimit?: number): void;
     
     /**
-     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the model to be displayed by {{Type|SpawnIcon}}.[[Category:SpawnIcon]] 
-     * @param ModelPath The path of the model to set 
-     * @param skin [=0] The skin to set 
-     * @param bodygroups [=""] The body groups to set. Each single-digit number in the string represents a separate bodygroup. '''This make it impossible to set any body group to a value higher than 9!''' 
+     * Moves the cursor to the end of the path 
      */
-    SetModel(ModelPath: string, skin?: number, bodygroups?: string): void;
+    MoveCursorToEnd(): void;
     
     /**
-     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the [[Silkicons|silkicon]] of a panel object such as a {{Type|SpawnIcon}} and {{Type|ModelImage}}. 
-     * @param icon The [[Silkicons|silkicon]] to use. 
+     * Moves the cursor to the end of the path 
      */
-    SetSpawnIcon(icon: string): void;
+    MoveCursorToStart(): void;
     
     /**
-     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the [[Silkicons|silkicon]] of a panel object such as a {{Type|SpawnIcon}} and {{Type|ModelImage}}. 
-     * @param icon The [[Silkicons|silkicon]] to use. 
+     * Resets the age which is retrieved by {{ClassFunction|PathFollower|GetAge}} to 0. 
      */
-    SetSpawnIcon(icon: string): void;
+    ResetAge(): void;
+    
+    /**
+     * How close we can get to the goal to call it done 
+     * @param distance The distance we're setting it to 
+     */
+    SetGoalTolerance(distance: number): void;
+    
+    /**
+     * Sets minimum range movement goal must be along path 
+     * @param mindist The minimum look ahead distance 
+     */
+    SetMinLookAheadDistance(mindist: number): void;
+    
+    /**
+     * Move the bot along the path. 
+     * @param bot The bot to update along the path 
+     */
+    Update(bot: NextBot): void;
 }
 
 /**
- * {{Panel
- * |Name=TextEntry
- * |Parent=Panel
- * |Description=Basic text input field.
- * }} 
- */
-declare class TextEntry extends Panel {
-    /**
-     * Performs the "CONTROL + C" key combination effect ( Copy selection to clipboard ) on selected text.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    CopySelected(): void;
-    
-    /**
-     * Performs the "CONTROL + C" key combination effect ( Copy selection to clipboard ) on selected text.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    CopySelected(): void;
-    
-    /**
-     * Performs the "CONTROL + X" ( delete text and copy it to clipboard buffer ) action on selected text.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    CutSelected(): void;
-    
-    /**
-     * Performs the "CONTROL + X" ( delete text and copy it to clipboard buffer ) action on selected text.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    CutSelected(): void;
-    
-    /**
-     * Used to draw the text in a {{Type|DTextEntry}} within a derma skin. This should be called within the {{HookFunction|SKIN|PaintTextEntry}} skin hook.
-     * 
-     * [[Category:TextEntry]] 
-     * @param textCol The colour of the main text. 
-     * @param highlightCol The colour of the selection highlight (when selecting text). 
-     * @param cursorCol The colour of the text cursor (or caret). 
-     */
-    DrawTextEntryText(textCol: table, highlightCol: table, cursorCol: table): void;
-    
-    /**
-     * Used to draw the text in a {{Type|DTextEntry}} within a derma skin. This should be called within the {{HookFunction|SKIN|PaintTextEntry}} skin hook.
-     * 
-     * [[Category:TextEntry]] 
-     * @param textCol The colour of the main text. 
-     * @param highlightCol The colour of the selection highlight (when selecting text). 
-     * @param cursorCol The colour of the text cursor (or caret). 
-     */
-    DrawTextEntryText(textCol: table, highlightCol: table, cursorCol: table): void;
-    
-    /**
-     * Returns the position/offset of the caret (or text cursor) in a text-based panel object.
-     * 
-     * [[Category:TextEntry]] 
-     * @returns The caret position/offset from the start of the text. A value of ''0'' means the caret sits before the first character. 
-     */
-    GetCaretPos(): number;
-    
-    /**
-     * Returns the position/offset of the caret (or text cursor) in a text-based panel object.
-     * 
-     * [[Category:TextEntry]] 
-     * @returns The caret position/offset from the start of the text. A value of ''0'' means the caret sits before the first character. 
-     */
-    GetCaretPos(): number;
-    
-    /**
-     * Determines whether or not a text-based panel object, such as a {{Type|DTextEntry}}, is in multi-line mode. This is set with {{ClassFunction|Panel|SetMultiline}}.
-     * 
-     * [[Category:TextEntry]] 
-     * @returns Whether the object is in multi-line mode or not. 
-     */
-    IsMultiline(): boolean;
-    
-    /**
-     * Determines whether or not a text-based panel object, such as a {{Type|DTextEntry}}, is in multi-line mode. This is set with {{ClassFunction|Panel|SetMultiline}}.
-     * 
-     * [[Category:TextEntry]] 
-     * @returns Whether the object is in multi-line mode or not. 
-     */
-    IsMultiline(): boolean;
-    
-    /**
-     * {{Warning|Due to privacy concerns, this function has been disabled}}
-     * 
-     * Only works for TextEntries.
-     * 
-     * Pastes the contents of the clipboard into the TextEntry.
-     * 
-     * {{Note|Tab characters will be dropped from the pasted text}}
-     * 
-     * [[Category:TextEntry]] 
-     */
-    Paste(): void;
-    
-    /**
-     * {{Warning|Due to privacy concerns, this function has been disabled}}
-     * 
-     * Only works for TextEntries.
-     * 
-     * Pastes the contents of the clipboard into the TextEntry.
-     * 
-     * {{Note|Tab characters will be dropped from the pasted text}}
-     * 
-     * [[Category:TextEntry]] 
-     */
-    Paste(): void;
-    
-    /**
-     * Saves the current state (caret position and the text inside) of a {{Type|TextEntry}} as an undo state.
-     * 
-     * See also {{ClassFunction|Panel|Undo}}.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    SaveUndoState(): void;
-    
-    /**
-     * Saves the current state (caret position and the text inside) of a {{Type|TextEntry}} as an undo state.
-     * 
-     * See also {{ClassFunction|Panel|Undo}}.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    SaveUndoState(): void;
-    
-    /**
-     * Selects all items within a panel or object. For text-based objects, selects all text.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    SelectAll(): void;
-    
-    /**
-     * Selects all items within a panel or object. For text-based objects, selects all text.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    SelectAll(): void;
-    
-    /**
-     * If called on a text entry, clicking the text entry for the first time will automatically select all of the text ready to be copied by the user.
-     * [[Category:TextEntry]] 
-     */
-    SelectAllOnFocus(): void;
-    
-    /**
-     * If called on a text entry, clicking the text entry for the first time will automatically select all of the text ready to be copied by the user.
-     * [[Category:TextEntry]] 
-     */
-    SelectAllOnFocus(): void;
-    
-    /**
-     * Selects all the text in a panel object. Will not select non-text items; for this, use {{ClassFunction|Panel|SelectAll}}.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    SelectAllText(): void;
-    
-    /**
-     * Selects all the text in a panel object. Will not select non-text items; for this, use {{ClassFunction|Panel|SelectAll}}.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    SelectAllText(): void;
-    
-    /**
-     * Deselects all items in a panel object. For text-based objects, this will deselect all text.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    SelectNone(): void;
-    
-    /**
-     * Deselects all items in a panel object. For text-based objects, this will deselect all text.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    SelectNone(): void;
-    
-    /**
-     * Configures a text input to allow user to type characters that are not included in the US-ASCII (7-bit ASCII) character set.
-     * 
-     * Characters not included in US-ASCII are multi-byte characters in UTF-8. They can be accented characters, non-Latin characters and special characters.
-     * 
-     * [[Category:TextEntry]] 
-     * @param allowed Set to true in order not to restrict input characters. 
-     */
-    SetAllowNonAsciiCharacters(allowed: boolean): void;
-    
-    /**
-     * Configures a text input to allow user to type characters that are not included in the US-ASCII (7-bit ASCII) character set.
-     * 
-     * Characters not included in US-ASCII are multi-byte characters in UTF-8. They can be accented characters, non-Latin characters and special characters.
-     * 
-     * [[Category:TextEntry]] 
-     * @param allowed Set to true in order not to restrict input characters. 
-     */
-    SetAllowNonAsciiCharacters(allowed: boolean): void;
-    
-    /**
-     * Sets the position of the caret (or text cursor) in a text-based panel object.
-     * 
-     * [[Category:TextEntry]] 
-     * @param offset Caret position/offset from the start of text. A value of ''0'' places the caret before the first character. 
-     */
-    SetCaretPos(offset: number): void;
-    
-    /**
-     * Sets the position of the caret (or text cursor) in a text-based panel object.
-     * 
-     * [[Category:TextEntry]] 
-     * @param offset Caret position/offset from the start of text. A value of ''0'' places the caret before the first character. 
-     */
-    SetCaretPos(offset: number): void;
-    
-    /**
-     * Sets the visibility of the language selection box in a TextEntry when typing in non-English mode.
-     * 
-     * See {{ClassFunction|Panel|SetDrawLanguageIDAtLeft}} for a function that changes the position of the language selection box.
-     * 
-     * [[Category:TextEntry]] 
-     * @param visible true to make it visible, false to hide it. 
-     */
-    SetDrawLanguageID(visible: boolean): void;
-    
-    /**
-     * Sets the visibility of the language selection box in a TextEntry when typing in non-English mode.
-     * 
-     * See {{ClassFunction|Panel|SetDrawLanguageIDAtLeft}} for a function that changes the position of the language selection box.
-     * 
-     * [[Category:TextEntry]] 
-     * @param visible true to make it visible, false to hide it. 
-     */
-    SetDrawLanguageID(visible: boolean): void;
-    
-    /**
-     * Sets where to draw the language selection box.
-     * 
-     * See {{ClassFunction|Panel|SetDrawLanguageID}} for a function that hides or shows the language selection box.
-     * 
-     * [[Category:TextEntry]] 
-     * @param left true = left, false = right 
-     */
-    SetDrawLanguageIDAtLeft(left: boolean): void;
-    
-    /**
-     * Sets where to draw the language selection box.
-     * 
-     * See {{ClassFunction|Panel|SetDrawLanguageID}} for a function that hides or shows the language selection box.
-     * 
-     * [[Category:TextEntry]] 
-     * @param left true = left, false = right 
-     */
-    SetDrawLanguageIDAtLeft(left: boolean): void;
-    
-    /**
-     * Sets the font used to render this panel's text.
-     * 
-     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
-     * 
-     * [[Category:Label]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]] 
-     * @param fontName The name of the font.
-     * 
-     * See [[Default_Fonts|here]] for a list of existing fonts.
-     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
-     */
-    SetFontInternal(fontName: string): void;
-    
-    /**
-     * Sets the font used to render this panel's text.
-     * 
-     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
-     * 
-     * [[Category:Label]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]] 
-     * @param fontName The name of the font.
-     * 
-     * See [[Default_Fonts|here]] for a list of existing fonts.
-     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
-     */
-    SetFontInternal(fontName: string): void;
-    
-    /**
-     * Enables or disables the multi-line functionality of a text object, such as a {{Type|DTextEntry}}.
-     * 
-     * [[Category:TextEntry]] 
-     * @param multiline Whether to enable multiline or not. 
-     */
-    SetMultiline(multiline: boolean): void;
-    
-    /**
-     * Enables or disables the multi-line functionality of a text object, such as a {{Type|DTextEntry}}.
-     * 
-     * [[Category:TextEntry]] 
-     * @param multiline Whether to enable multiline or not. 
-     */
-    SetMultiline(multiline: boolean): void;
-    
-    /**
-     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
-     * 
-     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
-     * [[Category:Label]]
-     * [[Category:DLabel]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]]
-     * [[Category:DTree_Node]] 
-     * @param text The text value to set. 
-     */
-    SetText(text: string): void;
-    
-    /**
-     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
-     * 
-     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
-     * [[Category:Label]]
-     * [[Category:DLabel]]
-     * [[Category:TextEntry]]
-     * [[Category:RichText]]
-     * [[Category:DTree_Node]] 
-     * @param text The text value to set. 
-     */
-    SetText(text: string): void;
-    
-    /**
-     * Sets the visibility of the vertical scrollbar.
-     * 
-     * Works for {{Type|RichText}} and {{Type|TextEntry}}.
-     * 
-     * [[Category:RichText]]
-     * [[Category:TextEntry]] 
-     * @param display [=false] True to display the vertical text scroll bar, false to hide it. 
-     */
-    SetVerticalScrollbarEnabled(display?: boolean): void;
-    
-    /**
-     * Sets the visibility of the vertical scrollbar.
-     * 
-     * Works for {{Type|RichText}} and {{Type|TextEntry}}.
-     * 
-     * [[Category:RichText]]
-     * [[Category:TextEntry]] 
-     * @param display [=false] True to display the vertical text scroll bar, false to hide it. 
-     */
-    SetVerticalScrollbarEnabled(display?: boolean): void;
-    
-    /**
-     * Restores the last saved state (caret position and the text inside) of a {{Type|TextEntry}}. Should act identically to pressing CTRL+Z in a {{Type|TextEntry}}.
-     * 
-     * See also {{ClassFunction|Panel|SaveUndoState}}.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    Undo(): void;
-    
-    /**
-     * Restores the last saved state (caret position and the text inside) of a {{Type|TextEntry}}. Should act identically to pressing CTRL+Z in a {{Type|TextEntry}}.
-     * 
-     * See also {{ClassFunction|Panel|SaveUndoState}}.
-     * 
-     * [[Category:TextEntry]] 
-     */
-    Undo(): void;
-}
-
-/**
- * {{Panel
- * |Parent=Panel
- * |Description=A panel capable of loading .tga images.
- * }}
- * {{Example
- * |Description=Creates a TGAImage panel and loads the image defined by line 4.
- * |Code=local panel = vgui.Create( "DFrame" )
- * panel:SetSize( 500, 500 )
- * panel:MakePopup()
- * panel:Center()
+ * A PhysCollide holds collision data from VPhysics. These objects can be used to run (currently quite limited) collision tests, but do not represent actual physics objects.
  * 
- * local image = vgui.Create( "TGAImage", panel )
- * image:SetSize( 32, 32 )
- * image:SetPos( 50, 50 )
- * image:LoadTGAImage( "materials/addon.tga", "" )
- * 
- * }} 
- */
-declare class TGAImage extends Panel {
+ * Created by {{GlobalFunction|CreatePhysCollideBox}} or {{GlobalFunction|CreatePhysCollidesFromModel}}. 
+ * !CustomConstructor CreatePhysCollideBox */
+declare class PhysCollide {
     /**
-     * @param imageName The file path. 
-     * @param strPath The PATH to search in. See [[File Search Paths]].
+     * Creates a new PhysCollide from the given bounds. 
+     * @param mins  
+     * @param maxs  
+     */
+    constructor(mins: Vector, maxs: Vector);
+    
+    /**
+     * Destroys the {{Type|PhysCollide}} object. 
+     */
+    Destroy(): void;
+    
+    /**
+     * Checks whether this {{Type|PhysCollide}} object is valid or not.
      * 
-     * This isn't used internally. 
+     * You should just use {{GlobalFunction|IsValid}} instead. 
+     * @returns Is valid or not. 
      */
-    LoadTGAImage(imageName: string, strPath: string): void;
-}
-
-/**
- * {{Panel
- * |Name=URLLabel
- * |Description=A panel similar to {{Type|Label}} used by {{Type|DLabelURL}}.
- * }} 
- */
-declare class URLLabel {
+    IsValid(): boolean;
+    
     /**
-     * [[Category:DLabelURL]][[Category:URLLabel]]Sets the URL of a link-based panel such as {{Type|DLabelURL}}. 
-     * @param url The URL to set. This '''must''' begin with ''<nowiki>http://</nowiki>''. 
+     * Performs a trace against this PhysCollide with the given parameters. This can be used for both line traces and box traces. 
+     * @param origin The origin for the PhysCollide during the trace 
+     * @param angles The angles for the PhysCollide during the trace 
+     * @param rayStart The start position of the trace 
+     * @param rayEnd The end position of the trace 
+     * @param rayMins The mins of the trace's bounds 
+     * @param rayMaxs The maxs of the trace's bounds 
+     * @returns [Hit position of the trace. This is false if the trace did not hit., Hit normal of the trace, Fraction of the trace. This is calculated from the distance between startPos, hitPos, and endPos.]
+     * !TupleReturn 
      */
-    SetURL(url: string): void;
+    TraceBox(origin: Vector, angles: Angle, rayStart: Vector, rayEnd: Vector, rayMins: Vector, rayMaxs: Vector): [Vector, Vector, number];
 }
 
 /**
@@ -56522,7 +56004,9 @@ declare namespace util {
      * Decompresses the given string using [[wikipedia:LZMA|LZMA]] algorithm. Used to decompress strings previously compressed with {{LibraryFunction|util|Compress}}. 
      * @param compressedString The compressed string to decompress. 
      * @param maxSize [=nil] The maximal size in bytes it will decompress. 
-     * @returns The original, decompressed string, or no value if the input string was zero length (""). 
+     * @returns The original, decompressed string.
+     * 
+     * {{NextUpdate|This now returns an empty string ("") when sent an empty string as the argument instead of no value.}} 
      */
     function Decompress(compressedString: string, maxSize?: number): string;
     
@@ -57193,242 +56677,6 @@ declare namespace weapons {
 }
 
 /**
- * The widgets library.
- * 
- * Widgets allow the player to have mouse interaction with entities, such as being able to manipulate the [https://www.youtube.com/watch?v=O3gG0t39-pQ bones of an NPC]. 
- */
-declare namespace widgets {
-    /**
-     * {{Internal}} Automatically called to update all widgets. 
-     * @param ply The player 
-     * @param mv Player move data 
-     */
-    function PlayerTick(ply: Player, mv: CMoveData): void;
-    
-    /**
-     * Renders a widget. Normally you won't need to call this. 
-     * @param ent Widget entity to render 
-     */
-    function RenderMe(ent: Entity): void;
-}
-
-/**
- * Path object for a NextBot NPC. Returned by {{GlobalFunction|Path}}. 
- */
-declare class PathFollower {
-    /**
-     * If you created your path with type "Chase" this functions should be used in place of {{ClassFunction|PathFollower|Update}} to cause the bot to chase the specified entity. 
-     * @param bot The bot to update along the path 
-     * @param ent The entity we want to chase 
-     */
-    Chase(bot: NextBot, ent: Entity): void;
-    
-    /**
-     * Compute shortest path from bot to 'goal' via A* algorithm. 
-     * @param from The nextbot we're generating for 
-     * @param to To point 
-     * @param generator [=nil] A funtion that allows you to alter the path generation. See example below for the default function. 
-     * @returns <br/>
-     * * If returns true, path was found to the goal position.
-     * * If returns false, path may either be invalid (use IsValid() to check), or valid but doesn't reach all the way to the goal. 
-     */
-    Compute(from: NextBot, to: Vector, generator?: Function): boolean;
-    
-    /**
-     * Draws the path. This is meant for debugging - and uses debug overlay. 
-     */
-    Draw(): void;
-    
-    /**
-     * Returns the first segment of the path. 
-     * @returns A table with {{Struct|PathSegment}}. 
-     */
-    FirstSegment(): PathSegment;
-    
-    /**
-     * Returns the age since the path was built 
-     * @returns Path age 
-     */
-    GetAge(): number;
-    
-    /**
-     * Returns all of the segments of the given path. 
-     * @returns A table of tables with {{Struct|PathSegment}}. 
-     */
-    GetAllSegments(): PathSegment;
-    
-    /**
-     * The closest position along the path to a position 
-     * @param position The point we're querying for 
-     * @returns The closest position on the path 
-     */
-    GetClosestPosition(position: Vector): Vector;
-    
-    /**
-     * Returns the current goal data. Can return nil if the current goal is invalid, for example immediately after {{ClassFunction|PathFollower|Update}}. 
-     * @returns A table with {{Struct|PathSegment}}. 
-     */
-    GetCurrentGoal(): PathSegment;
-    
-    /**
-     * Returns the cursor data 
-     * @returns A table with 3 keys:
-     * {{FuncArg|number|curvature}}<br/>
-     * {{FuncArg|Vector|forward}}<br/>
-     * {{FuncArg|Vector|pos}}<br/>
-     * <br/> 
-     */
-    GetCursorData(): table;
-    
-    /**
-     * Returns the current progress along the path 
-     * @returns The current progress 
-     */
-    GetCursorPosition(): number;
-    
-    /**
-     * Returns the path end position 
-     * @returns The end position 
-     */
-    GetEnd(): Vector;
-    
-    /**
-     *  
-     * @returns  
-     */
-    GetHindrance(): Entity;
-    
-    /**
-     * Returns the total length of the path 
-     * @returns The length of the path 
-     */
-    GetLength(): number;
-    
-    /**
-     * Returns the vector position of distance along path 
-     * @param distance The distance along the path to query 
-     * @returns The position 
-     */
-    GetPositionOnPath(distance: number): Vector;
-    
-    /**
-     * Returns the path start position 
-     * @returns The start position 
-     */
-    GetStart(): Vector;
-    
-    /**
-     * Invalidates the current path 
-     */
-    Invalidate(): void;
-    
-    /**
-     * Returns true if the path is valid 
-     */
-    IsValid(): void;
-    
-    /**
-     * Returns the last segment of the path. 
-     * @returns A table with {{Struct|PathSegment}}. 
-     */
-    LastSegment(): PathSegment;
-    
-    /**
-     * Moves the cursor by give distance.
-     * 
-     * For a function that sets the distance, see {{ClassFunction|PathFollower|MoveCursorTo}}. 
-     * @param distance The distance to move the cursor (in relative world units) 
-     */
-    MoveCursor(distance: number): void;
-    
-    /**
-     * Sets the cursor position to given distance.
-     * 
-     * For relative distance, see {{ClassFunction|PathFollower|MoveCursor}}. 
-     * @param distance The distance to move the cursor (in world units) 
-     */
-    MoveCursorTo(distance: number): void;
-    
-    /**
-     * Moves the cursor of the path to the closest position compared to given vector. 
-     * @param pos  
-     * @param type [=0] Seek type<br/>
-     * 0 = SEEK_ENTIRE_PATH - Search the entire path length<br/>
-     * 1 = SEEK_AHEAD - Search from current cursor position forward toward end of path<br/>
-     * 2 = SEEK_BEHIND - Search from current cursor position backward toward path start<br/>
-     * <br/> 
-     * @param alongLimit [=0]  
-     */
-    MoveCursorToClosestPosition(pos: Vector, type?: number, alongLimit?: number): void;
-    
-    /**
-     * Moves the cursor to the end of the path 
-     */
-    MoveCursorToEnd(): void;
-    
-    /**
-     * Moves the cursor to the end of the path 
-     */
-    MoveCursorToStart(): void;
-    
-    /**
-     * Resets the age which is retrieved by {{ClassFunction|PathFollower|GetAge}} to 0. 
-     */
-    ResetAge(): void;
-    
-    /**
-     * How close we can get to the goal to call it done 
-     * @param distance The distance we're setting it to 
-     */
-    SetGoalTolerance(distance: number): void;
-    
-    /**
-     * Sets minimum range movement goal must be along path 
-     * @param mindist The minimum look ahead distance 
-     */
-    SetMinLookAheadDistance(mindist: number): void;
-    
-    /**
-     * Move the bot along the path. 
-     * @param bot The bot to update along the path 
-     */
-    Update(bot: NextBot): void;
-}
-
-/**
- * A PhysCollide holds collision data from VPhysics. These objects can be used to run (currently quite limited) collision tests, but do not represent actual physics objects.
- * 
- * Created by {{GlobalFunction|CreatePhysCollideBox}} or {{GlobalFunction|CreatePhysCollidesFromModel}}. 
- */
-declare class PhysCollide {
-    /**
-     * Destroys the {{Type|PhysCollide}} object. 
-     */
-    Destroy(): void;
-    
-    /**
-     * Checks whether this {{Type|PhysCollide}} object is valid or not.
-     * 
-     * You should just use {{GlobalFunction|IsValid}} instead. 
-     * @returns Is valid or not. 
-     */
-    IsValid(): boolean;
-    
-    /**
-     * Performs a trace against this PhysCollide with the given parameters. This can be used for both line traces and box traces. 
-     * @param origin The origin for the PhysCollide during the trace 
-     * @param angles The angles for the PhysCollide during the trace 
-     * @param rayStart The start position of the trace 
-     * @param rayEnd The end position of the trace 
-     * @param rayMins The mins of the trace's bounds 
-     * @param rayMaxs The maxs of the trace's bounds 
-     * @returns [Hit position of the trace. This is false if the trace did not hit., Hit normal of the trace, Fraction of the trace. This is calculated from the distance between startPos, hitPos, and endPos.]
-     * !TupleReturn 
-     */
-    TraceBox(origin: Vector, angles: Angle, rayStart: Vector, rayEnd: Vector, rayMins: Vector, rayMaxs: Vector): [Vector, Vector, number];
-}
-
-/**
  * This is the object returned by {{ClassFunction|Entity|GetPhysicsObject}} and {{ClassFunction|Entity|GetPhysicsObjectNum}}.
  * 
  * It represents a physics object. 
@@ -57922,9 +57170,29 @@ declare class PhysObj {
 }
 
 /**
- * This is a list of all methods only available for players. It is also possible to call {{Type|Entity}} functions on the Player. 
+ * The widgets library.
+ * 
+ * Widgets allow the player to have mouse interaction with entities, such as being able to manipulate the [https://www.youtube.com/watch?v=O3gG0t39-pQ bones of an NPC]. 
  */
-declare class Player {
+declare namespace widgets {
+    /**
+     * {{Internal}} Automatically called to update all widgets. 
+     * @param ply The player 
+     * @param mv Player move data 
+     */
+    function PlayerTick(ply: Player, mv: CMoveData): void;
+    
+    /**
+     * Renders a widget. Normally you won't need to call this. 
+     * @param ent Widget entity to render 
+     */
+    function RenderMe(ent: Entity): void;
+}
+
+/**
+ * This is a list of all methods only available for players. It is also possible to call {{Type|Entity}} functions on the Player. 
+ * !CustomConstructor Player */
+declare class Player extends Entity {
     /**
      * Returns the player with the matching {{ClassFunction|Player|UserID}}.
      * 
@@ -58102,7 +57370,9 @@ declare class Player {
     /**
      * Runs the concommand on the player. This does not work on bots.
      * 
-     * If you wish to directly modify the movement input of bots, use {{HookFunction|GM|StartCommand}} instead. 
+     * If you wish to directly modify the movement input of bots, use {{HookFunction|GM|StartCommand}} instead.
+     * 
+     * {{Note|Some commands/convars are blocked from being ran/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [[Blocked ConCommands]].}} 
      * @param command command to run 
      */
     ConCommand(command: string): void;
@@ -59694,7 +58964,7 @@ declare class Player {
 
 /**
  * A client side projected texture, created by {{GlobalFunction|ProjectedTexture}}. 
- */
+ * !CustomConstructor ProjectedTexture */
 declare class ProjectedTexture {
     /**
      * Creates a new {{Type|ProjectedTexture}}. 
@@ -60224,7 +59494,7 @@ declare class Tool {
  * {{ClassField|number|y|The Y component of the vector}}
  * {{ClassField|number|z|The Z component of the vector}}
  * }} 
- */
+ * !CustomConstructor Vector */
 declare class Vector {
     /**
      * The X component of the vector 
@@ -60453,7 +59723,7 @@ declare class Vector {
 /**
  * This is a list of all methods only available for vehicles. It is also possible to call [http://wiki.garrysmod.com/index.php?title=Category:Entity Entity] functions on vehicles. 
  */
-declare class Vehicle {
+declare class Vehicle extends Entity {
     /**
      * Returns the remaining boosting time left. 
      * @returns The remaining boosting time left 
@@ -60772,8 +60042,14 @@ declare class Vehicle {
 /**
  * List of all possible functions to manipulate matrices.
  * This object can be created by {{GlobalFunction|Matrix}} 
- */
+ * !CustomConstructor Matrix */
 declare class VMatrix {
+    /**
+     * Returns a {{Type|VMatrix}} object. 
+     * @param data [={{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}] Initial data to initialize the matrix with. Leave empty to initialize an identity matrix. See examples for usage. 
+     */
+    constructor(data?: table);
+    
     /**
      * Returns the absolute rotation of the matrix. 
      * @returns Absolute rotation of the matrix 
@@ -60980,7 +60256,7 @@ declare class VMatrix {
 /**
  * This is a list of all methods only available for weapons. It is also possible to call [http://wiki.garrysmod.com/index.php?title=Category:Entity Entity] functions on weapons. 
  */
-declare class Weapon {
+declare class Weapon extends Entity {
     /**
      * Returns whether the weapon allows to being switched from when a better ( {{ClassFunction|Weapon|GetWeight}} ) weapon is being picked up. 
      * @returns Whether the weapon allows to being switched from. 
@@ -61596,4 +60872,915 @@ declare class Weapon {
      * @param ViewModel Players view model 
      */
     protected ViewModelDrawn(ViewModel: Entity): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * }} 
+ */
+declare class PanelList extends Panel {
+
+}
+
+/**
+ * {{Panel
+ * |Name=PresetEditor
+ * |Parent=DFrame
+ * |Description={{Internal}}A preset editor, which can be opened by {{Type|ControlPresets}}.
+ * 
+ * This control only exists in Sandbox derived gamemodes.
+ * }} 
+ */
+declare class PresetEditor extends DFrame {
+
+}
+
+/**
+ * {{Panel
+ * |Parent=ContextBase
+ * |Description=Used in sandbox tools
+ * }} 
+ */
+declare class PropSelect extends ContextBase {
+
+}
+
+/**
+ * {{Panel
+ * |Description={{Internal}}Currently broken?
+ * }} 
+ */
+declare class RadioButton {
+
+}
+
+/**
+ * {{Panel
+ * |Name=RichText
+ * |Parent=Panel
+ * |Preview=RichText_preview.png
+ * |Description=A very versatile text display element that's used to power the default chat and console.
+ * 
+ * Rich Text panels allows multicolored, highlight-able, and interactive text using individual text segment markup (segments are defined by the {{ClassFunction|Panel|AppendText}} method).
+ * }}
+ * {{Example
+ * |Description=Creates a Rich Text frame with 3 text segments.
+ * |Code=-- Window frame for containing text
+ * local frame = vgui.Create("DFrame")
+ * frame:SetSize(200, 150)
+ * frame:Center()
+ * frame:MakePopup()
+ * 
+ * -- Rich Text panel
+ * local richtext = vgui.Create( "RichText", frame )
+ * richtext:Dock( FILL )
+ * 
+ * -- Text segment #1 (grayish color)
+ * richtext:InsertColorChange(192, 192, 192, 255)
+ * richtext:AppendText("This \nRichText \nis \n")
+ * 
+ * -- Text segment #2 (light yellow)
+ * richtext:InsertColorChange(255, 255, 224, 255)
+ * richtext:AppendText("AWESOME\n\n")
+ * 
+ * -- Text segment #3 (red ESRB notice localized string)
+ * richtext:InsertColorChange(255, 64, 64, 255)
+ * richtext:AppendText("#ServerBrowser_ESRBNotice")
+ * }} 
+ */
+declare class RichText extends Panel {
+    /**
+     * Appends text to a {{Type|RichText}} element. This does not automatically add a new line.
+     * 
+     * [[Category:RichText]] 
+     * @param txt The text to append (add on). 
+     */
+    AppendText(txt: string): void;
+    
+    /**
+     * Appends text to a {{Type|RichText}} element. This does not automatically add a new line.
+     * 
+     * [[Category:RichText]] 
+     * @param txt The text to append (add on). 
+     */
+    AppendText(txt: string): void;
+    
+    /**
+     * Returns the number of lines in a {{Type|RichText}}. You must wait a couple frames before calling this after using {{ClassFunction|Panel|AppendText}} or {{ClassFunction|Panel|SetText}}, otherwise it will return the number of text lines before the text change.
+     * 
+     * {{Note|Even though this function can be called on any panel, it will only work with {{Type|RichText}}}}
+     * 
+     * [[Category:RichText]] 
+     * @returns The number of lines. 
+     */
+    GetNumLines(): number;
+    
+    /**
+     * Returns the number of lines in a {{Type|RichText}}. You must wait a couple frames before calling this after using {{ClassFunction|Panel|AppendText}} or {{ClassFunction|Panel|SetText}}, otherwise it will return the number of text lines before the text change.
+     * 
+     * {{Note|Even though this function can be called on any panel, it will only work with {{Type|RichText}}}}
+     * 
+     * [[Category:RichText]] 
+     * @returns The number of lines. 
+     */
+    GetNumLines(): number;
+    
+    /**
+     * Causes a {{Type|RichText}} element to scroll to the bottom of its text.
+     * 
+     * [[Category:RichText]] 
+     */
+    GotoTextEnd(): void;
+    
+    /**
+     * Causes a {{Type|RichText}} element to scroll to the bottom of its text.
+     * 
+     * [[Category:RichText]] 
+     */
+    GotoTextEnd(): void;
+    
+    /**
+     * Causes a {{Type|RichText}} element to scroll to the top of its text.
+     * 
+     * {{Bug|Issue=2239|This does not work on the same frame as {{ClassFunction|Panel|SetText}}.}}
+     * 
+     * [[Category:RichText]] 
+     */
+    GotoTextStart(): void;
+    
+    /**
+     * Causes a {{Type|RichText}} element to scroll to the top of its text.
+     * 
+     * {{Bug|Issue=2239|This does not work on the same frame as {{ClassFunction|Panel|SetText}}.}}
+     * 
+     * [[Category:RichText]] 
+     */
+    GotoTextStart(): void;
+    
+    /**
+     * Marks the end of a clickable text segment in a {{Type|RichText}} element, started with {{ClassFunction|Panel|InsertClickableTextStart}}.
+     * 
+     * [[Category:RichText]] 
+     */
+    InsertClickableTextEnd(): void;
+    
+    /**
+     * Marks the end of a clickable text segment in a {{Type|RichText}} element, started with {{ClassFunction|Panel|InsertClickableTextStart}}.
+     * 
+     * [[Category:RichText]] 
+     */
+    InsertClickableTextEnd(): void;
+    
+    /**
+     * Starts the insertion of clickable text for a {{Type|RichText}} element. Any text appended with {{ClassFunction|Panel|AppendText}} between this call and {{ClassFunction|Panel|InsertClickableTextEnd}} will become clickable text.
+     * 
+     * The hook {{HookFunction|PANEL|ActionSignal}} is called when the text is clicked, with "TextClicked" as the signal name and ''signalValue'' as the signal value.
+     * 
+     * {{Note|The clickable text is a separate Derma panel which will not inherit the current font from the ''RichText''.}}
+     * [[Category:RichText]] 
+     * @param signalValue The text passed as the action signal's value. 
+     */
+    InsertClickableTextStart(signalValue: string): void;
+    
+    /**
+     * Starts the insertion of clickable text for a {{Type|RichText}} element. Any text appended with {{ClassFunction|Panel|AppendText}} between this call and {{ClassFunction|Panel|InsertClickableTextEnd}} will become clickable text.
+     * 
+     * The hook {{HookFunction|PANEL|ActionSignal}} is called when the text is clicked, with "TextClicked" as the signal name and ''signalValue'' as the signal value.
+     * 
+     * {{Note|The clickable text is a separate Derma panel which will not inherit the current font from the ''RichText''.}}
+     * [[Category:RichText]] 
+     * @param signalValue The text passed as the action signal's value. 
+     */
+    InsertClickableTextStart(signalValue: string): void;
+    
+    /**
+     * Inserts a color change in a {{Type|RichText}} element, which affects the color of all text added with {{ClassFunction|Panel|AppendText}} until another color change is applied.
+     * [[Category:RichText]] 
+     * @param r The red value (0 - 255). 
+     * @param g The green value (0 - 255). 
+     * @param b The blue value (0 - 255). 
+     * @param a The alpha value (0 - 255). 
+     */
+    InsertColorChange(r: number, g: number, b: number, a: number): void;
+    
+    /**
+     * Inserts a color change in a {{Type|RichText}} element, which affects the color of all text added with {{ClassFunction|Panel|AppendText}} until another color change is applied.
+     * [[Category:RichText]] 
+     * @param r The red value (0 - 255). 
+     * @param g The green value (0 - 255). 
+     * @param b The blue value (0 - 255). 
+     * @param a The alpha value (0 - 255). 
+     */
+    InsertColorChange(r: number, g: number, b: number, a: number): void;
+    
+    /**
+     * Begins a text fade for a {{Type|RichText}} element where the last appended text segment is fully faded out after a specific amount of time, at a specific speed.
+     * 
+     * The alpha of the text at any given time is determined by the text's base alpha * ((''sustain'' - {{GlobalFunction|CurTime}}) / ''length'') where {{GlobalFunction|CurTime}} is added to ''sustain'' when this method is called.
+     * 
+     * [[Category:RichText]] 
+     * @param sustain The number of seconds the text remains visible. 
+     * @param length The number of seconds it takes the text to fade out.
+     * 
+     * If set '''lower''' than ''sustain'', the text will not begin fading out until (''sustain'' - ''length'') seconds have passed.
+     * 
+     * If set '''higher''' than ''sustain'', the text will begin fading out immediately at a fraction of the base alpha.
+     * 
+     * If set to '''-1''', the text doesn't fade out. 
+     */
+    InsertFade(sustain: number, length: number): void;
+    
+    /**
+     * Begins a text fade for a {{Type|RichText}} element where the last appended text segment is fully faded out after a specific amount of time, at a specific speed.
+     * 
+     * The alpha of the text at any given time is determined by the text's base alpha * ((''sustain'' - {{GlobalFunction|CurTime}}) / ''length'') where {{GlobalFunction|CurTime}} is added to ''sustain'' when this method is called.
+     * 
+     * [[Category:RichText]] 
+     * @param sustain The number of seconds the text remains visible. 
+     * @param length The number of seconds it takes the text to fade out.
+     * 
+     * If set '''lower''' than ''sustain'', the text will not begin fading out until (''sustain'' - ''length'') seconds have passed.
+     * 
+     * If set '''higher''' than ''sustain'', the text will begin fading out immediately at a fraction of the base alpha.
+     * 
+     * If set to '''-1''', the text doesn't fade out. 
+     */
+    InsertFade(sustain: number, length: number): void;
+    
+    /**
+     * Resets all text fades in a {{Type|RichText}} element made with {{ClassFunction|Panel|InsertFade}}.
+     * [[Category:RichText]] 
+     * @param hold True to reset fades, false otherwise. 
+     * @param expiredOnly Any value equating to ''true'' will reset fades only on text segments that are completely faded out. 
+     * @param newSustain The new sustain value of each faded text segment. Set to -1 to keep the old sustain value. 
+     */
+    ResetAllFades(hold: boolean, expiredOnly: boolean, newSustain: number): void;
+    
+    /**
+     * Resets all text fades in a {{Type|RichText}} element made with {{ClassFunction|Panel|InsertFade}}.
+     * [[Category:RichText]] 
+     * @param hold True to reset fades, false otherwise. 
+     * @param expiredOnly Any value equating to ''true'' will reset fades only on text segments that are completely faded out. 
+     * @param newSustain The new sustain value of each faded text segment. Set to -1 to keep the old sustain value. 
+     */
+    ResetAllFades(hold: boolean, expiredOnly: boolean, newSustain: number): void;
+    
+    /**
+     * Sets the font used to render this panel's text.
+     * 
+     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
+     * 
+     * [[Category:Label]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]] 
+     * @param fontName The name of the font.
+     * 
+     * See [[Default_Fonts|here]] for a list of existing fonts.
+     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
+     */
+    SetFontInternal(fontName: string): void;
+    
+    /**
+     * Sets the font used to render this panel's text.
+     * 
+     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
+     * 
+     * [[Category:Label]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]] 
+     * @param fontName The name of the font.
+     * 
+     * See [[Default_Fonts|here]] for a list of existing fonts.
+     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
+     */
+    SetFontInternal(fontName: string): void;
+    
+    /**
+     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
+     * 
+     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
+     * [[Category:Label]]
+     * [[Category:DLabel]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]]
+     * [[Category:DTree_Node]] 
+     * @param text The text value to set. 
+     */
+    SetText(text: string): void;
+    
+    /**
+     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
+     * 
+     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
+     * [[Category:Label]]
+     * [[Category:DLabel]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]]
+     * [[Category:DTree_Node]] 
+     * @param text The text value to set. 
+     */
+    SetText(text: string): void;
+    
+    /**
+     * Sets the height of a {{Type|RichText}} element to accommodate the text inside.
+     * 
+     * {{Note|This function internally relies on {{ClassFunction|Panel|GetNumLines}}, so it should be called at least a couple frames after modifying the text using {{ClassFunction|Panel|AppendText}}}}
+     * 
+     * [[Category:RichText]] 
+     */
+    SetToFullHeight(): void;
+    
+    /**
+     * Sets the height of a {{Type|RichText}} element to accommodate the text inside.
+     * 
+     * {{Note|This function internally relies on {{ClassFunction|Panel|GetNumLines}}, so it should be called at least a couple frames after modifying the text using {{ClassFunction|Panel|AppendText}}}}
+     * 
+     * [[Category:RichText]] 
+     */
+    SetToFullHeight(): void;
+    
+    /**
+     * Sets the visibility of the vertical scrollbar.
+     * 
+     * Works for {{Type|RichText}} and {{Type|TextEntry}}.
+     * 
+     * [[Category:RichText]]
+     * [[Category:TextEntry]] 
+     * @param display [=false] True to display the vertical text scroll bar, false to hide it. 
+     */
+    SetVerticalScrollbarEnabled(display?: boolean): void;
+    
+    /**
+     * Sets the visibility of the vertical scrollbar.
+     * 
+     * Works for {{Type|RichText}} and {{Type|TextEntry}}.
+     * 
+     * [[Category:RichText]]
+     * [[Category:TextEntry]] 
+     * @param display [=false] True to display the vertical text scroll bar, false to hide it. 
+     */
+    SetVerticalScrollbarEnabled(display?: boolean): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * }} 
+ */
+declare class SlideBar extends Panel {
+
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * |Preview=SliderExample.png
+ * |Description={{Deprecated|Only exists for backwards compatibility with {{ClassFunction|Panel|SetActionFunction}} and {{ClassFunction|Panel|PostMessage}}. Use {{Type|DNumSlider}} instead.}}A simple slider featuring an numeric display.
+ * }}
+ * {{Example
+ * |Description=Creates a slider atop a DFrame which prints its value as it's being dragged.
+ * |Code=local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 280, 70 )
+ * frame:Center()
+ * frame:SetTitle( "Bilderberg Group Dollar Value Slider" )
+ * frame:MakePopup()
+ * 
+ * local DermaSlider = vgui.Create("Slider", frame)
+ * DermaSlider:SetPos( 0, 30 ) 
+ * DermaSlider:SetWide( 100 )
+ * DermaSlider:SetMin( 0 )
+ * DermaSlider:SetMax( 1.0 )
+ * DermaSlider:SetValue( 0.5 )
+ * DermaSlider:SetDecimals( 2 )
+ * DermaSlider.OnValueChanged = function( panel, value )
+ * 	print( tostring( value ) )
+ * end
+ * }} 
+ */
+declare class Slider extends Panel {
+    /**
+     * {{Deprecated|Only used in deprecated Derma controls.}}Sends a command to the panel.
+     * [[Category:Slider]] 
+     * @param messageName The name of the message. 
+     * @param valueType The type of the variable to post. 
+     * @param value The value to post. 
+     */
+    PostMessage(messageName: string, valueType: string, value: string): void;
+    
+    /**
+     * {{Deprecated|Only used in deprecated Derma controls.}}Sends a command to the panel.
+     * [[Category:Slider]] 
+     * @param messageName The name of the message. 
+     * @param valueType The type of the variable to post. 
+     * @param value The value to post. 
+     */
+    PostMessage(messageName: string, valueType: string, value: string): void;
+    
+    /**
+     * {{Deprecated|Only used in deprecated Derma controls.}}
+     * Used in {{Type|Button}} to call a function when the button is clicked and in {{Type|Slider}} when the value changes.
+     * [[Category:Button]]
+     * [[Category:Slider]] 
+     * @param func Function to call when the {{Type|Button}} is clicked or the {{Type|Slider}} value is changed.
+     * 
+     * Arguments given are:
+     * * {{FuncArg|Panel|self|The panel itself}}
+     * * {{FuncArg|string|action|"Command" on button press, "SliderMoved" on slider move.}}
+     * * {{FuncArg|number|val|The new value of the {{Type|Slider}}. Will always equal 0 for buttons.}}
+     * * {{FuncArg|number||Always equals 0.}} 
+     */
+    SetActionFunction(func: Function): void;
+    
+    /**
+     * {{Deprecated|Only used in deprecated Derma controls.}}
+     * Used in {{Type|Button}} to call a function when the button is clicked and in {{Type|Slider}} when the value changes.
+     * [[Category:Button]]
+     * [[Category:Slider]] 
+     * @param func Function to call when the {{Type|Button}} is clicked or the {{Type|Slider}} value is changed.
+     * 
+     * Arguments given are:
+     * * {{FuncArg|Panel|self|The panel itself}}
+     * * {{FuncArg|string|action|"Command" on button press, "SliderMoved" on slider move.}}
+     * * {{FuncArg|number|val|The new value of the {{Type|Slider}}. Will always equal 0 for buttons.}}
+     * * {{FuncArg|number||Always equals 0.}} 
+     */
+    SetActionFunction(func: Function): void;
+}
+
+/**
+ * {{Panel
+ * |Name=SpawnIcon
+ * |Parent=DButton
+ * |Preview=SpawnIcon.jpg
+ * |Description=A SpawnIcon displays an image for the given model path. It is mostly used in the Spawn Menu (Q).
+ * }}
+ * {{Example
+ * |Description=Creates a DFrame with a SpawnIcon inside.
+ * |Code=local Panel = vgui.Create( "DFrame" ) -- Main Frame
+ * Panel:SetPos( 200, 200 )
+ * Panel:SetSize( 200, 200 )
+ * Panel:SetTitle( "Spawn Icon Test" )
+ * Panel:SetVisible( true )
+ * Panel:SetDraggable( false )
+ * Panel:ShowCloseButton( true )
+ * Panel:MakePopup()
+ * 
+ * local SpawnI = vgui.Create( "SpawnIcon" , Panel ) -- SpawnIcon
+ * SpawnI:SetPos( 75, 75 )
+ * SpawnI:SetModel( "models/props_borealis/bluebarrel001.mdl" ) -- Model we want for this spawn icon
+ * }} 
+ */
+declare class SpawnIcon extends DButton {
+    /**
+     * Causes a {{Type|SpawnIcon}} to rebuild its model image.
+     * [[Category:ModelImage]][[Category:SpawnIcon]] 
+     */
+    RebuildSpawnIcon(): void;
+    
+    /**
+     * Re-renders a spawn icon with customized cam data.
+     * 
+     * {{Note|This function does '''not''' accept the standard {{Struct|CamData}}.}}
+     * [[Category:ModelImage]][[Category:SpawnIcon]] 
+     * @param data A four-membered table containing the information needed to re-render:
+     * * {{FuncArg|Vector|cam_pos|The relative camera position the model is viewed from.}}
+     * * {{FuncArg|Angle|cam_ang|The camera angle the model is viewed from.}}
+     * * {{FuncArg|number|cam_fov|The camera's field of view (FOV).}}
+     * * {{FuncArg|Entity|ent|The entity object of the model.}}
+     * See the example below for how to retrieve these values. 
+     */
+    RebuildSpawnIconEx(data: table): void;
+    
+    /**
+     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the model to be displayed by {{Type|SpawnIcon}}.[[Category:SpawnIcon]] 
+     * @param ModelPath The path of the model to set 
+     * @param skin [=0] The skin to set 
+     * @param bodygroups [=""] The body groups to set. Each single-digit number in the string represents a separate bodygroup. '''This make it impossible to set any body group to a value higher than 9!''' 
+     */
+    SetModel(ModelPath: string, skin?: number, bodygroups?: string): void;
+    
+    /**
+     * [[Category:ModelImage]][[Category:SpawnIcon]]Sets the [[Silkicons|silkicon]] of a panel object such as a {{Type|SpawnIcon}} and {{Type|ModelImage}}. 
+     * @param icon The [[Silkicons|silkicon]] to use. 
+     */
+    SetSpawnIcon(icon: string): void;
+}
+
+/**
+ * {{Panel
+ * |Name=TextEntry
+ * |Parent=Panel
+ * |Description=Basic text input field.
+ * }} 
+ */
+declare class TextEntry extends Panel {
+    /**
+     * Performs the "CONTROL + C" key combination effect ( Copy selection to clipboard ) on selected text.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    CopySelected(): void;
+    
+    /**
+     * Performs the "CONTROL + C" key combination effect ( Copy selection to clipboard ) on selected text.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    CopySelected(): void;
+    
+    /**
+     * Performs the "CONTROL + X" ( delete text and copy it to clipboard buffer ) action on selected text.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    CutSelected(): void;
+    
+    /**
+     * Performs the "CONTROL + X" ( delete text and copy it to clipboard buffer ) action on selected text.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    CutSelected(): void;
+    
+    /**
+     * Used to draw the text in a {{Type|DTextEntry}} within a derma skin. This should be called within the {{HookFunction|SKIN|PaintTextEntry}} skin hook.
+     * 
+     * [[Category:TextEntry]] 
+     * @param textCol The colour of the main text. 
+     * @param highlightCol The colour of the selection highlight (when selecting text). 
+     * @param cursorCol The colour of the text cursor (or caret). 
+     */
+    DrawTextEntryText(textCol: table, highlightCol: table, cursorCol: table): void;
+    
+    /**
+     * Used to draw the text in a {{Type|DTextEntry}} within a derma skin. This should be called within the {{HookFunction|SKIN|PaintTextEntry}} skin hook.
+     * 
+     * [[Category:TextEntry]] 
+     * @param textCol The colour of the main text. 
+     * @param highlightCol The colour of the selection highlight (when selecting text). 
+     * @param cursorCol The colour of the text cursor (or caret). 
+     */
+    DrawTextEntryText(textCol: table, highlightCol: table, cursorCol: table): void;
+    
+    /**
+     * Returns the position/offset of the caret (or text cursor) in a text-based panel object.
+     * 
+     * [[Category:TextEntry]] 
+     * @returns The caret position/offset from the start of the text. A value of ''0'' means the caret sits before the first character. 
+     */
+    GetCaretPos(): number;
+    
+    /**
+     * Returns the position/offset of the caret (or text cursor) in a text-based panel object.
+     * 
+     * [[Category:TextEntry]] 
+     * @returns The caret position/offset from the start of the text. A value of ''0'' means the caret sits before the first character. 
+     */
+    GetCaretPos(): number;
+    
+    /**
+     * Determines whether or not a text-based panel object, such as a {{Type|DTextEntry}}, is in multi-line mode. This is set with {{ClassFunction|Panel|SetMultiline}}.
+     * 
+     * [[Category:TextEntry]] 
+     * @returns Whether the object is in multi-line mode or not. 
+     */
+    IsMultiline(): boolean;
+    
+    /**
+     * Determines whether or not a text-based panel object, such as a {{Type|DTextEntry}}, is in multi-line mode. This is set with {{ClassFunction|Panel|SetMultiline}}.
+     * 
+     * [[Category:TextEntry]] 
+     * @returns Whether the object is in multi-line mode or not. 
+     */
+    IsMultiline(): boolean;
+    
+    /**
+     * {{Warning|Due to privacy concerns, this function has been disabled}}
+     * 
+     * Only works for TextEntries.
+     * 
+     * Pastes the contents of the clipboard into the TextEntry.
+     * 
+     * {{Note|Tab characters will be dropped from the pasted text}}
+     * 
+     * [[Category:TextEntry]] 
+     */
+    Paste(): void;
+    
+    /**
+     * {{Warning|Due to privacy concerns, this function has been disabled}}
+     * 
+     * Only works for TextEntries.
+     * 
+     * Pastes the contents of the clipboard into the TextEntry.
+     * 
+     * {{Note|Tab characters will be dropped from the pasted text}}
+     * 
+     * [[Category:TextEntry]] 
+     */
+    Paste(): void;
+    
+    /**
+     * Saves the current state (caret position and the text inside) of a {{Type|TextEntry}} as an undo state.
+     * 
+     * See also {{ClassFunction|Panel|Undo}}.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    SaveUndoState(): void;
+    
+    /**
+     * Saves the current state (caret position and the text inside) of a {{Type|TextEntry}} as an undo state.
+     * 
+     * See also {{ClassFunction|Panel|Undo}}.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    SaveUndoState(): void;
+    
+    /**
+     * Selects all items within a panel or object. For text-based objects, selects all text.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    SelectAll(): void;
+    
+    /**
+     * Selects all items within a panel or object. For text-based objects, selects all text.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    SelectAll(): void;
+    
+    /**
+     * If called on a text entry, clicking the text entry for the first time will automatically select all of the text ready to be copied by the user.
+     * [[Category:TextEntry]] 
+     */
+    SelectAllOnFocus(): void;
+    
+    /**
+     * If called on a text entry, clicking the text entry for the first time will automatically select all of the text ready to be copied by the user.
+     * [[Category:TextEntry]] 
+     */
+    SelectAllOnFocus(): void;
+    
+    /**
+     * Selects all the text in a panel object. Will not select non-text items; for this, use {{ClassFunction|Panel|SelectAll}}.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    SelectAllText(): void;
+    
+    /**
+     * Selects all the text in a panel object. Will not select non-text items; for this, use {{ClassFunction|Panel|SelectAll}}.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    SelectAllText(): void;
+    
+    /**
+     * Deselects all items in a panel object. For text-based objects, this will deselect all text.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    SelectNone(): void;
+    
+    /**
+     * Deselects all items in a panel object. For text-based objects, this will deselect all text.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    SelectNone(): void;
+    
+    /**
+     * Configures a text input to allow user to type characters that are not included in the US-ASCII (7-bit ASCII) character set.
+     * 
+     * Characters not included in US-ASCII are multi-byte characters in UTF-8. They can be accented characters, non-Latin characters and special characters.
+     * 
+     * [[Category:TextEntry]] 
+     * @param allowed Set to true in order not to restrict input characters. 
+     */
+    SetAllowNonAsciiCharacters(allowed: boolean): void;
+    
+    /**
+     * Configures a text input to allow user to type characters that are not included in the US-ASCII (7-bit ASCII) character set.
+     * 
+     * Characters not included in US-ASCII are multi-byte characters in UTF-8. They can be accented characters, non-Latin characters and special characters.
+     * 
+     * [[Category:TextEntry]] 
+     * @param allowed Set to true in order not to restrict input characters. 
+     */
+    SetAllowNonAsciiCharacters(allowed: boolean): void;
+    
+    /**
+     * Sets the position of the caret (or text cursor) in a text-based panel object.
+     * 
+     * [[Category:TextEntry]] 
+     * @param offset Caret position/offset from the start of text. A value of ''0'' places the caret before the first character. 
+     */
+    SetCaretPos(offset: number): void;
+    
+    /**
+     * Sets the position of the caret (or text cursor) in a text-based panel object.
+     * 
+     * [[Category:TextEntry]] 
+     * @param offset Caret position/offset from the start of text. A value of ''0'' places the caret before the first character. 
+     */
+    SetCaretPos(offset: number): void;
+    
+    /**
+     * Sets the visibility of the language selection box in a TextEntry when typing in non-English mode.
+     * 
+     * See {{ClassFunction|Panel|SetDrawLanguageIDAtLeft}} for a function that changes the position of the language selection box.
+     * 
+     * [[Category:TextEntry]] 
+     * @param visible true to make it visible, false to hide it. 
+     */
+    SetDrawLanguageID(visible: boolean): void;
+    
+    /**
+     * Sets the visibility of the language selection box in a TextEntry when typing in non-English mode.
+     * 
+     * See {{ClassFunction|Panel|SetDrawLanguageIDAtLeft}} for a function that changes the position of the language selection box.
+     * 
+     * [[Category:TextEntry]] 
+     * @param visible true to make it visible, false to hide it. 
+     */
+    SetDrawLanguageID(visible: boolean): void;
+    
+    /**
+     * Sets where to draw the language selection box.
+     * 
+     * See {{ClassFunction|Panel|SetDrawLanguageID}} for a function that hides or shows the language selection box.
+     * 
+     * [[Category:TextEntry]] 
+     * @param left true = left, false = right 
+     */
+    SetDrawLanguageIDAtLeft(left: boolean): void;
+    
+    /**
+     * Sets where to draw the language selection box.
+     * 
+     * See {{ClassFunction|Panel|SetDrawLanguageID}} for a function that hides or shows the language selection box.
+     * 
+     * [[Category:TextEntry]] 
+     * @param left true = left, false = right 
+     */
+    SetDrawLanguageIDAtLeft(left: boolean): void;
+    
+    /**
+     * Sets the font used to render this panel's text.
+     * 
+     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
+     * 
+     * [[Category:Label]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]] 
+     * @param fontName The name of the font.
+     * 
+     * See [[Default_Fonts|here]] for a list of existing fonts.
+     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
+     */
+    SetFontInternal(fontName: string): void;
+    
+    /**
+     * Sets the font used to render this panel's text.
+     * 
+     * To retrieve the font used by a panel, call {{ClassFunction|Panel|GetFont}}.
+     * 
+     * [[Category:Label]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]] 
+     * @param fontName The name of the font.
+     * 
+     * See [[Default_Fonts|here]] for a list of existing fonts.
+     * Alternatively, use {{LibraryFunction|surface|CreateFont}} to create your own custom font. 
+     */
+    SetFontInternal(fontName: string): void;
+    
+    /**
+     * Enables or disables the multi-line functionality of a text object, such as a {{Type|DTextEntry}}.
+     * 
+     * [[Category:TextEntry]] 
+     * @param multiline Whether to enable multiline or not. 
+     */
+    SetMultiline(multiline: boolean): void;
+    
+    /**
+     * Enables or disables the multi-line functionality of a text object, such as a {{Type|DTextEntry}}.
+     * 
+     * [[Category:TextEntry]] 
+     * @param multiline Whether to enable multiline or not. 
+     */
+    SetMultiline(multiline: boolean): void;
+    
+    /**
+     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
+     * 
+     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
+     * [[Category:Label]]
+     * [[Category:DLabel]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]]
+     * [[Category:DTree_Node]] 
+     * @param text The text value to set. 
+     */
+    SetText(text: string): void;
+    
+    /**
+     * Sets the text value of a panel object containing text, such as a {{Type|Label}}, {{Type|TextEntry}} or  {{Type|RichText}} and their derivatives, such as {{Type|DLabel}}, {{Type|DTextEntry}} or {{Type|DButton}}.
+     * 
+     * {{Warning|When used on a {{Type|Label}} or its derivatives ( {{Type|DLabel}} and {{Type|DButton}} ), it will automatically call {{ClassFunction|Panel|InvalidateLayout}}, meaning that you should avoid running this function every frame on these panels to avoid unnecessary performance loss.}}
+     * [[Category:Label]]
+     * [[Category:DLabel]]
+     * [[Category:TextEntry]]
+     * [[Category:RichText]]
+     * [[Category:DTree_Node]] 
+     * @param text The text value to set. 
+     */
+    SetText(text: string): void;
+    
+    /**
+     * Sets the visibility of the vertical scrollbar.
+     * 
+     * Works for {{Type|RichText}} and {{Type|TextEntry}}.
+     * 
+     * [[Category:RichText]]
+     * [[Category:TextEntry]] 
+     * @param display [=false] True to display the vertical text scroll bar, false to hide it. 
+     */
+    SetVerticalScrollbarEnabled(display?: boolean): void;
+    
+    /**
+     * Sets the visibility of the vertical scrollbar.
+     * 
+     * Works for {{Type|RichText}} and {{Type|TextEntry}}.
+     * 
+     * [[Category:RichText]]
+     * [[Category:TextEntry]] 
+     * @param display [=false] True to display the vertical text scroll bar, false to hide it. 
+     */
+    SetVerticalScrollbarEnabled(display?: boolean): void;
+    
+    /**
+     * Restores the last saved state (caret position and the text inside) of a {{Type|TextEntry}}. Should act identically to pressing CTRL+Z in a {{Type|TextEntry}}.
+     * 
+     * See also {{ClassFunction|Panel|SaveUndoState}}.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    Undo(): void;
+    
+    /**
+     * Restores the last saved state (caret position and the text inside) of a {{Type|TextEntry}}. Should act identically to pressing CTRL+Z in a {{Type|TextEntry}}.
+     * 
+     * See also {{ClassFunction|Panel|SaveUndoState}}.
+     * 
+     * [[Category:TextEntry]] 
+     */
+    Undo(): void;
+}
+
+/**
+ * {{Panel
+ * |Parent=Panel
+ * |Description=A panel capable of loading .tga images.
+ * }}
+ * {{Example
+ * |Description=Creates a TGAImage panel and loads the image defined by line 4.
+ * |Code=local panel = vgui.Create( "DFrame" )
+ * panel:SetSize( 500, 500 )
+ * panel:MakePopup()
+ * panel:Center()
+ * 
+ * local image = vgui.Create( "TGAImage", panel )
+ * image:SetSize( 32, 32 )
+ * image:SetPos( 50, 50 )
+ * image:LoadTGAImage( "materials/addon.tga", "" )
+ * 
+ * }} 
+ */
+declare class TGAImage extends Panel {
+    /**
+     * @param imageName The file path. 
+     * @param strPath The PATH to search in. See [[File Search Paths]].
+     * 
+     * This isn't used internally. 
+     */
+    LoadTGAImage(imageName: string, strPath: string): void;
+}
+
+/**
+ * {{Panel
+ * |Name=URLLabel
+ * |Description=A panel similar to {{Type|Label}} used by {{Type|DLabelURL}}.
+ * }} 
+ */
+declare class URLLabel {
+    /**
+     * [[Category:DLabelURL]][[Category:URLLabel]]Sets the URL of a link-based panel such as {{Type|DLabelURL}}. 
+     * @param url The URL to set. This '''must''' begin with ''<nowiki>http://</nowiki>''. 
+     */
+    SetURL(url: string): void;
 }

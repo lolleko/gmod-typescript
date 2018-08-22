@@ -77,7 +77,22 @@ namespace gmod_typescript
 
         public string StructuresToString()
         {
-            return string.Join("\n", structList);
+            var renamedStructList = structList.Select(structure =>
+            {
+                switch (structure.Name)
+                {
+                    case "ENT":
+                        structure.Name = "Entity";
+                        break;
+                    case "SWEP":
+                        structure.Name = "Weapon";
+                        break;
+                }
+                return structure;
+            }).ToList();
+            // SWEP is used as standalone table in soem places so readd it
+            renamedStructList.Add(new StructureArticle("Structures/SWEP"));
+            return string.Join("\n", renamedStructList);
         }
 
         public string ClassesToString()
@@ -215,6 +230,10 @@ namespace gmod_typescript
                 { "Vehicle", "Entity" },
                 { "CSEnt", "Entity" },
             };
+            ModifyFunctionsIfTitleContainedInDict(extendsMap, (funcCat, newParent) =>
+            {
+                funcCat.Extends = newParent;
+            });
 
             // Create Custom Constructors
             var customConstructors = new Dictionary<string, string>
@@ -224,11 +243,15 @@ namespace gmod_typescript
                 { "DLabel", "Label" },
                 { "Vector", "Vector" },
                 { "Angle", "Angle" },
+                { "VMatrix", "Matrix" },
+                { "IMesh", "Mesh" },
                 { "IMaterial", "Material" },
                 { "ProjectedTexture", "ProjectedTexture" },
                 { "CDamageInfo", "DamageInfo" },
-
-
+                { "CNewParticleEffect", "CreateParticleSystem" },
+                { "PhysCollide", "CreatePhysCollideBox" },
+                { "CSoundPatch", "CreateSound" },
+                { "DSprite", "CreateSprite" }
             };
 
             ModifyFunctionsIfTitleContainedInDict(customConstructors, (funcCat, constructorName) =>
@@ -241,6 +264,7 @@ namespace gmod_typescript
                 customConstructor.PrependFunc = false;
                 customConstructor.Returns = null;
                 funcCat.WikiFunctions.Insert(0, customConstructor);
+                funcCat.CustomConstructor = constructorName;
                 globalCat.WikiFunctions.Remove(customConstructor);
             });
 

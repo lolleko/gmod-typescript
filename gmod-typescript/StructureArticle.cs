@@ -8,9 +8,12 @@ namespace gmod_typescript
     {
         public StructureTemplate Structure { get; set; }
 
+        public string Name { get; set; }
+
         public StructureArticle(string url) : base(url)
         {
             Structure = GetTemplate<StructureTemplate>("Structure");
+            Name = Title;
         }
 
         public override string ToString()
@@ -18,7 +21,7 @@ namespace gmod_typescript
             string result = "/**\n";
             result += Structure.ToDocString();
             result += " */\n";
-            result += $"interface {Title} {{\n";
+            result += $"interface {Name} {{\n";
             result += Structure + "\n";
             result += "}\n";
 
