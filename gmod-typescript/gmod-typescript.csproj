@@ -23,4 +23,16 @@
       <HintPath>System</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Serialization\" />
+    <Folder Include="Templates\" />
+    <Folder Include="Articles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="AccessModifier.cs" />
+    <Compile Remove="FunctionCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="TypescriptAdditions.json" />
+  </ItemGroup>
 </Project>

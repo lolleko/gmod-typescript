@@ -19,37 +19,16 @@ namespace gmod_typescript
             Directory.CreateDirectory("../out");
             Directory.CreateDirectory("../wikiData");
 
-            WriteResults();
+            var x = new Scrapper();
+            var trans = new TransformerTypescript(false);
+            var seri = new SerializerTypescript();
 
-            Console.WriteLine("done");
-        }
+            File.WriteAllText("../out/index.json", JsonType.Serialize.ToJson(trans.Transform(x.Data)));
 
-        public static void WriteResults()
-        {
-            var funcCollection = new FunctionCollection();
-            var taskList = new List<Task>();
 
-            taskList.Add(funcCollection.AddEnumerations());
-            taskList.Add(funcCollection.AddStructures());
-            taskList.Add(funcCollection.AddPanels());
 
-            (string, CategoryType)[] categories = 
-            {
-                ("Class_Functions", CategoryType.Class),
-                ("Library_Functions", CategoryType.Library),
-                ("Hooks", CategoryType.Class),
-                ("Global", CategoryType.Global)
-            };
-
-            foreach (var cat in categories) {
-                taskList.Add(funcCollection.AddFunctionsFromCategory(cat.Item1, cat.Item2));
-            }
-
-           Task.WhenAll(taskList.ToArray()).Wait();
-
-            string extraData =
-@"interface table {
-    [key: string]: any;
+            string defaults = @"interface table {
+[key: string]: any;
 }
 type thread = any;
 type pixelvis_handle_t = any;
@@ -59,8 +38,13 @@ type sensor = any;
 type userdata = any;
 declare var SERVER: boolean;
 declare var CLIENT: boolean;
+declare var GM: Gamemode;
+declare var GAMEMODE: Gamemode;
 ";
-            File.WriteAllText("../out/index.d.ts", extraData + funcCollection.EnumsToString() + funcCollection.StructuresToString() + funcCollection.ClassesToString());
+
+            File.WriteAllText("../out/index.d.ts", defaults + seri.Serialize(x.Data, trans));
+
+            Console.WriteLine("done");
         }
     }
 }
