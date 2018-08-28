@@ -468,7 +468,25 @@ namespace gmod_typescript
                 }
                 else if (rawType == "table")
                 {
-                    escapedTypes.AddRange(regexToTypeList(@"{{Struct\|([\w\W]*?)}}"));
+                    if (description.Contains("table of tables", StringComparison.CurrentCultureIgnoreCase)) {
+                        escapedTypes.Add("table[]");
+                    }
+                    else if (description.Contains("table of", StringComparison.CurrentCultureIgnoreCase) || description.Contains("list of", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        var structTypes = regexToTypeList(@"{{Struct\|([\w\W]*?)}}");
+                        var types = regexToTypeList(@"{{Type\|([\w\W]*?)}}");
+
+                        if (structTypes.Count() > 0)
+                        {
+                            escapedTypes.Add(structTypes.First() + "[]");
+                        } else if (types.Count() > 0)
+                        {
+                            escapedTypes.Add(types.First() + "[]");
+                        }
+                    } else
+                    {
+                        escapedTypes.AddRange(regexToTypeList(@"{{Struct\|([\w\W]*?)}}"));
+                    }
                 }
                 else if (rawType != "table" && rawType != "number" && rawType != "string")
                 {

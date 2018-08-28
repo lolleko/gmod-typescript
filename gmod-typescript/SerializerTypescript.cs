@@ -29,6 +29,10 @@ namespace gmod_typescript
             string fieldsString = IndentLines(string.Join("\n", _enum.EnumFields.Select(SerializeEnumField)));
             string result = "/**\n";
             result += DescriptionToDocComment(_enum.Description);
+            if (_enum.IsMembersOnly)
+            {
+                result += " * !CompileMembersOnly\n";
+            }
             result += " */\n";
             result += $"declare enum {_enum.Name} {{\n{fieldsString}\n}}\n";
             return result;
@@ -94,6 +98,10 @@ namespace gmod_typescript
                 result += DescriptionToDocComment($"@returns [{string.Join(", ", function.Returns.Select(SerializeReturnDoc))}]");
             }
             result += DescriptionToDocComment(string.Join("", function.Examples.Select(SerializeExample)));
+            if (function.Returns.Count > 1)
+            {
+                result += " * !TupleReturn\n";
+            }
             result += " */\n";
 
             return result;

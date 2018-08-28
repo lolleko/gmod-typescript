@@ -45,25 +45,12 @@ namespace gmod_typescript
                         ("FindInBox", "Entity[]"),
                         ("FindInCone", "Entity[]"),
                         ("FindInSphere", "Entity[]"),
-                        ("GetAll", "Entity[]"),
-                        ("GetByIndex", "Entity[]")}},
+                        ("FindInCone", "Entity[]"), } },
                 { "player", new List<(string,string)>{
-                        ("GetAll", "Player[]"),
                         ("GetBots", "Player[]"),
                         ("GetHumans", "Player[]")}},
-                { "team", new List<(string,string)>{ ("GetPlayers", "Player[]") }},
-                { "engine", new List<(string,string)>{ ("GetGames", "table[]") }},
-                { "hook", new List<(string,string)>{ ("GetTable", "table[]") }},
-                { "Entity", new List<(string,string)>{
-                        ("GetBodyGroups", "table[]")}},
-                { "DPropertySheet", new List<(string,string)>{ ("GetItems", "table[]") }},
-                { "NextBot", new List<(string,string)>{ ("FindSpots", "table[]") }},
-                { "scripted_ents", new List<(string,string)>{
-                        ("GetSpawnable", "table[]"),
-                        ("GetList", "table[]")}},
-                { "spawnmenu", new List<(string,string)>{ ("GetToolMenu", "table[]") }},
-                { "PathFollower", new List<(string,string)>{ ("GetAllSegments", "PathSegment[]") }},
-                { "PhysObj", new List<(string,string)>{ ("GetMeshConvexes", "MeshVertex[]") }}
+                { "SWEP", new List<(string,string)>{
+                        ("Think", "boolean")}},
             };
             ApplyActionIfPredicate(functionCollections,
                                    fc => changeReturnTypeDict.ContainsKey(fc.Name),
@@ -110,8 +97,16 @@ namespace gmod_typescript
                 foreach (var hookFunc in hookCat.Functions)
                 {
                     var extraHookAdd = JsonType.Extension.Clone(originalHookAdd);
-                    // Change type of function arg
-                    extraHookAdd.Arguments[2].Type = "Function";// TODO once serializer is done;
+                    extraHookAdd.Arguments[0].Type = "\"" + hookFunc.Name + "\"";
+
+                    var returns = "void";
+                    if (hookFunc.Returns.Count >= 1)
+                    {
+                        returns += $" | {hookFunc.Returns[0].Type}";
+                    }
+
+                    var serializer = new SerializerTypescript();
+                    extraHookAdd.Arguments[2].Type = $"({string.Join(", ", hookFunc.Arguments.Select(serializer.SerializeArgument))}) => {returns}";
                     extraHookAdd.Arguments[2].Description = "see { @link " + hookCat.Name + "#" + hookFunc.Name + "}";
                     hookLib.Functions.Add(extraHookAdd);
                 }
@@ -270,6 +265,12 @@ namespace gmod_typescript
             var swepStruct = JsonType.Extension.Clone(weaponStruct);
             swepStruct.Name = "SWEP";
             structures.Add(swepStruct);
+
+            // ENT is sued as standalone aswell
+            var entityStruct = structures.Find(s => s.Name == "Entity");
+            var entStruct = JsonType.Extension.Clone(entityStruct);
+            entStruct.Name = "ENT";
+            structures.Add(entStruct);
         }
     }
 }
