@@ -97,7 +97,8 @@ namespace gmod_typescript
             {
                 result += DescriptionToDocComment($"@returns [{string.Join(", ", function.Returns.Select(SerializeReturnDoc))}]");
             }
-            result += DescriptionToDocComment(string.Join("", function.Examples.Select(SerializeExample)));
+            // TODO optional examples
+            // result += DescriptionToDocComment(string.Join("", function.Examples.Select(SerializeExample)));
             if (function.Returns.Count > 1)
             {
                 result += " * !TupleReturn\n";
@@ -202,6 +203,17 @@ namespace gmod_typescript
             desc = desc.Replace("<br />", "\n");
             desc = desc.Replace("<br>", "\n");
 
+            desc = desc.Replace("'''", "\"");
+
+            // TODO maybe add Markdown links
+            desc = Regex.Replace(desc, @"{{(?:Enum|Type|Struct|GlobalFunction)\|(.*?)}}", m => $"`{m.Groups[1].Value}`");
+
+            desc = Regex.Replace(desc, @"{{(?:LibraryFunction|ClassFunction|HookFunction)\|(.*?)\|(.*?)}}", m => $"`{m.Groups[1].Value}.{m.Groups[2].Value}`");
+           
+
+            desc = Regex.Replace(desc, @"{{FuncArg\|(.*?)\|(.*?)\|(.*?)}}", m => $"`{m.Groups[2].Value}: {m.Groups[1].Value}` { m.Groups[3].Value}");
+            desc = Regex.Replace(desc, @"{{FuncArg\|(.*?)\|(.*?)\}}", m => $"`{m.Groups[2].Value}: {m.Groups[1].Value}`");
+
             var notes = Scrapper.GetTemplates(desc, "Note");
             notes.ForEach(note =>
             {
@@ -234,12 +246,12 @@ namespace gmod_typescript
                 }
                 if (int.TryParse(bugId, out int __))
                 {
-                    desc = desc.Replace(bug, $"**Bug [#{bugId}](https://github.com/Facepunch/garrysmod-issues/issues/{bugId}):**\n>{bugContent}\n");
+                    desc = desc.Replace(bug, $"**Bug [#{bugId}](https://github.com/Facepunch/garrysmod-issues/issues/{bugId}):**\n>{bugContent}\n\n");
                 } else {
                     if (bugContent == "Fixed=") {
                         bugContent = "FIXED IN NEXT UPDATE: " + Scrapper.GetTemplateValue(bug, 1);
                     }
-                    desc = desc.Replace(bug, $"**Bug:**\n>{bugContent}\n");
+                    desc = desc.Replace(bug, $"**Bug:**\n>{bugContent}\n\n");
                 }
             });
 
@@ -253,11 +265,25 @@ namespace gmod_typescript
                 }
             }
 
+            var warning = Scrapper.GetTemplate(desc, "Warning");
+            if (warning != "")
+            {
+                string warningContent = Scrapper.GetTemplateValue(warning, 1);
+                if (warningContent != "")
+                {
+                    desc = desc.Replace(warning, $"**Warning:**\n>{warningContent}\n\n");
+                }
+                else
+                {
+                    desc = desc.Replace(warning, $"**Warning!**\n");
+                }
+            }
+
             var internalTemplate = Scrapper.GetTemplate(desc, "Internal");
             if (internalTemplate != "")
             {
                 {
-                    desc = desc.Replace(internalTemplate, $"**This is an internal function or feature.**\n>This means you will be able to use it, but you really shouldn't.\n\n");
+                    desc = desc.Replace(internalTemplate, $"**INTERNAL**\n");
                 }
             }
 
