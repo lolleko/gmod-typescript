@@ -28,11 +28,11 @@ namespace gmod_typescript
         {
             string fieldsString = IndentLines(string.Join("\n", _enum.EnumFields.Select(SerializeEnumField)));
             string result = "/**\n";
-            result += DescriptionToDocComment(_enum.Description);
             if (_enum.IsMembersOnly)
             {
-                result += " * !CompileMembersOnly\n";
+                result += " * !CompileMembersOnly\n\n";
             }
+            result += DescriptionToDocComment(_enum.Description);
             result += " */\n";
             result += $"declare enum {_enum.Name} {{\n{fieldsString}\n}}\n";
             return result;
@@ -87,6 +87,10 @@ namespace gmod_typescript
         public string SerializeFunctionDoc(JsonType.Function function)
         {
             string result = "/**\n";
+            if (function.Returns.Count > 1)
+            {
+                result += " * !TupleReturn\n\n";
+            }
             result += DescriptionToDocComment(function.Description);
             result += string.Join("", function.Arguments.Select(SerializeArgumentDoc));
             if (function.Returns.Count == 1)
@@ -99,10 +103,6 @@ namespace gmod_typescript
             }
             // TODO optional examples
             // result += DescriptionToDocComment(string.Join("", function.Examples.Select(SerializeExample)));
-            if (function.Returns.Count > 1)
-            {
-                result += " * !TupleReturn\n";
-            }
             result += " */\n";
 
             return result;
@@ -114,7 +114,7 @@ namespace gmod_typescript
             result += DescriptionToDocComment(functionCollection.Description);
             if (functionCollection.CustomConstructor != "")
             {
-                result += $" * !CustomConstructor {functionCollection.CustomConstructor}";
+                result += $" *\n * !CustomConstructor {functionCollection.CustomConstructor}";
             }
             result += DescriptionToDocComment(string.Join("", functionCollection.Examples.Select(SerializeExample)));
             result += " */\n";

@@ -49,7 +49,7 @@ namespace gmod_typescript
                 { "player", new List<(string,string)>{
                         ("GetBots", "Player[]"),
                         ("GetHumans", "Player[]")}},
-                { "SWEP", new List<(string,string)>{
+                { "WEAPON", new List<(string,string)>{
                         ("Think", "boolean")}},
             };
             ApplyActionIfPredicate(functionCollections,
@@ -60,7 +60,13 @@ namespace gmod_typescript
                                        var newRetType = funcList.Find((funcTuple) => funcTuple.Item1 == f.Name).Item2;
                                        if (newRetType != null)
                                        {
-                                           f.Returns[0].Type = newRetType;
+                                           if (f.Returns.Count > 0)
+                                           {
+                                               f.Returns[0].Type = newRetType;
+                                           } else
+                                           {
+                                               f.Returns.Add(new JsonType.Return { Type = newRetType, Description = "" });
+                                           }
                                        }
                                    }));
 
