@@ -16,6 +16,7 @@ class WikiData {
     customConstructor: string;
     examples: Example[];
     isHook: boolean;
+    isPureAbstract: boolean;
     classFields: Field[];
     functions: Function_[];
   }

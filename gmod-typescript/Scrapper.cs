@@ -175,6 +175,7 @@ namespace gmod_typescript
             {
                 Name = category.Replace("_Hooks", ""),
                 IsHook = category.Contains("_Hooks"),
+                IsPureAbstract = (panel != ""),
                 CollectionType = JsonType.CollectionType.Class,
                 Description = description,
                 Examples = GetTemplates(raw, "Example").Select(ParseExample).ToList(),

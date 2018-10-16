@@ -116,6 +116,10 @@ namespace gmod_typescript
             {
                 result += $" *\n * !CustomConstructor {functionCollection.CustomConstructor}";
             }
+            if (functionCollection.IsPureAbstract)
+            {
+                result += $" *\n * !PureAbstract";
+            }
             result += DescriptionToDocComment(string.Join("", functionCollection.Examples.Select(SerializeExample)));
             result += " */\n";
             string indent = "";

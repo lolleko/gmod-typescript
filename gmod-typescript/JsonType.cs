@@ -81,6 +81,9 @@ namespace JsonType
         [JsonProperty("isHook", Required = Required.Always)]
         public bool IsHook { get; set; }
 
+        [JsonProperty("isPureAbstract", Required = Required.Always)]
+        public bool IsPureAbstract { get; set; }
+
         [JsonProperty("name", Required = Required.Always)]
         public string Name { get; set; }
     }
@@ -208,7 +211,7 @@ namespace JsonType
                 AccessModifierConverter.Singleton,
                 RealmConverter.Singleton,
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            }
+            },
         };
     }
 

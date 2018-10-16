@@ -186,8 +186,8 @@ namespace gmod_typescript
                                    {
                                        var target = functionCollections.Find(fc => fc.Name == mergeDict[source.Name]);
                                        // Dont override so hooks that can be called publically are still avaialble
-                                       var noDuplicates = source.Functions.Where(wf => target.Functions.Find(tf => tf.Name == wf.Name) == null)
-                                                                          .Select(func => { func.AccessModifier = JsonType.AccessModifier.Protected; return func; });
+                                       var noDuplicates = source.Functions.Where(wf => target.Functions.Find(tf => tf.Name == wf.Name) == null);
+                                                                          //.Select(func => { func.AccessModifier = JsonType.AccessModifier.Protected; return func; });
                                        target.Functions.AddRange(noDuplicates);
                                    });
 
