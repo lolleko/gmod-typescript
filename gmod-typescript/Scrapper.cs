@@ -94,9 +94,13 @@ namespace gmod_typescript
             Task.WhenAll(taskList.ToArray()).Wait();
         }
 
-        public JsonType.Argument ParseArgument(string raw)
+        public JsonType.Argument ParseArgument(string raw, int index)
         {
             string rawName = GetTemplateValue(raw, "Name");
+            if (rawName == "")
+            {
+                rawName = "arg" + index;
+            }
             string rawType = GetTemplateValue(raw, "Type");
             string defaultValue = GetTemplateValue(raw, "default");
             string description = GetTemplateValue(raw, "Desc");
@@ -127,11 +131,13 @@ namespace gmod_typescript
         {
             string raw = GetArticle(url);
             string rawType = GetTemplateValue(raw, "Type");
-            if (raw.Contains("#REDIRECT")) {
+            if (raw.Contains("#REDIRECT"))
+            {
                 raw = GetArticle(Regex.Match(raw, @"#REDIRECT \[\[(.*?)\]\]").Groups[1].Value);
             }
             string description = GetTemplateValue(raw, "Description");
-            if (raw.Contains("Not a function")) {
+            if (raw.Contains("Not a function"))
+            {
                 return new JsonType.Function
                 {
                     Name = UrlToTitle(url),
@@ -145,7 +151,8 @@ namespace gmod_typescript
                 };
             }
             string realm = GetTemplateValue(raw, "Realm");
-            if (realm == "") {
+            if (realm == "")
+            {
                 realm = "Client";
             }
             return new JsonType.Function
@@ -156,7 +163,7 @@ namespace gmod_typescript
                 Examples = GetTemplates(raw, "Example").Select(ParseExample).ToList(),
                 IsConstructor = false,
                 AccessModifier = JsonType.AccessModifier.Public,
-                Arguments = GetTemplates(raw, "Arg").Select(ParseArgument).ToList(),
+                Arguments = GetTemplates(raw, "Arg").Select((a, i) => ParseArgument(a, i)).ToList(),
                 Returns = GetTemplates(raw, "Ret").Select(ParseReturn).ToList()
             };
         }
@@ -167,7 +174,8 @@ namespace gmod_typescript
             string description = raw;
             string extends = "";
             string panel = GetTemplate(raw, "Panel");
-            if (panel != "") {
+            if (panel != "")
+            {
                 description = GetTemplateValue(panel, "Description");
                 extends = GetTemplateValue(panel, "Parent");
             }
@@ -186,7 +194,8 @@ namespace gmod_typescript
             };
         }
 
-        public JsonType.Field ParseField(string raw) {
+        public JsonType.Field ParseField(string raw)
+        {
             string rawType = GetTemplateValue(raw, 1);
             string description = GetTemplateValue(raw, 3);
             string defaultVal = GetTemplateValue(raw, 4);
@@ -200,12 +209,14 @@ namespace gmod_typescript
             };
         }
 
-        public JsonType.Enum ParseEnum(string url) {
+        public JsonType.Enum ParseEnum(string url)
+        {
             string raw = GetArticle(url);
             List<JsonType.EnumField> fields = GetTemplates(raw, "EnumField").Select(ParseEnumField).ToList();
             fields.ForEach(field => field.Name = field.Name.Replace("{{#titleparts:{{SUBPAGENAME}}||-1}}", UrlToTitle(url)));
             var membersOnly = !fields.Any(field => field.Name.IndexOf('.') != -1);
-            if (!membersOnly) {
+            if (!membersOnly)
+            {
                 fields.ForEach(field => field.Name = field.Name.Substring(field.Name.IndexOf('.') + 1));
             }
             return new JsonType.Enum
@@ -217,7 +228,8 @@ namespace gmod_typescript
             };
         }
 
-        public JsonType.EnumField ParseEnumField(string raw) {
+        public JsonType.EnumField ParseEnumField(string raw)
+        {
             string rawName = GetTemplateValue(raw, 1);
             // TODO hack for http://wiki.garrysmod.com/page/Enums/SNDLVL
             if (rawName.IndexOf("<br/>") != -1)
@@ -232,7 +244,8 @@ namespace gmod_typescript
             };
         }
 
-        public JsonType.Example ParseExample(string raw) {
+        public JsonType.Example ParseExample(string raw)
+        {
             return new JsonType.Example
             {
                 Code = GetTemplateValue(raw, "Code"),
@@ -240,7 +253,8 @@ namespace gmod_typescript
             };
         }
 
-        public JsonType.Structure ParseStructure(string url) {
+        public JsonType.Structure ParseStructure(string url)
+        {
             string raw = GetArticle(url);
             return new JsonType.Structure
             {
@@ -469,7 +483,8 @@ namespace gmod_typescript
                 }
                 else if (rawType == "table")
                 {
-                    if (description.Contains("table of tables", StringComparison.CurrentCultureIgnoreCase)) {
+                    if (description.Contains("table of tables", StringComparison.CurrentCultureIgnoreCase))
+                    {
                         escapedTypes.Add("table[]");
                     }
                     else if (description.Contains("table of", StringComparison.CurrentCultureIgnoreCase) || description.Contains("list of", StringComparison.CurrentCultureIgnoreCase))
@@ -480,11 +495,13 @@ namespace gmod_typescript
                         if (structTypes.Count() > 0)
                         {
                             escapedTypes.Add(structTypes.First() + "[]");
-                        } else if (types.Count() > 0)
+                        }
+                        else if (types.Count() > 0)
                         {
                             escapedTypes.Add(types.First() + "[]");
                         }
-                    } else
+                    }
+                    else
                     {
                         escapedTypes.AddRange(regexToTypeList(@"{{Struct\|([\w\W]*?)}}"));
                     }
@@ -503,7 +520,8 @@ namespace gmod_typescript
             return string.Join(" | ", escapedTypes);
         }
 
-        public string UrlToTitle(string url) {
+        public string UrlToTitle(string url)
+        {
             return url.Substring(url.LastIndexOf('/') + 1);
         }
 
@@ -556,10 +574,15 @@ namespace gmod_typescript
             return res;
         }
 
-        public string GetArticle(string url) {
+        public string GetArticle(string url)
+        {
             string pageQuery = WikiRequest("api.php?action=query&prop=revisions&rvprop=content&format=json&titles=" + url);
             var pagesObj = (JObject)JObject.Parse(pageQuery)["query"]["pages"];
-            return pagesObj.Values().First()["revisions"][0]["*"].ToString();
+            if (pagesObj.Values().First()["revisions"] != null)
+            {
+                return pagesObj.Values().First()["revisions"][0]["*"].ToString();
+            }
+            return "ERROR";
         }
     }
 }

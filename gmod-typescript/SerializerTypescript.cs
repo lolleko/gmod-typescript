@@ -18,7 +18,8 @@ namespace gmod_typescript
         public string SerializeArgumentDoc(JsonType.Argument argument)
         {
             string defaultVal = "";
-            if (argument.IsOptional) {
+            if (argument.IsOptional)
+            {
                 defaultVal = $"[={argument.Default}]";
             }
             return DescriptionToDocComment($"@param {argument.Name} {defaultVal} {argument.Description}");
@@ -30,7 +31,7 @@ namespace gmod_typescript
             string result = "/**\n";
             if (_enum.IsMembersOnly)
             {
-                result += " * !CompileMembersOnly\n\n";
+                result += " * !CompileMembersOnly\n *\n";
             }
             result += DescriptionToDocComment(_enum.Description);
             result += " */\n";
@@ -49,7 +50,8 @@ namespace gmod_typescript
 
         public override string SerializeExample(JsonType.Example example)
         {
-            if (example.Code == "" && example.Description == "") {
+            if (example.Code == "" && example.Description == "")
+            {
                 return "";
             }
             example.Code = example.Code.Replace("*/", "").Replace("--", "//");
@@ -70,15 +72,20 @@ namespace gmod_typescript
         public override string SerializeFunction(JsonType.Function function)
         {
             string returns = "";
-            if (function.IsConstructor) {
+            if (function.IsConstructor)
+            {
                 returns = "";
-            } else if (function.Returns.Count == 0)
+            }
+            else if (function.Returns.Count == 0)
             {
                 returns = ": void";
-            } else if (function.Returns.Count > 1)
+            }
+            else if (function.Returns.Count > 1)
             {
                 returns = $": [{string.Join(", ", function.Returns.Select(SerializeReturn))}]";
-            } else { 
+            }
+            else
+            {
                 returns = ": " + SerializeReturn(function.Returns[0]);
             }
             return $"{function.Name}({string.Join(", ", function.Arguments.Select(SerializeArgument))}){returns};\n";
@@ -89,7 +96,7 @@ namespace gmod_typescript
             string result = "/**\n";
             if (function.Returns.Count > 1)
             {
-                result += " * !TupleReturn\n\n";
+                result += " * !TupleReturn\n *\n";
             }
             result += DescriptionToDocComment(function.Description);
             result += string.Join("", function.Arguments.Select(SerializeArgumentDoc));
@@ -114,11 +121,11 @@ namespace gmod_typescript
             result += DescriptionToDocComment(functionCollection.Description);
             if (functionCollection.CustomConstructor != "")
             {
-                result += $" *\n * !CustomConstructor {functionCollection.CustomConstructor}";
+                result += $" *\n * !CustomConstructor {functionCollection.CustomConstructor}\n *\n";
             }
             if (functionCollection.IsPureAbstract)
             {
-                result += $" *\n * !PureAbstract";
+                result += $" *\n * !PureAbstract\n *\n";
             }
             result += DescriptionToDocComment(string.Join("", functionCollection.Examples.Select(SerializeExample)));
             result += " */\n";
@@ -147,11 +154,15 @@ namespace gmod_typescript
                 body += string.Join("\n", functionCollection.ClassFields.Select(SerializeField)) + "\n";
             }
 
-            body += string.Join("\n", functionCollection.Functions.Select(f => {
+            body += string.Join("\n", functionCollection.Functions.Select(f =>
+            {
                 string prefix = JsonType.Extension.SerializeEnum(f.AccessModifier);
-                if (functionCollection.CollectionType == JsonType.CollectionType.Library) {
+                if (functionCollection.CollectionType == JsonType.CollectionType.Library)
+                {
                     prefix = "function";
-                } else if (functionCollection.CollectionType == JsonType.CollectionType.Global) {
+                }
+                else if (functionCollection.CollectionType == JsonType.CollectionType.Global)
+                {
                     prefix = "declare function";
                 }
 
@@ -213,7 +224,7 @@ namespace gmod_typescript
             desc = Regex.Replace(desc, @"{{(?:Enum|Type|Struct|GlobalFunction)\|(.*?)}}", m => $"`{m.Groups[1].Value}`");
 
             desc = Regex.Replace(desc, @"{{(?:LibraryFunction|ClassFunction|HookFunction)\|(.*?)\|(.*?)}}", m => $"`{m.Groups[1].Value}.{m.Groups[2].Value}`");
-           
+
 
             desc = Regex.Replace(desc, @"{{FuncArg\|(.*?)\|(.*?)\|(.*?)}}", m => $"`{m.Groups[2].Value}: {m.Groups[1].Value}` { m.Groups[3].Value}");
             desc = Regex.Replace(desc, @"{{FuncArg\|(.*?)\|(.*?)\}}", m => $"`{m.Groups[2].Value}: {m.Groups[1].Value}`");
@@ -222,7 +233,7 @@ namespace gmod_typescript
             notes.ForEach(note =>
             {
                 string noteContent = Scrapper.GetTemplateValue(note, 1);
-                desc = desc.Replace(note, $"**Note:**\n>{noteContent}\n\n");
+                desc = desc.Replace(note, $"\n**Note:**\n>{noteContent}\n\n");
             });
 
             var bugs = Scrapper.GetTemplates(desc, "Bug");
@@ -234,7 +245,8 @@ namespace gmod_typescript
                     bugContent = Scrapper.GetTemplateValue(bug, 1);
                 }
                 string bugId = Scrapper.GetTemplateValue(bug, "Issue");
-                if (bugId == "") {
+                if (bugId == "")
+                {
                     bugId = Scrapper.GetTemplateValue(bug, "Request");
                 }
                 if (bugId == "")
@@ -244,15 +256,19 @@ namespace gmod_typescript
                 if (bugId == "")
                 {
                     bugId = Scrapper.GetTemplateValue(bug, 2);
-                    if (int.TryParse(bugId, out int _)) {
+                    if (int.TryParse(bugId, out int _))
+                    {
                         bugContent = Scrapper.GetTemplateValue(bug, 1);
                     }
                 }
                 if (int.TryParse(bugId, out int __))
                 {
                     desc = desc.Replace(bug, $"**Bug [#{bugId}](https://github.com/Facepunch/garrysmod-issues/issues/{bugId}):**\n>{bugContent}\n\n");
-                } else {
-                    if (bugContent == "Fixed=") {
+                }
+                else
+                {
+                    if (bugContent == "Fixed=")
+                    {
                         bugContent = "FIXED IN NEXT UPDATE: " + Scrapper.GetTemplateValue(bug, 1);
                     }
                     desc = desc.Replace(bug, $"**Bug:**\n>{bugContent}\n\n");
@@ -260,11 +276,15 @@ namespace gmod_typescript
             });
 
             var deprecated = Scrapper.GetTemplate(desc, "Deprecated");
-            if (deprecated != "") {
+            if (deprecated != "")
+            {
                 string deprecatedContent = Scrapper.GetTemplateValue(deprecated, 1);
-                if (deprecatedContent != "") {
+                if (deprecatedContent != "")
+                {
                     desc = desc.Replace(deprecated, $"**Deprecated:**\n>{deprecatedContent}\n\n");
-                } else {
+                }
+                else
+                {
                     desc = desc.Replace(deprecated, $"**Deprecated!**\n");
                 }
             }
@@ -287,7 +307,7 @@ namespace gmod_typescript
             if (internalTemplate != "")
             {
                 {
-                    desc = desc.Replace(internalTemplate, $"**INTERNAL**\n");
+                    desc = desc.Replace(internalTemplate, $"\n**[INTERNAL]**\n\n");
                 }
             }
 
@@ -296,13 +316,15 @@ namespace gmod_typescript
             // Replace more than 2 occurences of newlines
             desc = Regex.Replace(desc, @"\n{2,}", "\n\n");
 
-            if (desc == "") {
+            if (desc == "")
+            {
                 return "";
             }
             return $" * {desc.Replace("\n", "\n * ")} \n";
         }
 
-        public string IndentLines(string lines) {
+        public string IndentLines(string lines)
+        {
             string indent = new String(' ', 4);
             return indent + lines.Remove(lines.Length - 1).Replace("\n", $"\n{indent}");
         }

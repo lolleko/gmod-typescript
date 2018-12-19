@@ -63,7 +63,8 @@ namespace gmod_typescript
                                            if (f.Returns.Count > 0)
                                            {
                                                f.Returns[0].Type = newRetType;
-                                           } else
+                                           }
+                                           else
                                            {
                                                f.Returns.Add(new JsonType.Return { Type = newRetType, Description = "" });
                                            }
@@ -93,7 +94,7 @@ namespace gmod_typescript
                                        }
                                    }));
 
-            // Add some convinience hook.Add definitions
+            // Add some convenience hook.Add definitions
             var hooks = new List<JsonType.FunctionCollection> { functionCollections.Find(fc => fc.Name == "GM"), functionCollections.Find(fc => fc.Name == "SANDBOX") };
             var hookLib = functionCollections.Find(fc => fc.Name == "hook");
             var originalHookAdd = hookLib.Functions.Find(fa => fa.Name == "Add");
@@ -136,7 +137,14 @@ namespace gmod_typescript
                             additionalFunc.Arguments = additionalFunc.Arguments.Where(a => !a.IsOptional).ToList();
 
                             func.Arguments = func.Arguments.TakeWhile(a => !a.IsOptional)
-                                .Concat(firstOptional.Select(a => { a.IsOptional = true; return a; })).ToList();
+                                .Concat(firstOptional.Select(a =>
+                                {
+                                    if (!a.IsVarArg)
+                                    {
+                                        a.IsOptional = true;
+                                    }
+                                    return a;
+                                })).ToList();
                         }
                     }
                 }
@@ -187,7 +195,7 @@ namespace gmod_typescript
                                        var target = functionCollections.Find(fc => fc.Name == mergeDict[source.Name]);
                                        // Dont override so hooks that can be called publically are still avaialble
                                        var noDuplicates = source.Functions.Where(wf => target.Functions.Find(tf => tf.Name == wf.Name) == null);
-                                                                          //.Select(func => { func.AccessModifier = JsonType.AccessModifier.Protected; return func; });
+                                       //.Select(func => { func.AccessModifier = JsonType.AccessModifier.Protected; return func; });
                                        target.Functions.AddRange(noDuplicates);
                                    });
 
@@ -250,9 +258,9 @@ namespace gmod_typescript
             ApplyActionIfPredicate(functionCollections,
                                    fc => renameDict.ContainsKey(fc.Name),
                                    fc =>
-                                    {
-                                        fc.Name = renameDict[fc.Name];
-                                    });
+                                   {
+                                       fc.Name = renameDict[fc.Name];
+                                   });
         }
 
         protected override void TransformStructures(List<JsonType.Structure> structures)
@@ -266,13 +274,13 @@ namespace gmod_typescript
             ApplyActionIfPredicate(structures,
                                    s => renameDict.ContainsKey(s.Name),
                                    s => s.Name = renameDict[s.Name]);
-            // SWEP is used as standalone table in some places so readd it
+            // SWEP is used as standalone table in some places so re-add it
             var weaponStruct = structures.Find(s => s.Name == "Weapon");
             var swepStruct = JsonType.Extension.Clone(weaponStruct);
             swepStruct.Name = "SWEP";
             structures.Add(swepStruct);
 
-            // ENT is sued as standalone aswell
+            // ENT is used as standalone aswell
             var entityStruct = structures.Find(s => s.Name == "Entity");
             var entStruct = JsonType.Extension.Clone(entityStruct);
             entStruct.Name = "ENT";
