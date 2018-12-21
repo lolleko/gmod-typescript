@@ -31,7 +31,7 @@ namespace gmod_typescript
             string result = "/**\n";
             if (_enum.IsMembersOnly)
             {
-                result += " * !CompileMembersOnly\n *\n";
+                result += " * @compileMembersOnly\n *\n";
             }
             result += DescriptionToDocComment(_enum.Description);
             result += " */\n";
@@ -96,7 +96,7 @@ namespace gmod_typescript
             string result = "/**\n";
             if (function.Returns.Count > 1)
             {
-                result += " * !TupleReturn\n *\n";
+                result += " * @tupleReturn\n *\n";
             }
             result += DescriptionToDocComment(function.Description);
             result += string.Join("", function.Arguments.Select(SerializeArgumentDoc));
@@ -121,11 +121,11 @@ namespace gmod_typescript
             result += DescriptionToDocComment(functionCollection.Description);
             if (functionCollection.CustomConstructor != "")
             {
-                result += $" *\n * !CustomConstructor {functionCollection.CustomConstructor}\n *\n";
+                result += $" *\n * @customConstructor {functionCollection.CustomConstructor}\n *\n";
             }
             if (functionCollection.IsPureAbstract)
             {
-                result += $" *\n * !PureAbstract\n *\n";
+                result += $" *\n * @pureAbstract\n *\n";
             }
             result += DescriptionToDocComment(string.Join("", functionCollection.Examples.Select(SerializeExample)));
             result += " */\n";

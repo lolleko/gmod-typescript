@@ -12,7 +12,7 @@ declare var CLIENT: boolean;
 declare var GM: Gamemode;
 declare var GAMEMODE: Gamemode;
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.SetUseType`. Affects when `ENTITY.Use` is triggered.
  * 
@@ -47,7 +47,7 @@ declare enum _USE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by functions like `Weapon.SendWeaponAnim` & `Entity.SelectWeightedSequence`.
  * 
@@ -6374,7 +6374,7 @@ declare enum ACT {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Used by `game.AddAmmoType`'s input structure - the `AmmoData`.
  * 
@@ -6394,7 +6394,7 @@ declare enum AMMO {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Used by `render.OverrideBlend` to determine how texture RGBA information should be interpreted when rendered. 
  * 
@@ -6449,7 +6449,7 @@ declare enum BLEND {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Used by `render.OverrideBlend`. 
  */
@@ -6468,7 +6468,7 @@ declare enum BLENDFUNC {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.GetBloodColor` and `Entity.SetBloodColor`. 
  */
@@ -6515,7 +6515,7 @@ declare enum BLOOD_COLOR {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Used by `Entity.BoneHasFlag`. 
  */
@@ -6606,7 +6606,7 @@ declare enum BONE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `render.SetModelLighting`. 
  */
@@ -6643,7 +6643,7 @@ declare enum BOX {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Encompasses the range of `KEY`, `MOUSE` and `JOYSTICK`, all of which can be used by:
  * * `input.IsButtonDown`
@@ -6672,7 +6672,7 @@ declare enum BUTTON_CODE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `NPC.CapabilitiesAdd`, `WEAPON.GetCapabilities` and `NPC.CapabilitiesGet`. Serverside only. 
  */
@@ -6815,7 +6815,7 @@ declare enum CAP {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `EmitSound` and `sound.Add`. 
  */
@@ -6876,7 +6876,7 @@ declare enum CHAN {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `NPC.Classify`. 
  */
@@ -7063,7 +7063,7 @@ declare enum CLASS {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.SetCollisionGroup` and `Entity.GetCollisionGroup`. 
  */
@@ -7173,7 +7173,7 @@ declare enum COLLISION_GROUP {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations for NPC conditions, used by `NPC.SetCondition`. Serverside only.
  * 
@@ -7473,7 +7473,7 @@ declare enum COND {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `util.PointContents` and as tracer masks. 
  */
@@ -7629,7 +7629,7 @@ declare enum CONTENTS {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `GetRenderTargetEx`. Clientside only. 
  */
@@ -7648,7 +7648,7 @@ declare enum CREATERENDERTARGETFLAGS {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Citizen type, a KeyValue for npc_citizen( citizentype ), serverside only. 
  */
@@ -7679,7 +7679,7 @@ declare enum CT {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `NPC.Disposition` and `ENTITY.GetRelationship`. 
  */
@@ -7711,7 +7711,7 @@ declare enum D {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `CTakeDamageInfo.GetDamageType`, `CTakeDamageInfo.SetDamageType` and `CTakeDamageInfo.IsDamageType` 
  */
@@ -7883,7 +7883,7 @@ declare enum DMG {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Panel.Dock`. 
  */
@@ -7920,7 +7920,7 @@ declare enum DOCK {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Internal globals for SimpleDoF. Clientside only. 
  */
@@ -7935,7 +7935,7 @@ declare enum DOF {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.AddEffects`,  `Entity.RemoveEffects` and  `Entity.IsEffectActive`. 
  */
@@ -7997,7 +7997,7 @@ declare enum EF {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.AddEFlags`, `Entity.RemoveEFlags` and `Entity.IsEFlagSet`. 
  */
@@ -8159,7 +8159,7 @@ declare enum EFL {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `concommand.Add`, `CreateClientConVar` and `CreateConVar`. 
  */
@@ -8319,7 +8319,7 @@ declare enum FCVAR {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `IGModAudioChannel.FFT`. Clientside only. 
  */
@@ -8366,7 +8366,7 @@ declare enum FFT {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.AddFlags`, `Entity.RemoveFlags` and `Entity.IsFlagSet`. 
  */
@@ -8533,7 +8533,7 @@ declare enum FL {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `AccessorFunc`. 
  */
@@ -8555,7 +8555,7 @@ declare enum FORCE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.SetSolidFlags` and `Entity.GetSolidFlags`. 
  */
@@ -8606,7 +8606,7 @@ declare enum FSOLID {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `PhysObj.AddGameFlag`, `PhysObj.HasGameFlag` and `PhysObj.ClearGameFlag`. 
  */
@@ -8678,7 +8678,7 @@ declare enum FVPHYSICS {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Player.AnimResetGestureSlot` and `Player.AnimRestartGesture`. 
  */
@@ -8718,7 +8718,7 @@ declare enum GESTURE_SLOT {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `game.SetGlobalState` and `game.GetGlobalState`.
  * 
@@ -8742,7 +8742,7 @@ declare enum GLOBAL {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `IGModAudioChannel.GetState`. Clientside only. 
  */
@@ -8769,7 +8769,7 @@ declare enum GMOD_CHANNEL {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `GM.ScalePlayerDamage` and `GM.ScaleNPCDamage` and returned by `Player.LastHitGroup`. 
  */
@@ -8823,7 +8823,7 @@ declare enum HITGROUP {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Player.PrintMessage` and `PrintMessage`. 
  */
@@ -8850,7 +8850,7 @@ declare enum HUD {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `NPC.SetHullType` and  `NPC.GetHullType`. Serverside only. 
  */
@@ -8898,7 +8898,7 @@ declare enum HULL {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `GetRenderTargetEx`. Clientside only. 
  */
@@ -8945,7 +8945,7 @@ declare enum IMAGE_FORMAT {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Unlike `BUTTON_CODE`, these enums are abstracted to allow the user to bind actions to any key they might prefer.
  * 
@@ -9097,7 +9097,7 @@ declare enum IN {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `input.IsButtonDown`.
  * 
@@ -9144,7 +9144,7 @@ declare enum JOYSTICK {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by:
  * * `input.IsKeyDown`
@@ -9726,7 +9726,7 @@ declare enum KEY {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Used by `Entity.SetRenderFX` and returned by `Entity.GetRenderFX`.
  * 
@@ -9856,7 +9856,7 @@ declare enum kRenderFx {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used as trace masks in `Trace` and `HullTrace`. These enumerations are simply combinations of `CONTENTS`. 
  */
@@ -9968,7 +9968,7 @@ declare enum MASK {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used in `TraceResult` and by `Entity.GetMaterialType`. 
  */
@@ -10090,7 +10090,7 @@ declare enum MAT {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `mesh.Begin`. Clientside only. 
  */
@@ -10129,7 +10129,7 @@ declare enum MATERIAL {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `render.CullMode`. Clientside only. 
  */
@@ -10146,7 +10146,7 @@ declare enum MATERIAL_CULLMODE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `render.GetFogMode` and `render.FogMode`. Clientside only. 
  */
@@ -10168,7 +10168,7 @@ declare enum MATERIAL_FOG {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `render.SetLocalModelLights`. Clientside only. 
  */
@@ -10195,7 +10195,7 @@ declare enum MATERIAL_LIGHT {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `GetRenderTargetEx`. Clientside only. 
  */
@@ -10230,7 +10230,7 @@ declare enum MATERIAL_RT_DEPTH {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by:
  * * `input.IsMouseDown`
@@ -10292,7 +10292,7 @@ declare enum MOUSE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.SetMoveCollide` and `Entity.GetMoveCollide`. 
  */
@@ -10324,7 +10324,7 @@ declare enum MOVECOLLIDE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.SetMoveType` and `Entity.GetMoveType`. 
  */
@@ -10391,7 +10391,7 @@ declare enum MOVETYPE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `CNavArea.GetAttributes` and `CNavArea.HasAttributes`. 
  */
@@ -10497,7 +10497,7 @@ declare enum NAV_MESH {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `CNavArea` methods.
  * These Enums correspond to each corner of a `CNavArea`
@@ -10533,7 +10533,7 @@ declare enum NavCorner {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `CNavArea` methods.
  * These Enums correspond to each side of a `CNavArea`
@@ -10564,7 +10564,7 @@ declare enum NavDir {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `CNavArea.GetParentHow`.
  * 
@@ -10610,7 +10610,7 @@ declare enum NavTraverseType {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `notification.AddLegacy`. Clientside only. 
  */
@@ -10642,7 +10642,7 @@ declare enum NOTIFY {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `NPC.SetNPCState`. Serverside only. 
  */
@@ -10694,7 +10694,7 @@ declare enum NPC_STATE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * **Note:**
  * >These only exist serverside.
@@ -10714,7 +10714,7 @@ declare enum NUM {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Player.SetObserverMode`, `Player.GetObserverMode` and `Player.Spectate`. 
  */
@@ -10755,7 +10755,7 @@ declare enum OBS_MODE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `ParticleEffectAttach`. 
  */
@@ -10792,7 +10792,7 @@ declare enum PATTACH {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.SetAnimation` 
  */
@@ -10841,7 +10841,7 @@ declare enum PLAYER_ANIM {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Used by `GM.DoAnimationEvent` and `Player.DoCustomAnimEvent`. 
  */
@@ -10959,7 +10959,7 @@ declare enum PLAYERANIMEVENT {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `ClientsideModel`, ENT.RenderGroup in `ENT` and `Entity.GetRenderGroup`. 
  */
@@ -11022,7 +11022,7 @@ declare enum RENDERGROUP {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `Entity.SetRenderMode` and `Entity.GetRenderMode`. 
  */
@@ -11075,7 +11075,7 @@ declare enum RENDERMODE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `GetRenderTargetEx`. Clientside only. 
  */
@@ -11117,7 +11117,7 @@ declare enum RT_SIZE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations for NPC schedules, used by `ENTITY.StartEngineSchedule` and `NPC.SetSchedule`. Serverside only. 
  */
@@ -11650,7 +11650,7 @@ declare enum SENSORBONE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations describing certain spawnflags. Everything except for SF_PHYS* is serverside only.
  * 
@@ -11803,7 +11803,7 @@ declare enum SF {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `ENTITY.PhysicsSimulate`. 
  */
@@ -11835,7 +11835,7 @@ declare enum SIM {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Sound flags used by `EmitSound` and `Entity.EmitSound`. 
  */
@@ -11895,7 +11895,7 @@ declare enum SND {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * The sound's attenuation; how fast it drops away, enumerations used by `EmitSound` and `Entity.EmitSound`.
  * 
@@ -12034,7 +12034,7 @@ declare enum SNDLVL {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * For use with `Entity.PhysicsInit`, `Entity.SetSolid` and `Entity.GetSolid`. 
  */
@@ -12082,7 +12082,7 @@ declare enum SOLID {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations for use with `render.SetStencilCompareFunction`.
  * 
@@ -12141,7 +12141,7 @@ declare enum STENCILCOMPARISONFUNCTION {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations for use with `render.SetStencilPassOperation`, `render.SetStencilFailOperation` and `render.SetStencilZFailOperation`. Clientside only.
  * <noinclude>
@@ -12196,7 +12196,7 @@ declare enum STENCILOPERATION {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used in `GM.PlayerStepSoundTime` hook. 
  */
@@ -12223,7 +12223,7 @@ declare enum STEPSOUNDTIME {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Used by `ENTITY.Draw` and `ENTITY.DrawTranslucent`. 
  */
@@ -12286,7 +12286,7 @@ declare enum STUDIO {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Surface flags, currently unused, these would've been returned by the `TraceResult`. 
  */
@@ -12368,7 +12368,7 @@ declare enum SURF {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Default defined teams in Garry's Mod. This does not include any custom teams created in custom gamemodes. Enumerations to use with `Player.Team` 
  */
@@ -12413,7 +12413,7 @@ declare enum TEXFILTER {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `draw.SimpleText`, `draw.DrawText` and in `TextData`. 
  */
@@ -12445,7 +12445,7 @@ declare enum TEXT_ALIGN {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Bit flags used by `GetRenderTargetEx`. Clientside only. Information taken from [https://developer.valvesoftware.com/wiki/Valve_Texture_Format#Image_flags here]
  * 
@@ -12610,7 +12610,7 @@ declare enum TEXTUREFLAGS {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `AmmoData`. 
  */
@@ -12642,7 +12642,7 @@ declare enum TRACER {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used in `ENTITY.UpdateTransmitState` hook. 
  */
@@ -12664,7 +12664,7 @@ declare enum TRANSMIT {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `net.ReadType` and returned by `TypeID` 
  */
@@ -12915,7 +12915,7 @@ declare enum TYPE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `ENTITY.Use`.
  * 
@@ -12940,7 +12940,7 @@ declare enum USE {
 }
 
 /**
- * !CompileMembersOnly
+ * @compileMembersOnly
  *
  * Enumerations used by `NPC.SetCurrentWeaponProficiency` and  
  * `NPC.GetCurrentWeaponProficiency`. 
@@ -16700,7 +16700,7 @@ interface Weapon {
  * 
  * If the viewer has not unlocked the achievement on Steam, the icon will be grayed out. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class AchievementIcon extends Panel {
@@ -16890,7 +16890,7 @@ declare namespace ai_task {
  * {{ClassField|number|r|The roll component of the angle}}
  * }} 
  *
- * !CustomConstructor Angle
+ * @customConstructor Angle
  *
  */
 declare class Angle {
@@ -17024,7 +17024,7 @@ declare class Angle {
 /**
  * Used to show a player's Steam avatar. You are recommended but not limited to pick one of the following sizes: 16, 32, 64, 84, 128, 184. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -17068,7 +17068,7 @@ declare class AvatarImage extends Panel {
 /**
  * Base panel for elements using the [http://www.awesomium.com Awesomium] UI engine. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class Awesomium extends Panel {
@@ -17487,7 +17487,7 @@ declare namespace bit {
  * 
  * Creates a button that players can click on. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -17916,7 +17916,7 @@ declare namespace chat {
     function Close(): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the chatbox position. 
      * @returns [The X coordinate of the chatbox's position., The Y coordinate of the chatbox's position.] 
@@ -17924,7 +17924,7 @@ declare namespace chat {
     function GetChatBoxPos(): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the chatbox size. 
      * @returns [The width of the chatbox., The height of the chatbox.] 
@@ -17948,7 +17948,7 @@ declare namespace chat {
  * 
  * Engine checkbox 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class CheckButton {
@@ -18313,7 +18313,7 @@ declare class CLuaParticle {
     public GetBounce(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the color of the particle. 
      * @returns [Red part of the color, Green part of the color, Blue part of the color] 
@@ -19220,7 +19220,7 @@ declare class CNavArea {
     public IsValid(): CNavArea;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns whether we can be seen from the given position. 
      * @param pos  The position to check. 
@@ -19462,7 +19462,7 @@ declare class CNavLadder {
 /**
  * This object represents a .pcf ( Orange Box ) particle system. Created by `Entity.CreateParticleEffect` and `CreateParticleSystem`. 
  *
- * !CustomConstructor CreateParticleSystem
+ * @customConstructor CreateParticleSystem
  *
  */
 declare class CNewParticleEffect {
@@ -19680,7 +19680,7 @@ declare namespace concommand {
     function AutoComplete(command: string, arguments: string): table;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the tables of all console command callbacks, and autocomplete functions, that were added to the game with `concommand.Add`. 
      * @returns [Table of command callback functions., Table of command autocomplete functions.] 
@@ -19822,7 +19822,7 @@ declare namespace constraint {
     function CreateKeyframeRope(pos: Vector, width: number, material: string, Constraint: Entity, Ent1: Entity, LPos1: Vector, Bone1: number, Ent2: Entity, LPos2: Vector, Bone2: number, kv: table): Entity;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates an invisible, non-moveable anchor point in the world to which things can be attached. 
      * @param pos  The position to spawn the anchor at 
@@ -19831,7 +19831,7 @@ declare namespace constraint {
     function CreateStaticAnchorPoint(pos: Vector): [Entity, PhysObj, number, Vector];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates an elastic constraint. 
      * @param Ent1  First entity. 
@@ -19914,7 +19914,7 @@ declare namespace constraint {
     function HasConstraints(ent: Entity): boolean;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates a Hydraulic constraint. 
      * @param pl  The player that will be used to call `numpad.OnDown`. 
@@ -19949,7 +19949,7 @@ declare namespace constraint {
     function Keepupright(ent: Entity, ang: Angle, bone: number, angularLimit: number): Entity;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates a motor constraint. 
      * @param Ent1  First entity. 
@@ -19974,7 +19974,7 @@ declare namespace constraint {
     function Motor(Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, friction: number, torque: number, forcetime: number, nocollide: number, toggle: number, pl: Player, forcelimit: number, numpadkey_fwd: KEY, numpadkey_bwd: KEY, direction: number, LocalAxis: Vector): [Entity, Entity];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates a muscle constraint. 
      * @param pl  The player that will be used to call `numpad.OnDown`. 
@@ -20026,7 +20026,7 @@ declare namespace constraint {
     function Pulley(Ent1: Entity, Ent4: Entity, Bone1: number, Bone4: number, LPos1: Vector, LPos4: Vector, WPos2: Vector, WPos3: Vector, forcelimit: number, rigid: boolean, width: number, material: string): Entity;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Attempts to remove all constraints associated with an entity 
      * @param ent  The entity to remove constraints from 
@@ -20035,7 +20035,7 @@ declare namespace constraint {
     function RemoveAll(ent: Entity): [boolean, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Attempts to remove all constraints of a specified type associated with an entity 
      * @param ent  The entity to check 
@@ -20045,7 +20045,7 @@ declare namespace constraint {
     function RemoveConstraints(ent: Entity, type: string): [boolean, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates a rope constraint - with rope! 
      * @param Ent1  First entity 
@@ -20065,7 +20065,7 @@ declare namespace constraint {
     function Rope(Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, length: number, addlength: number, forcelimit: number, width: number, material: string, rigid: boolean): [Entity, Entity];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates a slider constraint. 
      * @param Ent1  First entity. 
@@ -20096,7 +20096,7 @@ declare namespace constraint {
     function Weld(ent1: Entity, ent2: Entity, bone1: number, bone2: number, forcelimit: number, nocollide: boolean, deleteent1onbreak: boolean): Entity;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates a Winch constraint. 
      * @param pl  The player that will be used to call `numpad.OnDown` and `numpad.OnUp`. 
@@ -20174,7 +20174,7 @@ declare namespace construct {
  * 
  * This control only exists in Sandbox derived gamemodes. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class ContentIcon extends DButton {
@@ -20273,7 +20273,7 @@ declare class ContentIcon extends DButton {
 /**
  * A base for all context menu panels ( The ones used for tool options in sandbox ) 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class ContextBase extends Panel {
@@ -20337,7 +20337,7 @@ declare namespace controlpanel {
  * **Note:**
  * >This panel is only available in Sandbox and Sandbox derived gamemodes! 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class ControlPanel extends DForm {
@@ -20440,7 +20440,7 @@ declare class ControlPanel extends DForm {
  * 
  * This control only exists in Sandbox derived gamemodes. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class ControlPresets extends Panel {
@@ -20589,7 +20589,7 @@ declare namespace coroutine {
     function create(func: Function): thread;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Resumes the given coroutine and passes the given vararg to either the function arguments or the `coroutine.yield` that is inside that function and returns whatever yield is called with the next time or by the final return in the function. 
      * @param coroutine  Coroutine to resume. 
@@ -20734,7 +20734,7 @@ declare class CSEnt extends Entity {
  * 
  * Created with `CreateSound` 
  *
- * !CustomConstructor CreateSound
+ * @customConstructor CreateSound
  *
  */
 declare class CSoundPatch {
@@ -21062,7 +21062,7 @@ declare class CTakeDamageInfo {
  * 
  * This control only exists in Sandbox derived gamemodes. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class CtrlListBox extends DComboBox {
@@ -21347,7 +21347,7 @@ declare namespace cvars {
  * 
  * This is used by `IconEditor` for modifying spawn icons. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -21392,7 +21392,7 @@ declare class DAdjustableModelPanel extends DModelPanel {
 /**
  * A bar to select the opacity (alpha level) of a color. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -21449,7 +21449,7 @@ declare class DAlphaBar extends DPanel {
 /**
  * Input which can bind a command to a key. Used for binding inputs and outputs of TOOLs. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -21519,7 +21519,7 @@ declare class DBinder extends DButton {
 /**
  * A transparent gray speech bubble panel made up of a rounded box and point coming from the bottom. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -21586,7 +21586,7 @@ declare class DBubbleContainer extends DPanel {
  * 
  * By default, a `DButton` is 22px tall. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -21806,7 +21806,7 @@ declare class DButton2 {
  * 
  * Used by `DCollapsibleCategory` 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DCategoryHeader extends DButton {
@@ -21816,7 +21816,7 @@ declare class DCategoryHeader extends DButton {
 /**
  * A host for multiple `DCollapsibleCategory` panels. As the name suggests, each one of them can be collapsed or expanded on demand by the user. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -21890,7 +21890,7 @@ declare class DCategoryList extends DScrollPanel {
 /**
  * The DCheckBox is a checkbox. It allows you to get a boolean value from the user (true/false - yes/no) 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -21947,7 +21947,7 @@ declare class DCheckBox extends DButton {
 /**
  * The "DCheckBoxLabel" is a `DCheckBox` with a `DLabel` next to it. It allows you to get a boolean value from the user (true/false - yes/no) 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -22056,7 +22056,7 @@ declare class DCheckBoxLabel extends DPanel {
  * 
  * Consider using `DCategoryList` if you plan on using more than 1 of these. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -22237,7 +22237,7 @@ declare class DCollapsibleCategory extends Panel {
 /**
  * Colorful buttons. Used internally by `DColorPalette`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -22309,7 +22309,7 @@ declare class DColorButton extends DLabel {
 /**
  * The "DColorCombo" allows the user to choose color, without alpha, using `DColorMixer` or `DColorPalette` in a tabbed view. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -22369,7 +22369,7 @@ declare class DColorCombo extends DPropertySheet {
 /**
  * The DColorCube allows a user to select saturation and value but not hue. Uses HSV colors 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -22501,7 +22501,7 @@ declare class DColorCube extends DSlider {
     public SetRGB(clr: Color): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * **[INTERNAL]**
      * 
@@ -22513,7 +22513,7 @@ declare class DColorCube extends DSlider {
     public TranslateValues(x: number, y: number): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * For override by child panels, such as `DNumSlider`. 
      * @param x 
@@ -22535,7 +22535,7 @@ declare class DColorCube extends DSlider {
 /**
  * A standard Derma color mixer 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -22778,7 +22778,7 @@ declare class DColorMixer extends DPanel {
  * 
  * Use `Panel.SetCookieName` to change "save files". 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -23011,7 +23011,7 @@ declare class DColorPalette extends DIconLayout {
 /**
  * Similar to `DPropertySheet`, but with tabs on the left. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -23070,7 +23070,7 @@ declare class DColumnSheet extends Panel {
 /**
  * A field with multiple selectable values. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -23170,7 +23170,7 @@ declare class DComboBox extends DButton {
     public GetOptionTextByData(data: string): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the currently selected option's text and data 
      * @returns [The option's text value., The option's stored data.] 
@@ -23230,7 +23230,7 @@ declare class DComboBox extends DButton {
  * 
  * A VGUI base panel providing drag/drop functionality. Used by `DIconLayout`, `DListLayout` and `DTileLayout`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -23349,7 +23349,7 @@ declare class DDragBase extends DPanel {
 /**
  * A simple Derma Drawer 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -23432,7 +23432,7 @@ declare namespace debug {
     function getfenv(object: table): table;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the current hook settings of the passed thread. The thread argument can be omitted. This is unrelated to [[:Category:GM Hooks|gamemode hooks]]. More information on hooks can be found at http://www.lua.org/pil/23.2.html 
      * @param thread [=nil] Which thread to retrieve its hook from 
@@ -23458,7 +23458,7 @@ declare namespace debug {
     function getinfo(funcOrStackLevel: Function, fields?: string): DebugInfo;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the name and value of a local variable indexed from the level 
      * @param thread [=Current thread] The thread 
@@ -23507,7 +23507,7 @@ declare namespace debug {
     function getregistry(): table;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Used for getting variable values in an index from the passed function. This does nothing for C functions. 
      * @param func  Function to get the upvalue indexed from. 
@@ -23802,7 +23802,7 @@ declare namespace debugoverlay {
  * 
  * A panel used by the [[Editable Entities]] system. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DEntityProperties extends DProperties {
@@ -23941,7 +23941,7 @@ declare namespace derma {
  * 
  * The little "+" button used by `DProperties` and `DTree_Node`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DExpandButton extends DButton {
@@ -23963,7 +23963,7 @@ declare class DExpandButton extends DButton {
  * 
  * It allows filtering by folder (directory) name and file extension, and can display models as `SpawnIcon`s. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -24242,7 +24242,7 @@ declare class DFileBrowser extends DPanel {
 /**
  * An easy form with functions to quickly add form elements 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DForm extends DCollapsibleCategory {
@@ -24274,7 +24274,7 @@ declare class DForm extends DCollapsibleCategory {
     public CheckBox(label: string, convar: string): DCheckBoxLabel;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Adds a `DComboBox` onto the `DForm` 
      * @param title  Text to the left of the combo box 
@@ -24298,7 +24298,7 @@ declare class DForm extends DCollapsibleCategory {
     public Help(help: string): DLabel;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Adds a `DListBox` onto the `DForm` 
      * @param label  The label to set on the DListBox 
@@ -24307,7 +24307,7 @@ declare class DForm extends DCollapsibleCategory {
     public ListBox(label: string): [DListBox, DLabel];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Adds a `DNumberWang` onto the `DForm` 
      * @param label  The label to be placed next to the DNumberWang 
@@ -24356,7 +24356,7 @@ declare class DForm extends DCollapsibleCategory {
     public SetName(name: string): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Adds a `DTextEntry` to a `DForm` 
      * @param label  The label to be next to the text entry 
@@ -24369,7 +24369,7 @@ declare class DForm extends DCollapsibleCategory {
 /**
  * The DFrame control is the foundation for any Derma menu. It holds all of your controls. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -24563,7 +24563,7 @@ declare class DFrame extends EditablePanel {
  * **Note:**
  * >This panel will set its size automatically based on set column count. This makes it play badly with `Panel.Dock` and cause a `PANEL.PerformLayout` call every frame. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -24660,7 +24660,7 @@ declare class DGrid extends Panel {
 /**
  * Creates an invisible vertical divider between two GUI elements. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -24811,7 +24811,7 @@ declare class DHorizontalDivider extends DPanel {
  * 
  * Used internally in `DPropertySheet`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -24915,7 +24915,7 @@ declare class DHorizontalScroller extends Panel {
 /**
  * The DHTML control wraps the internal Awesomium framework, supports calling Javascript functions from Lua, as well as running Lua from within the HTML. Running Lua code is disabled by default. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -25033,7 +25033,7 @@ declare class DHTML extends Awesomium {
 /**
  * An element providing navigation controls for a `DHTML` window. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -25104,7 +25104,7 @@ declare class DHTMLControls extends Panel {
 /**
  * Simply a [http://wiki.garrysmod.com/page/VGUI/Elements/DIconLayout DIconLayout] which automatically displays all of the [http://wiki.garrysmod.com/page/silkicons Silkicons]. Used as a way to get the user to select an icon. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -25195,7 +25195,7 @@ declare class DIconBrowser extends DScrollPanel {
  * 
  * `DIconLayout` is used to make a list of panels. Unlike DPanelList, DIconLayout does not automatically add a scroll bar - the example below shows you how you can do this. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -25360,7 +25360,7 @@ declare class DIconLayout extends DDragBase {
  * 
  * See `DImageButton` for a click-able version of this panel. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -25587,7 +25587,7 @@ declare class DImage extends DPanel {
  * 
  * This panel inherits all methods of `DButton`, such as `DLabel.DoClick`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -25731,7 +25731,7 @@ declare class DImageButton extends DButton {
 /**
  * Uses the {{Lib|killicon}} to persistently draw a killicon. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -25778,10 +25778,10 @@ declare class DKillIcon extends Panel {
 /**
  * A standard Derma text label. A lot of this panels functionality is a base for button elements, such as `DButton` 
  *
- * !CustomConstructor Label
+ * @customConstructor Label
  *
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -26216,7 +26216,7 @@ declare class DLabel extends Label {
  * 
  * This is used in the spawnmenu spawnlist headers. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -26243,7 +26243,7 @@ declare class DLabelEditable extends DLabel {
  * 
  * This panel uses `gui.OpenURL` internally and its restrictions apply. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -26321,7 +26321,7 @@ declare class DLabelURL extends URLLabel {
  * 
  *  A simple list box with optional multi-select. As this is deprecated, it is recommended that you use `DListView`, which contains the same functionality with multi-column options. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DListBox extends DPanelList {
@@ -26331,7 +26331,7 @@ declare class DListBox extends DPanelList {
 /**
  * **[INTERNAL]** 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DListBoxItem extends DLabel {
@@ -26345,7 +26345,7 @@ declare class DListBoxItem extends DLabel {
  * 
  * To enable the drag & drop rearrangement functionality, call `DDragBase.MakeDroppable` on the DListLayout with a unique identifier. All panels added following this will be moveable. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -26378,7 +26378,7 @@ declare class DListLayout extends DDragBase {
 /**
  * A data view with rows and columns. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -26715,7 +26715,7 @@ declare class DListView extends DPanel {
  * 
  * A single column, used by `DListView`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DListView_Column extends DPanel {
@@ -26734,7 +26734,7 @@ declare class DListView_Column extends DPanel {
 /**
  * **[INTERNAL]** 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DListView_ColumnPlain extends Panel {
@@ -26744,7 +26744,7 @@ declare class DListView_ColumnPlain extends Panel {
 /**
  * **[INTERNAL]** 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DListView_DraggerBar extends DButton {
@@ -26756,7 +26756,7 @@ declare class DListView_DraggerBar extends DButton {
  * 
  * A panel used by `DListView` 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DListView_Line extends Panel {
@@ -26780,7 +26780,7 @@ declare class DListView_Line extends Panel {
 /**
  * **[INTERNAL]** 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DListViewHeaderLabel extends DLabel {
@@ -26790,7 +26790,7 @@ declare class DListViewHeaderLabel extends DLabel {
 /**
  * **[INTERNAL]** 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DListViewLabel extends DLabel {
@@ -26800,7 +26800,7 @@ declare class DListViewLabel extends DLabel {
 /**
  * **[INTERNAL]** 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DListViewLine extends Panel {
@@ -26810,7 +26810,7 @@ declare class DListViewLine extends Panel {
 /**
  * A simple menu with sub menu, icon and convar support. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -26872,7 +26872,7 @@ declare class DMenu extends DScrollPanel {
     public AddSpacer(): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Add a sub menu to the DMenu 
      * @param Name  Name of the sub menu. 
@@ -27078,7 +27078,7 @@ declare class DMenu extends DScrollPanel {
 /**
  * A simple Derma MenuBar 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -27275,7 +27275,7 @@ declare class DMenuBar extends DPanel {
  * 
  * Internal subpanel that represents an option used by `DMenu`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DMenuOption extends DButton {
@@ -27348,7 +27348,7 @@ declare class DMenuOption extends DButton {
  * 
  * Use `DMenu.AddCVar` instead. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DMenuOptionCVar extends DMenuOption {
@@ -27403,7 +27403,7 @@ declare class DMenuOptionCVar extends DMenuOption {
 /**
  * DModelPanel is a VGUI element that projects a 3D model onto a 2D plane. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -27640,7 +27640,7 @@ declare class DModelPanel extends DButton {
  * 
  *  A vertical list of models. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -27697,7 +27697,7 @@ declare class DModelSelect extends DPanelSelect {
 /**
  * A combination of `DModelSelect` and `DPropertySheet`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DModelSelectMulti extends DPropertySheet {
@@ -27707,7 +27707,7 @@ declare class DModelSelectMulti extends DPropertySheet {
 /**
  * A panel that fades its contents in and out once, like a notification. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -27820,7 +27820,7 @@ declare class DNotify extends Panel {
 /**
  * Choose a number from a number line, with zooming for precision. Zoom in by moving your mouse forward and moving back does the opposite. Looks like a blue circle until you click and hold on it 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28041,7 +28041,7 @@ declare class DNumberScratch extends DImageButton {
 /**
  * DNumberWang is a VGUI element that allows you to input a numeric value using up and down arrows or direct entry. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DNumberWang extends DTextEntry {
@@ -28200,7 +28200,7 @@ declare class DNumberWang extends DTextEntry {
  * 
  * GMod 12 style "number pad" panel used by tools for binding keys to tool actions. Deprecated in favor of `DBinder`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DNumPad extends DPanel {
@@ -28210,7 +28210,7 @@ declare class DNumPad extends DPanel {
 /**
  * The DNumSlider allows you to create a slider, allowing the user to slide it to set a value, or changing the value in the box. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28361,7 +28361,7 @@ declare class DNumSlider extends Panel {
     public SetValue(val: number): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * **[INTERNAL]**
      * 
@@ -28393,7 +28393,7 @@ declare class DNumSlider extends Panel {
 /**
  * A simple rectangular box, commonly used for parenting other elements to. Pretty much all elements are based on this. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28475,7 +28475,7 @@ declare class DPanel extends Panel {
  * Displays elements in a horizontal or vertical list. A scrollbar is automatically shown if necessary.
  * Use is not recommended due to deprecation. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DPanelList extends DPanel {
@@ -28530,7 +28530,7 @@ declare class DPanelList extends DPanel {
 /**
  * Adds curved corners. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28610,7 +28610,7 @@ declare class DPanelOverlay extends DPanel {
  * 
  *  A base panel for things like `DModelSelect`. Basically, a list of panels that can be selected. Selected panel can be retrieved and has visual indication of being selected. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DPanelSelect extends DPanelList {
@@ -28620,7 +28620,7 @@ declare class DPanelSelect extends DPanelList {
 /**
  * A progressbar, works with a fraction between 0 and 1 where 0 is 0% and 1 is 100%. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28656,7 +28656,7 @@ declare class DProgress extends Panel {
  * *`DProperty_Float`
  * *`DProperty_Int` 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28733,7 +28733,7 @@ declare class DProperties extends Panel {
  * 
  * Checkbox control for the `DProperties` panel. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28762,7 +28762,7 @@ declare class DProperty_Boolean extends DProperty_Generic {
  * 
  * Combo control for a `DProperties` panel. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28833,7 +28833,7 @@ declare class DProperty_Combo extends DProperty_Generic {
  * 
  * Float control for the `DProperties` panel. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DProperty_Float extends DProperty_Generic {
@@ -28843,7 +28843,7 @@ declare class DProperty_Float extends DProperty_Generic {
 /**
  * A base for other controls for `DProperties`. Acts as a generic text input on its own. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28872,7 +28872,7 @@ declare class DProperty_Generic extends Panel {
  * 
  * Integer control for the `DProperties` panel. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DProperty_Int extends DProperty_Float {
@@ -28884,7 +28884,7 @@ declare class DProperty_Int extends DProperty_Float {
  * 
  * See [[Editable Entities]] for how this is used ingame. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -28932,7 +28932,7 @@ declare class DProperty_VectorColor extends DProperty_Generic {
 /**
  * A tab oriented control where you can create multiple tabs with items within. Used mainly for organization. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -29233,7 +29233,7 @@ declare namespace draw {
     function RoundedBoxEx(cornerRadius: number, x: number, y: number, width: number, height: number, color: Color, roundTopLeft?: boolean, roundTopRight?: boolean, roundBottomLeft?: boolean, roundBottomRight?: boolean): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Draws text on the screen.
      * 
@@ -29250,7 +29250,7 @@ declare namespace draw {
     function SimpleText(text: string, font?: string, x?: number, y?: number, color?: Color, xAlign?: TEXT_ALIGN, yAlign?: TEXT_ALIGN): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates a simple line of text that is outlined.
      * 
@@ -29269,7 +29269,7 @@ declare namespace draw {
     function SimpleTextOutlined(Text: string, font?: string, x?: number, y?: number, color?: Color, xAlign?: TEXT_ALIGN, yAlign?: TEXT_ALIGN, outlinewidth?: number, outlinecolor?: Color): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Creates a simple line of text that is outlined.
      * 
@@ -29281,7 +29281,7 @@ declare namespace draw {
     function SimpleTextOutlined(Text: string, outlinewidth: number): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Works like `draw.SimpleText` but uses a table structure instead.
      * 
@@ -29310,7 +29310,7 @@ declare namespace draw {
     function TexturedQuad(texturedata: TextureData): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Draws a rounded box with text in it.
      * 
@@ -29334,7 +29334,7 @@ declare namespace draw {
  * 
  * See `DColorMixer` for a color picker that allows control over hue, saturation, and brightness at once. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -29417,7 +29417,7 @@ declare namespace draw {
  */
 declare class DRGBPicker extends DPanel {
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * **[INTERNAL]**
      * 
@@ -29563,7 +29563,7 @@ declare namespace drive {
  * 
  * An internal panel used by `DVScrollBar` as the grip (middle) part of the scrollbar. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DScrollBarGrip extends DPanel {
@@ -29580,7 +29580,7 @@ declare class DScrollBarGrip extends DPanel {
  * **Note:**
  * >`Panel.DockPadding` will not have an effect on children of this panel. Use the function on `DScrollPanel.GetCanvas` instead. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -29660,7 +29660,7 @@ declare class DScrollPanel extends DPanel {
 /**
  * Draw a shape on a derma panel. Only one kind of shape, a rectangle, is available for use. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -29729,7 +29729,7 @@ declare class DShape extends DPanel {
 /**
  * A helper panel that will automatically resize itself to fit all its children using `Panel.SizeToChildren`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DSizeToContents extends Panel {
@@ -29739,7 +29739,7 @@ declare class DSizeToContents extends Panel {
 /**
  * Creates a slider that can be moved along the X and/or Y axis 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -29912,7 +29912,7 @@ declare class DSlider extends DPanel {
     public SetTrapInside(trap: boolean): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * For override by child panels, such as `DNumSlider`. 
      * @param x 
@@ -29927,10 +29927,10 @@ declare class DSlider extends DPanel {
  * 
  * A shortcut for this is `CreateSprite`(). 
  *
- * !CustomConstructor CreateSprite
+ * @customConstructor CreateSprite
  *
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -30004,7 +30004,7 @@ declare class DSprite extends DPanel {
  * 
  * A tab for internal use on the DPropertySheet. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DTab extends DButton {
@@ -30017,7 +30017,7 @@ declare class DTab extends DButton {
  * **Bug [#1588](https://github.com/Facepunch/garrysmod-issues/issues/1588):**
  * >This does not clear out previously-pasted text properly. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -30195,7 +30195,7 @@ declare class DTextEntry extends TextEntry {
  * 
  * It also optionally permits the rearrangement of these tiles. To enable this functionality, call `DDragBase.MakeDroppable` on the DTileLayout with a unique identifier. All panels added following this will be moveable. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -30253,7 +30253,7 @@ declare class DTileLayout extends DDragBase {
     public CopyContents(source: Panel): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * **[INTERNAL]**
      * 
@@ -30388,7 +30388,7 @@ declare class DTileLayout extends DDragBase {
  * 
  * The panel used internally for tool tips. See `Panel.SetTooltip`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -30453,7 +30453,7 @@ declare class DTooltip extends DLabel {
  * 
  * See also `DTree_Node`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -30653,7 +30653,7 @@ declare class DTree extends DScrollPanel {
  * 
  * The root node of a `DTree` is also a `DTree_Node` and controls much of its action; it can be accessed with `DTree.Root`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DTree_Node extends DPanel {
@@ -31261,7 +31261,7 @@ declare class DTree_Node extends DPanel {
  * 
  * Used by `DTree_Node`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DTree_Node_Button extends DButton {
@@ -31423,7 +31423,7 @@ declare namespace duplicator {
     function GenericDuplicatorFunction(ply: Player, data: table): Entity;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * **[INTERNAL]**
      * 
@@ -31443,7 +31443,7 @@ declare namespace duplicator {
     function IsAllowed(classname: string): boolean;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * "Given entity list and constraint list, create all entities and return their tables"
      * 
@@ -31554,7 +31554,7 @@ declare namespace duplicator {
 /**
  * Vertical version of `DHorizontalDivider`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DVerticalDivider extends DPanel {
@@ -31568,7 +31568,7 @@ declare class DVerticalDivider extends DPanel {
  * 
  * The scrollbar notably contains "DVScrollBar.btnUp, DVScrollBar.btnDown, and DVScrollBar.btnGrip" which are the up button, down button, and grip respectively. Editing the paint functions of these allows custom scrollbar styling. See `DScrollPanel.GetVBar` for an example. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class DVScrollBar extends Panel {
@@ -31651,7 +31651,7 @@ declare class DVScrollBar extends Panel {
 /**
  * Base panel used by `DFrame`, this panel is needed so that elements such as the TextEntry can obtain focus. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class EditablePanel {
@@ -32018,7 +32018,7 @@ declare namespace engine {
     function OpenDupe(dupeName: string): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns an estimate of the server's performance. Equivalent to calling `FrameTime` from the server, according to source code. 
      * @returns [Frame time, Server Framerate Std Deviation] 
@@ -32070,7 +32070,7 @@ declare namespace engine {
 /**
  * This is a list of all available methods for entites, which includes [http://wiki.garrysmod.com/page/Category:Player Players], [http://wiki.garrysmod.com/page/Category:Weapon Weapons], [http://wiki.garrysmod.com/page/Category:NPC NPCs] and [http://wiki.garrysmod.com/page/Category:Vehicle Vehicles]. 
  *
- * !CustomConstructor Entity
+ * @customConstructor Entity
  *
  */
 declare class Entity {
@@ -32271,7 +32271,7 @@ declare class Entity {
     public BoundingRadius(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Called whenever the entity's position changes. A callback for when an entity's angle changes is available via `Entity.AddCallback`.
      * 
@@ -32568,7 +32568,7 @@ declare class Entity {
     public EyeAngles(): Angle;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the position of an Player/NPC's view, or two vectors for ragdolls (one for each eye) 
      * @returns [View position of the entity.
@@ -32834,7 +32834,7 @@ declare class Entity {
     public GetBoneParent(bone: number): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the position and angle of the given attachment, relative to the world.
      * 
@@ -32849,7 +32849,7 @@ declare class Entity {
     public GetBonePosition(boneIndex: number): [Vector, Angle];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns info about given plane of non-nodraw brush model surfaces of the entity's model. Works on worldspawn as well. 
      * @param id  The index of the plane to get info of. Starts from 0. 
@@ -32903,7 +32903,7 @@ declare class Entity {
     public GetClass(): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns an entity's collision bounding box. In most cases, this will return the same bounding box as `Entity.GetModelBounds` unless the entity does not have a physics mesh or it has a `PhysObj` different from the default.
      * 
@@ -32929,7 +32929,7 @@ declare class Entity {
     public GetColor(): Color;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the two entities involved in a constraint ent, or nil if the entity is not a constraint. 
      * @returns [ent1, ent2] 
@@ -32937,7 +32937,7 @@ declare class Entity {
     public GetConstrainedEntities(): [Entity, Entity];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the two entities physobjects involved in a constraint ent, or no value if the entity is not a constraint. 
      * @returns [phys1, phys2] 
@@ -33083,7 +33083,7 @@ declare class Entity {
     public GetFlags(): FL;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns acceptable value range for the flex. 
      * @param flex  The ID of the flex to look up bounds of 
@@ -33172,7 +33172,7 @@ declare class Entity {
     public GetHitBoxBone(hitbox: number, group: number): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the bounds (min and max corners) of a hit box. 
      * @param hitbox  The number of the hit box. 
@@ -33195,7 +33195,7 @@ declare class Entity {
     public GetHitBoxGroupCount(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns entity's current hit box set 
      * @returns [The current hit box set id, or no value if the entity doesn't have hit boxes, The current hit box set name, or no value if the entity doesn't have hit boxes] 
@@ -33359,7 +33359,7 @@ declare class Entity {
     public GetModel(): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the entity's model bounds. This is different than the collision bounds/hull. This is not scaled with `Entity.SetModelScale`, and will return the model's original, unmodified mins and maxs. 
      * @returns [The minimum vector of the bounds, The maximum vector of the bounds] 
@@ -33379,7 +33379,7 @@ declare class Entity {
     public GetModelRadius(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * {{Validate}}
      * Returns the entity's model render bounds. By default this will return the same bounds as `Entity.GetModelBounds`. 
@@ -33734,7 +33734,7 @@ declare class Entity {
     public GetPoseParameterName(id: number): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns pose parameter range 
      * @param id  Pose parameter ID to look up 
@@ -33770,7 +33770,7 @@ declare class Entity {
     public GetRenderAngles(): Angle;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns render bounds of the entity. Can be overridden by `Entity.SetRenderBounds`.
      * 
@@ -33819,7 +33819,7 @@ declare class Entity {
     public GetRight(): Vector;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the min and max of the entity's axis-aligned bounding box. 
      * @param min  Minimum extent of the bounding box. 
@@ -33936,7 +33936,7 @@ declare class Entity {
     public GetSequenceMoveDist(sequenceId: number): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the delta movement and angles of a sequence of the entity's model. 
      * @param sequenceId  The sequence index. See `Entity.GetSequenceName`. 
@@ -34501,7 +34501,7 @@ declare class Entity {
     public LookupBone(boneName: string): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns sequence ID from its name. 
      * @param name  Sequence name 
@@ -34931,7 +34931,7 @@ declare class Entity {
     public PhysicsInitStatic(solidType: SOLID): boolean;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Called from the Entity's motion controller to simulate physics.
      * 
@@ -36826,7 +36826,7 @@ declare class Entity {
     public Weapon_TranslateActivity(act: number): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns two vectors representing the minimum and maximum extent of the entity's bounding box. 
      * @returns [The minimum vector for the entity's bounding box., The maximum vector for the entity's bounding box.] 
@@ -37081,7 +37081,7 @@ declare namespace file {
     function Exists(name: string, path: string): boolean;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns a list of files and directories inside a single folder.
      * 
@@ -37356,7 +37356,7 @@ declare class File {
  * 
  * A panel used by Sandbox's Finger Poser tool. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class fingerposer extends ContextBase {
@@ -37368,7 +37368,7 @@ declare class fingerposer extends ContextBase {
  * 
  * A panel used by Sandbox's Finger Poser tool. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class FingerVar extends Panel {
@@ -37378,7 +37378,7 @@ declare class FingerVar extends Panel {
 /**
  * A window that in which you can place just about every other component and even another frame. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -37711,7 +37711,7 @@ declare namespace game {
     function MaxPlayers(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Mounts a GMA addon from the disk. Any error models currently loaded that the mounted addon provides will be reloaded.
      * 
@@ -37888,7 +37888,7 @@ declare class Gamemode {
     public AllowPlayerPickup(ply: Player, ent: Entity): boolean;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * This hook is used to calculate animations for a player.
      * 
@@ -37927,7 +37927,7 @@ declare class Gamemode {
     public CalcView(ply: Player, origin: Vector, angles: Angle, fov: number, znear: number, zfar: number): CamData;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Allows overriding the position and angle of the viewmodel. 
      * @param wep  The weapon entity 
@@ -38021,7 +38021,7 @@ declare class Gamemode {
     public ChatTextChanged(text: string): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Called when a non local player connects to allow the Lua system to check the password.
      * 
@@ -38270,7 +38270,7 @@ declare class Gamemode {
     public GetGameDescription(): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Allows you to modify the Source Engine's motion blur shaders. 
      * @param horizontal  The amount of horizontal blur. 
@@ -38856,7 +38856,7 @@ declare class Gamemode {
     public PlayerButtonUp(ply: Player, button: BUTTON_CODE): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Decides whether a player can hear another player using voice chat. 
      * @param listener  The listening player. 
@@ -39882,2366 +39882,6 @@ declare class Gamemode {
 /**
  * This is the list of global functions. 
  */
-/**
- * Adds simple Get/Set accessor functions on the specified table.
- * 
- * Can also force the value to be set to a number, bool or string. 
- * @param tab  The table to add the accessor functions too. 
- * @param key  The key of the table to be get/set. 
- * @param name  The name of the functions (will be prefixed with Get and Set). 
- * @param force [=nil] The type the setter should force to (uses `FORCE`). 
- */
-declare function AccessorFunc(tab: table, key: any, name: string, force?: FORCE): void;
-
-/**
- * Defines a global entity class variable with an automatic value in order to prevent collisions with other `CLASS`. You should prefix your variable with CLASS_ for consistency. 
- * @param name  The name of the new enum/global variable. 
- */
-declare function Add_NPC_Class(name: string): void;
-
-/**
- * Adds the specified image path to the main menu background pool. Image can be png or jpeg. 
- * @param path  Path to the image. 
- */
-declare function AddBackgroundImage(path: string): void;
-
-/**
- * **[INTERNAL]**
- * 
- * Tells the engine to register a console command. If the command was ran, the engine calls `concommand.Run`. 
- * @param name  The name of the console command to add. 
- * @param helpText  The help text. 
- * @param flags  Concommand flags using `FCVAR` 
- */
-declare function AddConsoleCommand(name: string, helpText: string, flags: FCVAR): void;
-
-/**
- * Marks a Lua file to be sent to clients when they join the server. Doesn't do anything on the client - this means you can use it in a shared file without problems.
- * 
- * **Warning:**
- * >If the file trying to be added is empty, an error will occur, and the file will not be sent to the client.
- * 
- * **Note:**
- * >This function is not needed for scripts located in "lua/autorun/" and "lua/autorun/client/": they are automatically sent to clients. 
- * @param file [=current file] The name/path to the Lua file that should be sent, relative to the garrysmod/lua folder. If no parameter is specified, it sends the current file.
- * 
- * The file path can be relative to the script it is ran from. For example, if your script is in lua/myfolder/stuff.lua, calling `AddCSLuaFile`("otherstuff.lua") and `AddCSLuaFile`("myfolder/otherstuff.lua") is the same thing. 
- */
-declare function AddCSLuaFile(file?: string): void;
-
-/**
- * Loads the specified image from the /cache folder, used in combination `steamworks.Download`.
- * 
- * Most addons will provide a 512x512 png image. 
- * @param name  The name of the file. 
- * @returns The material, returns nil if the cached file is not an image. 
- */
-declare function AddonMaterial(name: string): IMaterial;
-
-/**
- * Adds the specified vector to the PVS which is currently building. This allows all objects in visleafs visible from that vector to be drawn. 
- * @param position  The origin to add. 
- */
-declare function AddOriginToPVS(position: Vector): void;
-
-/**
- * This function creates a World Tip, similar to the one shown when aiming at a Thruster where it shows you its force.
- * 
- * This function will make a World Tip that will only last 50 milliseconds (1/20th of a second), so you must call it continuously as long as you want the World Tip to be shown. It is common to call it inside a Think hook.
- * 
- * Contrary to what the function's name implies, it is impossible to create more than one World Tip at the same time. A new World Tip will overwrite the old one, so only use this function when you know nothing else will also be using it.
- * 
- * See `SANDBOX.PaintWorldTips` for more information.
- * 
- * **Note:**
- * >This function is only available in Sandbox and its derivatives 
- * @param entindex [=nil] "This argument is no longer used"; it has no effect on anything. You can use nil in this argument. 
- * @param text [=] The text for the world tip to display. 
- * @param dieTime [=SysTime() + 0.05] "This argument is no longer used"; when you add a World Tip it will always last only 0.05 seconds. You can use nil in this argument. 
- * @param pos [=ent:GetPos()] Where in the world you want the World Tip to be drawn. If you add a valid Entity in the next argument, this argument will have no effect on the actual World Tip. 
- * @param ent [=nil] Which entity you want to associate with the World Tip. This argument is optional. If set to a valid entity, this will override the position set in ''pos'' with the Entity's position. 
- */
-declare function AddWorldTip(entindex?: number, text?: string, dieTime?: number, pos?: Vector, ent?: Entity): void;
-
-/**
- * Returns an angle with a randomized pitch, yaw and roll. The pitch is between -90 and 90 degrees, while yaw and roll are between -180 and 180 degrees. 
- * @returns The randomly generated angle. 
- */
-declare function AngleRand(): Angle;
-
-/**
- * !TupleReturn
- *
- * If the result of the first argument is false or nil, an error is thrown with the second argument as the message. 
- * @param expression  The expression to assert. 
- * @param errorMessage [="assertion failed!"] The error message to throw when assertion fails. This is only type-checked if the assertion fails. 
- * @param returns  Any arguments past the error message will be returned by a successful assert. 
- * @returns [If successful, returns the first argument., If successful, returns the error message. This will be nil if the second argument wasn't specified.
- * 
- * Since the second argument is only type-checked if the assertion fails, this doesn't have to be a string., Returns any arguments past the error message.] 
- */
-declare function assert(expression: any, errorMessage?: string, ...returns: (any)[]): [any, any, any];
-
-/**
- * Sends the specified Lua code to all connected clients and executes it. 
- * @param code  The code to be executed. Capped at length of 254 characters. 
- */
-declare function BroadcastLua(code: string): void;
-
-/**
- * Dumps the networked variables of all entities into one table and returns it. 
- * @returns Format:
- * * key = `Entity` for NWVars or `number` (always 0) for global vars
- * * value = `table` formatted as:
- * ** key = `string` var name
- * ** value = any type var value 
- */
-declare function BuildNetworkedVarsTable(): table;
-
-/**
- * **[INTERNAL]**
- * 
- * Used internally to check if the current server the player is on can be added to favorites or not. Does not check if the server is ALREADY in the favorites. 
- * @returns 
- */
-declare function CanAddServerToFavorites(): boolean;
-
-/**
- * Aborts joining of the server you are currently joining. 
- */
-declare function CancelLoading(): void;
-
-/**
- * Sets the active main menu background image to a random entry from the background images pool. Images are added with `AddBackgroundImage`. 
- * @param currentgm  Apparently does nothing. 
- */
-declare function ChangeBackground(currentgm: string): void;
-
-/**
- * Automatically called by the engine when a panel is hovered over with the mouse 
- * @param panel  Panel that has been hovered over 
- */
-declare function ChangeTooltip(panel: Panel): void;
-
-/**
- * Empties the pool of main menu background images. 
- */
-declare function ClearBackgroundImages(): void;
-
-/**
- * Creates a non physical entity that only exists on the client. See also `ents.CreateClientProp`.
- * 
- * **Bug [#861](https://github.com/Facepunch/garrysmod-issues/issues/861):**
- * >Parented clientside models will become detached if the parent entity leaves the PVS.
- * 
- * **Bug [#1387](https://github.com/Facepunch/garrysmod-issues/issues/1387):**
- * >Clientside entities are not garbage-collected, thus you must store a reference to the object and call `CSEnt.Remove` manually.
- * 
- * **Bug [#3184](https://github.com/Facepunch/garrysmod-issues/issues/3184):**
- * >Clientside models will occasionally delete themselves during high server lag. 
- * @param model  The file path to the model.
- * 
- * **Warning:**
- * >Model must be precached with `util.PrecacheModel` on the server before usage. 
- * @param renderGroup [=RENDERGROUP_OTHER] The rendergroup of the entity, see `RENDERGROUP`. 
- * @returns Created client-side model. ( C_BaseFlex ) 
- */
-declare function ClientsideModel(model: string, renderGroup?: RENDERGROUP): CSEnt;
-
-/**
- * Creates a fully clientside ragdoll.
- * 
- * **Note:**
- * >The ragdoll initially starts as hidden and with shadows disabled, see the example for how to enable it.
- * There's no need to call `Entity.Spawn` on this entity.
- * The physics won't initialize at all if the model hasn't been precached serverside first.
- * 
- * **Bug [#1387](https://github.com/Facepunch/garrysmod-issues/issues/1387):**
- * >Clientside entities are not garbage-collected, thus you must store a reference to the object and call `CSEnt.Remove` manually. 
- * @param model  The file path to the model.
- * 
- * **Warning:**
- * >Model must be precached with `util.PrecacheModel` on the server before usage. 
- * @param renderGroup [=RENDER_GROUP_OPAQUE] The `RENDERGROUP` to assign. 
- * @returns The newly created client-side ragdoll. ( C_ClientRagdoll ) 
- */
-declare function ClientsideRagdoll(model: string, renderGroup?: RENDERGROUP): CSEnt;
-
-/**
- * Creates a scene entity based on the scene name and the entity. 
- * @param name  The name of the scene. 
- * @param targetEnt  The entity to play the scene on. 
- * @returns C_SceneEntity 
- */
-declare function ClientsideScene(name: string, targetEnt: Entity): CSEnt;
-
-/**
- * Closes all Derma menus that have been passed to `RegisterDermaMenuForClose` and calls `GM.CloseDermaMenus` 
- */
-declare function CloseDermaMenus(): void;
-
-/**
- * Executes the specified action on the garbage collector. 
- * @param action [="collect"] The action to run.
- * 
- * Valid actions are "collect", "stop", "restart", "count", "step", "setpause" and "setstepmul". 
- * @param arg [=] The argument of the specified action, only applicable for "step", "setpause" and "setstepmul". 
- * @returns If the action is count this is the number of kilobytes of memory used by Lua.
- * If the action is step this is true if a garbage collection cycle was finished.
- * 
- * If the action is setpause this is the previous value for the GC's pause.
- * If the action is setstepmul this is the previous value for the GC's step. 
- */
-declare function collectgarbage(action?: string, arg?: number): any;
-
-/**
- * Creates a `Color`. 
- * @param r  An integer from 0-255 describing the red value of the color. 
- * @param g  An integer from 0-255 describing the green value of the color. 
- * @param b  An integer from 0-255 describing the blue value of the color. 
- * @param a [=255] An integer from 0-255 describing the alpha (transparency) of the color. 
- * @returns The created `Color`. 
- */
-declare function Color(r: number, g: number, b: number, a?: number): Color;
-
-/**
- * Returns a new `Color` with the RGB components of the given `Color` and the alpha value specified. 
- * @param color  The `Color` from which to take RGB values. This color will not be modified. 
- * @param alpha  The new alpha value, a number between 0 and 255. Values above 255 will be clamped. 
- * @returns The new `Color` with the modified alpha value 
- */
-declare function ColorAlpha(color: Color, alpha: number): Color;
-
-/**
- * Creates a `Color` with randomized red, green, and blue components. If the alpha argument is true, alpha will also be randomized. 
- * @param a [=false] Should alpha be randomized. 
- * @returns The created `Color`. 
- */
-declare function ColorRand(a?: boolean): Color;
-
-/**
- * !TupleReturn
- *
- * Converts a `Color` into HSV color space. 
- * @param color  The `Color`. 
- * @returns [The hue in degrees., The saturation in the range 0-1., The value in the range 0-1.] 
- */
-declare function ColorToHSV(color: Color): [number, number, number];
-
-/**
- * Attempts to compile the given file. If successful, returns a function that can be called to perform the actual execution of the script. 
- * @param path  Path to the file, relative to the garrysmod/lua/ directory. 
- * @returns The function which executes the script. 
- */
-declare function CompileFile(path: string): Function;
-
-/**
- * !TupleReturn
- *
- * This function will compile the code argument as lua code and return a function that will execute that code. 
- * 
- * Please note that this function will not automatically execute the given code after compiling it. 
- * @param code  The code to compile. 
- * @param identifier  An identifier in case an error is thrown. (The same identifier can be used multiple times) 
- * @param HandleError [=true] If false this function will return an error string instead of throwing an error. 
- * @returns [A function that, when called, will execute the given code. Returns nil if there was an error., The error string. Will be nil if there were no errors or the function handles errors (third argument is true).] 
- */
-declare function CompileString(code: string, identifier: string, HandleError?: boolean): [Function, string];
-
-/**
- * Returns a table of console command names beginning with the given text. 
- * @param text  Text that the console commands must begin with. 
- * @returns Table of console command names. 
- */
-declare function ConsoleAutoComplete(text: string): table;
-
-/**
- * Returns whether a `ConVar` with the given name exists or not 
- * @param name  Name of the `ConVar`. 
- * @returns True if the `ConVar` exists, false otherwise. 
- */
-declare function ConVarExists(name: string): ConVar;
-
-/**
- * Makes a clientside-only console variable
- * 
- * **Note:**
- * >This function is a wrapper of `CreateConVar`, with the difference being that FCVAR_ARCHIVE and FCVAR_USERINFO are added automatically when "shouldsave" and "userinfo" are true, respectively.
- * 
- * Although this function is shared, it should only be used clientside. 
- * @param name  Name of the ConVar to be created and able to be accessed.
- * 
- * This cannot be a name of existing console command or console variable. It will silently fail if it is. 
- * @param defaultVal  Default value of the ConVar. 
- * @param shouldsave [=true] Should the ConVar be saved across sessions 
- * @param userinfo [=false] Should the ConVar and its containing data be sent to the server when it has changed. This make the convar accessible from server using `Player.GetInfoNum` and similar functions. 
- * @param helptext [=""] Help text to display in the console. 
- * @returns Created convar. 
- */
-declare function CreateClientConVar(name: string, defaultVal: string, shouldsave?: boolean, userinfo?: boolean, helptext?: string): ConVar;
-
-/**
- * Creates a console variable (`ConVar`), in general these are for things like gamemode/server settings. 
- * @param name  Name of the convar.
- * 
- * This cannot be a name of an engine console command or console variable. It will silently fail if it is. If it is the same name as another lua ConVar, it will return that ConVar object. 
- * @param value  Default value of the convar. Can also be a number. 
- * @param flags [=FCVAR_NONE] Flags of the convar, see `FCVAR`, either as bitflag or as table. 
- * @param helptext [=""] The help text to show in the console. 
- * @returns The convar created. 
- */
-declare function CreateConVar(name: string, value: string, flags?: FCVAR, helptext?: string): ConVar;
-
-/**
- * Creates a new material with the specified name and shader.
- * 
- * **Note:**
- * >Materials created with this function can be used in `Entity.SetMaterial` and `Entity.SetSubMaterial` by prepending a "!" to their material name argument.
- * 
- * **Bug [#1531](https://github.com/Facepunch/garrysmod-issues/issues/1531):**
- * >.pngs must be loaded with `Material` before being used with this function.
- * 
- * **Bug [#2511](https://github.com/Facepunch/garrysmod-issues/issues/2511):**
- * >This does not work with [https://developer.valvesoftware.com/wiki/Patch patch materials].
- * 
- * **Bug [#3103](https://github.com/Facepunch/garrysmod-issues/issues/3103):**
- * >This will not create a new material if another material object with the same name already exists. 
- * @param name  The material name. Must be unique. 
- * @param shaderName  The shader name. See [[:Category: Shaders]]. 
- * @param materialData  Key-value table that contains shader parameters and proxies.
- * 
- * *See: [https://developer.valvesoftware.com/wiki/Category:List_of_Shader_Parameters List of Shader Parameters on Valve Developers Wiki] and each shader's page from [[:Category: Shaders]].
- * 
- * **Note:**
- * >Unlike `IMaterial.SetTexture`, this table will not accept `ITexture` values. Instead, use the texture's name (see `ITexture.GetName`). 
- * @returns Created material 
- */
-declare function CreateMaterial(name: string, shaderName: string, materialData: ITexture[]): IMaterial;
-
-/**
- * Creates `PhysCollide` objects for every physics object the model has. The model must be precached with `util.PrecacheModel` before being used with this function. 
- * @param modelName  Model path to get the collision objects of. 
- * @returns Table of `PhysCollide` objects. The number of entries will match the model's physics object count. See also `Entity.GetPhysicsObjectCount`. Returns no value if the model doesn't exist, or has not been precached. 
- */
-declare function CreatePhysCollidesFromModel(modelName: string): PhysCollide[];
-
-/**
- * Returns the uptime of the server in seconds (to at least 4 decimal places)
- * 
- * This is a synchronised value and affected by various factors such as host_timescale (or `game.GetTimeScale`) and the server being paused - either by sv_pausable or all players disconnecting.
- * 
- * You should use this function for timing in-game events but not for real-world events.
- * 
- * See also: `RealTime`, `SysTime`
- * 
- * **Note:**
- * >This is internally defined as a float, and as such it will be affected by precision loss if your server uptime is more than 6 hours, which will cause jittery movement of players and props and inaccuracy of timers, it is highly encouraged to refresh or change the map when that happens (a server restart is not necessary).
- * 
- * This is "NOT" easy as it sounds to fix in the engine, so please refrain from posting issues about this
- * 
- * **Bug [#3026](https://github.com/Facepunch/garrysmod-issues/issues/3026):**
- * >This returns 0 in `GM.PlayerAuthed`. 
- * @returns Time synced with the game server. 
- */
-declare function CurTime(): number;
-
-/**
- * Returns an `CTakeDamageInfo` object.
- * 
- * **Bug [#2771](https://github.com/Facepunch/garrysmod-issues/issues/2771):**
- * >This does not create a unique object, but instead returns a shared reference. That means you cannot use two or more of these objects at once. 
- * @returns The `CTakeDamageInfo` object. 
- */
-declare function DamageInfo(): CTakeDamageInfo;
-
-/**
- * Writes text to the right hand side of the screen, like the old error system. Messages disappear after a couple of seconds. 
- * @param slot  The location on the right hand screen to write the debug info to. Starts at 0, no upper limit 
- * @param info  The debugging information to be written to the screen 
- */
-declare function DebugInfo(slot: number, info: string): void;
-
-/**
- * Gets the base class of an an object.
- * 
- * This is used not just by entities, but also by widgets, panels, drive modes, weapons and gamemodes (with "gamemode_" prefix).
- * 
- * The keyword "DEFINE_BASECLASS" translates into a call to this function. In the engine, it is replaced with:
- * ```local BaseClass = baseclass.Get``` 
- * @param name  The child class. 
- * @returns The base class's meta table. 
- */
-declare function DEFINE_BASECLASS(name: string): table;
-
-/**
- * Retrieves data from a gamemode to use in yours. This also sets a BaseClass field on your GM table to the gamemode you are deriving from. It appears that this function works by running the init and cl_init Lua files of the target gamemode, then overriding functions that appear in both the target and your gamemode with your gamemode's functions. 
- * @param base  Gamemode name to derive from. 
- */
-declare function DeriveGamemode(base: string): void;
-
-/**
- * Creates a new derma animation. 
- * @param name  Name of the animation to create 
- * @param panel  Panel to run the animation on 
- * @param func  Function to call to process the animation
- * 
- * Arguments:
- * * `pnl: Panel` the panel passed to Derma_Anim
- * * `anim: table` the anim table
- * * `delta: number` the fraction of the progress through the animation
- * * `data: any` optional data passed to the run metatable method 
- * @returns A lua metatable containing four methods:
- * * Run() - Should be called each frame you want the animation to be ran.
- * * Active() - Returns if the animation is currently active (has not finished and stop has not been called)
- * * Stop() - Halts the animation at its current progress.
- * * Start( Length, Data ) - Prepares the animation to be ran for Length seconds. Must be called once before calling Run(). The data parameter will be passed to the func function. 
- */
-declare function Derma_Anim(name: string, panel: Panel, func: Function): table;
-
-/**
- * Draws background blur around the given panel. 
- * @param panel  Panel to draw the background blur around 
- * @param startTime  Time that the blur began being painted 
- */
-declare function Derma_DrawBackgroundBlur(panel: Panel, startTime: number): void;
-
-/**
- * Creates panel method that calls the supplied Derma skin hook via `derma.SkinHook` 
- * @param panel  Panel to add the hook to 
- * @param functionName  Name of panel function to create 
- * @param hookName  Name of Derma skin hook to call within the function 
- * @param typeName  Type of element to call Derma skin hook for 
- */
-declare function Derma_Hook(panel: Panel, functionName: string, hookName: string, typeName: string): void;
-
-/**
- * Makes the panel (usually an input of sorts) respond to changes in console variables by adding next functions to the panel:
- * * `Panel.SetConVar`
- * * `Panel.ConVarChanged`
- * * `Panel.ConVarStringThink`
- * * `Panel.ConVarNumberThink`
- * 
- * The console variable value is saved in the ''m_strConVar'' property of the panel.
- * 
- * The panel should call
- * `Panel.ConVarStringThink` or 
- * `Panel.ConVarNumberThink` 
- * in its `PANEL.Think` hook and should call `Panel.ConVarChanged` when the panel's value has changed. 
- * @param target  The panel the functions should be added to. 
- */
-declare function Derma_Install_Convar_Functions(target: Panel): void;
-
-/**
- * Creates a derma window to display information 
- * @param Text  The text within the created panel. 
- * @param Title  The title of the created panel. 
- * @param Button  The text of the button to close the panel. 
- */
-declare function Derma_Message(Text: string, Title: string, Button: string): void;
-
-/**
- * Shows a message box in the middle of the screen, with up to 4 buttons they can press. 
- * @param btn1text  The text to display on the first button. 
- * @returns The Panel object of the created window. 
- */
-declare function Derma_Query(btn1text: string): Panel;
-
-/**
- * Shows a message box in the middle of the screen, with up to 4 buttons they can press. 
- * @param text [="Message Text (Second Parameter)"] The message to display. 
- * @param title [="Message Title (First Parameter)"] The title to give the message box. 
- * @param btn1text [=] The text to display on the first button. 
- * @param btn1func [=nil] The function to run if the user clicks the first button. 
- * @param btn2text [=nil] The text to display on the second button. 
- * @param btn2func [=nil] The function to run if the user clicks the second button. 
- * @param btn3text [=nil] The text to display on the third button 
- * @param btn3func [=nil] The function to run if the user clicks the third button. 
- * @param btn4text [=nil] The text to display on the third button 
- * @param btn4func [=nil] The function to run if the user clicks the fourth button. 
- * @returns The Panel object of the created window. 
- */
-declare function Derma_Query(text?: string, title?: string, btn1text?: string, btn1func?: Function, btn2text?: string, btn2func?: Function, btn3text?: string, btn3func?: Function, btn4text?: string, btn4func?: Function): Panel;
-
-/**
- * Creates a derma window asking players to input a string. 
- * @param title  The title of the created panel. 
- * @param subtitle  The text above the input box 
- * @param defaultVal  The default text for the input box. 
- * @param confirm  The function to be called once the user has confirmed their input. 
- * @param cancel [=nil] The function to be called once the user has cancelled their input 
- * @param confirmText [="OK"] Allows you to override text of the "OK" button 
- * @param cancelText [="Cancel"] Allows you to override text of the "Cancel" button 
- * @returns The created `DFrame` 
- */
-declare function Derma_StringRequest(title: string, subtitle: string, defaultVal: string, confirm: Function, cancel?: Function, confirmText?: string, cancelText?: string): DFrame;
-
-/**
- * Creates a `DMenu` and closes any current menus. 
- * @param parent  The panel to parent the created menu to. 
- * @returns The created `DMenu` 
- */
-declare function DermaMenu(parent: Panel): DMenu;
-
-/**
- * Sets whether rendering should be limited to being inside a panel or not.
- * 
- * See also `surface.DisableClipping` and `Panel.NoClipping`. 
- * @param disable  Whether or not clipping should be disabled 
- */
-declare function DisableClipping(disable: boolean): void;
-
-/**
- * Cancels current DOF post-process effect started with `DOF_Start` 
- */
-declare function DOF_Kill(): void;
-
-/**
- * Cancels any existing DOF post-process effects.
- * Begins the DOF post-process effect. 
- */
-declare function DOF_Start(): void;
-
-/**
- * A hacky method used to fix some bugs regarding DoF.
- * 
- * **[INTERNAL]**
- * 
- * {{Stub}} 
- * @param enable  Enables or disables depth-of-field mode 
- */
-declare function DOFModeHack(enable: boolean): void;
-
-/**
- * **[INTERNAL]**
- * 
- *  Draws the currently active main menu background image and handles transitioning between background images.
- * 
- * This is called by default in the menu panel's Paint hook. 
- */
-declare function DrawBackground(): void;
-
-/**
- * Draws the bloom shader, which creates a glowing effect from bright objects. 
- * @param Darken  Determines how much to darken the effect. A lower number will make the glow come from lower light levels. A value of 1 will make the bloom effect unnoticeable. Negative values will make even pitch black areas glow. 
- * @param Multiply  Will affect how bright the glowing spots are. A value of 0 will make the bloom effect unnoticeable. 
- * @param SizeX  The size of the bloom effect along the horizontal axis. 
- * @param SizeY  The size of the bloom effect along the vertical axis. 
- * @param Passes  Determines how much to exaggerate the effect. 
- * @param ColorMultiply  Will multiply the colors of the glowing spots, making them more vivid. 
- * @param Red  How much red to multiply with the glowing color. Should be between 0 and 1 
- * @param Green  How much green to multiply with the glowing color. Should be between 0 and 1 
- * @param Blue  How much blue to multiply with the glowing color. Should be between 0 and 1 
- */
-declare function DrawBloom(Darken: number, Multiply: number, SizeX: number, SizeY: number, Passes: number, ColorMultiply: number, Red: number, Green: number, Blue: number): void;
-
-/**
- * Draws the Color Modify shader, which can be used to adjust colors on screen. 
- * @param modifyParameters  Color modification parameters. See {{ShaderLink|g_colourmodify}} and the example below. Note that if you leave out a field, it will retain its last value which may have changed if another caller uses this function. 
- */
-declare function DrawColorModify(modifyParameters: table): void;
-
-/**
- * Draws a material overlay on the screen. 
- * @param Material  This will be the material that is drawn onto the screen. 
- * @param RefractAmount  This will adjust how much the material will refract your screen. 
- */
-declare function DrawMaterialOverlay(Material: string, RefractAmount: number): void;
-
-/**
- * Creates a motion blur effect by drawing your screen multiple times. 
- * @param AddAlpha  How much alpha to change per frame. 
- * @param DrawAlpha  How much alpha the frames will have. A value of 0 will not render the motion blur effect. 
- * @param Delay  Determines the amount of time between frames to capture. 
- */
-declare function DrawMotionBlur(AddAlpha: number, DrawAlpha: number, Delay: number): void;
-
-/**
- * Draws the sharpen shader, which creates more contrast. 
- * @param Contrast  How much contrast to create. 
- * @param Distance  How large the contrast effect will be. 
- */
-declare function DrawSharpen(Contrast: number, Distance: number): void;
-
-/**
- * Draws the sobel shader, which detects edges and draws a black border. 
- * @param Threshold  Determines the threshold of edges. A value of 0 will make your screen completely black. 
- */
-declare function DrawSobel(Threshold: number): void;
-
-/**
- * Renders the post-processing effect of beams of light originating from the map's sun. Utilises the "pp/sunbeams" material 
- * @param darken  $darken property for sunbeams material 
- * @param multiplier  $multiply property for sunbeams material 
- * @param sunSize  $sunsize property for sunbeams material 
- * @param sunX  $sunx property for sunbeams material 
- * @param sunY  $suny property for sunbeams material 
- */
-declare function DrawSunbeams(darken: number, multiplier: number, sunSize: number, sunX: number, sunY: number): void;
-
-/**
- * Draws the texturize shader, which replaces each pixel on your screen with a different part of the texture depending on its brightness. See [[Shaders/g_texturize|g_texturize]] for information on making the texture. 
- * @param Scale  Scale of the texture. A smaller number creates a larger texture. 
- * @param BaseTexture  This will be the texture to use in the effect. Make sure you use `Material` to get the texture number 
- */
-declare function DrawTexturize(Scale: number, BaseTexture: number): void;
-
-/**
- * Draws the toy town shader, which blurs the top and bottom of your screen. This can make very large objects look like toys, hence the name. 
- * @param Passes  An integer determining how many times to draw the effect. A higher number creates more blur. 
- * @param Height  The amount of screen which should be blurred on the top and bottom. 
- */
-declare function DrawToyTown(Passes: number, Height: number): void;
-
-/**
- * Drops the specified entity if it is being held by any player with Gravity Gun or +use pickup. 
- * @param ent  The entity to drop. 
- */
-declare function DropEntityIfHeld(ent: Entity): void;
-
-/**
- * Creates or replaces a dynamic light with the given id.
- * 
- * **Note:**
- * >Only 32 lights can be active at once. 
- * @param index  An unsigned Integer. Usually an [[Entity/EntIndex|entity index]] is used here. 
- * @returns A DynamicLight structured table. See `DynamicLight` 
- */
-declare function DynamicLight(index: number): DynamicLight;
-
-/**
- * Returns a `CEffectData` object to be used with `util.Effect`.
- * 
- * **Bug [#2771](https://github.com/Facepunch/garrysmod-issues/issues/2771):**
- * >This does not create a unique object, but instead returns a shared reference. That means you cannot use two or more of these objects at once. 
- * @returns The `CEffectData` object. 
- */
-declare function EffectData(): CEffectData;
-
-/**
- * An 'if then else'. This is ''almost'' equivalent to (''condition'' and ''truevar'' or ''falsevar'') in Lua. The difference is that if ''truevar'' evaluates to false, the plain Lua method stated would return ''falsevar'' regardless of ''condition'' whilst this function would take ''condition'' into account. 
- * @param condition  The condition to check if true or false. 
- * @param truevar  If the condition isn't nil/false, returns this value. 
- * @param falsevar  If the condition is nil/false, returns this value. 
- * @returns The result. 
- */
-declare function Either(condition: any, truevar: any, falsevar: any): any;
-
-/**
- * Plays a sentence from scripts/sentences.txt
- * 
- * **Bug:**
- * >FIXED IN NEXT UPDATE: Seems to work only on serverside. 
- * @param soundName  The sound to play 
- * @param position  The position to play at 
- * @param entity  The entity to emit the sound from. Must be `Entity.EntIndex` 
- * @param channel [=CHAN_AUTO] The sound channel, see `CHAN`. 
- * @param volume [=1] The volume of the sound, from 0 to 1 
- * @param soundLevel [=75] The sound level of the sound, see `SNDLVL` 
- * @param soundFlags [=0] The flags of the sound, see `SND` 
- * @param pitch [=100] The pitch of the sound, 0-255 
- */
-declare function EmitSentence(soundName: string, position: Vector, entity: number, channel?: CHAN, volume?: number, soundLevel?: SNDLVL, soundFlags?: SND, pitch?: number): void;
-
-/**
- * Emits the specified sound at the specified position.
- * 
- * **Bug:**
- * >Sounds must be precached serverside manually before they can be played. util.PrecacheSound does not work for this purpose, Entity.EmitSound does the trick
- * 
- * **Bug:**
- * >This does not work with soundscripts. TODO: Is this a bug or intended? 
- * @param soundName  The sound to play 
- * @param position  The position to play at 
- * @param entity  The entity to emit the sound from. Can be an `Entity.EntIndex` or one of the following:
- * * 0 - Plays sound on the world (Position set to 0,0,0)
- * * -1 - Plays sound on the local player (on server acts as 0)
- * * -2 - Plays UI sound (Position set to 0,0,0, no spatial sound,on server acts as 0) 
- * @param channel [=CHAN_AUTO] The sound channel, see `CHAN`. 
- * @param volume [=1] The volume of the sound, from 0 to 1 
- * @param soundLevel [=75] The sound level of the sound, see `SNDLVL` 
- * @param soundFlags [=0] The flags of the sound, see `SND` 
- * @param pitch [=100] The pitch of the sound, 0-255 
- */
-declare function EmitSound(soundName: string, position: Vector, entity: number, channel?: CHAN, volume?: number, soundLevel?: SNDLVL, soundFlags?: SND, pitch?: number): void;
-
-/**
- * Removes the currently active tool tip from the screen. 
- * @param panel  This is the panel that has a tool tip. 
- */
-declare function EndTooltip(panel: Panel): void;
-
-/**
- * Throws a Lua error and breaks out of the current call stack. 
- * @param message  The error message to throw. 
- * @param errorLevel [=1] The level to throw the error at. 
- */
-declare function error(message: string, errorLevel?: number): void;
-
-/**
- * Throws a Lua error but does not break out of the current call stack.
- * 
- * **Bug [#1810](https://github.com/Facepunch/garrysmod-issues/issues/1810):**
- * >Using this function in the menu state exits the menu.
- * 
- * **Bug [#2247](https://github.com/Facepunch/garrysmod-issues/issues/2247):**
- * >This function has a character limit of 511. 
- * @param arguments  Converts all arguments to strings and prints them with no spacing. 
- */
-declare function ErrorNoHalt(...arguments: (any)[]): void;
-
-/**
- * Returns the angles of the current render context as calculated by `GM.CalcView`.
- * 
- * **Bug [#2516](https://github.com/Facepunch/garrysmod-issues/issues/2516):**
- * >This function is only reliable inside rendering hooks. 
- * @returns The angle of the currently rendered scene. 
- */
-declare function EyeAngles(): Angle;
-
-/**
- * Returns the origin of the current render context as calculated by `GM.CalcView`.
- * 
- * **Bug [#2516](https://github.com/Facepunch/garrysmod-issues/issues/2516):**
- * >This function is only reliable inside rendering hooks. 
- * @returns Camera position. 
- */
-declare function EyePos(): Vector;
-
-/**
- * Returns the normal vector of the current render context as calculated by `GM.CalcView`, similar to `EyeAngles`.
- * 
- * **Bug [#2516](https://github.com/Facepunch/garrysmod-issues/issues/2516):**
- * >This function is only reliable inside rendering hooks. 
- * @returns View direction of the currently rendered scene. 
- */
-declare function EyeVector(): Vector;
-
-/**
- * Returns the meta table for the class with the matching name.
- * 
- * Internally returns `debug.getregistry`()[metaName]
- * 
- * You can learn more about meta tables on the [[Meta Tables]] page.
- * 
- * You can find a list of meta tables that can be retrieved with this function on `TYPE`. The name in the description is the string to use with this function. 
- * @param metaName  The object type to retrieve the meta table of. 
- * @returns The corresponding meta table. 
- */
-declare function FindMetaTable(metaName: string): table;
-
-/**
- * !TupleReturn
- *
- * Returns the tool-tip text and tool-tip-panel (if any) of the given panel as well as itself 
- * @param panel  Panel to find tool-tip of 
- * @returns [tool-tip text, tool-tip panel, panel that the function was called with] 
- */
-declare function FindTooltip(panel: Panel): [string, Panel, Panel];
-
-/**
- * Formats the specified values into the string given. Same as `string.format`. 
- * @param format  The string to be formatted.
- * 
- * Follows this format: http://www.cplusplus.com/reference/cstdio/printf/ 
- * @param formatParameters  Values to be formatted into the string. 
- * @returns The formatted string 
- */
-declare function Format(format: string, ...formatParameters: (any)[]): string;
-
-/**
- * Returns the number of frames rendered since the game was launched. 
- */
-declare function FrameNumber(): void;
-
-/**
- * Returns the `CurTime`-based time in seconds it took to render the last frame.
- * 
- * This should be used for frame/tick based timing, such as movement prediction or animations.
- * 
- * For real-time-based frame time that isn't affected by host_timescale, use `RealFrameTime`. RealFrameTime is more suited for things like GUIs or HUDs. 
- * @returns time (in seconds) 
- */
-declare function FrameTime(): number;
-
-/**
- * Callback function for when the client has joined a server. This function shows the server's loading URL by default. 
- * @param servername  Server's name. 
- * @param serverurl  Server's loading screen URL, or "" if the URL is not set. 
- * @param mapname  Server's current map's name. 
- * @param maxplayers  Max player count of server. 
- * @param steamid  The local player's `Player.SteamID64`. 
- * @param gamemode  Server's current gamemode's folder name. 
- */
-declare function GameDetails(servername: string, serverurl: string, mapname: string, maxplayers: number, steamid: string, gamemode: string): void;
-
-/**
- * **Deprecated:**
- * >This function was deprecated in Lua 5.1 and is removed in Lua 5.2. Use `collectgarbage`( "count" ) instead.
- * 
- *  Returns the current floored dynamic memory usage of Lua in kilobytes. 
- * @returns The current floored dynamic memory usage of Lua, in kilobytes. 
- */
-declare function gcinfo(): number;
-
-/**
- * Gets the ConVar with the specified name. This function caches the ConVar object internally. 
- * @param name  Name of the ConVar to get 
- * @returns The ConVar object 
- */
-declare function GetConVar(name: string): ConVar;
-
-/**
- * **[INTERNAL]**
- * 
- * Gets the ConVar with the specified name. This function doesn't cache the convar. 
- * @param name  Name of the ConVar to get 
- * @returns The ConVar object 
- */
-declare function GetConVar_Internal(name: string): ConVar;
-
-/**
- * **Deprecated:**
- * >Store the `ConVar` object retrieved with `GetConVar` and call `ConVar.GetInt` or `ConVar.GetFloat` on it.
- * 
- * Gets the numeric value ConVar with the specified name. 
- * @param name  Name of the ConVar to get. 
- * @returns The ConVar's value. 
- */
-declare function GetConVarNumber(name: string): number;
-
-/**
- * **Deprecated:**
- * >Store the `ConVar` object retrieved with `GetConVar` and call `ConVar.GetString` on it.
- * 
- * Gets the string value ConVar with the specified name. 
- * @param name  Name of the ConVar to get. 
- * @returns The ConVar's value. 
- */
-declare function GetConVarString(name: string): string;
-
-/**
- * Returns the default loading screen URL (asset://garrysmod/html/loading.html) 
- * @returns Default loading url (asset://garrysmod/html/loading.html) 
- */
-declare function GetDefaultLoadingHTML(): string;
-
-/**
- * Retrieves data about the demo with the specified filename. Similar to `GetSaveFileDetails`. 
- * @param filename  The file name of the demo. 
- * @returns Demo data. 
- */
-declare function GetDemoFileDetails(filename: string): table;
-
-/**
- * Returns a table with the names of files needed from the server you are currently joining. 
- * @returns table of file names 
- */
-declare function GetDownloadables(): table;
-
-/**
- * Returns the environment table of either the stack level or the function specified. 
- * @param location [=1] The object to get the enviroment from. Can also be a number that specifies the function at that stack level: Level 1 is the function calling getfenv. 
- * @returns The environment. 
- */
-declare function getfenv(location?: Function): table;
-
-/**
- * Returns an angle that is shared between the server and all clients. 
- * @param index  The unique index to identify the global value with. 
- * @param defaultVal [=Angle( 0, 0, 0 )] The value to return if the global value is not set. 
- * @returns The global value, or default if the global is not set. 
- */
-declare function GetGlobalAngle(index: string, defaultVal?: Angle): Angle;
-
-/**
- * Returns a boolean that is shared between the server and all clients. 
- * @param index  The unique index to identify the global value with. 
- * @param defaultVal [=false] The value to return if the global value is not set. 
- * @returns The global value, or the default if the global value is not set. 
- */
-declare function GetGlobalBool(index: string, defaultVal?: boolean): boolean;
-
-/**
- * Returns an entity that is shared between the server and all clients. 
- * @param index  The unique index to identify the global value with. 
- * @param defaultVal [=NULL] The value to return if the global value is not set. 
- * @returns The global value, or the default if the global value is not set. 
- */
-declare function GetGlobalEntity(index: string, defaultVal?: Entity): Entity;
-
-/**
- * Returns a float that is shared between the server and all clients. 
- * @param index  The unique index to identify the global value with. 
- * @param defaultVal [=0] The value to return if the global value is not set. 
- * @returns The global value, or the default if the global value is not set. 
- */
-declare function GetGlobalFloat(index: string, defaultVal?: number): number;
-
-/**
- * Returns an integer that is shared between the server and all clients.
- * 
- * **Bug [#3374](https://github.com/Facepunch/garrysmod-issues/issues/3374):**
- * >This function will not round decimal values as it actually networks a float internally. 
- * @param index  The unique index to identify the global value with. 
- * @param defaultVal [=0] The value to return if the global value is not set. 
- * @returns The global value, or the default if the global value is not set. 
- */
-declare function GetGlobalInt(index: string, defaultVal?: number): number;
-
-/**
- * Returns a string that is shared between the server and all clients. 
- * @param index  The unique index to identify the global value with. 
- * @param defaultVal [=""] The value to return if the global value is not set. 
- * @returns The global value, or the default if the global value is not set. 
- */
-declare function GetGlobalString(index: string, defaultVal?: string): string;
-
-/**
- * Returns a vector that is shared between the server and all clients. 
- * @param Index  The unique index to identify the global value with. 
- * @param Default  The value to return if the global value is not set. 
- * @returns The global value, or the default if the global value is not set. 
- */
-declare function GetGlobalVector(Index: string, Default: Vector): Vector;
-
-/**
- * Returns the name of the current server. 
- */
-declare function GetHostName(): void;
-
-/**
- * Returns the panel that is used as a wrapper for the HUD.
- * 
- * See also `vgui.GetWorldPanel` 
- * @returns The HUD panel 
- */
-declare function GetHUDPanel(): Panel;
-
-/**
- * Returns the loading screen panel and creates it if it doesn't exist. 
- * @returns The loading screen panel 
- */
-declare function GetLoadPanel(): Panel;
-
-/**
- * Returns the current status of the server join progress. 
- * @returns The current status 
- */
-declare function GetLoadStatus(): string;
-
-/**
- * Returns a table with the names of all maps and categories that you have on your client. 
- * @returns table of map names and categories 
- */
-declare function GetMapList(): table;
-
-/**
- * Returns the metatable of an object. This function obeys the metatable's __metatable field, and will return that field if the metatable has it set.
- * 
- * Use `debug.getmetatable` if you want the true metatable of the object. 
- * @param object  The value to return the metatable of. 
- * @returns The metatable of the value. This is not always a table. 
- */
-declare function getmetatable(object: any): any;
-
-/**
- * Returns the menu overlay panel, a container for panels like the error panel created in `GM.OnLuaError`. 
- * @returns The overlay panel 
- */
-declare function GetOverlayPanel(): Panel;
-
-/**
- * Creates or gets the rendertarget with the given name.
- * 
- * See `GetRenderTargetEx` for an advanced version of this function with more options.
- * 
- * **Bug [#2885](https://github.com/Facepunch/garrysmod-issues/issues/2885):**
- * >This crashes when used on a cubemap texture. 
- * @param name  The internal name of the render target. 
- * @param width  The width of the render target, must be power of 2. If not set to PO2, the size will be automatically converted to the nearest PO2 size. 
- * @param height  The height of the render target, must be power of 2. If not set to PO2, the size will be automatically converted to the nearest PO2 size. 
- * @param additive [=false] Sets whenever the rt should be additive. 
- * @returns The render target 
- */
-declare function GetRenderTarget(name: string, width: number, height: number, additive?: boolean): ITexture;
-
-/**
- * Creates (or gets if it already exsits) the rendertarget with the given name, this function allows to adjust the creation of a rendertarget more than `GetRenderTarget`.
- * 
- * See also `render.PushRenderTarget` and `render.SetRenderTarget`. 
- * @param name  The internal name of the render target.
- * 
- * **Warning:**
- * >The name is treated like a path and gets its extension discarded.
- * "name.1" and "name.2" are considered the same name and will result in the same render target being reused. 
- * @param width  The width of the render target, must be power of 2. 
- * @param height  The height of the render target, must be power of 2. 
- * @param sizeMode  Bitflag that influences the sizing of the render target, see `RT_SIZE`. 
- * @param depthMode  Bitflag that determines the depth buffer usage of the render target `MATERIAL_RT_DEPTH`. 
- * @param textureFlags  Bitflag that configurates the texture, see `TEXTUREFLAGS`.
- * 
- * List of flags can also be found on the Valve's Developer Wiki:
- * https://developer.valvesoftware.com/wiki/Valve_Texture_Format 
- * @param rtFlags  Flags that controll the HDR behaviour of the render target, see `CREATERENDERTARGETFLAGS`. 
- * @param imageFormat  Image format, see `IMAGE_FORMAT`. 
- * @returns The new render target. 
- */
-declare function GetRenderTargetEx(name: string, width: number, height: number, sizeMode: RT_SIZE, depthMode: MATERIAL_RT_DEPTH, textureFlags: TEXTUREFLAGS, rtFlags: CREATERENDERTARGETFLAGS, imageFormat: IMAGE_FORMAT): ITexture;
-
-/**
- * Retrieves data about the save with the specified filename. Similar to `GetDemoFileDetails`. 
- * @param filename  The file name of the save. 
- * @returns Save data. 
- */
-declare function GetSaveFileDetails(filename: string): table;
-
-/**
- * Returns the entity the client is using to see from (such as the player itself, the camera, or another entity). 
- * @returns The view entity. 
- */
-declare function GetViewEntity(): Entity;
-
-/**
- * Converts a color from HSV color space into RGB color space and returns a `Color`.
- * 
- * **Bug [#2407](https://github.com/Facepunch/garrysmod-issues/issues/2407):**
- * >The returned color will not have the color metatable. 
- * @param hue  Hue in degrees. 
- * @param saturation  Saturation from 0 - 1. 
- * @param value  Value from 0 - 1. 
- * @returns The `Color` created from the HSV color space. 
- */
-declare function HSVToColor(hue: number, saturation: number, value: number): Color;
-
-/**
- * Launches an asynchronous http request with the given parameters.
- * 
- * **Bug [#2232](https://github.com/Facepunch/garrysmod-issues/issues/2232):**
- * >This cannot send or receive multiple headers at once.
- * 
- * **Bug [#3190](https://github.com/Facepunch/garrysmod-issues/issues/3190):**
- * >This can crash on Linux. 
- * @param parameters  The request parameters. See `HTTPRequest`. 
- * @returns true if we made a request, nil if we failed. 
- */
-declare function HTTP(parameters: HTTPRequest): boolean;
-
-/**
- * Executes a Lua script.
- * 
- * **Note:**
- * >Addon files (.gma files) do not support relative parent folders (''..'' notation).
- * 
- * **Warning:**
- * >The file you are attempting to include MUST NOT be empty or the include will fail. Files over a certain size may fail as well.
- * 
- * {{Warning|If the file you are including is clientside or shared, it "must" be `AddCSLuaFile`'d or this function will error saying the file doesn't exist.}}
- * 
- * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
- * >`pcall`ing this function will break autorefresh. 
- * @param fileName  The name of the script to be executed. The path must be either relative to the current file, or be an absolute path (relative to and excluding the lua/ folder).
- * 
- * **Note:**
- * >Please make sure your file names are unique, the filesystem is shared across all addons, so a file named "lua/config.lua" in your addon may be overwritten by the same file in another addon. 
- * @returns Anything that the executed Lua script returns. 
- */
-declare function include(fileName: string): any;
-
-/**
- * **Deprecated:**
- * >To send the target file to the client simply call AddCSLuaFile() in the target file itself.
- * 
- * This function works exactly the same as `include` both clientside and serverside.
- * 
- * The only difference is that on the serverside it also calls `AddCSLuaFile` on the filename, so that it gets sent to the client. 
- * @param filename  The filename of the Lua file you want to include. 
- */
-declare function IncludeCS(filename: string): void;
-
-/**
- * !TupleReturn
- *
- * Returns an iterator function for a for loop, to return ordered key-value pairs from a table.
- * 
- * This will only iterate though "numerical" keys, and these must also be "sequential"; starting at 1 with no gaps.
- * 
- * For unordered pairs, see `pairs`.
- * 
- * For pairs sorted by key in alphabetical order, see `SortedPairs`. 
- * @param tab  The table to iterate over. 
- * @returns [The iterator function., The table being iterated over, The origin index "=0"] 
- */
-declare function ipairs(tab: table): [Function, table, number];
-
-/**
- * Returns if the passed object is an `Angle`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is an `Angle`. 
- */
-declare function isangle(variable: any): Angle;
-
-/**
- * Returns if the passed object is a `boolean`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is a `boolean`. 
- */
-declare function isbool(variable: any): boolean;
-
-/**
- * Returns whether the given object does or doesn't have a ''metatable'' of a color.
- * 
- * "Important:" Engine functions (i.e. those not written in plain Lua) that return color objects do not currently set the color metatable and this function will return false if you use it on them. 
- * @param Object  The object to be tested 
- * @returns Whether the given object is a color or not 
- */
-declare function IsColor(Object: any): boolean;
-
-/**
- * Returns if the given NPC class name is an enemy.
- * 
- * Returns true if the entity name is one of the following:
- * * "npc_combine_s"
- * * "npc_cscanner"
- * * "npc_manhack"
- * * "npc_hunter"
- * * "npc_antlion"
- * * "npc_antlionguard"
- * * "npc_antlion_worker"
- * * "npc_fastzombie_torso"
- * * "npc_fastzombie"
- * * "npc_headcrab"
- * * "npc_headcrab_fast"
- * * "npc_poisonzombie"
- * * "npc_headcrab_poison"
- * * "npc_zombie"
- * * "npc_zombie_torso"
- * * "npc_zombine"
- * * "npc_gman"
- * * "npc_breen" 
- * @param className  Class name of the entity to check 
- * @returns Is an enemy 
- */
-declare function IsEnemyEntityName(className: string): boolean;
-
-/**
- * Returns if the passed object is an `Entity`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is an `Entity`. 
- */
-declare function isentity(variable: any): Entity;
-
-/**
- * Returns if the passed object is an `Entity`. Alias of `isentity`. 
- * @param variable  The variable to check. 
- * @returns True if the variable is an `Entity`. 
- */
-declare function IsEntity(variable: any): Entity;
-
-/**
- * Returns if this is the first time this hook was predicted.
- * 
- * This is useful for one-time logic in your SWEPs PrimaryAttack, SecondaryAttack and Reload and other [[:Category:Predicted_Hooks|predicted hooks]] (to prevent those hooks from being called rapidly in succession). It's also useful in a Move hook for when the client predicts movement.
- * 
- * Visit [[Prediction]] for more information about this behavior.
- * 
- * **Note:**
- * >This is already used internally for `Entity.EmitSound`, `Weapon.SendWeaponAnim` and `Entity.FireBullets`, but NOT in  `util.Effect`. 
- * @returns Whether or not this is the first time being predicted. 
- */
-declare function IsFirstTimePredicted(): boolean;
-
-/**
- * Returns if the given NPC class name is a friend.
- * 
- * Returns true if the entity name is one of the following:
- * * "npc_monk"
- * * "npc_alyx"
- * * "npc_barney"
- * * "npc_citizen"
- * * "npc_kleiner"
- * * "npc_magnusson"
- * * "npc_eli"
- * * "npc_mossman"
- * * "npc_vortigaunt" 
- * @param className  Class name of the entity to check 
- * @returns Is a friend 
- */
-declare function IsFriendEntityName(className: string): boolean;
-
-/**
- * Returns if the passed object is a `function`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is a `function`. 
- */
-declare function isfunction(variable: any): Function;
-
-/**
- * Returns true if the client is currently playing either a singleplayer or multiplayer game. 
- * @returns True if we are in a game. 
- */
-declare function IsInGame(): boolean;
-
-/**
- * Returns whether the passed object is a `VMatrix`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is a `VMatrix`. 
- */
-declare function ismatrix(variable: any): VMatrix;
-
-/**
- * Checks whether or not a game is currently mounted. Uses data given by `engine.GetGames`. Currently does not work correctly serverside on dedicated servers. 
- * @param game  The game string/app ID to check. 
- * @returns True if the game is mounted. 
- */
-declare function IsMounted(game: string): boolean;
-
-/**
- * Returns if the passed object is a `number`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is a `number`. 
- */
-declare function isnumber(variable: any): number;
-
-/**
- * Returns if the passed object is a `Panel`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is a `Panel`. 
- */
-declare function ispanel(variable: any): Panel;
-
-/**
- * Returns if the passed object is a `string`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is a `string`. 
- */
-declare function isstring(variable: any): string;
-
-/**
- * Returns if the passed object is a `table`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is a `table`. 
- */
-declare function istable(variable: any): table;
-
-/**
- * Returns whether or not every element within a table is a valid entity 
- * @param table  Table containing entities to check 
- * @returns All entities valid 
- */
-declare function IsTableOfEntitiesValid(table: table): boolean;
-
-/**
- * Returns whether or not a model is useless by checking that the file path is that of a proper model.
- * 
- * If the string ".mdl" is not found in the model name, the function will return true.
- * 
- * The function will also return true if any of the following strings are found in the given model name:
- * * "_gesture"
- * * "_anim"
- * * "_gst"
- * * "_pst"
- * * "_shd"
- * * "_ss"
- * * "_posture"
- * * "_anm"
- * * "ghostanim"
- * * "_paths"
- * * "_shared"
- * * "anim_"
- * * "gestures_"
- * * "shared_ragdoll_" 
- * @param modelName  The model name to be checked 
- * @returns Whether or not the model is useless 
- */
-declare function IsUselessModel(modelName: string): boolean;
-
-/**
- * Returns whether an object is valid or not. (Such as `Entity`s, `Panel`s, custom `table` objects and more)
- * Checks that an object is not nil, has an IsValid method and if this method returns true.
- * 
- * **Note:**
- * >Due to vehicles being technically valid the moment they're spawned, also use `Vehicle.IsValidVehicle` to make sure they're fully initialized 
- * @param toBeValidated  The table or object to be validated. 
- * @returns True if the object is valid. 
- */
-declare function IsValid(toBeValidated: any): boolean;
-
-/**
- * Returns if the passed object is a `Vector`. 
- * @param variable  The variable to perform the type check for. 
- * @returns True if the variable is a `Vector`. 
- */
-declare function isvector(variable: any): Vector;
-
-/**
- * Joins the server with the specified IP. 
- * @param IP  The IP of the server to join 
- */
-declare function JoinServer(IP: string): void;
-
-/**
- * Adds javascript function 'language.Update' to an HTML panel as a method to call Lua's `language.GetPhrase` function. 
- * @param htmlPanel  Panel to add javascript function 'language.Update' to. 
- */
-declare function JS_Language(htmlPanel: Panel): void;
-
-/**
- * Adds javascript function 'util.MotionSensorAvailable' to an HTML panel as a method to call Lua's `motionsensor.IsAvailable` function. 
- * @param htmlPanel  Panel to add javascript function 'util.MotionSensorAvailable' to. 
- */
-declare function JS_Utility(htmlPanel: Panel): void;
-
-/**
- * Adds workshop related javascript functions to an HTML panel, used by the "Dupes" and "Saves" tabs in the spawnmenu. 
- * @param htmlPanel  Panel to add javascript functions to. 
- */
-declare function JS_Workshop(htmlPanel: Panel): void;
-
-/**
- * Callback function for when the client's language changes. Called by the engine. 
- * @param lang  The new language code. 
- */
-declare function LanguageChanged(lang: string): void;
-
-/**
- * Performs a linear interpolation from the start number to the end number.
- * 
- * This function provides a very efficient and easy way to smooth out movements. 
- * @param t  The fraction for finding the result. This number is clamped between 0 and 1. 
- * @param from  The starting number. The result will be equal to this if delta is 0. 
- * @param to  The ending number. The result will be equal to this if delta is 1. 
- * @returns The result of the linear interpolation, (1 - t) * from + t * to. 
- */
-declare function Lerp(t: number, from: number, to: number): number;
-
-/**
- * Returns point between first and second angle using given fraction and linear interpolation 
- * @param ratio  Ratio of progress through values 
- * @param angleStart  Angle to begin from 
- * @param angleEnd  Angle to end at 
- * @returns angle 
- */
-declare function LerpAngle(ratio: number, angleStart: Angle, angleEnd: Angle): Angle;
-
-/**
- * Linear interpolation between two vectors. It is commonly used to smooth movement between two vectors. 
- * @param fraction  Fraction ranging from 0 to 1 
- * @param from  The initial Vector 
- * @param to  The desired Vector 
- * @returns The lerped vector. 
- */
-declare function LerpVector(fraction: number, from: Vector, to: Vector): Vector;
-
-/**
- * **[INTERNAL]**
- * 
- * This function is used to get the last map and category to which the map belongs from the cookie saved with `SaveLastMap`. 
- */
-declare function LoadLastMap(): void;
-
-/**
- * Loads all preset settings for the {{Lib|presets}} and returns them in a table 
- * @returns Preset data 
- */
-declare function LoadPresets(): table;
-
-/**
- * Returns a localisation for the given token, if none is found it will return the default(second) parameter. 
- * @param localisationToken  The token to find a translation for. 
- * @param defaultVal  The default value to be returned if no translation was found. 
- */
-declare function Localize(localisationToken: string, defaultVal: string): void;
-
-/**
- * Returns the player object of the current client.
- * 
- * LocalPlayer() will return NULL until all entities have been initialized. See `GM.InitPostEntity`. 
- * @returns The player object representing the client. 
- */
-declare function LocalPlayer(): Player;
-
-/**
- * !TupleReturn
- *
- * Translates the specified position and angle from the specified local coordinate system into worldspace coordinates.
- * 
- * If you're working with an entity's local vectors, use `Entity.LocalToWorld` and/or `Entity.LocalToWorldAngles` instead.
- * 
- * See also: `WorldToLocal`, the reverse of this function. 
- * @param localPos  The position vector in the source coordinate system, that should be translated to world coordinates 
- * @param localAng  The angle in the source coordinate system, that should be converted to a world angle. If you don't need to convert an angle, you can supply an arbitrary valid angle (e.g. <kbd>`Angle`()</kbd>). 
- * @param originPos  The origin point of the source coordinate system, in world coordinates 
- * @param originAngle  The angles of the source coordinate system, as a world angle 
- * @returns [The world position of the supplied local position., The world angles of the supplied local angle.] 
- */
-declare function LocalToWorld(localPos: Vector, localAng: Angle, originPos: Vector, originAngle: Angle): [Vector, Angle];
-
-/**
- * Runs `util.PrecacheModel` and returns the string 
- * @param model  The model to precache 
- * @returns The same string entered as an argument 
- */
-declare function Model(model: string): string;
-
-/**
- * Creates a table with the specified module name and sets the function environment for said table.
- * 
- * Any passed loaders are called with the table as an argument. An example of this is `package.seeall`. 
- * @param name  The name of the module. This will be used to access the module table in the runtime environment. 
- * @param loaders  Calls each function passed with the new table as an argument. 
- */
-declare function module(name: string, ...loaders: (any)[]): void;
-
-/**
- * Writes every given argument to the console.
- * 
- * Automatically attempts to convert each argument to a string. (See `tostring`)
- * 
- * Unlike `print`, arguments are not separated by anything. They are simply concatenated.
- * 
- * Additionally, a newline isn't added automatically to the end, so subsequent Msg or print operations will continue the same line of text in the console. See `MsgN` for a version that does add a newline.
- * 
- * The text is blue on the server, orange on the client, and green on the menu: [[File:msg server client colors.png]] 
- * @param args  List of values to print. 
- */
-declare function Msg(...args: (any)[]): void;
-
-/**
- * Works exactly like `Msg` except that, if called on the server, will print to all players consoles plus the server console. 
- * @param args  List of values to print. 
- */
-declare function MsgAll(...args: (any)[]): void;
-
-/**
- * Just like `Msg`, except it can also print colored text, just like `chat.AddText`. 
- * @param args  Values to print. If you put in a color, all text after that color will be printed in that color. 
- */
-declare function MsgC(...args: (any)[]): void;
-
-/**
- * Same as `print`, except it concatinates the arguments without inserting any whitespace in between them.
- * 
- * See also `Msg`, which doesn't add a newline (''"\n"'') at the end. 
- * @param args  List of values to print. They can be of any type and will be converted to strings with `tostring`. 
- */
-declare function MsgN(...args: (any)[]): void;
-
-/**
- * Returns named color defined in resource/ClientScheme.res. 
- * @param name  Name of color 
- * @returns A `Color` or nil 
- */
-declare function NamedColor(name: string): Color;
-
-/**
- * Returns a new userdata object. 
- * @param addMetatable [=false] If true, the userdata will get its own metatable automatically. 
- * @returns The newly created userdata. 
- */
-declare function newproxy(addMetatable?: boolean): userdata;
-
-/**
- * !TupleReturn
- *
- * Returns the next key and value pair in a table.
- * 
- * **Note:**
- * >Table keys in Lua have no specific order, and will be returned in whatever order they exist in memory. This may not always be in ascending order or alphabetical order. If you need to iterate over an array in order, use `ipairs`. 
- * @param tab  The table 
- * @param prevKey [=nil] The previous key in the table. 
- * @returns [The next key for the table. If the previous key was nil, this will be the first key in the table. If the previous key was the last key in the table, this will be nil., The value associated with that key. If the previous key was the last key in the table, this will be nil.] 
- */
-declare function next(tab: table, prevKey?: any): [any, any];
-
-/**
- * Returns the number of files needed from the server you are currently joining. 
- * @returns The number of downloadables 
- */
-declare function NumDownloadables(): number;
-
-/**
- * Returns the amount of skins the specified model has 
- * @param modelName  Model to return amount of skins of 
- * @returns Amount of skins 
- */
-declare function NumModelSkins(modelName: string): number;
-
-/**
- * **[INTERNAL]**
- * 
- *  Called by the engine when a model has been loaded. Caches model information with the {{Lib|sql}}. 
- * @param modelName  Name of the model. 
- * @param numPostParams  Number of pose parameters the model has. 
- * @param numSeq  Number of sequences the model has. 
- * @param numAttachments  Number of attachments the model has. 
- * @param numBoneControllers  Number of bone controllers the model has. 
- * @param numSkins  Number of skins that the model has. 
- * @param size  Size of the model. 
- */
-declare function OnModelLoaded(modelName: string, numPostParams: number, numSeq: number, numAttachments: number, numBoneControllers: number, numSkins: number, size: number): void;
-
-/**
- * Opens a folder with the given name in the garrysmod folder using the operating system's file browser.
- * 
- * **Bug [#1532](https://github.com/Facepunch/garrysmod-issues/issues/1532):**
- * >Currently broken on macOS and Linux. 
- * @param folder  The subdirectory to open in the garrysmod folder. 
- */
-declare function OpenFolder(folder: string): void;
-
-/**
- * Modifies the given vectors so that all of vector2's axis are larger than vector1's by switching them around. Also known as ordering vectors.
- * 
- * **Note:**
- * >This function will irreversibly modify the given vectors 
- * @param vector1  Bounding box min resultant 
- * @param vector2  Bounding box max resultant 
- */
-declare function OrderVectors(vector1: Vector, vector2: Vector): void;
-
-/**
- * !TupleReturn
- *
- * Returns an iterator function(`next`) for a for loop that will return the values of the specified table in an arbitrary order.
- * 
- * For alphabetical "key" order use `SortedPairs`.
- * 
- * For alphabetical "value" order use `SortedPairsByValue`. 
- * @param tab  The table to iterate over 
- * @returns [The iterator (`next`), The table being iterated over, "nil" (for the constructor)] 
- */
-declare function pairs(tab: table): [Function, table, any];
-
-/**
- * Calls `game.AddParticles` and returns given string. 
- * @param file  The particle file. 
- * @returns The particle file. 
- */
-declare function Particle(file: string): string;
-
-/**
- * Creates a particle effect.
- * 
- * **Note:**
- * >The particle effect must be precached with `PrecacheParticleSystem` and the file its from must be added via `game.AddParticles` before it can be used! 
- * @param particleName  The name of the particle effect. 
- * @param position  The start position of the effect. 
- * @param angles  The orientation of the effect. 
- * @param parent [=NULL] If set, the particle will be parented to the entity. 
- */
-declare function ParticleEffect(particleName: string, position: Vector, angles: Angle, parent?: Entity): void;
-
-/**
- * Creates a particle effect with specialized parameters.
- * 
- * **Note:**
- * >The particle effect must be precached with `PrecacheParticleSystem` and the file its from must be added via `game.AddParticles` before it can be used! 
- * @param particleName  The name of the particle effect. 
- * @param attachType  Attachment type using `PATTACH`. 
- * @param entity  The entity to be used in the way specified by the attachType. 
- * @param attachmentID  The id of the attachment to be used in the way specified by the attachType. 
- */
-declare function ParticleEffectAttach(particleName: string, attachType: PATTACH, entity: Entity, attachmentID: number): void;
-
-/**
- * Creates a new `CLuaEmitter`.
- * 
- * **Note:**
- * >Do not forget to delete the emitter with `CLuaEmitter.Finish` once you are done with it 
- * @param position  The start position of the emitter.
- * 
- * This is only used to determine particle drawing order for translucent particles. 
- * @param use3D  Whenever to render the particles in 2D or 3D mode. 
- * @returns The new particle emitter. 
- */
-declare function ParticleEmitter(position: Vector, use3D: boolean): CLuaEmitter;
-
-/**
- * Creates a path for the bot to follow 
- * @param type  The name of the path to create.
- * This is going to be "Follow" or "Chase" right now. 
- * @returns The path 
- */
-declare function Path(type: string): PathFollower;
-
-/**
- * !TupleReturn
- *
- * Calls a function and catches an error that can be thrown while the execution of the call.
- * 
- * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
- * >Using this function with `include` will break autorefresh.
- * 
- * **Bug [#2498](https://github.com/Facepunch/garrysmod-issues/issues/2498):**
- * >This does not stop `Error` and `ErrorNoHalt` from sending error messages to the server (if called clientside) or calling the `GM.OnLuaError` hook. The success boolean returned will always return true and thus you will not get the error message returned. `error` does not exhibit these behaviours.
- * 
- * **Bug [#3112](https://github.com/Facepunch/garrysmod-issues/issues/3112):**
- * >This does not stop errors incurred by `include`. 
- * @param func  Function to be executed and of which the errors should be caught of 
- * @param arguments  Arguments to call the function with. 
- * @returns [If the function had no errors occur within it., If an error occurred, this will be a string containing the error message. Otherwise, this will be the return values of the function passed in.] 
- */
-declare function pcall(func: Function, ...arguments: (any)[]): [boolean, any];
-
-/**
- * Moves the given model to the given position and returns view information based on its properties 
- * @param model  Model that is being rendered to the spawn icon 
- * @param position  Position that the model is being rendered at 
- * @returns Table of information of the view which can be used for rendering 
- */
-declare function PositionSpawnIcon(model: Entity, position: Vector): table;
-
-/**
- * Precaches the particle with the specified name. 
- * @param particleSystemName  The name of the particle system. 
- */
-declare function PrecacheParticleSystem(particleSystemName: string): void;
-
-/**
- * Precaches a scene file. 
- * @param scene  Path to the scene file to precache. 
- */
-declare function PrecacheScene(scene: string): void;
-
-/**
- * Load and precache a custom sentence file. 
- * @param filename  The path to the custom sentences.txt. 
- */
-declare function PrecacheSentenceFile(filename: string): void;
-
-/**
- * Precache a sentence group in a sentences.txt definition file. 
- * @param group  The group to precache. 
- */
-declare function PrecacheSentenceGroup(group: string): void;
-
-/**
- * Writes every given argument to the console.
- * 
- * Automatically attempts to convert each argument to a string. (See `tostring`)
- * 
- * Separates arguments with a tab character (''"\t"''). 
- * @param args  List of values to print. 
- */
-declare function print(...args: (any)[]): void;
-
-/**
- * Displays a message in the chat, console, or center of screen of every player.
- * 
- * This uses the archaic user message system ({{Lib|umsg}}) and hence is limited to &asymp;250 characters. 
- * @param type  Which type of message should be sent to the players (see `HUD`) 
- * @param message  Message to be sent to the players 
- */
-declare function PrintMessage(type: HUD, message: string): void;
-
-/**
- * Recursively prints the contents of a table to the console. 
- * @param tableToPrint  The table to be printed 
- * @param indent [=0] Number of tabs to start indenting at. Increases by 2 when entering another table. 
- * @param done [={}] Internal argument, you shouldn't normally change this. Used to check if a nested table has already been printed so it doesn't get caught in a loop. 
- */
-declare function PrintTable(tableToPrint: table, indent?: number, done?: table): void;
-
-/**
- * Runs a function without stopping the whole script on error.
- * 
- * This function is similar to `pcall` and `xpcall` except the errors are still printed and sent to the error handler (i.e. sent to server console if clientside and `GM.OnLuaError` called). 
- * @param func  Function to run 
- * @returns Were there any errors or not 
- */
-declare function ProtectedCall(func: Function): boolean;
-
-/**
- * Returns an iterator function that can be used to loop through a table in random order 
- * @param table  Table to create iterator for 
- * @param descending  Whether the iterator should iterate descending or not 
- * @returns Iterator function 
- */
-declare function RandomPairs(table: table, descending: boolean): Function;
-
-/**
- * Compares the two values without calling their __eq operator. 
- * @param value1  The first value to compare. 
- * @param value2  The second value to compare. 
- * @returns Whether or not the two values are equal. 
- */
-declare function rawequal(value1: any, value2: any): boolean;
-
-/**
- * Gets the value with the specified key from the table without calling the __index method. 
- * @param table  Table to get the value from. 
- * @param index  The index to get the value from. 
- * @returns The value. 
- */
-declare function rawget(table: table, index: any): any;
-
-/**
- * Sets the value with the specified key from the table without calling the __newindex method. 
- * @param table  Table to get the value from. 
- * @param index  The index to get the value from. 
- * @param value  The value to set for the specified key. 
- */
-declare function rawset(table: table, index: any, value: any): void;
-
-/**
- * Returns the real frame-time which is unaffected by host_timescale. To be used for GUI effects (for example) 
- * @returns Real frame time 
- */
-declare function RealFrameTime(): number;
-
-/**
- * Returns the uptime of the game/server in seconds (to at least 4 decimal places)
- * 
- * **Note:**
- * >This is "not" synchronised or affected by the game.
- * 
- * You should use this function (or SysTime) for timing real-world events such as user interaction, but not for timing game events such as animations.
- * 
- * See also: `CurTime`, `SysTime` 
- * @returns Uptime of the server. 
- */
-declare function RealTime(): number;
-
-/**
- * Creates a new `CRecipientFilter`. 
- * @returns The new created recipient filter. 
- */
-declare function RecipientFilter(): CRecipientFilter;
-
-/**
- * **[INTERNAL]**
- * 
- * Adds a frame to the currently recording demo. 
- */
-declare function RecordDemoFrame(): void;
-
-/**
- * Registers a Derma element to be closed the next time `CloseDermaMenus` is called 
- * @param menu  Menu to be registered for closure 
- */
-declare function RegisterDermaMenuForClose(menu: Panel): void;
-
-/**
- * Saves position of your cursor on screen. You can restore it by using `RestoreCursorPosition`.
- * 
- * Despite this function being available on server, it will not do anything on server. 
- */
-declare function RememberCursorPosition(): void;
-
-/**
- * Does the removing of the tooltip panel. Called by `EndTooltip`. 
- */
-declare function RemoveTooltip(): void;
-
-/**
- * Returns the angle that the clients view is being rendered at 
- * @returns Render Angles 
- */
-declare function RenderAngles(): Angle;
-
-/**
- * Renders a Depth of Field effect 
- * @param origin  Origin to render the effect at 
- * @param angle  Angle to render the effect at 
- * @param usableFocusPoint  Point to focus the effect at 
- * @param angleSize  Angle size of the effect 
- * @param radialSteps  Amount of radial steps to render the effect with 
- * @param passes  Amount of render passes 
- * @param spin  Whether to cycle the frame or not 
- * @param inView  Table of view data 
- * @param fov  FOV to render the effect with 
- */
-declare function RenderDoF(origin: Vector, angle: Angle, usableFocusPoint: Vector, angleSize: number, radialSteps: number, passes: number, spin: boolean, inView: table, fov: number): void;
-
-/**
- * Renders the stereoscopic post-process effect 
- * @param viewOrigin  Origin to render the effect at 
- * @param viewAngles  Angles to render the effect at 
- */
-declare function RenderStereoscopy(viewOrigin: Vector, viewAngles: Angle): void;
-
-/**
- * Renders the Super Depth of Field post-process effect 
- * @param viewOrigin  Origin to render the effect at 
- * @param viewAngles  Angles to render the effect at 
- * @param viewFOV  Field of View to render the effect at 
- */
-declare function RenderSuperDoF(viewOrigin: Vector, viewAngles: Angle, viewFOV: number): void;
-
-/**
- * First tries to load a binary module with the given name, if unsuccessful, it tries to load a Lua module with the given name.
- * 
- * **Bug [#1041](https://github.com/Facepunch/garrysmod-issues/issues/1041):**
- * >Request=813 
- * @param name  The name of the module to be loaded. 
- */
-declare function require(name: string): void;
-
-/**
- * Restores position of your cursor on screen. You can save it by using `RememberCursorPosition`.
- * 
- * Despite this function being available on server, it will not do anything on server. 
- */
-declare function RestoreCursorPosition(): void;
-
-/**
- * Executes the given console command with the parameters.
- * 
- * **Note:**
- * >Some commands/convars are blocked from being ran/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [[Blocked ConCommands]]. 
- * @param command  The command to be executed. 
- * @param arguments  The arguments. Note, that unlike `Player.ConCommand`, you must pass each argument as a new string, not separating them with a space. 
- */
-declare function RunConsoleCommand(command: string, ...arguments: (any)[]): void;
-
-/**
- * Runs a menu command. Equivalent to `RunConsoleCommand`( "gamemenucommand", command ) unless the command starts with the "engine" keyword in which case it is equivalent to `RunConsoleCommand`( command ). 
- * @param command  The menu command to run
- * 
- * Should be one of the following:
- * * Disconnect - Disconnects from the current server.
- * * OpenBenchmarkDialog - Opens the "Video Hardware Stress Test" dialog.
- * * OpenChangeGameDialog - Does not work in GMod.
- * * OpenCreateMultiplayerGameDialog - Opens the Source dialog for creating a listen server.
- * * OpenCustomMapsDialog - Does nothing.
- * * OpenFriendsDialog - Does nothing.
- * * OpenGameMenu - Does not work in GMod.
- * * OpenLoadCommentaryDialog - Opens the "Developer Commentary" selection dialog. Useless in GMod.
- * * OpenLoadDemoDialog - Does nothing.
- * * OpenLoadGameDialog - Opens the Source "Load Game" dialog.
- * * OpenNewGameDialog - Opens the "New Game" dialog. Useless in GMod.
- * * OpenOptionsDialog - Opens the options dialog.
- * * OpenPlayerListDialog - Opens the "Mute Players" dialog that shows all players connected to the server and allows to mute them.
- * * OpenSaveGameDialog - Opens the Source "Save Game" dialog.
- * * OpenServerBrowser - Opens the legacy server browser.
- * * Quit - Quits the game ''without'' confirmation (unlike other Source games).
- * * QuitNoConfirm - Quits the game without confirmation (like other Source games).
- * * ResumeGame - Closes the menu and returns to the game.
- * * engine <concommand> - Runs a console command. Equivalent to `RunConsoleCommand`( <concommand> ). 
- */
-declare function RunGameUICommand(command: string): void;
-
-/**
- * Evaluates and executes the given code, will throw an error on failure.
- * 
- * **Note:**
- * >Local variables are not passed to the given code. 
- * @param code  The code to execute. 
- * @param identifier [="RunString"] The name that should appear in any error messages caused by this code. 
- * @param handleError [=true] If false, this function will return a string containing any error messages instead of throwing an error. 
- * @returns If handleError is false, the error message (if any). 
- */
-declare function RunString(code: string, identifier?: string, handleError?: boolean): string;
-
-/**
- * Alias of `RunString`.
- * 
- * **Deprecated:**
- * >Use `RunString` instead. 
- */
-declare function RunStringEx(): void;
-
-/**
- * Removes the given entity unless it is a player or the world entity 
- * @param ent  Entity to safely remove. 
- */
-declare function SafeRemoveEntity(ent: Entity): void;
-
-/**
- * Removes entity after delay using `SafeRemoveEntity` 
- * @param entity  Entity to be removed 
- * @param delay  Delay for entity removal in seconds 
- */
-declare function SafeRemoveEntityDelayed(entity: Entity, delay: number): void;
-
-/**
- * **[INTERNAL]**
- * 
- * This function is used to save the last map and category to which the map belongs as a [[:Category:cookie|cookie]]. 
- * @param map  The name of the map. 
- * @param category  The name of the category to which this map belongs. 
- */
-declare function SaveLastMap(map: string, category: string): void;
-
-/**
- * Overwrites all presets with the supplied table. Used by the {{Lib|presets}} for preset saving 
- * @param presets  Presets to be saved 
- */
-declare function SavePresets(presets: table): void;
-
-/**
- * Returns a number based on the Size argument and your screen's width. The screen's width is always equal to size 640. This function is primarily used for scaling font sizes. 
- * @param Size  The number you want to scale. 
- */
-declare function ScreenScale(Size: number): void;
-
-/**
- * Gets the height of the game's window (in pixels). 
- * @returns The height of the game's window in pixels 
- */
-declare function ScrH(): number;
-
-/**
- * Gets the width of the game's window (in pixels). 
- * @returns The width of the game's window in pixels 
- */
-declare function ScrW(): number;
-
-/**
- * Used to select single values from a vararg or get the count of values in it. 
- * @param parameter  Can be a `number` or `string`.
- * * If it's a string and starts with "#", the function will return the amount of values in the vararg (ignoring the rest of the string).
- * * If it's a positive number, the function will return all values starting from the given index.
- * * If the number is negative, it will return the amount specified from the end instead of the beginning. 
- * @param vararg  The vararg. These are the values from which you want to select. 
- * @returns Returns a `number` or `vararg`, depending on the select method. 
- */
-declare function select(parameter: number | string, ...vararg: (any)[]): number | any;
-
-/**
- * Send a usermessage 
- * @param name  The name of the usermessage 
- * @param recipients  Can be a `CRecipientFilter`, `table` or `Player` object. 
- * @param args  Data to send in the usermessage 
- */
-declare function SendUserMessage(name: string, recipients: CRecipientFilter | table | Player, ...args: (any)[]): void;
-
-/**
- * Prints "ServerLog: PARAM" without a newline, to the server log and console. 
- * @param parameter  The value to be printed to console. 
- */
-declare function ServerLog(parameter: string): void;
-
-/**
- * Adds the given string to the computers clipboard, which can then be pasted in or outside of GMod with Ctrl + V. 
- * @param text  The text to add to the clipboard. 
- */
-declare function SetClipboardText(text: string): void;
-
-/**
- * Sets the enviroment for a function or a stack level, if a function is passed, the return value will be the function, otherwise nil. 
- * @param location  The function to set the enviroment for or a number representing stack level. 
- * @param enviroment  Table to be used as enviroment. 
- */
-declare function setfenv(location: Function, enviroment: table): void;
-
-/**
- * Defines an angle to be automatically networked to clients
- * 
- * **Note:**
- * >Running this function clientside will only set it clientside for the client it is called on! 
- * @param index  Index to identify the global angle with 
- * @param angle  Angle to be networked 
- */
-declare function SetGlobalAngle(index: any, angle: Angle): void;
-
-/**
- * Defined a boolean to be automatically networked to clients
- * 
- * **Note:**
- * >Running this function clientside will only set it clientside for the client it is called on! 
- * @param index  Index to identify the global boolean with 
- * @param bool  Boolean to be networked 
- */
-declare function SetGlobalBool(index: any, bool: boolean): void;
-
-/**
- * Defines an entity to be automatically networked to clients
- * 
- * **Note:**
- * >Running this function clientside will only set it clientside for the client it is called on! 
- * @param index  Index to identify the global entity with 
- * @param ent  Entity to be networked 
- */
-declare function SetGlobalEntity(index: any, ent: Entity): void;
-
-/**
- * Defines a floating point number to be automatically networked to clients
- * 
- * **Note:**
- * >Running this function clientside will only set it clientside for the client it is called on! 
- * @param index  Index to identify the global float with 
- * @param float  Float to be networked 
- */
-declare function SetGlobalFloat(index: any, float: number): void;
-
-/**
- * Sets an integer that is shared between the server and all clients.
- * 
- * **Note:**
- * >Running this function clientside will only set it clientside for the client it is called on!
- * 
- * **Bug [#3374](https://github.com/Facepunch/garrysmod-issues/issues/3374):**
- * >This function will not round decimal values as it actually networks a float internally. 
- * @param index  The unique index to identify the global value with. 
- * @param value  The value to set the global value to 
- */
-declare function SetGlobalInt(index: string, value: number): void;
-
-/**
- * Defines a string with a maximum of 199 characters to be automatically networked to clients
- * 
- * **Note:**
- * >Running this function clientside will only set it clientside for the client it is called on! 
- * @param index  Index to identify the global string with 
- * @param str  String to be networked 
- */
-declare function SetGlobalString(index: any, str: string): void;
-
-/**
- * Defines a vector to be automatically networked to clients
- * 
- * **Note:**
- * >Running this function clientside will only set it clientside for the client it is called on! 
- * @param index  Index to identify the global vector with 
- * @param vec  Vector to be networked 
- */
-declare function SetGlobalVector(index: any, vec: Vector): void;
-
-/**
- * Sets, changes or removes a table's metatable. Returns Tab (the first argument). 
- * @param Tab  The table who's metatable to change. 
- * @param Metatable  The metatable to assign.
- * If it's nil, the metatable will be removed. 
- * @returns The first argument. 
- */
-declare function setmetatable(Tab: table, Metatable: table): table;
-
-/**
- * Called by the engine to set which constraint system [https://developer.valvesoftware.com/wiki/Phys_constraintsystem] the next created constraints should use 
- * @param constraintSystem  Constraint system to use 
- */
-declare function SetPhysConstraintSystem(constraintSystem: Entity): void;
-
-/**
- * !TupleReturn
- *
- * This function can be used in a for loop instead of `pairs`. It sorts all "keys" alphabetically.
- * 
- * For sorting by specific "value member", use `SortedPairsByMemberValue`.
- * 
- * For sorting by "value", use `SortedPairsByValue`. 
- * @param table  The table to sort 
- * @param desc [=false] Reverse the sorting order 
- * @returns [Iterator function, The table being iterated over] 
- */
-declare function SortedPairs(table: table, desc?: boolean): [Function, table];
-
-/**
- * !TupleReturn
- *
- * Returns an iterator function that can be used to loop through a table in order of member values, when the values of the table are also tables and contain that member.
- * 
- * To sort by "value", use `SortedPairsByValue`.
- * 
- * To sort by "keys", use `SortedPairs`. 
- * @param table  Table to create iterator for. 
- * @param memberKey  Key of the value member to sort by. 
- * @param descending [=false] Whether the iterator should iterate in descending order or not. 
- * @returns [Iterator function, The table the iterator was created for.] 
- */
-declare function SortedPairsByMemberValue(table: table, memberKey: any, descending?: boolean): [Function, table];
-
-/**
- * !TupleReturn
- *
- * Returns an iterator function that can be used to loop through a table in order of its "values".
- * 
- * To sort by specific "value member", use `SortedPairsByMemberValue`.
- * 
- * To sort by "keys", use `SortedPairs`. 
- * @param table  Table to create iterator for 
- * @param descending [=false] Whether the iterator should iterate in descending order or not 
- * @returns [Iterator function, The table which will be iterated over] 
- */
-declare function SortedPairsByValue(table: table, descending?: boolean): [Function, table];
-
-/**
- * Runs `util.PrecacheSound` and returns the string 
- * @param soundPath  The soundpath to precache 
- * @returns The string passed as the first argument 
- */
-declare function Sound(soundPath: string): string;
-
-/**
- * Returns the duration of the sound specified in seconds.
- * 
- * **Bug [#936](https://github.com/Facepunch/garrysmod-issues/issues/936):**
- * >This only works properly for .wav files serverside. 
- * @param soundName  The sound file path. 
- * @returns Sound duration in seconds. 
- */
-declare function SoundDuration(soundName: string): number;
-
-/**
- * Returns the input value in an escaped form so that it can safely be used inside of queries. The returned value is surrounded by quotes unless noQuotes is true. Alias of `sql.SQLStr` 
- * @param input  String to be escaped 
- * @param noQuotes [=false] Whether the returned value should be surrounded in quotes or not 
- * @returns Escaped input 
- */
-declare function SQLStr(input: string, noQuotes?: boolean): string;
-
-/**
- * **Deprecated:**
- * >You should be using `ScreenScale` instead.
- * 
- * Returns a number based on the Size argument and your screen's width. Alias of `ScreenScale`. 
- * @param Size  The number you want to scale. 
- */
-declare function SScale(Size: number): void;
-
-/**
- * Returns the ordinal suffix of a given number. 
- * @param number  The number to find the ordinal suffix of. 
- * @returns suffix 
- */
-declare function STNDRD(number: number): string;
-
-/**
- * Suppress any networking from the server to the specified player. This is automatically called by the engine before/after a player fires their weapon, reloads, or causes any other similar shared-predicted event to occur. 
- * @param suppressPlayer  The player to suppress any networking to. 
- */
-declare function SuppressHostEvents(suppressPlayer: Player): void;
-
-/**
- * Returns a highly accurate time in seconds since the start up, ideal for benchmarking. 
- * @returns Uptime of the server. 
- */
-declare function SysTime(): number;
-
-/**
- * Returns a TauntCamera object 
- * @returns TauntCamera 
- */
-declare function TauntCamera(): table;
-
-/**
- * Clears focus from any text entries player may have focused. 
- */
-declare function TextEntryLoseFocus(): void;
-
-/**
- * Returns a cosine value that fluctuates based on the current time 
- * @param frequency  The frequency of fluctuation 
- * @param min  Minimum value 
- * @param max  Maxmimum value 
- * @param offset  Offset variable that doesn't affect the rate of change, but causes the returned value to be offset by time 
- * @returns Cosine value 
- */
-declare function TimedCos(frequency: number, min: number, max: number, offset: number): number;
-
-/**
- * Returns a sine value that fluctuates based on `CurTime`. The value returned will be between the start value plus/minus the range value.
- * 
- * Due to a bug, the range arguments don't work as intended. The existing (bugged) behavior is documented below. 
- * @param frequency  The frequency of fluctuation, in [[wikipedia:hertz|hertz]] 
- * @param origin  The center value of the sine wave. 
- * @param max  This argument's distance from origin defines the size of the full range of the sine wave. For example, if origin is 3 and max is 5, then the full range of the sine wave is 5-3 = 2. 3 is the center point of the sine wave, so the sine wave will range between 2 and 4. 
- * @param offset  Offset variable that doesn't affect the rate of change, but causes the returned value to be offset by time 
- * @returns Sine value 
- */
-declare function TimedSin(frequency: number, origin: number, max: number, offset: number): number;
-
-/**
- * Attempts to return an appropriate boolean for the given value 
- * @param val  The object to be converted to a boolean 
- * @returns "false" for the boolean false.
- * "false" for "false".
- * "false" for "0".
- * "false" for numeric 0.
- * "false" for nil.
- * 
- * "true" otherwise. 
- */
-declare function tobool(val: any): boolean;
-
-/**
- * Toggles whether or not the named map is favorited in the new game list. 
- * @param map  Map to toggle favorite. 
- */
-declare function ToggleFavourite(map: string): void;
-
-/**
- * Attempts to convert the value to a number.
- * 
- * Returns nil on failure. 
- * @param value  The value to convert. Can be a number or string. 
- * @param base [=10] The [[wikipedia:Radix|numeric base]] used in the string. Can be any integer between 2 and 36, inclusive. 
- * @returns The numeric representation of the value with the given base, or nil if the conversion failed. 
- */
-declare function tonumber(value: any, base?: number): number;
-
-/**
- * Attempts to convert the value to a string. If the value is an object and its metatable has defined the __tostring metamethod, this will call that function.
- * 
- * `print` also uses this functionality. 
- * @param value  The object to be converted to a string. 
- * @returns The string representation of the value. 
- */
-declare function tostring(value: any): string;
-
-/**
- * **Deprecated!**
- * 
- * **[INTERNAL]**
- * 
- * Returns "Lua Cache File" if the given file name is in a certain string table, nothing otherwise. 
- * @param filename  File name to test 
- * @returns "Lua Cache File" if the given file name is in a certain string table, nothing otherwise. 
- */
-declare function TranslateDownloadableName(filename: string): string;
-
-/**
- * Returns a string representing the name of the type of the passed object. 
- * @param variable  The object to get the type of. 
- * @returns The name of the object's type. 
- */
-declare function type(variable: any): string;
-
-/**
- * Gets the associated type ID of the variable.
- * 
- * **Bug [#1120](https://github.com/Facepunch/garrysmod-issues/issues/1120):**
- * >This does not work properly with _LOADLIB objects. 
- * @param variable  The variable to get the type ID of. 
- * @returns The type ID of the variable. See the `TYPE`. 
- */
-declare function TypeID(variable: any): TYPE;
-
-/**
- * This function takes a numeric indexed table and return all the members as a vararg. If specified, it will start at the given index and end at end index. 
- * @param tbl  The table to generate the vararg from. 
- * @param startIndex [=1] Which index to start from. Optional. 
- * @param endIndex [=#tbl] Which index to end at. Optional, even if you set StartIndex. 
- * @returns Output values 
- */
-declare function unpack(tbl: table, startIndex?: number, endIndex?: number): any;
-
-/**
- * Returns the current asynchronous in-game time. 
- * @returns The asynchronous in-game time. 
- */
-declare function UnPredictedCurTime(): number;
-
-/**
- * Runs JavaScript on the loading screen panel (`GetLoadPanel`). 
- * @param javascript  JavaScript to run on the loading panel. 
- */
-declare function UpdateLoadPanel(javascript: string): void;
-
-/**
- * **Deprecated:**
- * >You should use `IsUselessModel` instead.
- * 
- * Returns whether or not a model is useless by checking that the file path is that of a proper model.
- * 
- * If the string ".mdl" is not found in the model name, the function will return true.
- * 
- * The function will also return true if any of the following strings are found in the given model name:
- * * "_gesture"
- * * "_anim"
- * * "_gst"
- * * "_pst"
- * * "_shd"
- * * "_ss"
- * * "_posture"
- * * "_anm"
- * * "ghostanim"
- * * "_paths"
- * * "_shared"
- * * "anim_"
- * * "gestures_"
- * * "shared_ragdoll_" 
- * @param modelName  The model name to be checked 
- * @returns Whether or not the model is useless 
- */
-declare function UTIL_IsUselessModel(modelName: string): boolean;
-
-/**
- * **Deprecated:**
- * >You should use `IsValid` instead
- * 
- * Returns if a panel is safe to use. 
- * @param panel  The panel to validate. 
- */
-declare function ValidPanel(panel: Panel): void;
-
-/**
- * Returns a random vector whose components are each between -1 and 1 
- * @returns The random direction vector 
- */
-declare function VectorRand(): Vector;
-
-/**
- * Returns the time in seconds it took to render the VGUI. 
- */
-declare function VGUIFrameTime(): void;
-
-/**
- * Creates and returns a `DShape` rectangle GUI element with the given dimensions. 
- * @param x  X position of the created element 
- * @param y  Y position of the created element 
- * @param w  Width of the created element 
- * @param h  Height of the created element 
- * @returns `DShape` element 
- */
-declare function VGUIRect(x: number, y: number, w: number, h: number): DShape;
-
-/**
- * Briefly displays layout details of the given panel on-screen 
- * @param panel  Panel to display layout details of 
- */
-declare function VisualizeLayout(panel: Panel): void;
-
-/**
- * **[INTERNAL]**
- * 
- * Returns a new WorkshopFileBase element 
- * @param namespace  Namespace for the file base 
- * @param requiredTags  Tags required for a Workshop submission to be interacted with by the filebase 
- * @returns WorkshopFileBase element 
- */
-declare function WorkshopFileBase(namespace: string, requiredTags: table): table;
-
-/**
- * !TupleReturn
- *
- * Translates the specified position and angle into the specified coordinate system. 
- * @param position  The position that should be translated from the current to the new system. 
- * @param angle  The angles that should be translated from the current to the new system. 
- * @param newSystemOrigin  The origin of the system to translate to. 
- * @param newSystemAngles  The angles of the system to translate to. 
- * @returns [Local position, Local angles] 
- */
-declare function WorldToLocal(position: Vector, angle: Angle, newSystemOrigin: Vector, newSystemAngles: Angle): [Vector, Angle];
-
-/**
- * !TupleReturn
- *
- * Attempts to call the first function. If the execution succeeds, this returns ''true'' followed by the returns of the function. If execution fails, this returns ''false'' and the second function is called with the error message. 
- * 
- * Unlike in `pcall`, the stack is not unwound and can therefore be used for stack analyses with the {{Lib|debug}}.
- * 
- * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
- * >Using this function with `include` will break autorefresh.
- * 
- * **Bug [#2498](https://github.com/Facepunch/garrysmod-issues/issues/2498):**
- * >This does not stop `Error` and `ErrorNoHalt` from sending error messages to the server (if called clientside) or calling the `GM.OnLuaError` hook. The success boolean returned will always return true and thus you will not get the error message returned. `error` does not exhibit these behaviours.
- * 
- * **Bug [#3112](https://github.com/Facepunch/garrysmod-issues/issues/3112):**
- * >This does not stop errors incurred by `include`. 
- * @param func  The function to call initially. 
- * @param errorCallback  The function to be called if execution of the first fails; the error message is passed as a string.
- * 
- * You cannot throw an `error`() from this callback: it will have no effect (not even stopping the callback). 
- * @param arguments  Arguments to pass to the initial function. 
- * @returns [Status of the execution; ''true'' for success, ''false'' for failure., The returns of the first function if execution succeeded, otherwise the "first" return value of the error callback.] 
- */
-declare function xpcall(func: Function, errorCallback: Function, ...arguments: (any)[]): [boolean, any];
-
-/**
- * This is the list of global functions. 
- */
 declare namespace Global {
     /**
      * Adds simple Get/Set accessor functions on the specified table.
@@ -42345,7 +39985,7 @@ declare namespace Global {
     function AngleRand(): Angle;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * If the result of the first argument is false or nil, an error is thrown with the second argument as the message. 
      * @param expression  The expression to assert. 
@@ -42495,7 +40135,7 @@ declare namespace Global {
     function ColorRand(a?: boolean): Color;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Converts a `Color` into HSV color space. 
      * @param color  The `Color`. 
@@ -42511,7 +40151,7 @@ declare namespace Global {
     function CompileFile(path: string): Function;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * This function will compile the code argument as lua code and return a function that will execute that code. 
      * 
@@ -43064,7 +40704,7 @@ declare namespace Global {
     function FindMetaTable(metaName: string): table;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the tool-tip text and tool-tip-panel (if any) of the given panel as well as itself 
      * @param panel  Panel to find tool-tip of 
@@ -43393,7 +41033,7 @@ declare namespace Global {
     function IncludeCS(filename: string): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns an iterator function for a for loop, to return ordered key-value pairs from a table.
      * 
@@ -43703,7 +41343,7 @@ declare namespace Global {
     function LocalPlayer(): Player;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Translates the specified position and angle from the specified local coordinate system into worldspace coordinates.
      * 
@@ -43719,7 +41359,7 @@ declare namespace Global {
     function LocalToWorld(localPos: Vector, localAng: Angle, originPos: Vector, originAngle: Angle): [Vector, Angle];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Either returns the material with the given name, or loads the material interpreting the first argument as the path.
      * 
@@ -43817,7 +41457,7 @@ declare namespace Global {
     function newproxy(addMetatable?: boolean): userdata;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the next key and value pair in a table.
      * 
@@ -43876,7 +41516,7 @@ declare namespace Global {
     function OrderVectors(vector1: Vector, vector2: Vector): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns an iterator function(`next`) for a for loop that will return the values of the specified table in an arbitrary order.
      * 
@@ -43941,7 +41581,7 @@ declare namespace Global {
     function Path(type: string): PathFollower;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Calls a function and catches an error that can be thrown while the execution of the call.
      * 
@@ -44407,7 +42047,7 @@ declare namespace Global {
     function SetPhysConstraintSystem(constraintSystem: Entity): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * This function can be used in a for loop instead of `pairs`. It sorts all "keys" alphabetically.
      * 
@@ -44421,7 +42061,7 @@ declare namespace Global {
     function SortedPairs(table: table, desc?: boolean): [Function, table];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns an iterator function that can be used to loop through a table in order of member values, when the values of the table are also tables and contain that member.
      * 
@@ -44436,7 +42076,7 @@ declare namespace Global {
     function SortedPairsByMemberValue(table: table, memberKey: any, descending?: boolean): [Function, table];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns an iterator function that can be used to loop through a table in order of its "values".
      * 
@@ -44711,7 +42351,7 @@ declare namespace Global {
     function WorkshopFileBase(namespace: string, requiredTags: table): table;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Translates the specified position and angle into the specified coordinate system. 
      * @param position  The position that should be translated from the current to the new system. 
@@ -44723,7 +42363,7 @@ declare namespace Global {
     function WorldToLocal(position: Vector, angle: Angle, newSystemOrigin: Vector, newSystemAngles: Angle): [Vector, Angle];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Attempts to call the first function. If the execution succeeds, this returns ''true'' followed by the returns of the function. If execution fails, this returns ''false'' and the second function is called with the error message. 
      * 
@@ -44746,6 +42386,2366 @@ declare namespace Global {
      */
     function xpcall(func: Function, errorCallback: Function, ...arguments: (any)[]): [boolean, any];
 }
+
+/**
+ * This is the list of global functions. 
+ */
+/**
+ * Adds simple Get/Set accessor functions on the specified table.
+ * 
+ * Can also force the value to be set to a number, bool or string. 
+ * @param tab  The table to add the accessor functions too. 
+ * @param key  The key of the table to be get/set. 
+ * @param name  The name of the functions (will be prefixed with Get and Set). 
+ * @param force [=nil] The type the setter should force to (uses `FORCE`). 
+ */
+declare function AccessorFunc(tab: table, key: any, name: string, force?: FORCE): void;
+
+/**
+ * Defines a global entity class variable with an automatic value in order to prevent collisions with other `CLASS`. You should prefix your variable with CLASS_ for consistency. 
+ * @param name  The name of the new enum/global variable. 
+ */
+declare function Add_NPC_Class(name: string): void;
+
+/**
+ * Adds the specified image path to the main menu background pool. Image can be png or jpeg. 
+ * @param path  Path to the image. 
+ */
+declare function AddBackgroundImage(path: string): void;
+
+/**
+ * **[INTERNAL]**
+ * 
+ * Tells the engine to register a console command. If the command was ran, the engine calls `concommand.Run`. 
+ * @param name  The name of the console command to add. 
+ * @param helpText  The help text. 
+ * @param flags  Concommand flags using `FCVAR` 
+ */
+declare function AddConsoleCommand(name: string, helpText: string, flags: FCVAR): void;
+
+/**
+ * Marks a Lua file to be sent to clients when they join the server. Doesn't do anything on the client - this means you can use it in a shared file without problems.
+ * 
+ * **Warning:**
+ * >If the file trying to be added is empty, an error will occur, and the file will not be sent to the client.
+ * 
+ * **Note:**
+ * >This function is not needed for scripts located in "lua/autorun/" and "lua/autorun/client/": they are automatically sent to clients. 
+ * @param file [=current file] The name/path to the Lua file that should be sent, relative to the garrysmod/lua folder. If no parameter is specified, it sends the current file.
+ * 
+ * The file path can be relative to the script it is ran from. For example, if your script is in lua/myfolder/stuff.lua, calling `AddCSLuaFile`("otherstuff.lua") and `AddCSLuaFile`("myfolder/otherstuff.lua") is the same thing. 
+ */
+declare function AddCSLuaFile(file?: string): void;
+
+/**
+ * Loads the specified image from the /cache folder, used in combination `steamworks.Download`.
+ * 
+ * Most addons will provide a 512x512 png image. 
+ * @param name  The name of the file. 
+ * @returns The material, returns nil if the cached file is not an image. 
+ */
+declare function AddonMaterial(name: string): IMaterial;
+
+/**
+ * Adds the specified vector to the PVS which is currently building. This allows all objects in visleafs visible from that vector to be drawn. 
+ * @param position  The origin to add. 
+ */
+declare function AddOriginToPVS(position: Vector): void;
+
+/**
+ * This function creates a World Tip, similar to the one shown when aiming at a Thruster where it shows you its force.
+ * 
+ * This function will make a World Tip that will only last 50 milliseconds (1/20th of a second), so you must call it continuously as long as you want the World Tip to be shown. It is common to call it inside a Think hook.
+ * 
+ * Contrary to what the function's name implies, it is impossible to create more than one World Tip at the same time. A new World Tip will overwrite the old one, so only use this function when you know nothing else will also be using it.
+ * 
+ * See `SANDBOX.PaintWorldTips` for more information.
+ * 
+ * **Note:**
+ * >This function is only available in Sandbox and its derivatives 
+ * @param entindex [=nil] "This argument is no longer used"; it has no effect on anything. You can use nil in this argument. 
+ * @param text [=] The text for the world tip to display. 
+ * @param dieTime [=SysTime() + 0.05] "This argument is no longer used"; when you add a World Tip it will always last only 0.05 seconds. You can use nil in this argument. 
+ * @param pos [=ent:GetPos()] Where in the world you want the World Tip to be drawn. If you add a valid Entity in the next argument, this argument will have no effect on the actual World Tip. 
+ * @param ent [=nil] Which entity you want to associate with the World Tip. This argument is optional. If set to a valid entity, this will override the position set in ''pos'' with the Entity's position. 
+ */
+declare function AddWorldTip(entindex?: number, text?: string, dieTime?: number, pos?: Vector, ent?: Entity): void;
+
+/**
+ * Returns an angle with a randomized pitch, yaw and roll. The pitch is between -90 and 90 degrees, while yaw and roll are between -180 and 180 degrees. 
+ * @returns The randomly generated angle. 
+ */
+declare function AngleRand(): Angle;
+
+/**
+ * @tupleReturn
+ *
+ * If the result of the first argument is false or nil, an error is thrown with the second argument as the message. 
+ * @param expression  The expression to assert. 
+ * @param errorMessage [="assertion failed!"] The error message to throw when assertion fails. This is only type-checked if the assertion fails. 
+ * @param returns  Any arguments past the error message will be returned by a successful assert. 
+ * @returns [If successful, returns the first argument., If successful, returns the error message. This will be nil if the second argument wasn't specified.
+ * 
+ * Since the second argument is only type-checked if the assertion fails, this doesn't have to be a string., Returns any arguments past the error message.] 
+ */
+declare function assert(expression: any, errorMessage?: string, ...returns: (any)[]): [any, any, any];
+
+/**
+ * Sends the specified Lua code to all connected clients and executes it. 
+ * @param code  The code to be executed. Capped at length of 254 characters. 
+ */
+declare function BroadcastLua(code: string): void;
+
+/**
+ * Dumps the networked variables of all entities into one table and returns it. 
+ * @returns Format:
+ * * key = `Entity` for NWVars or `number` (always 0) for global vars
+ * * value = `table` formatted as:
+ * ** key = `string` var name
+ * ** value = any type var value 
+ */
+declare function BuildNetworkedVarsTable(): table;
+
+/**
+ * **[INTERNAL]**
+ * 
+ * Used internally to check if the current server the player is on can be added to favorites or not. Does not check if the server is ALREADY in the favorites. 
+ * @returns 
+ */
+declare function CanAddServerToFavorites(): boolean;
+
+/**
+ * Aborts joining of the server you are currently joining. 
+ */
+declare function CancelLoading(): void;
+
+/**
+ * Sets the active main menu background image to a random entry from the background images pool. Images are added with `AddBackgroundImage`. 
+ * @param currentgm  Apparently does nothing. 
+ */
+declare function ChangeBackground(currentgm: string): void;
+
+/**
+ * Automatically called by the engine when a panel is hovered over with the mouse 
+ * @param panel  Panel that has been hovered over 
+ */
+declare function ChangeTooltip(panel: Panel): void;
+
+/**
+ * Empties the pool of main menu background images. 
+ */
+declare function ClearBackgroundImages(): void;
+
+/**
+ * Creates a non physical entity that only exists on the client. See also `ents.CreateClientProp`.
+ * 
+ * **Bug [#861](https://github.com/Facepunch/garrysmod-issues/issues/861):**
+ * >Parented clientside models will become detached if the parent entity leaves the PVS.
+ * 
+ * **Bug [#1387](https://github.com/Facepunch/garrysmod-issues/issues/1387):**
+ * >Clientside entities are not garbage-collected, thus you must store a reference to the object and call `CSEnt.Remove` manually.
+ * 
+ * **Bug [#3184](https://github.com/Facepunch/garrysmod-issues/issues/3184):**
+ * >Clientside models will occasionally delete themselves during high server lag. 
+ * @param model  The file path to the model.
+ * 
+ * **Warning:**
+ * >Model must be precached with `util.PrecacheModel` on the server before usage. 
+ * @param renderGroup [=RENDERGROUP_OTHER] The rendergroup of the entity, see `RENDERGROUP`. 
+ * @returns Created client-side model. ( C_BaseFlex ) 
+ */
+declare function ClientsideModel(model: string, renderGroup?: RENDERGROUP): CSEnt;
+
+/**
+ * Creates a fully clientside ragdoll.
+ * 
+ * **Note:**
+ * >The ragdoll initially starts as hidden and with shadows disabled, see the example for how to enable it.
+ * There's no need to call `Entity.Spawn` on this entity.
+ * The physics won't initialize at all if the model hasn't been precached serverside first.
+ * 
+ * **Bug [#1387](https://github.com/Facepunch/garrysmod-issues/issues/1387):**
+ * >Clientside entities are not garbage-collected, thus you must store a reference to the object and call `CSEnt.Remove` manually. 
+ * @param model  The file path to the model.
+ * 
+ * **Warning:**
+ * >Model must be precached with `util.PrecacheModel` on the server before usage. 
+ * @param renderGroup [=RENDER_GROUP_OPAQUE] The `RENDERGROUP` to assign. 
+ * @returns The newly created client-side ragdoll. ( C_ClientRagdoll ) 
+ */
+declare function ClientsideRagdoll(model: string, renderGroup?: RENDERGROUP): CSEnt;
+
+/**
+ * Creates a scene entity based on the scene name and the entity. 
+ * @param name  The name of the scene. 
+ * @param targetEnt  The entity to play the scene on. 
+ * @returns C_SceneEntity 
+ */
+declare function ClientsideScene(name: string, targetEnt: Entity): CSEnt;
+
+/**
+ * Closes all Derma menus that have been passed to `RegisterDermaMenuForClose` and calls `GM.CloseDermaMenus` 
+ */
+declare function CloseDermaMenus(): void;
+
+/**
+ * Executes the specified action on the garbage collector. 
+ * @param action [="collect"] The action to run.
+ * 
+ * Valid actions are "collect", "stop", "restart", "count", "step", "setpause" and "setstepmul". 
+ * @param arg [=] The argument of the specified action, only applicable for "step", "setpause" and "setstepmul". 
+ * @returns If the action is count this is the number of kilobytes of memory used by Lua.
+ * If the action is step this is true if a garbage collection cycle was finished.
+ * 
+ * If the action is setpause this is the previous value for the GC's pause.
+ * If the action is setstepmul this is the previous value for the GC's step. 
+ */
+declare function collectgarbage(action?: string, arg?: number): any;
+
+/**
+ * Creates a `Color`. 
+ * @param r  An integer from 0-255 describing the red value of the color. 
+ * @param g  An integer from 0-255 describing the green value of the color. 
+ * @param b  An integer from 0-255 describing the blue value of the color. 
+ * @param a [=255] An integer from 0-255 describing the alpha (transparency) of the color. 
+ * @returns The created `Color`. 
+ */
+declare function Color(r: number, g: number, b: number, a?: number): Color;
+
+/**
+ * Returns a new `Color` with the RGB components of the given `Color` and the alpha value specified. 
+ * @param color  The `Color` from which to take RGB values. This color will not be modified. 
+ * @param alpha  The new alpha value, a number between 0 and 255. Values above 255 will be clamped. 
+ * @returns The new `Color` with the modified alpha value 
+ */
+declare function ColorAlpha(color: Color, alpha: number): Color;
+
+/**
+ * Creates a `Color` with randomized red, green, and blue components. If the alpha argument is true, alpha will also be randomized. 
+ * @param a [=false] Should alpha be randomized. 
+ * @returns The created `Color`. 
+ */
+declare function ColorRand(a?: boolean): Color;
+
+/**
+ * @tupleReturn
+ *
+ * Converts a `Color` into HSV color space. 
+ * @param color  The `Color`. 
+ * @returns [The hue in degrees., The saturation in the range 0-1., The value in the range 0-1.] 
+ */
+declare function ColorToHSV(color: Color): [number, number, number];
+
+/**
+ * Attempts to compile the given file. If successful, returns a function that can be called to perform the actual execution of the script. 
+ * @param path  Path to the file, relative to the garrysmod/lua/ directory. 
+ * @returns The function which executes the script. 
+ */
+declare function CompileFile(path: string): Function;
+
+/**
+ * @tupleReturn
+ *
+ * This function will compile the code argument as lua code and return a function that will execute that code. 
+ * 
+ * Please note that this function will not automatically execute the given code after compiling it. 
+ * @param code  The code to compile. 
+ * @param identifier  An identifier in case an error is thrown. (The same identifier can be used multiple times) 
+ * @param HandleError [=true] If false this function will return an error string instead of throwing an error. 
+ * @returns [A function that, when called, will execute the given code. Returns nil if there was an error., The error string. Will be nil if there were no errors or the function handles errors (third argument is true).] 
+ */
+declare function CompileString(code: string, identifier: string, HandleError?: boolean): [Function, string];
+
+/**
+ * Returns a table of console command names beginning with the given text. 
+ * @param text  Text that the console commands must begin with. 
+ * @returns Table of console command names. 
+ */
+declare function ConsoleAutoComplete(text: string): table;
+
+/**
+ * Returns whether a `ConVar` with the given name exists or not 
+ * @param name  Name of the `ConVar`. 
+ * @returns True if the `ConVar` exists, false otherwise. 
+ */
+declare function ConVarExists(name: string): ConVar;
+
+/**
+ * Makes a clientside-only console variable
+ * 
+ * **Note:**
+ * >This function is a wrapper of `CreateConVar`, with the difference being that FCVAR_ARCHIVE and FCVAR_USERINFO are added automatically when "shouldsave" and "userinfo" are true, respectively.
+ * 
+ * Although this function is shared, it should only be used clientside. 
+ * @param name  Name of the ConVar to be created and able to be accessed.
+ * 
+ * This cannot be a name of existing console command or console variable. It will silently fail if it is. 
+ * @param defaultVal  Default value of the ConVar. 
+ * @param shouldsave [=true] Should the ConVar be saved across sessions 
+ * @param userinfo [=false] Should the ConVar and its containing data be sent to the server when it has changed. This make the convar accessible from server using `Player.GetInfoNum` and similar functions. 
+ * @param helptext [=""] Help text to display in the console. 
+ * @returns Created convar. 
+ */
+declare function CreateClientConVar(name: string, defaultVal: string, shouldsave?: boolean, userinfo?: boolean, helptext?: string): ConVar;
+
+/**
+ * Creates a console variable (`ConVar`), in general these are for things like gamemode/server settings. 
+ * @param name  Name of the convar.
+ * 
+ * This cannot be a name of an engine console command or console variable. It will silently fail if it is. If it is the same name as another lua ConVar, it will return that ConVar object. 
+ * @param value  Default value of the convar. Can also be a number. 
+ * @param flags [=FCVAR_NONE] Flags of the convar, see `FCVAR`, either as bitflag or as table. 
+ * @param helptext [=""] The help text to show in the console. 
+ * @returns The convar created. 
+ */
+declare function CreateConVar(name: string, value: string, flags?: FCVAR, helptext?: string): ConVar;
+
+/**
+ * Creates a new material with the specified name and shader.
+ * 
+ * **Note:**
+ * >Materials created with this function can be used in `Entity.SetMaterial` and `Entity.SetSubMaterial` by prepending a "!" to their material name argument.
+ * 
+ * **Bug [#1531](https://github.com/Facepunch/garrysmod-issues/issues/1531):**
+ * >.pngs must be loaded with `Material` before being used with this function.
+ * 
+ * **Bug [#2511](https://github.com/Facepunch/garrysmod-issues/issues/2511):**
+ * >This does not work with [https://developer.valvesoftware.com/wiki/Patch patch materials].
+ * 
+ * **Bug [#3103](https://github.com/Facepunch/garrysmod-issues/issues/3103):**
+ * >This will not create a new material if another material object with the same name already exists. 
+ * @param name  The material name. Must be unique. 
+ * @param shaderName  The shader name. See [[:Category: Shaders]]. 
+ * @param materialData  Key-value table that contains shader parameters and proxies.
+ * 
+ * *See: [https://developer.valvesoftware.com/wiki/Category:List_of_Shader_Parameters List of Shader Parameters on Valve Developers Wiki] and each shader's page from [[:Category: Shaders]].
+ * 
+ * **Note:**
+ * >Unlike `IMaterial.SetTexture`, this table will not accept `ITexture` values. Instead, use the texture's name (see `ITexture.GetName`). 
+ * @returns Created material 
+ */
+declare function CreateMaterial(name: string, shaderName: string, materialData: ITexture[]): IMaterial;
+
+/**
+ * Creates `PhysCollide` objects for every physics object the model has. The model must be precached with `util.PrecacheModel` before being used with this function. 
+ * @param modelName  Model path to get the collision objects of. 
+ * @returns Table of `PhysCollide` objects. The number of entries will match the model's physics object count. See also `Entity.GetPhysicsObjectCount`. Returns no value if the model doesn't exist, or has not been precached. 
+ */
+declare function CreatePhysCollidesFromModel(modelName: string): PhysCollide[];
+
+/**
+ * Returns the uptime of the server in seconds (to at least 4 decimal places)
+ * 
+ * This is a synchronised value and affected by various factors such as host_timescale (or `game.GetTimeScale`) and the server being paused - either by sv_pausable or all players disconnecting.
+ * 
+ * You should use this function for timing in-game events but not for real-world events.
+ * 
+ * See also: `RealTime`, `SysTime`
+ * 
+ * **Note:**
+ * >This is internally defined as a float, and as such it will be affected by precision loss if your server uptime is more than 6 hours, which will cause jittery movement of players and props and inaccuracy of timers, it is highly encouraged to refresh or change the map when that happens (a server restart is not necessary).
+ * 
+ * This is "NOT" easy as it sounds to fix in the engine, so please refrain from posting issues about this
+ * 
+ * **Bug [#3026](https://github.com/Facepunch/garrysmod-issues/issues/3026):**
+ * >This returns 0 in `GM.PlayerAuthed`. 
+ * @returns Time synced with the game server. 
+ */
+declare function CurTime(): number;
+
+/**
+ * Returns an `CTakeDamageInfo` object.
+ * 
+ * **Bug [#2771](https://github.com/Facepunch/garrysmod-issues/issues/2771):**
+ * >This does not create a unique object, but instead returns a shared reference. That means you cannot use two or more of these objects at once. 
+ * @returns The `CTakeDamageInfo` object. 
+ */
+declare function DamageInfo(): CTakeDamageInfo;
+
+/**
+ * Writes text to the right hand side of the screen, like the old error system. Messages disappear after a couple of seconds. 
+ * @param slot  The location on the right hand screen to write the debug info to. Starts at 0, no upper limit 
+ * @param info  The debugging information to be written to the screen 
+ */
+declare function DebugInfo(slot: number, info: string): void;
+
+/**
+ * Gets the base class of an an object.
+ * 
+ * This is used not just by entities, but also by widgets, panels, drive modes, weapons and gamemodes (with "gamemode_" prefix).
+ * 
+ * The keyword "DEFINE_BASECLASS" translates into a call to this function. In the engine, it is replaced with:
+ * ```local BaseClass = baseclass.Get``` 
+ * @param name  The child class. 
+ * @returns The base class's meta table. 
+ */
+declare function DEFINE_BASECLASS(name: string): table;
+
+/**
+ * Retrieves data from a gamemode to use in yours. This also sets a BaseClass field on your GM table to the gamemode you are deriving from. It appears that this function works by running the init and cl_init Lua files of the target gamemode, then overriding functions that appear in both the target and your gamemode with your gamemode's functions. 
+ * @param base  Gamemode name to derive from. 
+ */
+declare function DeriveGamemode(base: string): void;
+
+/**
+ * Creates a new derma animation. 
+ * @param name  Name of the animation to create 
+ * @param panel  Panel to run the animation on 
+ * @param func  Function to call to process the animation
+ * 
+ * Arguments:
+ * * `pnl: Panel` the panel passed to Derma_Anim
+ * * `anim: table` the anim table
+ * * `delta: number` the fraction of the progress through the animation
+ * * `data: any` optional data passed to the run metatable method 
+ * @returns A lua metatable containing four methods:
+ * * Run() - Should be called each frame you want the animation to be ran.
+ * * Active() - Returns if the animation is currently active (has not finished and stop has not been called)
+ * * Stop() - Halts the animation at its current progress.
+ * * Start( Length, Data ) - Prepares the animation to be ran for Length seconds. Must be called once before calling Run(). The data parameter will be passed to the func function. 
+ */
+declare function Derma_Anim(name: string, panel: Panel, func: Function): table;
+
+/**
+ * Draws background blur around the given panel. 
+ * @param panel  Panel to draw the background blur around 
+ * @param startTime  Time that the blur began being painted 
+ */
+declare function Derma_DrawBackgroundBlur(panel: Panel, startTime: number): void;
+
+/**
+ * Creates panel method that calls the supplied Derma skin hook via `derma.SkinHook` 
+ * @param panel  Panel to add the hook to 
+ * @param functionName  Name of panel function to create 
+ * @param hookName  Name of Derma skin hook to call within the function 
+ * @param typeName  Type of element to call Derma skin hook for 
+ */
+declare function Derma_Hook(panel: Panel, functionName: string, hookName: string, typeName: string): void;
+
+/**
+ * Makes the panel (usually an input of sorts) respond to changes in console variables by adding next functions to the panel:
+ * * `Panel.SetConVar`
+ * * `Panel.ConVarChanged`
+ * * `Panel.ConVarStringThink`
+ * * `Panel.ConVarNumberThink`
+ * 
+ * The console variable value is saved in the ''m_strConVar'' property of the panel.
+ * 
+ * The panel should call
+ * `Panel.ConVarStringThink` or 
+ * `Panel.ConVarNumberThink` 
+ * in its `PANEL.Think` hook and should call `Panel.ConVarChanged` when the panel's value has changed. 
+ * @param target  The panel the functions should be added to. 
+ */
+declare function Derma_Install_Convar_Functions(target: Panel): void;
+
+/**
+ * Creates a derma window to display information 
+ * @param Text  The text within the created panel. 
+ * @param Title  The title of the created panel. 
+ * @param Button  The text of the button to close the panel. 
+ */
+declare function Derma_Message(Text: string, Title: string, Button: string): void;
+
+/**
+ * Shows a message box in the middle of the screen, with up to 4 buttons they can press. 
+ * @param btn1text  The text to display on the first button. 
+ * @returns The Panel object of the created window. 
+ */
+declare function Derma_Query(btn1text: string): Panel;
+
+/**
+ * Shows a message box in the middle of the screen, with up to 4 buttons they can press. 
+ * @param text [="Message Text (Second Parameter)"] The message to display. 
+ * @param title [="Message Title (First Parameter)"] The title to give the message box. 
+ * @param btn1text [=] The text to display on the first button. 
+ * @param btn1func [=nil] The function to run if the user clicks the first button. 
+ * @param btn2text [=nil] The text to display on the second button. 
+ * @param btn2func [=nil] The function to run if the user clicks the second button. 
+ * @param btn3text [=nil] The text to display on the third button 
+ * @param btn3func [=nil] The function to run if the user clicks the third button. 
+ * @param btn4text [=nil] The text to display on the third button 
+ * @param btn4func [=nil] The function to run if the user clicks the fourth button. 
+ * @returns The Panel object of the created window. 
+ */
+declare function Derma_Query(text?: string, title?: string, btn1text?: string, btn1func?: Function, btn2text?: string, btn2func?: Function, btn3text?: string, btn3func?: Function, btn4text?: string, btn4func?: Function): Panel;
+
+/**
+ * Creates a derma window asking players to input a string. 
+ * @param title  The title of the created panel. 
+ * @param subtitle  The text above the input box 
+ * @param defaultVal  The default text for the input box. 
+ * @param confirm  The function to be called once the user has confirmed their input. 
+ * @param cancel [=nil] The function to be called once the user has cancelled their input 
+ * @param confirmText [="OK"] Allows you to override text of the "OK" button 
+ * @param cancelText [="Cancel"] Allows you to override text of the "Cancel" button 
+ * @returns The created `DFrame` 
+ */
+declare function Derma_StringRequest(title: string, subtitle: string, defaultVal: string, confirm: Function, cancel?: Function, confirmText?: string, cancelText?: string): DFrame;
+
+/**
+ * Creates a `DMenu` and closes any current menus. 
+ * @param parent  The panel to parent the created menu to. 
+ * @returns The created `DMenu` 
+ */
+declare function DermaMenu(parent: Panel): DMenu;
+
+/**
+ * Sets whether rendering should be limited to being inside a panel or not.
+ * 
+ * See also `surface.DisableClipping` and `Panel.NoClipping`. 
+ * @param disable  Whether or not clipping should be disabled 
+ */
+declare function DisableClipping(disable: boolean): void;
+
+/**
+ * Cancels current DOF post-process effect started with `DOF_Start` 
+ */
+declare function DOF_Kill(): void;
+
+/**
+ * Cancels any existing DOF post-process effects.
+ * Begins the DOF post-process effect. 
+ */
+declare function DOF_Start(): void;
+
+/**
+ * A hacky method used to fix some bugs regarding DoF.
+ * 
+ * **[INTERNAL]**
+ * 
+ * {{Stub}} 
+ * @param enable  Enables or disables depth-of-field mode 
+ */
+declare function DOFModeHack(enable: boolean): void;
+
+/**
+ * **[INTERNAL]**
+ * 
+ *  Draws the currently active main menu background image and handles transitioning between background images.
+ * 
+ * This is called by default in the menu panel's Paint hook. 
+ */
+declare function DrawBackground(): void;
+
+/**
+ * Draws the bloom shader, which creates a glowing effect from bright objects. 
+ * @param Darken  Determines how much to darken the effect. A lower number will make the glow come from lower light levels. A value of 1 will make the bloom effect unnoticeable. Negative values will make even pitch black areas glow. 
+ * @param Multiply  Will affect how bright the glowing spots are. A value of 0 will make the bloom effect unnoticeable. 
+ * @param SizeX  The size of the bloom effect along the horizontal axis. 
+ * @param SizeY  The size of the bloom effect along the vertical axis. 
+ * @param Passes  Determines how much to exaggerate the effect. 
+ * @param ColorMultiply  Will multiply the colors of the glowing spots, making them more vivid. 
+ * @param Red  How much red to multiply with the glowing color. Should be between 0 and 1 
+ * @param Green  How much green to multiply with the glowing color. Should be between 0 and 1 
+ * @param Blue  How much blue to multiply with the glowing color. Should be between 0 and 1 
+ */
+declare function DrawBloom(Darken: number, Multiply: number, SizeX: number, SizeY: number, Passes: number, ColorMultiply: number, Red: number, Green: number, Blue: number): void;
+
+/**
+ * Draws the Color Modify shader, which can be used to adjust colors on screen. 
+ * @param modifyParameters  Color modification parameters. See {{ShaderLink|g_colourmodify}} and the example below. Note that if you leave out a field, it will retain its last value which may have changed if another caller uses this function. 
+ */
+declare function DrawColorModify(modifyParameters: table): void;
+
+/**
+ * Draws a material overlay on the screen. 
+ * @param Material  This will be the material that is drawn onto the screen. 
+ * @param RefractAmount  This will adjust how much the material will refract your screen. 
+ */
+declare function DrawMaterialOverlay(Material: string, RefractAmount: number): void;
+
+/**
+ * Creates a motion blur effect by drawing your screen multiple times. 
+ * @param AddAlpha  How much alpha to change per frame. 
+ * @param DrawAlpha  How much alpha the frames will have. A value of 0 will not render the motion blur effect. 
+ * @param Delay  Determines the amount of time between frames to capture. 
+ */
+declare function DrawMotionBlur(AddAlpha: number, DrawAlpha: number, Delay: number): void;
+
+/**
+ * Draws the sharpen shader, which creates more contrast. 
+ * @param Contrast  How much contrast to create. 
+ * @param Distance  How large the contrast effect will be. 
+ */
+declare function DrawSharpen(Contrast: number, Distance: number): void;
+
+/**
+ * Draws the sobel shader, which detects edges and draws a black border. 
+ * @param Threshold  Determines the threshold of edges. A value of 0 will make your screen completely black. 
+ */
+declare function DrawSobel(Threshold: number): void;
+
+/**
+ * Renders the post-processing effect of beams of light originating from the map's sun. Utilises the "pp/sunbeams" material 
+ * @param darken  $darken property for sunbeams material 
+ * @param multiplier  $multiply property for sunbeams material 
+ * @param sunSize  $sunsize property for sunbeams material 
+ * @param sunX  $sunx property for sunbeams material 
+ * @param sunY  $suny property for sunbeams material 
+ */
+declare function DrawSunbeams(darken: number, multiplier: number, sunSize: number, sunX: number, sunY: number): void;
+
+/**
+ * Draws the texturize shader, which replaces each pixel on your screen with a different part of the texture depending on its brightness. See [[Shaders/g_texturize|g_texturize]] for information on making the texture. 
+ * @param Scale  Scale of the texture. A smaller number creates a larger texture. 
+ * @param BaseTexture  This will be the texture to use in the effect. Make sure you use `Material` to get the texture number 
+ */
+declare function DrawTexturize(Scale: number, BaseTexture: number): void;
+
+/**
+ * Draws the toy town shader, which blurs the top and bottom of your screen. This can make very large objects look like toys, hence the name. 
+ * @param Passes  An integer determining how many times to draw the effect. A higher number creates more blur. 
+ * @param Height  The amount of screen which should be blurred on the top and bottom. 
+ */
+declare function DrawToyTown(Passes: number, Height: number): void;
+
+/**
+ * Drops the specified entity if it is being held by any player with Gravity Gun or +use pickup. 
+ * @param ent  The entity to drop. 
+ */
+declare function DropEntityIfHeld(ent: Entity): void;
+
+/**
+ * Creates or replaces a dynamic light with the given id.
+ * 
+ * **Note:**
+ * >Only 32 lights can be active at once. 
+ * @param index  An unsigned Integer. Usually an [[Entity/EntIndex|entity index]] is used here. 
+ * @returns A DynamicLight structured table. See `DynamicLight` 
+ */
+declare function DynamicLight(index: number): DynamicLight;
+
+/**
+ * Returns a `CEffectData` object to be used with `util.Effect`.
+ * 
+ * **Bug [#2771](https://github.com/Facepunch/garrysmod-issues/issues/2771):**
+ * >This does not create a unique object, but instead returns a shared reference. That means you cannot use two or more of these objects at once. 
+ * @returns The `CEffectData` object. 
+ */
+declare function EffectData(): CEffectData;
+
+/**
+ * An 'if then else'. This is ''almost'' equivalent to (''condition'' and ''truevar'' or ''falsevar'') in Lua. The difference is that if ''truevar'' evaluates to false, the plain Lua method stated would return ''falsevar'' regardless of ''condition'' whilst this function would take ''condition'' into account. 
+ * @param condition  The condition to check if true or false. 
+ * @param truevar  If the condition isn't nil/false, returns this value. 
+ * @param falsevar  If the condition is nil/false, returns this value. 
+ * @returns The result. 
+ */
+declare function Either(condition: any, truevar: any, falsevar: any): any;
+
+/**
+ * Plays a sentence from scripts/sentences.txt
+ * 
+ * **Bug:**
+ * >FIXED IN NEXT UPDATE: Seems to work only on serverside. 
+ * @param soundName  The sound to play 
+ * @param position  The position to play at 
+ * @param entity  The entity to emit the sound from. Must be `Entity.EntIndex` 
+ * @param channel [=CHAN_AUTO] The sound channel, see `CHAN`. 
+ * @param volume [=1] The volume of the sound, from 0 to 1 
+ * @param soundLevel [=75] The sound level of the sound, see `SNDLVL` 
+ * @param soundFlags [=0] The flags of the sound, see `SND` 
+ * @param pitch [=100] The pitch of the sound, 0-255 
+ */
+declare function EmitSentence(soundName: string, position: Vector, entity: number, channel?: CHAN, volume?: number, soundLevel?: SNDLVL, soundFlags?: SND, pitch?: number): void;
+
+/**
+ * Emits the specified sound at the specified position.
+ * 
+ * **Bug:**
+ * >Sounds must be precached serverside manually before they can be played. util.PrecacheSound does not work for this purpose, Entity.EmitSound does the trick
+ * 
+ * **Bug:**
+ * >This does not work with soundscripts. TODO: Is this a bug or intended? 
+ * @param soundName  The sound to play 
+ * @param position  The position to play at 
+ * @param entity  The entity to emit the sound from. Can be an `Entity.EntIndex` or one of the following:
+ * * 0 - Plays sound on the world (Position set to 0,0,0)
+ * * -1 - Plays sound on the local player (on server acts as 0)
+ * * -2 - Plays UI sound (Position set to 0,0,0, no spatial sound,on server acts as 0) 
+ * @param channel [=CHAN_AUTO] The sound channel, see `CHAN`. 
+ * @param volume [=1] The volume of the sound, from 0 to 1 
+ * @param soundLevel [=75] The sound level of the sound, see `SNDLVL` 
+ * @param soundFlags [=0] The flags of the sound, see `SND` 
+ * @param pitch [=100] The pitch of the sound, 0-255 
+ */
+declare function EmitSound(soundName: string, position: Vector, entity: number, channel?: CHAN, volume?: number, soundLevel?: SNDLVL, soundFlags?: SND, pitch?: number): void;
+
+/**
+ * Removes the currently active tool tip from the screen. 
+ * @param panel  This is the panel that has a tool tip. 
+ */
+declare function EndTooltip(panel: Panel): void;
+
+/**
+ * Throws a Lua error and breaks out of the current call stack. 
+ * @param message  The error message to throw. 
+ * @param errorLevel [=1] The level to throw the error at. 
+ */
+declare function error(message: string, errorLevel?: number): void;
+
+/**
+ * Throws a Lua error but does not break out of the current call stack.
+ * 
+ * **Bug [#1810](https://github.com/Facepunch/garrysmod-issues/issues/1810):**
+ * >Using this function in the menu state exits the menu.
+ * 
+ * **Bug [#2247](https://github.com/Facepunch/garrysmod-issues/issues/2247):**
+ * >This function has a character limit of 511. 
+ * @param arguments  Converts all arguments to strings and prints them with no spacing. 
+ */
+declare function ErrorNoHalt(...arguments: (any)[]): void;
+
+/**
+ * Returns the angles of the current render context as calculated by `GM.CalcView`.
+ * 
+ * **Bug [#2516](https://github.com/Facepunch/garrysmod-issues/issues/2516):**
+ * >This function is only reliable inside rendering hooks. 
+ * @returns The angle of the currently rendered scene. 
+ */
+declare function EyeAngles(): Angle;
+
+/**
+ * Returns the origin of the current render context as calculated by `GM.CalcView`.
+ * 
+ * **Bug [#2516](https://github.com/Facepunch/garrysmod-issues/issues/2516):**
+ * >This function is only reliable inside rendering hooks. 
+ * @returns Camera position. 
+ */
+declare function EyePos(): Vector;
+
+/**
+ * Returns the normal vector of the current render context as calculated by `GM.CalcView`, similar to `EyeAngles`.
+ * 
+ * **Bug [#2516](https://github.com/Facepunch/garrysmod-issues/issues/2516):**
+ * >This function is only reliable inside rendering hooks. 
+ * @returns View direction of the currently rendered scene. 
+ */
+declare function EyeVector(): Vector;
+
+/**
+ * Returns the meta table for the class with the matching name.
+ * 
+ * Internally returns `debug.getregistry`()[metaName]
+ * 
+ * You can learn more about meta tables on the [[Meta Tables]] page.
+ * 
+ * You can find a list of meta tables that can be retrieved with this function on `TYPE`. The name in the description is the string to use with this function. 
+ * @param metaName  The object type to retrieve the meta table of. 
+ * @returns The corresponding meta table. 
+ */
+declare function FindMetaTable(metaName: string): table;
+
+/**
+ * @tupleReturn
+ *
+ * Returns the tool-tip text and tool-tip-panel (if any) of the given panel as well as itself 
+ * @param panel  Panel to find tool-tip of 
+ * @returns [tool-tip text, tool-tip panel, panel that the function was called with] 
+ */
+declare function FindTooltip(panel: Panel): [string, Panel, Panel];
+
+/**
+ * Formats the specified values into the string given. Same as `string.format`. 
+ * @param format  The string to be formatted.
+ * 
+ * Follows this format: http://www.cplusplus.com/reference/cstdio/printf/ 
+ * @param formatParameters  Values to be formatted into the string. 
+ * @returns The formatted string 
+ */
+declare function Format(format: string, ...formatParameters: (any)[]): string;
+
+/**
+ * Returns the number of frames rendered since the game was launched. 
+ */
+declare function FrameNumber(): void;
+
+/**
+ * Returns the `CurTime`-based time in seconds it took to render the last frame.
+ * 
+ * This should be used for frame/tick based timing, such as movement prediction or animations.
+ * 
+ * For real-time-based frame time that isn't affected by host_timescale, use `RealFrameTime`. RealFrameTime is more suited for things like GUIs or HUDs. 
+ * @returns time (in seconds) 
+ */
+declare function FrameTime(): number;
+
+/**
+ * Callback function for when the client has joined a server. This function shows the server's loading URL by default. 
+ * @param servername  Server's name. 
+ * @param serverurl  Server's loading screen URL, or "" if the URL is not set. 
+ * @param mapname  Server's current map's name. 
+ * @param maxplayers  Max player count of server. 
+ * @param steamid  The local player's `Player.SteamID64`. 
+ * @param gamemode  Server's current gamemode's folder name. 
+ */
+declare function GameDetails(servername: string, serverurl: string, mapname: string, maxplayers: number, steamid: string, gamemode: string): void;
+
+/**
+ * **Deprecated:**
+ * >This function was deprecated in Lua 5.1 and is removed in Lua 5.2. Use `collectgarbage`( "count" ) instead.
+ * 
+ *  Returns the current floored dynamic memory usage of Lua in kilobytes. 
+ * @returns The current floored dynamic memory usage of Lua, in kilobytes. 
+ */
+declare function gcinfo(): number;
+
+/**
+ * Gets the ConVar with the specified name. This function caches the ConVar object internally. 
+ * @param name  Name of the ConVar to get 
+ * @returns The ConVar object 
+ */
+declare function GetConVar(name: string): ConVar;
+
+/**
+ * **[INTERNAL]**
+ * 
+ * Gets the ConVar with the specified name. This function doesn't cache the convar. 
+ * @param name  Name of the ConVar to get 
+ * @returns The ConVar object 
+ */
+declare function GetConVar_Internal(name: string): ConVar;
+
+/**
+ * **Deprecated:**
+ * >Store the `ConVar` object retrieved with `GetConVar` and call `ConVar.GetInt` or `ConVar.GetFloat` on it.
+ * 
+ * Gets the numeric value ConVar with the specified name. 
+ * @param name  Name of the ConVar to get. 
+ * @returns The ConVar's value. 
+ */
+declare function GetConVarNumber(name: string): number;
+
+/**
+ * **Deprecated:**
+ * >Store the `ConVar` object retrieved with `GetConVar` and call `ConVar.GetString` on it.
+ * 
+ * Gets the string value ConVar with the specified name. 
+ * @param name  Name of the ConVar to get. 
+ * @returns The ConVar's value. 
+ */
+declare function GetConVarString(name: string): string;
+
+/**
+ * Returns the default loading screen URL (asset://garrysmod/html/loading.html) 
+ * @returns Default loading url (asset://garrysmod/html/loading.html) 
+ */
+declare function GetDefaultLoadingHTML(): string;
+
+/**
+ * Retrieves data about the demo with the specified filename. Similar to `GetSaveFileDetails`. 
+ * @param filename  The file name of the demo. 
+ * @returns Demo data. 
+ */
+declare function GetDemoFileDetails(filename: string): table;
+
+/**
+ * Returns a table with the names of files needed from the server you are currently joining. 
+ * @returns table of file names 
+ */
+declare function GetDownloadables(): table;
+
+/**
+ * Returns the environment table of either the stack level or the function specified. 
+ * @param location [=1] The object to get the enviroment from. Can also be a number that specifies the function at that stack level: Level 1 is the function calling getfenv. 
+ * @returns The environment. 
+ */
+declare function getfenv(location?: Function): table;
+
+/**
+ * Returns an angle that is shared between the server and all clients. 
+ * @param index  The unique index to identify the global value with. 
+ * @param defaultVal [=Angle( 0, 0, 0 )] The value to return if the global value is not set. 
+ * @returns The global value, or default if the global is not set. 
+ */
+declare function GetGlobalAngle(index: string, defaultVal?: Angle): Angle;
+
+/**
+ * Returns a boolean that is shared between the server and all clients. 
+ * @param index  The unique index to identify the global value with. 
+ * @param defaultVal [=false] The value to return if the global value is not set. 
+ * @returns The global value, or the default if the global value is not set. 
+ */
+declare function GetGlobalBool(index: string, defaultVal?: boolean): boolean;
+
+/**
+ * Returns an entity that is shared between the server and all clients. 
+ * @param index  The unique index to identify the global value with. 
+ * @param defaultVal [=NULL] The value to return if the global value is not set. 
+ * @returns The global value, or the default if the global value is not set. 
+ */
+declare function GetGlobalEntity(index: string, defaultVal?: Entity): Entity;
+
+/**
+ * Returns a float that is shared between the server and all clients. 
+ * @param index  The unique index to identify the global value with. 
+ * @param defaultVal [=0] The value to return if the global value is not set. 
+ * @returns The global value, or the default if the global value is not set. 
+ */
+declare function GetGlobalFloat(index: string, defaultVal?: number): number;
+
+/**
+ * Returns an integer that is shared between the server and all clients.
+ * 
+ * **Bug [#3374](https://github.com/Facepunch/garrysmod-issues/issues/3374):**
+ * >This function will not round decimal values as it actually networks a float internally. 
+ * @param index  The unique index to identify the global value with. 
+ * @param defaultVal [=0] The value to return if the global value is not set. 
+ * @returns The global value, or the default if the global value is not set. 
+ */
+declare function GetGlobalInt(index: string, defaultVal?: number): number;
+
+/**
+ * Returns a string that is shared between the server and all clients. 
+ * @param index  The unique index to identify the global value with. 
+ * @param defaultVal [=""] The value to return if the global value is not set. 
+ * @returns The global value, or the default if the global value is not set. 
+ */
+declare function GetGlobalString(index: string, defaultVal?: string): string;
+
+/**
+ * Returns a vector that is shared between the server and all clients. 
+ * @param Index  The unique index to identify the global value with. 
+ * @param Default  The value to return if the global value is not set. 
+ * @returns The global value, or the default if the global value is not set. 
+ */
+declare function GetGlobalVector(Index: string, Default: Vector): Vector;
+
+/**
+ * Returns the name of the current server. 
+ */
+declare function GetHostName(): void;
+
+/**
+ * Returns the panel that is used as a wrapper for the HUD.
+ * 
+ * See also `vgui.GetWorldPanel` 
+ * @returns The HUD panel 
+ */
+declare function GetHUDPanel(): Panel;
+
+/**
+ * Returns the loading screen panel and creates it if it doesn't exist. 
+ * @returns The loading screen panel 
+ */
+declare function GetLoadPanel(): Panel;
+
+/**
+ * Returns the current status of the server join progress. 
+ * @returns The current status 
+ */
+declare function GetLoadStatus(): string;
+
+/**
+ * Returns a table with the names of all maps and categories that you have on your client. 
+ * @returns table of map names and categories 
+ */
+declare function GetMapList(): table;
+
+/**
+ * Returns the metatable of an object. This function obeys the metatable's __metatable field, and will return that field if the metatable has it set.
+ * 
+ * Use `debug.getmetatable` if you want the true metatable of the object. 
+ * @param object  The value to return the metatable of. 
+ * @returns The metatable of the value. This is not always a table. 
+ */
+declare function getmetatable(object: any): any;
+
+/**
+ * Returns the menu overlay panel, a container for panels like the error panel created in `GM.OnLuaError`. 
+ * @returns The overlay panel 
+ */
+declare function GetOverlayPanel(): Panel;
+
+/**
+ * Creates or gets the rendertarget with the given name.
+ * 
+ * See `GetRenderTargetEx` for an advanced version of this function with more options.
+ * 
+ * **Bug [#2885](https://github.com/Facepunch/garrysmod-issues/issues/2885):**
+ * >This crashes when used on a cubemap texture. 
+ * @param name  The internal name of the render target. 
+ * @param width  The width of the render target, must be power of 2. If not set to PO2, the size will be automatically converted to the nearest PO2 size. 
+ * @param height  The height of the render target, must be power of 2. If not set to PO2, the size will be automatically converted to the nearest PO2 size. 
+ * @param additive [=false] Sets whenever the rt should be additive. 
+ * @returns The render target 
+ */
+declare function GetRenderTarget(name: string, width: number, height: number, additive?: boolean): ITexture;
+
+/**
+ * Creates (or gets if it already exsits) the rendertarget with the given name, this function allows to adjust the creation of a rendertarget more than `GetRenderTarget`.
+ * 
+ * See also `render.PushRenderTarget` and `render.SetRenderTarget`. 
+ * @param name  The internal name of the render target.
+ * 
+ * **Warning:**
+ * >The name is treated like a path and gets its extension discarded.
+ * "name.1" and "name.2" are considered the same name and will result in the same render target being reused. 
+ * @param width  The width of the render target, must be power of 2. 
+ * @param height  The height of the render target, must be power of 2. 
+ * @param sizeMode  Bitflag that influences the sizing of the render target, see `RT_SIZE`. 
+ * @param depthMode  Bitflag that determines the depth buffer usage of the render target `MATERIAL_RT_DEPTH`. 
+ * @param textureFlags  Bitflag that configurates the texture, see `TEXTUREFLAGS`.
+ * 
+ * List of flags can also be found on the Valve's Developer Wiki:
+ * https://developer.valvesoftware.com/wiki/Valve_Texture_Format 
+ * @param rtFlags  Flags that controll the HDR behaviour of the render target, see `CREATERENDERTARGETFLAGS`. 
+ * @param imageFormat  Image format, see `IMAGE_FORMAT`. 
+ * @returns The new render target. 
+ */
+declare function GetRenderTargetEx(name: string, width: number, height: number, sizeMode: RT_SIZE, depthMode: MATERIAL_RT_DEPTH, textureFlags: TEXTUREFLAGS, rtFlags: CREATERENDERTARGETFLAGS, imageFormat: IMAGE_FORMAT): ITexture;
+
+/**
+ * Retrieves data about the save with the specified filename. Similar to `GetDemoFileDetails`. 
+ * @param filename  The file name of the save. 
+ * @returns Save data. 
+ */
+declare function GetSaveFileDetails(filename: string): table;
+
+/**
+ * Returns the entity the client is using to see from (such as the player itself, the camera, or another entity). 
+ * @returns The view entity. 
+ */
+declare function GetViewEntity(): Entity;
+
+/**
+ * Converts a color from HSV color space into RGB color space and returns a `Color`.
+ * 
+ * **Bug [#2407](https://github.com/Facepunch/garrysmod-issues/issues/2407):**
+ * >The returned color will not have the color metatable. 
+ * @param hue  Hue in degrees. 
+ * @param saturation  Saturation from 0 - 1. 
+ * @param value  Value from 0 - 1. 
+ * @returns The `Color` created from the HSV color space. 
+ */
+declare function HSVToColor(hue: number, saturation: number, value: number): Color;
+
+/**
+ * Launches an asynchronous http request with the given parameters.
+ * 
+ * **Bug [#2232](https://github.com/Facepunch/garrysmod-issues/issues/2232):**
+ * >This cannot send or receive multiple headers at once.
+ * 
+ * **Bug [#3190](https://github.com/Facepunch/garrysmod-issues/issues/3190):**
+ * >This can crash on Linux. 
+ * @param parameters  The request parameters. See `HTTPRequest`. 
+ * @returns true if we made a request, nil if we failed. 
+ */
+declare function HTTP(parameters: HTTPRequest): boolean;
+
+/**
+ * Executes a Lua script.
+ * 
+ * **Note:**
+ * >Addon files (.gma files) do not support relative parent folders (''..'' notation).
+ * 
+ * **Warning:**
+ * >The file you are attempting to include MUST NOT be empty or the include will fail. Files over a certain size may fail as well.
+ * 
+ * {{Warning|If the file you are including is clientside or shared, it "must" be `AddCSLuaFile`'d or this function will error saying the file doesn't exist.}}
+ * 
+ * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
+ * >`pcall`ing this function will break autorefresh. 
+ * @param fileName  The name of the script to be executed. The path must be either relative to the current file, or be an absolute path (relative to and excluding the lua/ folder).
+ * 
+ * **Note:**
+ * >Please make sure your file names are unique, the filesystem is shared across all addons, so a file named "lua/config.lua" in your addon may be overwritten by the same file in another addon. 
+ * @returns Anything that the executed Lua script returns. 
+ */
+declare function include(fileName: string): any;
+
+/**
+ * **Deprecated:**
+ * >To send the target file to the client simply call AddCSLuaFile() in the target file itself.
+ * 
+ * This function works exactly the same as `include` both clientside and serverside.
+ * 
+ * The only difference is that on the serverside it also calls `AddCSLuaFile` on the filename, so that it gets sent to the client. 
+ * @param filename  The filename of the Lua file you want to include. 
+ */
+declare function IncludeCS(filename: string): void;
+
+/**
+ * @tupleReturn
+ *
+ * Returns an iterator function for a for loop, to return ordered key-value pairs from a table.
+ * 
+ * This will only iterate though "numerical" keys, and these must also be "sequential"; starting at 1 with no gaps.
+ * 
+ * For unordered pairs, see `pairs`.
+ * 
+ * For pairs sorted by key in alphabetical order, see `SortedPairs`. 
+ * @param tab  The table to iterate over. 
+ * @returns [The iterator function., The table being iterated over, The origin index "=0"] 
+ */
+declare function ipairs(tab: table): [Function, table, number];
+
+/**
+ * Returns if the passed object is an `Angle`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is an `Angle`. 
+ */
+declare function isangle(variable: any): Angle;
+
+/**
+ * Returns if the passed object is a `boolean`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is a `boolean`. 
+ */
+declare function isbool(variable: any): boolean;
+
+/**
+ * Returns whether the given object does or doesn't have a ''metatable'' of a color.
+ * 
+ * "Important:" Engine functions (i.e. those not written in plain Lua) that return color objects do not currently set the color metatable and this function will return false if you use it on them. 
+ * @param Object  The object to be tested 
+ * @returns Whether the given object is a color or not 
+ */
+declare function IsColor(Object: any): boolean;
+
+/**
+ * Returns if the given NPC class name is an enemy.
+ * 
+ * Returns true if the entity name is one of the following:
+ * * "npc_combine_s"
+ * * "npc_cscanner"
+ * * "npc_manhack"
+ * * "npc_hunter"
+ * * "npc_antlion"
+ * * "npc_antlionguard"
+ * * "npc_antlion_worker"
+ * * "npc_fastzombie_torso"
+ * * "npc_fastzombie"
+ * * "npc_headcrab"
+ * * "npc_headcrab_fast"
+ * * "npc_poisonzombie"
+ * * "npc_headcrab_poison"
+ * * "npc_zombie"
+ * * "npc_zombie_torso"
+ * * "npc_zombine"
+ * * "npc_gman"
+ * * "npc_breen" 
+ * @param className  Class name of the entity to check 
+ * @returns Is an enemy 
+ */
+declare function IsEnemyEntityName(className: string): boolean;
+
+/**
+ * Returns if the passed object is an `Entity`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is an `Entity`. 
+ */
+declare function isentity(variable: any): Entity;
+
+/**
+ * Returns if the passed object is an `Entity`. Alias of `isentity`. 
+ * @param variable  The variable to check. 
+ * @returns True if the variable is an `Entity`. 
+ */
+declare function IsEntity(variable: any): Entity;
+
+/**
+ * Returns if this is the first time this hook was predicted.
+ * 
+ * This is useful for one-time logic in your SWEPs PrimaryAttack, SecondaryAttack and Reload and other [[:Category:Predicted_Hooks|predicted hooks]] (to prevent those hooks from being called rapidly in succession). It's also useful in a Move hook for when the client predicts movement.
+ * 
+ * Visit [[Prediction]] for more information about this behavior.
+ * 
+ * **Note:**
+ * >This is already used internally for `Entity.EmitSound`, `Weapon.SendWeaponAnim` and `Entity.FireBullets`, but NOT in  `util.Effect`. 
+ * @returns Whether or not this is the first time being predicted. 
+ */
+declare function IsFirstTimePredicted(): boolean;
+
+/**
+ * Returns if the given NPC class name is a friend.
+ * 
+ * Returns true if the entity name is one of the following:
+ * * "npc_monk"
+ * * "npc_alyx"
+ * * "npc_barney"
+ * * "npc_citizen"
+ * * "npc_kleiner"
+ * * "npc_magnusson"
+ * * "npc_eli"
+ * * "npc_mossman"
+ * * "npc_vortigaunt" 
+ * @param className  Class name of the entity to check 
+ * @returns Is a friend 
+ */
+declare function IsFriendEntityName(className: string): boolean;
+
+/**
+ * Returns if the passed object is a `function`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is a `function`. 
+ */
+declare function isfunction(variable: any): Function;
+
+/**
+ * Returns true if the client is currently playing either a singleplayer or multiplayer game. 
+ * @returns True if we are in a game. 
+ */
+declare function IsInGame(): boolean;
+
+/**
+ * Returns whether the passed object is a `VMatrix`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is a `VMatrix`. 
+ */
+declare function ismatrix(variable: any): VMatrix;
+
+/**
+ * Checks whether or not a game is currently mounted. Uses data given by `engine.GetGames`. Currently does not work correctly serverside on dedicated servers. 
+ * @param game  The game string/app ID to check. 
+ * @returns True if the game is mounted. 
+ */
+declare function IsMounted(game: string): boolean;
+
+/**
+ * Returns if the passed object is a `number`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is a `number`. 
+ */
+declare function isnumber(variable: any): number;
+
+/**
+ * Returns if the passed object is a `Panel`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is a `Panel`. 
+ */
+declare function ispanel(variable: any): Panel;
+
+/**
+ * Returns if the passed object is a `string`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is a `string`. 
+ */
+declare function isstring(variable: any): string;
+
+/**
+ * Returns if the passed object is a `table`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is a `table`. 
+ */
+declare function istable(variable: any): table;
+
+/**
+ * Returns whether or not every element within a table is a valid entity 
+ * @param table  Table containing entities to check 
+ * @returns All entities valid 
+ */
+declare function IsTableOfEntitiesValid(table: table): boolean;
+
+/**
+ * Returns whether or not a model is useless by checking that the file path is that of a proper model.
+ * 
+ * If the string ".mdl" is not found in the model name, the function will return true.
+ * 
+ * The function will also return true if any of the following strings are found in the given model name:
+ * * "_gesture"
+ * * "_anim"
+ * * "_gst"
+ * * "_pst"
+ * * "_shd"
+ * * "_ss"
+ * * "_posture"
+ * * "_anm"
+ * * "ghostanim"
+ * * "_paths"
+ * * "_shared"
+ * * "anim_"
+ * * "gestures_"
+ * * "shared_ragdoll_" 
+ * @param modelName  The model name to be checked 
+ * @returns Whether or not the model is useless 
+ */
+declare function IsUselessModel(modelName: string): boolean;
+
+/**
+ * Returns whether an object is valid or not. (Such as `Entity`s, `Panel`s, custom `table` objects and more)
+ * Checks that an object is not nil, has an IsValid method and if this method returns true.
+ * 
+ * **Note:**
+ * >Due to vehicles being technically valid the moment they're spawned, also use `Vehicle.IsValidVehicle` to make sure they're fully initialized 
+ * @param toBeValidated  The table or object to be validated. 
+ * @returns True if the object is valid. 
+ */
+declare function IsValid(toBeValidated: any): boolean;
+
+/**
+ * Returns if the passed object is a `Vector`. 
+ * @param variable  The variable to perform the type check for. 
+ * @returns True if the variable is a `Vector`. 
+ */
+declare function isvector(variable: any): Vector;
+
+/**
+ * Joins the server with the specified IP. 
+ * @param IP  The IP of the server to join 
+ */
+declare function JoinServer(IP: string): void;
+
+/**
+ * Adds javascript function 'language.Update' to an HTML panel as a method to call Lua's `language.GetPhrase` function. 
+ * @param htmlPanel  Panel to add javascript function 'language.Update' to. 
+ */
+declare function JS_Language(htmlPanel: Panel): void;
+
+/**
+ * Adds javascript function 'util.MotionSensorAvailable' to an HTML panel as a method to call Lua's `motionsensor.IsAvailable` function. 
+ * @param htmlPanel  Panel to add javascript function 'util.MotionSensorAvailable' to. 
+ */
+declare function JS_Utility(htmlPanel: Panel): void;
+
+/**
+ * Adds workshop related javascript functions to an HTML panel, used by the "Dupes" and "Saves" tabs in the spawnmenu. 
+ * @param htmlPanel  Panel to add javascript functions to. 
+ */
+declare function JS_Workshop(htmlPanel: Panel): void;
+
+/**
+ * Callback function for when the client's language changes. Called by the engine. 
+ * @param lang  The new language code. 
+ */
+declare function LanguageChanged(lang: string): void;
+
+/**
+ * Performs a linear interpolation from the start number to the end number.
+ * 
+ * This function provides a very efficient and easy way to smooth out movements. 
+ * @param t  The fraction for finding the result. This number is clamped between 0 and 1. 
+ * @param from  The starting number. The result will be equal to this if delta is 0. 
+ * @param to  The ending number. The result will be equal to this if delta is 1. 
+ * @returns The result of the linear interpolation, (1 - t) * from + t * to. 
+ */
+declare function Lerp(t: number, from: number, to: number): number;
+
+/**
+ * Returns point between first and second angle using given fraction and linear interpolation 
+ * @param ratio  Ratio of progress through values 
+ * @param angleStart  Angle to begin from 
+ * @param angleEnd  Angle to end at 
+ * @returns angle 
+ */
+declare function LerpAngle(ratio: number, angleStart: Angle, angleEnd: Angle): Angle;
+
+/**
+ * Linear interpolation between two vectors. It is commonly used to smooth movement between two vectors. 
+ * @param fraction  Fraction ranging from 0 to 1 
+ * @param from  The initial Vector 
+ * @param to  The desired Vector 
+ * @returns The lerped vector. 
+ */
+declare function LerpVector(fraction: number, from: Vector, to: Vector): Vector;
+
+/**
+ * **[INTERNAL]**
+ * 
+ * This function is used to get the last map and category to which the map belongs from the cookie saved with `SaveLastMap`. 
+ */
+declare function LoadLastMap(): void;
+
+/**
+ * Loads all preset settings for the {{Lib|presets}} and returns them in a table 
+ * @returns Preset data 
+ */
+declare function LoadPresets(): table;
+
+/**
+ * Returns a localisation for the given token, if none is found it will return the default(second) parameter. 
+ * @param localisationToken  The token to find a translation for. 
+ * @param defaultVal  The default value to be returned if no translation was found. 
+ */
+declare function Localize(localisationToken: string, defaultVal: string): void;
+
+/**
+ * Returns the player object of the current client.
+ * 
+ * LocalPlayer() will return NULL until all entities have been initialized. See `GM.InitPostEntity`. 
+ * @returns The player object representing the client. 
+ */
+declare function LocalPlayer(): Player;
+
+/**
+ * @tupleReturn
+ *
+ * Translates the specified position and angle from the specified local coordinate system into worldspace coordinates.
+ * 
+ * If you're working with an entity's local vectors, use `Entity.LocalToWorld` and/or `Entity.LocalToWorldAngles` instead.
+ * 
+ * See also: `WorldToLocal`, the reverse of this function. 
+ * @param localPos  The position vector in the source coordinate system, that should be translated to world coordinates 
+ * @param localAng  The angle in the source coordinate system, that should be converted to a world angle. If you don't need to convert an angle, you can supply an arbitrary valid angle (e.g. <kbd>`Angle`()</kbd>). 
+ * @param originPos  The origin point of the source coordinate system, in world coordinates 
+ * @param originAngle  The angles of the source coordinate system, as a world angle 
+ * @returns [The world position of the supplied local position., The world angles of the supplied local angle.] 
+ */
+declare function LocalToWorld(localPos: Vector, localAng: Angle, originPos: Vector, originAngle: Angle): [Vector, Angle];
+
+/**
+ * Runs `util.PrecacheModel` and returns the string 
+ * @param model  The model to precache 
+ * @returns The same string entered as an argument 
+ */
+declare function Model(model: string): string;
+
+/**
+ * Creates a table with the specified module name and sets the function environment for said table.
+ * 
+ * Any passed loaders are called with the table as an argument. An example of this is `package.seeall`. 
+ * @param name  The name of the module. This will be used to access the module table in the runtime environment. 
+ * @param loaders  Calls each function passed with the new table as an argument. 
+ */
+declare function module(name: string, ...loaders: (any)[]): void;
+
+/**
+ * Writes every given argument to the console.
+ * 
+ * Automatically attempts to convert each argument to a string. (See `tostring`)
+ * 
+ * Unlike `print`, arguments are not separated by anything. They are simply concatenated.
+ * 
+ * Additionally, a newline isn't added automatically to the end, so subsequent Msg or print operations will continue the same line of text in the console. See `MsgN` for a version that does add a newline.
+ * 
+ * The text is blue on the server, orange on the client, and green on the menu: [[File:msg server client colors.png]] 
+ * @param args  List of values to print. 
+ */
+declare function Msg(...args: (any)[]): void;
+
+/**
+ * Works exactly like `Msg` except that, if called on the server, will print to all players consoles plus the server console. 
+ * @param args  List of values to print. 
+ */
+declare function MsgAll(...args: (any)[]): void;
+
+/**
+ * Just like `Msg`, except it can also print colored text, just like `chat.AddText`. 
+ * @param args  Values to print. If you put in a color, all text after that color will be printed in that color. 
+ */
+declare function MsgC(...args: (any)[]): void;
+
+/**
+ * Same as `print`, except it concatinates the arguments without inserting any whitespace in between them.
+ * 
+ * See also `Msg`, which doesn't add a newline (''"\n"'') at the end. 
+ * @param args  List of values to print. They can be of any type and will be converted to strings with `tostring`. 
+ */
+declare function MsgN(...args: (any)[]): void;
+
+/**
+ * Returns named color defined in resource/ClientScheme.res. 
+ * @param name  Name of color 
+ * @returns A `Color` or nil 
+ */
+declare function NamedColor(name: string): Color;
+
+/**
+ * Returns a new userdata object. 
+ * @param addMetatable [=false] If true, the userdata will get its own metatable automatically. 
+ * @returns The newly created userdata. 
+ */
+declare function newproxy(addMetatable?: boolean): userdata;
+
+/**
+ * @tupleReturn
+ *
+ * Returns the next key and value pair in a table.
+ * 
+ * **Note:**
+ * >Table keys in Lua have no specific order, and will be returned in whatever order they exist in memory. This may not always be in ascending order or alphabetical order. If you need to iterate over an array in order, use `ipairs`. 
+ * @param tab  The table 
+ * @param prevKey [=nil] The previous key in the table. 
+ * @returns [The next key for the table. If the previous key was nil, this will be the first key in the table. If the previous key was the last key in the table, this will be nil., The value associated with that key. If the previous key was the last key in the table, this will be nil.] 
+ */
+declare function next(tab: table, prevKey?: any): [any, any];
+
+/**
+ * Returns the number of files needed from the server you are currently joining. 
+ * @returns The number of downloadables 
+ */
+declare function NumDownloadables(): number;
+
+/**
+ * Returns the amount of skins the specified model has 
+ * @param modelName  Model to return amount of skins of 
+ * @returns Amount of skins 
+ */
+declare function NumModelSkins(modelName: string): number;
+
+/**
+ * **[INTERNAL]**
+ * 
+ *  Called by the engine when a model has been loaded. Caches model information with the {{Lib|sql}}. 
+ * @param modelName  Name of the model. 
+ * @param numPostParams  Number of pose parameters the model has. 
+ * @param numSeq  Number of sequences the model has. 
+ * @param numAttachments  Number of attachments the model has. 
+ * @param numBoneControllers  Number of bone controllers the model has. 
+ * @param numSkins  Number of skins that the model has. 
+ * @param size  Size of the model. 
+ */
+declare function OnModelLoaded(modelName: string, numPostParams: number, numSeq: number, numAttachments: number, numBoneControllers: number, numSkins: number, size: number): void;
+
+/**
+ * Opens a folder with the given name in the garrysmod folder using the operating system's file browser.
+ * 
+ * **Bug [#1532](https://github.com/Facepunch/garrysmod-issues/issues/1532):**
+ * >Currently broken on macOS and Linux. 
+ * @param folder  The subdirectory to open in the garrysmod folder. 
+ */
+declare function OpenFolder(folder: string): void;
+
+/**
+ * Modifies the given vectors so that all of vector2's axis are larger than vector1's by switching them around. Also known as ordering vectors.
+ * 
+ * **Note:**
+ * >This function will irreversibly modify the given vectors 
+ * @param vector1  Bounding box min resultant 
+ * @param vector2  Bounding box max resultant 
+ */
+declare function OrderVectors(vector1: Vector, vector2: Vector): void;
+
+/**
+ * @tupleReturn
+ *
+ * Returns an iterator function(`next`) for a for loop that will return the values of the specified table in an arbitrary order.
+ * 
+ * For alphabetical "key" order use `SortedPairs`.
+ * 
+ * For alphabetical "value" order use `SortedPairsByValue`. 
+ * @param tab  The table to iterate over 
+ * @returns [The iterator (`next`), The table being iterated over, "nil" (for the constructor)] 
+ */
+declare function pairs(tab: table): [Function, table, any];
+
+/**
+ * Calls `game.AddParticles` and returns given string. 
+ * @param file  The particle file. 
+ * @returns The particle file. 
+ */
+declare function Particle(file: string): string;
+
+/**
+ * Creates a particle effect.
+ * 
+ * **Note:**
+ * >The particle effect must be precached with `PrecacheParticleSystem` and the file its from must be added via `game.AddParticles` before it can be used! 
+ * @param particleName  The name of the particle effect. 
+ * @param position  The start position of the effect. 
+ * @param angles  The orientation of the effect. 
+ * @param parent [=NULL] If set, the particle will be parented to the entity. 
+ */
+declare function ParticleEffect(particleName: string, position: Vector, angles: Angle, parent?: Entity): void;
+
+/**
+ * Creates a particle effect with specialized parameters.
+ * 
+ * **Note:**
+ * >The particle effect must be precached with `PrecacheParticleSystem` and the file its from must be added via `game.AddParticles` before it can be used! 
+ * @param particleName  The name of the particle effect. 
+ * @param attachType  Attachment type using `PATTACH`. 
+ * @param entity  The entity to be used in the way specified by the attachType. 
+ * @param attachmentID  The id of the attachment to be used in the way specified by the attachType. 
+ */
+declare function ParticleEffectAttach(particleName: string, attachType: PATTACH, entity: Entity, attachmentID: number): void;
+
+/**
+ * Creates a new `CLuaEmitter`.
+ * 
+ * **Note:**
+ * >Do not forget to delete the emitter with `CLuaEmitter.Finish` once you are done with it 
+ * @param position  The start position of the emitter.
+ * 
+ * This is only used to determine particle drawing order for translucent particles. 
+ * @param use3D  Whenever to render the particles in 2D or 3D mode. 
+ * @returns The new particle emitter. 
+ */
+declare function ParticleEmitter(position: Vector, use3D: boolean): CLuaEmitter;
+
+/**
+ * Creates a path for the bot to follow 
+ * @param type  The name of the path to create.
+ * This is going to be "Follow" or "Chase" right now. 
+ * @returns The path 
+ */
+declare function Path(type: string): PathFollower;
+
+/**
+ * @tupleReturn
+ *
+ * Calls a function and catches an error that can be thrown while the execution of the call.
+ * 
+ * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
+ * >Using this function with `include` will break autorefresh.
+ * 
+ * **Bug [#2498](https://github.com/Facepunch/garrysmod-issues/issues/2498):**
+ * >This does not stop `Error` and `ErrorNoHalt` from sending error messages to the server (if called clientside) or calling the `GM.OnLuaError` hook. The success boolean returned will always return true and thus you will not get the error message returned. `error` does not exhibit these behaviours.
+ * 
+ * **Bug [#3112](https://github.com/Facepunch/garrysmod-issues/issues/3112):**
+ * >This does not stop errors incurred by `include`. 
+ * @param func  Function to be executed and of which the errors should be caught of 
+ * @param arguments  Arguments to call the function with. 
+ * @returns [If the function had no errors occur within it., If an error occurred, this will be a string containing the error message. Otherwise, this will be the return values of the function passed in.] 
+ */
+declare function pcall(func: Function, ...arguments: (any)[]): [boolean, any];
+
+/**
+ * Moves the given model to the given position and returns view information based on its properties 
+ * @param model  Model that is being rendered to the spawn icon 
+ * @param position  Position that the model is being rendered at 
+ * @returns Table of information of the view which can be used for rendering 
+ */
+declare function PositionSpawnIcon(model: Entity, position: Vector): table;
+
+/**
+ * Precaches the particle with the specified name. 
+ * @param particleSystemName  The name of the particle system. 
+ */
+declare function PrecacheParticleSystem(particleSystemName: string): void;
+
+/**
+ * Precaches a scene file. 
+ * @param scene  Path to the scene file to precache. 
+ */
+declare function PrecacheScene(scene: string): void;
+
+/**
+ * Load and precache a custom sentence file. 
+ * @param filename  The path to the custom sentences.txt. 
+ */
+declare function PrecacheSentenceFile(filename: string): void;
+
+/**
+ * Precache a sentence group in a sentences.txt definition file. 
+ * @param group  The group to precache. 
+ */
+declare function PrecacheSentenceGroup(group: string): void;
+
+/**
+ * Writes every given argument to the console.
+ * 
+ * Automatically attempts to convert each argument to a string. (See `tostring`)
+ * 
+ * Separates arguments with a tab character (''"\t"''). 
+ * @param args  List of values to print. 
+ */
+declare function print(...args: (any)[]): void;
+
+/**
+ * Displays a message in the chat, console, or center of screen of every player.
+ * 
+ * This uses the archaic user message system ({{Lib|umsg}}) and hence is limited to &asymp;250 characters. 
+ * @param type  Which type of message should be sent to the players (see `HUD`) 
+ * @param message  Message to be sent to the players 
+ */
+declare function PrintMessage(type: HUD, message: string): void;
+
+/**
+ * Recursively prints the contents of a table to the console. 
+ * @param tableToPrint  The table to be printed 
+ * @param indent [=0] Number of tabs to start indenting at. Increases by 2 when entering another table. 
+ * @param done [={}] Internal argument, you shouldn't normally change this. Used to check if a nested table has already been printed so it doesn't get caught in a loop. 
+ */
+declare function PrintTable(tableToPrint: table, indent?: number, done?: table): void;
+
+/**
+ * Runs a function without stopping the whole script on error.
+ * 
+ * This function is similar to `pcall` and `xpcall` except the errors are still printed and sent to the error handler (i.e. sent to server console if clientside and `GM.OnLuaError` called). 
+ * @param func  Function to run 
+ * @returns Were there any errors or not 
+ */
+declare function ProtectedCall(func: Function): boolean;
+
+/**
+ * Returns an iterator function that can be used to loop through a table in random order 
+ * @param table  Table to create iterator for 
+ * @param descending  Whether the iterator should iterate descending or not 
+ * @returns Iterator function 
+ */
+declare function RandomPairs(table: table, descending: boolean): Function;
+
+/**
+ * Compares the two values without calling their __eq operator. 
+ * @param value1  The first value to compare. 
+ * @param value2  The second value to compare. 
+ * @returns Whether or not the two values are equal. 
+ */
+declare function rawequal(value1: any, value2: any): boolean;
+
+/**
+ * Gets the value with the specified key from the table without calling the __index method. 
+ * @param table  Table to get the value from. 
+ * @param index  The index to get the value from. 
+ * @returns The value. 
+ */
+declare function rawget(table: table, index: any): any;
+
+/**
+ * Sets the value with the specified key from the table without calling the __newindex method. 
+ * @param table  Table to get the value from. 
+ * @param index  The index to get the value from. 
+ * @param value  The value to set for the specified key. 
+ */
+declare function rawset(table: table, index: any, value: any): void;
+
+/**
+ * Returns the real frame-time which is unaffected by host_timescale. To be used for GUI effects (for example) 
+ * @returns Real frame time 
+ */
+declare function RealFrameTime(): number;
+
+/**
+ * Returns the uptime of the game/server in seconds (to at least 4 decimal places)
+ * 
+ * **Note:**
+ * >This is "not" synchronised or affected by the game.
+ * 
+ * You should use this function (or SysTime) for timing real-world events such as user interaction, but not for timing game events such as animations.
+ * 
+ * See also: `CurTime`, `SysTime` 
+ * @returns Uptime of the server. 
+ */
+declare function RealTime(): number;
+
+/**
+ * Creates a new `CRecipientFilter`. 
+ * @returns The new created recipient filter. 
+ */
+declare function RecipientFilter(): CRecipientFilter;
+
+/**
+ * **[INTERNAL]**
+ * 
+ * Adds a frame to the currently recording demo. 
+ */
+declare function RecordDemoFrame(): void;
+
+/**
+ * Registers a Derma element to be closed the next time `CloseDermaMenus` is called 
+ * @param menu  Menu to be registered for closure 
+ */
+declare function RegisterDermaMenuForClose(menu: Panel): void;
+
+/**
+ * Saves position of your cursor on screen. You can restore it by using `RestoreCursorPosition`.
+ * 
+ * Despite this function being available on server, it will not do anything on server. 
+ */
+declare function RememberCursorPosition(): void;
+
+/**
+ * Does the removing of the tooltip panel. Called by `EndTooltip`. 
+ */
+declare function RemoveTooltip(): void;
+
+/**
+ * Returns the angle that the clients view is being rendered at 
+ * @returns Render Angles 
+ */
+declare function RenderAngles(): Angle;
+
+/**
+ * Renders a Depth of Field effect 
+ * @param origin  Origin to render the effect at 
+ * @param angle  Angle to render the effect at 
+ * @param usableFocusPoint  Point to focus the effect at 
+ * @param angleSize  Angle size of the effect 
+ * @param radialSteps  Amount of radial steps to render the effect with 
+ * @param passes  Amount of render passes 
+ * @param spin  Whether to cycle the frame or not 
+ * @param inView  Table of view data 
+ * @param fov  FOV to render the effect with 
+ */
+declare function RenderDoF(origin: Vector, angle: Angle, usableFocusPoint: Vector, angleSize: number, radialSteps: number, passes: number, spin: boolean, inView: table, fov: number): void;
+
+/**
+ * Renders the stereoscopic post-process effect 
+ * @param viewOrigin  Origin to render the effect at 
+ * @param viewAngles  Angles to render the effect at 
+ */
+declare function RenderStereoscopy(viewOrigin: Vector, viewAngles: Angle): void;
+
+/**
+ * Renders the Super Depth of Field post-process effect 
+ * @param viewOrigin  Origin to render the effect at 
+ * @param viewAngles  Angles to render the effect at 
+ * @param viewFOV  Field of View to render the effect at 
+ */
+declare function RenderSuperDoF(viewOrigin: Vector, viewAngles: Angle, viewFOV: number): void;
+
+/**
+ * First tries to load a binary module with the given name, if unsuccessful, it tries to load a Lua module with the given name.
+ * 
+ * **Bug [#1041](https://github.com/Facepunch/garrysmod-issues/issues/1041):**
+ * >Request=813 
+ * @param name  The name of the module to be loaded. 
+ */
+declare function require(name: string): void;
+
+/**
+ * Restores position of your cursor on screen. You can save it by using `RememberCursorPosition`.
+ * 
+ * Despite this function being available on server, it will not do anything on server. 
+ */
+declare function RestoreCursorPosition(): void;
+
+/**
+ * Executes the given console command with the parameters.
+ * 
+ * **Note:**
+ * >Some commands/convars are blocked from being ran/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [[Blocked ConCommands]]. 
+ * @param command  The command to be executed. 
+ * @param arguments  The arguments. Note, that unlike `Player.ConCommand`, you must pass each argument as a new string, not separating them with a space. 
+ */
+declare function RunConsoleCommand(command: string, ...arguments: (any)[]): void;
+
+/**
+ * Runs a menu command. Equivalent to `RunConsoleCommand`( "gamemenucommand", command ) unless the command starts with the "engine" keyword in which case it is equivalent to `RunConsoleCommand`( command ). 
+ * @param command  The menu command to run
+ * 
+ * Should be one of the following:
+ * * Disconnect - Disconnects from the current server.
+ * * OpenBenchmarkDialog - Opens the "Video Hardware Stress Test" dialog.
+ * * OpenChangeGameDialog - Does not work in GMod.
+ * * OpenCreateMultiplayerGameDialog - Opens the Source dialog for creating a listen server.
+ * * OpenCustomMapsDialog - Does nothing.
+ * * OpenFriendsDialog - Does nothing.
+ * * OpenGameMenu - Does not work in GMod.
+ * * OpenLoadCommentaryDialog - Opens the "Developer Commentary" selection dialog. Useless in GMod.
+ * * OpenLoadDemoDialog - Does nothing.
+ * * OpenLoadGameDialog - Opens the Source "Load Game" dialog.
+ * * OpenNewGameDialog - Opens the "New Game" dialog. Useless in GMod.
+ * * OpenOptionsDialog - Opens the options dialog.
+ * * OpenPlayerListDialog - Opens the "Mute Players" dialog that shows all players connected to the server and allows to mute them.
+ * * OpenSaveGameDialog - Opens the Source "Save Game" dialog.
+ * * OpenServerBrowser - Opens the legacy server browser.
+ * * Quit - Quits the game ''without'' confirmation (unlike other Source games).
+ * * QuitNoConfirm - Quits the game without confirmation (like other Source games).
+ * * ResumeGame - Closes the menu and returns to the game.
+ * * engine <concommand> - Runs a console command. Equivalent to `RunConsoleCommand`( <concommand> ). 
+ */
+declare function RunGameUICommand(command: string): void;
+
+/**
+ * Evaluates and executes the given code, will throw an error on failure.
+ * 
+ * **Note:**
+ * >Local variables are not passed to the given code. 
+ * @param code  The code to execute. 
+ * @param identifier [="RunString"] The name that should appear in any error messages caused by this code. 
+ * @param handleError [=true] If false, this function will return a string containing any error messages instead of throwing an error. 
+ * @returns If handleError is false, the error message (if any). 
+ */
+declare function RunString(code: string, identifier?: string, handleError?: boolean): string;
+
+/**
+ * Alias of `RunString`.
+ * 
+ * **Deprecated:**
+ * >Use `RunString` instead. 
+ */
+declare function RunStringEx(): void;
+
+/**
+ * Removes the given entity unless it is a player or the world entity 
+ * @param ent  Entity to safely remove. 
+ */
+declare function SafeRemoveEntity(ent: Entity): void;
+
+/**
+ * Removes entity after delay using `SafeRemoveEntity` 
+ * @param entity  Entity to be removed 
+ * @param delay  Delay for entity removal in seconds 
+ */
+declare function SafeRemoveEntityDelayed(entity: Entity, delay: number): void;
+
+/**
+ * **[INTERNAL]**
+ * 
+ * This function is used to save the last map and category to which the map belongs as a [[:Category:cookie|cookie]]. 
+ * @param map  The name of the map. 
+ * @param category  The name of the category to which this map belongs. 
+ */
+declare function SaveLastMap(map: string, category: string): void;
+
+/**
+ * Overwrites all presets with the supplied table. Used by the {{Lib|presets}} for preset saving 
+ * @param presets  Presets to be saved 
+ */
+declare function SavePresets(presets: table): void;
+
+/**
+ * Returns a number based on the Size argument and your screen's width. The screen's width is always equal to size 640. This function is primarily used for scaling font sizes. 
+ * @param Size  The number you want to scale. 
+ */
+declare function ScreenScale(Size: number): void;
+
+/**
+ * Gets the height of the game's window (in pixels). 
+ * @returns The height of the game's window in pixels 
+ */
+declare function ScrH(): number;
+
+/**
+ * Gets the width of the game's window (in pixels). 
+ * @returns The width of the game's window in pixels 
+ */
+declare function ScrW(): number;
+
+/**
+ * Used to select single values from a vararg or get the count of values in it. 
+ * @param parameter  Can be a `number` or `string`.
+ * * If it's a string and starts with "#", the function will return the amount of values in the vararg (ignoring the rest of the string).
+ * * If it's a positive number, the function will return all values starting from the given index.
+ * * If the number is negative, it will return the amount specified from the end instead of the beginning. 
+ * @param vararg  The vararg. These are the values from which you want to select. 
+ * @returns Returns a `number` or `vararg`, depending on the select method. 
+ */
+declare function select(parameter: number | string, ...vararg: (any)[]): number | any;
+
+/**
+ * Send a usermessage 
+ * @param name  The name of the usermessage 
+ * @param recipients  Can be a `CRecipientFilter`, `table` or `Player` object. 
+ * @param args  Data to send in the usermessage 
+ */
+declare function SendUserMessage(name: string, recipients: CRecipientFilter | table | Player, ...args: (any)[]): void;
+
+/**
+ * Prints "ServerLog: PARAM" without a newline, to the server log and console. 
+ * @param parameter  The value to be printed to console. 
+ */
+declare function ServerLog(parameter: string): void;
+
+/**
+ * Adds the given string to the computers clipboard, which can then be pasted in or outside of GMod with Ctrl + V. 
+ * @param text  The text to add to the clipboard. 
+ */
+declare function SetClipboardText(text: string): void;
+
+/**
+ * Sets the enviroment for a function or a stack level, if a function is passed, the return value will be the function, otherwise nil. 
+ * @param location  The function to set the enviroment for or a number representing stack level. 
+ * @param enviroment  Table to be used as enviroment. 
+ */
+declare function setfenv(location: Function, enviroment: table): void;
+
+/**
+ * Defines an angle to be automatically networked to clients
+ * 
+ * **Note:**
+ * >Running this function clientside will only set it clientside for the client it is called on! 
+ * @param index  Index to identify the global angle with 
+ * @param angle  Angle to be networked 
+ */
+declare function SetGlobalAngle(index: any, angle: Angle): void;
+
+/**
+ * Defined a boolean to be automatically networked to clients
+ * 
+ * **Note:**
+ * >Running this function clientside will only set it clientside for the client it is called on! 
+ * @param index  Index to identify the global boolean with 
+ * @param bool  Boolean to be networked 
+ */
+declare function SetGlobalBool(index: any, bool: boolean): void;
+
+/**
+ * Defines an entity to be automatically networked to clients
+ * 
+ * **Note:**
+ * >Running this function clientside will only set it clientside for the client it is called on! 
+ * @param index  Index to identify the global entity with 
+ * @param ent  Entity to be networked 
+ */
+declare function SetGlobalEntity(index: any, ent: Entity): void;
+
+/**
+ * Defines a floating point number to be automatically networked to clients
+ * 
+ * **Note:**
+ * >Running this function clientside will only set it clientside for the client it is called on! 
+ * @param index  Index to identify the global float with 
+ * @param float  Float to be networked 
+ */
+declare function SetGlobalFloat(index: any, float: number): void;
+
+/**
+ * Sets an integer that is shared between the server and all clients.
+ * 
+ * **Note:**
+ * >Running this function clientside will only set it clientside for the client it is called on!
+ * 
+ * **Bug [#3374](https://github.com/Facepunch/garrysmod-issues/issues/3374):**
+ * >This function will not round decimal values as it actually networks a float internally. 
+ * @param index  The unique index to identify the global value with. 
+ * @param value  The value to set the global value to 
+ */
+declare function SetGlobalInt(index: string, value: number): void;
+
+/**
+ * Defines a string with a maximum of 199 characters to be automatically networked to clients
+ * 
+ * **Note:**
+ * >Running this function clientside will only set it clientside for the client it is called on! 
+ * @param index  Index to identify the global string with 
+ * @param str  String to be networked 
+ */
+declare function SetGlobalString(index: any, str: string): void;
+
+/**
+ * Defines a vector to be automatically networked to clients
+ * 
+ * **Note:**
+ * >Running this function clientside will only set it clientside for the client it is called on! 
+ * @param index  Index to identify the global vector with 
+ * @param vec  Vector to be networked 
+ */
+declare function SetGlobalVector(index: any, vec: Vector): void;
+
+/**
+ * Sets, changes or removes a table's metatable. Returns Tab (the first argument). 
+ * @param Tab  The table who's metatable to change. 
+ * @param Metatable  The metatable to assign.
+ * If it's nil, the metatable will be removed. 
+ * @returns The first argument. 
+ */
+declare function setmetatable(Tab: table, Metatable: table): table;
+
+/**
+ * Called by the engine to set which constraint system [https://developer.valvesoftware.com/wiki/Phys_constraintsystem] the next created constraints should use 
+ * @param constraintSystem  Constraint system to use 
+ */
+declare function SetPhysConstraintSystem(constraintSystem: Entity): void;
+
+/**
+ * @tupleReturn
+ *
+ * This function can be used in a for loop instead of `pairs`. It sorts all "keys" alphabetically.
+ * 
+ * For sorting by specific "value member", use `SortedPairsByMemberValue`.
+ * 
+ * For sorting by "value", use `SortedPairsByValue`. 
+ * @param table  The table to sort 
+ * @param desc [=false] Reverse the sorting order 
+ * @returns [Iterator function, The table being iterated over] 
+ */
+declare function SortedPairs(table: table, desc?: boolean): [Function, table];
+
+/**
+ * @tupleReturn
+ *
+ * Returns an iterator function that can be used to loop through a table in order of member values, when the values of the table are also tables and contain that member.
+ * 
+ * To sort by "value", use `SortedPairsByValue`.
+ * 
+ * To sort by "keys", use `SortedPairs`. 
+ * @param table  Table to create iterator for. 
+ * @param memberKey  Key of the value member to sort by. 
+ * @param descending [=false] Whether the iterator should iterate in descending order or not. 
+ * @returns [Iterator function, The table the iterator was created for.] 
+ */
+declare function SortedPairsByMemberValue(table: table, memberKey: any, descending?: boolean): [Function, table];
+
+/**
+ * @tupleReturn
+ *
+ * Returns an iterator function that can be used to loop through a table in order of its "values".
+ * 
+ * To sort by specific "value member", use `SortedPairsByMemberValue`.
+ * 
+ * To sort by "keys", use `SortedPairs`. 
+ * @param table  Table to create iterator for 
+ * @param descending [=false] Whether the iterator should iterate in descending order or not 
+ * @returns [Iterator function, The table which will be iterated over] 
+ */
+declare function SortedPairsByValue(table: table, descending?: boolean): [Function, table];
+
+/**
+ * Runs `util.PrecacheSound` and returns the string 
+ * @param soundPath  The soundpath to precache 
+ * @returns The string passed as the first argument 
+ */
+declare function Sound(soundPath: string): string;
+
+/**
+ * Returns the duration of the sound specified in seconds.
+ * 
+ * **Bug [#936](https://github.com/Facepunch/garrysmod-issues/issues/936):**
+ * >This only works properly for .wav files serverside. 
+ * @param soundName  The sound file path. 
+ * @returns Sound duration in seconds. 
+ */
+declare function SoundDuration(soundName: string): number;
+
+/**
+ * Returns the input value in an escaped form so that it can safely be used inside of queries. The returned value is surrounded by quotes unless noQuotes is true. Alias of `sql.SQLStr` 
+ * @param input  String to be escaped 
+ * @param noQuotes [=false] Whether the returned value should be surrounded in quotes or not 
+ * @returns Escaped input 
+ */
+declare function SQLStr(input: string, noQuotes?: boolean): string;
+
+/**
+ * **Deprecated:**
+ * >You should be using `ScreenScale` instead.
+ * 
+ * Returns a number based on the Size argument and your screen's width. Alias of `ScreenScale`. 
+ * @param Size  The number you want to scale. 
+ */
+declare function SScale(Size: number): void;
+
+/**
+ * Returns the ordinal suffix of a given number. 
+ * @param number  The number to find the ordinal suffix of. 
+ * @returns suffix 
+ */
+declare function STNDRD(number: number): string;
+
+/**
+ * Suppress any networking from the server to the specified player. This is automatically called by the engine before/after a player fires their weapon, reloads, or causes any other similar shared-predicted event to occur. 
+ * @param suppressPlayer  The player to suppress any networking to. 
+ */
+declare function SuppressHostEvents(suppressPlayer: Player): void;
+
+/**
+ * Returns a highly accurate time in seconds since the start up, ideal for benchmarking. 
+ * @returns Uptime of the server. 
+ */
+declare function SysTime(): number;
+
+/**
+ * Returns a TauntCamera object 
+ * @returns TauntCamera 
+ */
+declare function TauntCamera(): table;
+
+/**
+ * Clears focus from any text entries player may have focused. 
+ */
+declare function TextEntryLoseFocus(): void;
+
+/**
+ * Returns a cosine value that fluctuates based on the current time 
+ * @param frequency  The frequency of fluctuation 
+ * @param min  Minimum value 
+ * @param max  Maxmimum value 
+ * @param offset  Offset variable that doesn't affect the rate of change, but causes the returned value to be offset by time 
+ * @returns Cosine value 
+ */
+declare function TimedCos(frequency: number, min: number, max: number, offset: number): number;
+
+/**
+ * Returns a sine value that fluctuates based on `CurTime`. The value returned will be between the start value plus/minus the range value.
+ * 
+ * Due to a bug, the range arguments don't work as intended. The existing (bugged) behavior is documented below. 
+ * @param frequency  The frequency of fluctuation, in [[wikipedia:hertz|hertz]] 
+ * @param origin  The center value of the sine wave. 
+ * @param max  This argument's distance from origin defines the size of the full range of the sine wave. For example, if origin is 3 and max is 5, then the full range of the sine wave is 5-3 = 2. 3 is the center point of the sine wave, so the sine wave will range between 2 and 4. 
+ * @param offset  Offset variable that doesn't affect the rate of change, but causes the returned value to be offset by time 
+ * @returns Sine value 
+ */
+declare function TimedSin(frequency: number, origin: number, max: number, offset: number): number;
+
+/**
+ * Attempts to return an appropriate boolean for the given value 
+ * @param val  The object to be converted to a boolean 
+ * @returns "false" for the boolean false.
+ * "false" for "false".
+ * "false" for "0".
+ * "false" for numeric 0.
+ * "false" for nil.
+ * 
+ * "true" otherwise. 
+ */
+declare function tobool(val: any): boolean;
+
+/**
+ * Toggles whether or not the named map is favorited in the new game list. 
+ * @param map  Map to toggle favorite. 
+ */
+declare function ToggleFavourite(map: string): void;
+
+/**
+ * Attempts to convert the value to a number.
+ * 
+ * Returns nil on failure. 
+ * @param value  The value to convert. Can be a number or string. 
+ * @param base [=10] The [[wikipedia:Radix|numeric base]] used in the string. Can be any integer between 2 and 36, inclusive. 
+ * @returns The numeric representation of the value with the given base, or nil if the conversion failed. 
+ */
+declare function tonumber(value: any, base?: number): number;
+
+/**
+ * Attempts to convert the value to a string. If the value is an object and its metatable has defined the __tostring metamethod, this will call that function.
+ * 
+ * `print` also uses this functionality. 
+ * @param value  The object to be converted to a string. 
+ * @returns The string representation of the value. 
+ */
+declare function tostring(value: any): string;
+
+/**
+ * **Deprecated!**
+ * 
+ * **[INTERNAL]**
+ * 
+ * Returns "Lua Cache File" if the given file name is in a certain string table, nothing otherwise. 
+ * @param filename  File name to test 
+ * @returns "Lua Cache File" if the given file name is in a certain string table, nothing otherwise. 
+ */
+declare function TranslateDownloadableName(filename: string): string;
+
+/**
+ * Returns a string representing the name of the type of the passed object. 
+ * @param variable  The object to get the type of. 
+ * @returns The name of the object's type. 
+ */
+declare function type(variable: any): string;
+
+/**
+ * Gets the associated type ID of the variable.
+ * 
+ * **Bug [#1120](https://github.com/Facepunch/garrysmod-issues/issues/1120):**
+ * >This does not work properly with _LOADLIB objects. 
+ * @param variable  The variable to get the type ID of. 
+ * @returns The type ID of the variable. See the `TYPE`. 
+ */
+declare function TypeID(variable: any): TYPE;
+
+/**
+ * This function takes a numeric indexed table and return all the members as a vararg. If specified, it will start at the given index and end at end index. 
+ * @param tbl  The table to generate the vararg from. 
+ * @param startIndex [=1] Which index to start from. Optional. 
+ * @param endIndex [=#tbl] Which index to end at. Optional, even if you set StartIndex. 
+ * @returns Output values 
+ */
+declare function unpack(tbl: table, startIndex?: number, endIndex?: number): any;
+
+/**
+ * Returns the current asynchronous in-game time. 
+ * @returns The asynchronous in-game time. 
+ */
+declare function UnPredictedCurTime(): number;
+
+/**
+ * Runs JavaScript on the loading screen panel (`GetLoadPanel`). 
+ * @param javascript  JavaScript to run on the loading panel. 
+ */
+declare function UpdateLoadPanel(javascript: string): void;
+
+/**
+ * **Deprecated:**
+ * >You should use `IsUselessModel` instead.
+ * 
+ * Returns whether or not a model is useless by checking that the file path is that of a proper model.
+ * 
+ * If the string ".mdl" is not found in the model name, the function will return true.
+ * 
+ * The function will also return true if any of the following strings are found in the given model name:
+ * * "_gesture"
+ * * "_anim"
+ * * "_gst"
+ * * "_pst"
+ * * "_shd"
+ * * "_ss"
+ * * "_posture"
+ * * "_anm"
+ * * "ghostanim"
+ * * "_paths"
+ * * "_shared"
+ * * "anim_"
+ * * "gestures_"
+ * * "shared_ragdoll_" 
+ * @param modelName  The model name to be checked 
+ * @returns Whether or not the model is useless 
+ */
+declare function UTIL_IsUselessModel(modelName: string): boolean;
+
+/**
+ * **Deprecated:**
+ * >You should use `IsValid` instead
+ * 
+ * Returns if a panel is safe to use. 
+ * @param panel  The panel to validate. 
+ */
+declare function ValidPanel(panel: Panel): void;
+
+/**
+ * Returns a random vector whose components are each between -1 and 1 
+ * @returns The random direction vector 
+ */
+declare function VectorRand(): Vector;
+
+/**
+ * Returns the time in seconds it took to render the VGUI. 
+ */
+declare function VGUIFrameTime(): void;
+
+/**
+ * Creates and returns a `DShape` rectangle GUI element with the given dimensions. 
+ * @param x  X position of the created element 
+ * @param y  Y position of the created element 
+ * @param w  Width of the created element 
+ * @param h  Height of the created element 
+ * @returns `DShape` element 
+ */
+declare function VGUIRect(x: number, y: number, w: number, h: number): DShape;
+
+/**
+ * Briefly displays layout details of the given panel on-screen 
+ * @param panel  Panel to display layout details of 
+ */
+declare function VisualizeLayout(panel: Panel): void;
+
+/**
+ * **[INTERNAL]**
+ * 
+ * Returns a new WorkshopFileBase element 
+ * @param namespace  Namespace for the file base 
+ * @param requiredTags  Tags required for a Workshop submission to be interacted with by the filebase 
+ * @returns WorkshopFileBase element 
+ */
+declare function WorkshopFileBase(namespace: string, requiredTags: table): table;
+
+/**
+ * @tupleReturn
+ *
+ * Translates the specified position and angle into the specified coordinate system. 
+ * @param position  The position that should be translated from the current to the new system. 
+ * @param angle  The angles that should be translated from the current to the new system. 
+ * @param newSystemOrigin  The origin of the system to translate to. 
+ * @param newSystemAngles  The angles of the system to translate to. 
+ * @returns [Local position, Local angles] 
+ */
+declare function WorldToLocal(position: Vector, angle: Angle, newSystemOrigin: Vector, newSystemAngles: Angle): [Vector, Angle];
+
+/**
+ * @tupleReturn
+ *
+ * Attempts to call the first function. If the execution succeeds, this returns ''true'' followed by the returns of the function. If execution fails, this returns ''false'' and the second function is called with the error message. 
+ * 
+ * Unlike in `pcall`, the stack is not unwound and can therefore be used for stack analyses with the {{Lib|debug}}.
+ * 
+ * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
+ * >Using this function with `include` will break autorefresh.
+ * 
+ * **Bug [#2498](https://github.com/Facepunch/garrysmod-issues/issues/2498):**
+ * >This does not stop `Error` and `ErrorNoHalt` from sending error messages to the server (if called clientside) or calling the `GM.OnLuaError` hook. The success boolean returned will always return true and thus you will not get the error message returned. `error` does not exhibit these behaviours.
+ * 
+ * **Bug [#3112](https://github.com/Facepunch/garrysmod-issues/issues/3112):**
+ * >This does not stop errors incurred by `include`. 
+ * @param func  The function to call initially. 
+ * @param errorCallback  The function to be called if execution of the first fails; the error message is passed as a string.
+ * 
+ * You cannot throw an `error`() from this callback: it will have no effect (not even stopping the callback). 
+ * @param arguments  Arguments to pass to the initial function. 
+ * @returns [Status of the execution; ''true'' for success, ''false'' for failure., The returns of the first function if execution succeeded, otherwise the "first" return value of the error callback.] 
+ */
+declare function xpcall(func: Function, errorCallback: Function, ...arguments: (any)[]): [boolean, any];
 
 /**
  * Similar purpose to the {{Lib|game}} and {{Lib|engine}}, allows access to various features of the game's engine. 
@@ -44894,7 +44894,7 @@ declare namespace gui {
     function IsGameUIVisible(): boolean;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the cursor's position on the screen 
      * @returns [mouseX, mouseY] 
@@ -48334,7 +48334,7 @@ declare namespace hook {
  * * .mp3
  * * .swf 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -48561,7 +48561,7 @@ declare namespace http {
  * **Note:**
  * >This panel is only available in Sandbox and Sandbox derived gamemodes! 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -48709,7 +48709,7 @@ declare class IGModAudioChannel {
     public FFT(tbl: table, size: FFT): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns 3D cone of the sound channel. See `IGModAudioChannel.Set3DCone`. 
      * @returns [The angle of the inside projection cone in degrees., The angle of the outside projection cone in degrees., The delta-volume outside the outer projection cone.] 
@@ -48717,7 +48717,7 @@ declare class IGModAudioChannel {
     public Get3DCone(): [number, number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns 3D fade distances of a sound channel. 
      * @returns [The minimum distance. The channel's volume is at maximum when the listener is within this distance, The maximum distance. The channel's volume stops decreasing when the listener is beyond this distance] 
@@ -48751,7 +48751,7 @@ declare class IGModAudioChannel {
     public GetLength(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the right and left levels of sound played by the sound channel. 
      * @returns [The left sound level. The value is between 0 and 1., The right sound level. The value is between 0 and 1.] 
@@ -48897,7 +48897,7 @@ declare class IGModAudioChannel {
 
 /**
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class ImageCheckBox extends Button {
@@ -48909,7 +48909,7 @@ declare class ImageCheckBox extends Button {
  * 
  * It can be created with `Material` or `CreateMaterial`. 
  *
- * !CustomConstructor Material
+ * @customConstructor Material
  *
  */
 declare class IMaterial {
@@ -49108,7 +49108,7 @@ declare class IMaterial {
  * **Bug [#2301](https://github.com/Facepunch/garrysmod-issues/issues/2301):**
  * >IMeshes only respond to one projected texture. 
  *
- * !CustomConstructor Mesh
+ * @customConstructor Mesh
  *
  */
 declare class IMesh {
@@ -49146,7 +49146,7 @@ declare namespace input {
     function CheckKeyTrapping(): KEY;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the cursor's position on the screen 
      * @returns [mouseX, mouseY] 
@@ -49624,7 +49624,7 @@ declare namespace jit {
     function os(): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the status of the JIT compiler and the current optimizations enabled. 
      * @returns [Is JIT enabled, Strings for CPU-specific features and enabled optimizations] 
@@ -49705,7 +49705,7 @@ declare namespace killicon {
     function Exists(classRef: string): boolean;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the size of a kill icon. 
      * @param name  Classname of the kill icon 
@@ -49717,7 +49717,7 @@ declare namespace killicon {
 /**
  * A basic label or "single line text area" that is non-editable. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -49736,7 +49736,7 @@ declare namespace killicon {
  */
 declare class Label extends Panel {
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the size of the content/children within a panel object.
      * 
@@ -49750,7 +49750,7 @@ declare class Label extends Panel {
     public GetContentSize(): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the size of the content/children within a panel object.
      * 
@@ -49764,7 +49764,7 @@ declare class Label extends Panel {
     public GetContentSize(): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the left and top text margins of a text-based panel object, such as a `DButton` or `DLabel`. This is set with `Panel.SetTextInset`.
      * 
@@ -49774,7 +49774,7 @@ declare class Label extends Panel {
     public GetTextInset(): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the left and top text margins of a text-based panel object, such as a `DButton` or `DLabel`. This is set with `Panel.SetTextInset`.
      * 
@@ -49784,7 +49784,7 @@ declare class Label extends Panel {
     public GetTextInset(): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the size of the text within a `Label` derived panel.
      * 
@@ -49797,7 +49797,7 @@ declare class Label extends Panel {
     public GetTextSize(): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the size of the text within a `Label` derived panel.
      * 
@@ -50045,7 +50045,7 @@ declare class MarkupObject {
     public GetWidth(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets computed the width and height of the markupobject. 
      * @returns [The computed width., The computed height.] 
@@ -50056,7 +50056,7 @@ declare class MarkupObject {
 /**
  * Material is a VGUI element that renders a VMT material. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -50349,7 +50349,7 @@ declare namespace math {
     function fmod(base: number, modulator: number): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * <!-- lua reference desctiption: Returns m and e such that x = m2e, e is an integer and the absolute value of m is in the range ((0.5, 1) (or zero when x is zero).  -->
      * Used to split the number value into a normalized fraction and an exponent. Two values are returned: the first is a multiplier in the range 1/2 (inclusive) to 1 (exclusive) and the second is an integer exponent.
@@ -50434,7 +50434,7 @@ declare namespace math {
     function mod(base: number, modulator: number): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the integral and fractional component of the modulo operation. 
      * @param base  The base value. 
@@ -50631,7 +50631,7 @@ declare namespace matproxy {
 /**
  * The panel used by Material & Lamp Sandbox tools for texture selection. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class MatSelect extends ContextBase {
@@ -50802,7 +50802,7 @@ declare namespace mesh {
  * 
  * Panel used to display models, used by `SpawnIcon`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class ModelImage {
@@ -50853,7 +50853,7 @@ declare class ModelImage {
  */
 declare namespace motionsensor {
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * @param translator 
      * @param player 
@@ -50986,7 +50986,7 @@ declare namespace navmesh {
     function GetEditCursorPosition(): Vector;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Finds the closest standable ground at, above, or below the provided position.
      * 
@@ -52531,7 +52531,7 @@ declare namespace package {
  * vgui.Register( "NewPanel", PANEL, "DLabel" )
  * ``` 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class Panel {
@@ -52667,7 +52667,7 @@ declare class Panel {
     public ChildCount(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the width and height of the space between the position of the panel (upper-left corner) and the max bound of the children panels (farthest reaching lower-right corner). 
      * @returns [The children size width., The children size height.] 
@@ -52760,7 +52760,7 @@ declare class Panel {
     public CopyWidth(base: Panel): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the cursor position relative to the top left of the panel.
      * 
@@ -52997,7 +52997,7 @@ declare class Panel {
     public GetAlpha(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the position and size of the panel.
      * 
@@ -53024,7 +53024,7 @@ declare class Panel {
     public GetChild(childIndex: number): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets a child object's position relative to this panel object. The number of levels is not relevant; the child may have many parents between itself and the object on which the method is called. 
      * @param pnl  The panel to get the position of. 
@@ -53055,7 +53055,7 @@ declare class Panel {
     public GetClassName(): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the child of this panel object that is closest to the specified point. The point is relative to the object on which the method is called. The distance the child is from this point is also returned. 
      * @param x  The horizontal (x) position of the point. 
@@ -53065,7 +53065,7 @@ declare class Panel {
     public GetClosestChild(x: number, y: number): [Panel, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the size of the content/children within a panel object.
      * 
@@ -53111,7 +53111,7 @@ declare class Panel {
     public GetDock(): DOCK;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the docked margins of the panel. (set by `Panel.DockMargin`) 
      * @returns [Left margin., Top margin., Right margin., Bottom margin.] 
@@ -53119,7 +53119,7 @@ declare class Panel {
     public GetDockMargin(): [number, number, number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the docked padding of the panel. (set by `Panel.DockPadding`) 
      * @returns [Left padding., Top padding., Right padding., Bottom padding.] 
@@ -53166,7 +53166,7 @@ declare class Panel {
     public GetParent(): Panel;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the position of the panel relative to its `Panel.GetParent`.
      * 
@@ -53190,7 +53190,7 @@ declare class Panel {
     public GetSelectionCanvas(): Panel;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the size of the panel.
      * 
@@ -53226,7 +53226,7 @@ declare class Panel {
     public GetText(): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the left and top text margins of a text-based panel object, such as a `DButton` or `DLabel`. This is set with `Panel.SetTextInset`.
      * 
@@ -53236,7 +53236,7 @@ declare class Panel {
     public GetTextInset(): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the size of the text within a `Label` derived panel.
      * 
@@ -53249,7 +53249,7 @@ declare class Panel {
     public GetTextSize(): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets valid receiver slot of currently dragged panel. 
      * @returns [The panel this was called on if a valid receiver slot exists, otherwise false., The slot table.] 
@@ -53699,7 +53699,7 @@ declare class Panel {
     public LoadTGAImage(imageName: string, strPath: string): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the cursor position local to the position of the panel (usually the upper-left corner). 
      * @returns [The x coordinate, The y coordinate] 
@@ -53707,7 +53707,7 @@ declare class Panel {
     public LocalCursorPos(): [number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the absolute screen position of the position specified relative to the panel.
      * 
@@ -54266,7 +54266,7 @@ declare class Panel {
     public SaveUndoState(): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Translates global screen coordinate to coordinates relative to the panel.
      * 
@@ -55117,7 +55117,7 @@ declare class Panel {
  * **Deprecated:**
  * >You should use `DScrollPanel` instead 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -55333,7 +55333,7 @@ declare class PathFollower {
  * 
  * Created by `CreatePhysCollideBox` or `CreatePhysCollidesFromModel`. 
  *
- * !CustomConstructor CreatePhysCollideBox
+ * @customConstructor CreatePhysCollideBox
  *
  */
 declare class PhysCollide {
@@ -55361,7 +55361,7 @@ declare class PhysCollide {
     public IsValid(): boolean;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Performs a trace against this PhysCollide with the given parameters. This can be used for both line traces and box traces. 
      * @param origin  The origin for the PhysCollide during the trace 
@@ -55480,7 +55480,7 @@ declare class PhysObj {
     public ApplyTorqueCenter(torque: Vector): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Calculates the force and torque on the center of mass for an offset force impulse. The outputs can be directly passed to `PhysObj.ApplyForceCenter` and `PhysObj.ApplyTorqueCenter`, respectively. 
      * @param force  The initial force 
@@ -55490,7 +55490,7 @@ declare class PhysObj {
     public CalculateForceOffset(force: Vector, pos: Vector): [Vector, Vector];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Calculates the linear and angular velocities on the center of mass for an offset force impulse. The outputs can be directly passed to `PhysObj.AddVelocity` and `PhysObj.AddAngleVelocity`, respectively. 
      * @param force  The initial force 
@@ -55543,7 +55543,7 @@ declare class PhysObj {
     public EnableMotion(enable: boolean): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the mins and max of the physics object. 
      * @returns [Mins, Maxs] 
@@ -55569,7 +55569,7 @@ declare class PhysObj {
     public GetContents(): CONTENTS;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the linear and angular damping of the physics object. 
      * @returns [The linear damping, The angular damping] 
@@ -56033,7 +56033,7 @@ declare namespace player {
 /**
  * This is a list of all methods only available for players. It is also possible to call `Entity` functions on the Player. 
  *
- * !CustomConstructor Player
+ * @customConstructor Player
  *
  */
 declare class Player extends Entity {
@@ -56549,7 +56549,7 @@ declare class Player extends Entity {
     public GetHoveredWidget(): Entity;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the bottom base and the top base size of the player's hull. 
      * @returns [Player's hull bottom base size, Player's hull top base size] 
@@ -56557,7 +56557,7 @@ declare class Player extends Entity {
     public GetHull(): [Vector, Vector];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the bottom base and the top base size of the player's crouch hull. 
      * @returns [Player's crouch hull bottom base size, Player's crouch hull top base size] 
@@ -58125,7 +58125,7 @@ declare namespace player_manager {
  * 
  * This control only exists in Sandbox derived gamemodes. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class PresetEditor extends DFrame {
@@ -58193,7 +58193,7 @@ declare namespace presets {
 /**
  * A client side projected texture, created by `ProjectedTexture`. 
  *
- * !CustomConstructor ProjectedTexture
+ * @customConstructor ProjectedTexture
  *
  */
 declare class ProjectedTexture {
@@ -58260,7 +58260,7 @@ declare class ProjectedTexture {
     public GetNearZ(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the current orthographic settings of the Projected Texture. To set these values, use `ProjectedTexture.SetOrthographic`. 
      * @returns [Whether or not this projected texture is orthographic. When false, nothing else is returned., left, top, right, bottom] 
@@ -58520,7 +58520,7 @@ declare namespace properties {
 /**
  * Used in sandbox tools 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class PropSelect extends ContextBase {
@@ -58532,7 +58532,7 @@ declare class PropSelect extends ContextBase {
  * 
  * Currently broken? 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class RadioButton {
@@ -58932,7 +58932,7 @@ declare namespace render {
     function GetDXLevel(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the current fog color. 
      * @returns [Red part of the color., Green part of the color, Blue part of the color] 
@@ -58940,7 +58940,7 @@ declare namespace render {
     function GetFogColor(): [number, number, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the fog start and end distance. 
      * @returns [Fog start distance set by `render.FogStart`, For end distance set by `render.FogEnd`, Fog Z distance set by `render.SetFogZ`] 
@@ -59259,7 +59259,7 @@ declare namespace render {
     function PushRenderTarget(texture: ITexture, x?: number, y?: number, w?: number, h?: number): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Reads the color of the specified pixel from the RenderTarget sent by `render.CapturePixels` 
      * @param x  The x coordinate. 
@@ -59697,7 +59697,7 @@ declare namespace resource {
  * 
  * Rich Text panels allows multicolored, highlight-able, and interactive text using individual text segment markup (segments are defined by the `Panel.AppendText` method). 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -60624,7 +60624,7 @@ declare namespace serverlist {
 
 /**
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class SlideBar extends Panel {
@@ -60637,7 +60637,7 @@ declare class SlideBar extends Panel {
  * 
  * A simple slider featuring an numeric display. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -60832,7 +60832,7 @@ declare namespace sound {
 /**
  * A SpawnIcon displays an image for the given model path. It is mostly used in the Spawn Menu (Q). 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -61536,7 +61536,7 @@ declare namespace string {
     function Explode(separator: string, str: string, use_patterns: boolean): table;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Attempts to find the specified substring in a string, uses [[Patterns]] by default. 
      * @param haystack  The string to search in. 
@@ -61634,7 +61634,7 @@ declare namespace string {
     function gmatch(data: string, pattern: string): Function;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * This functions main purpose is to replace certain character sequences in a string using [[Patterns]]. 
      * @param str  String which should be modified. 
@@ -62078,7 +62078,7 @@ declare namespace surface {
     function GetTextColor(): Color;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the width and height (in pixels) of the given text, but only if the font has been set with `surface.SetFont`. 
      * @param text  The string to check the size of. 
@@ -62097,7 +62097,7 @@ declare namespace surface {
     function GetTextureID(name_path: string): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the size of the texture with the associated texture ID. 
      * @param textureID  The texture ID, returned by `surface.GetTextureID`. 
@@ -62597,7 +62597,7 @@ declare namespace table {
     function Merge(destination: table, source: table): table;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns a random value from the supplied table.
      * 
@@ -62898,7 +62898,7 @@ declare namespace team {
 /**
  * Basic text input field. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class TextEntry extends Panel {
@@ -63280,7 +63280,7 @@ declare class TextEntry extends Panel {
 /**
  * A panel capable of loading .tga images. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  * @example
  * 
@@ -63809,7 +63809,7 @@ declare namespace undo {
 /**
  * A panel similar to `Label` used by `DLabelURL`. 
  *
- * !PureAbstract
+ * @pureAbstract
  *
  */
 declare class URLLabel {
@@ -63913,7 +63913,7 @@ declare namespace utf8 {
     function force(str: string): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the number of UTF-8 sequences in the given string between positions startPos and endPos (both inclusive). If it finds any invalid UTF-8 byte sequence, returns false as well as the position of the first invalid byte. 
      * @param str  The string to calculate the length of. 
@@ -64059,7 +64059,7 @@ declare namespace util {
     function Decompress(compressedString: string, maxSize?: number): string;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Gets the distance between a line and a point in 3d space. 
      * @param lineStart  Start of the line. 
@@ -64180,7 +64180,7 @@ declare namespace util {
     function GetUserGroups(): table;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Performs a "ray" box intersection and returns position, normal and the fraction. 
      * @param rayStart  Origin/start position of the ray. 
@@ -64607,7 +64607,7 @@ declare namespace util {
  * {{ClassField|number|z|The Z component of the vector}}
  * }} 
  *
- * !CustomConstructor Vector
+ * @customConstructor Vector
  *
  */
 declare class Vector {
@@ -64869,7 +64869,7 @@ declare class Vehicle extends Entity {
     public EnableEngine(enable: boolean): void;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns information about the ammo of the vehicle 
      * @returns [Ammo type of the vehicle ammo, Clip size, Count] 
@@ -64914,7 +64914,7 @@ declare class Vehicle extends Entity {
     public GetPassenger(passenger: number): Entity;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the seat position and angle of a given passenger seat. 
      * @param role  The passenger role. ( 1 is the driver ) 
@@ -64971,7 +64971,7 @@ declare class Vehicle extends Entity {
     public GetVehicleParams(): VehicleParams;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the view position and forward angle of a given passenger seat. 
      * @param role [=0] The passenger role. 0 is the driver. This parameter seems to be ignored by the game engine and is therefore optional. 
@@ -64994,7 +64994,7 @@ declare class Vehicle extends Entity {
     public GetWheelBaseHeight(wheel: number): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Returns the wheel contact point. 
      * @param wheel  The wheel to check 
@@ -65286,7 +65286,7 @@ declare namespace vgui {
  */
 declare namespace video {
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Attempts to create an `IVideoWriter`. 
      * @param config  The video config. See `VideoData`. 
@@ -65299,7 +65299,7 @@ declare namespace video {
  * List of all possible functions to manipulate matrices.
  * This object can be created by `Matrix` 
  *
- * !CustomConstructor Matrix
+ * @customConstructor Matrix
  *
  */
 declare class VMatrix {
@@ -65557,7 +65557,7 @@ declare class Weapon extends Entity {
     public Ammo2(): number;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Allows you to adjust player view while this weapon in use.
      * 
@@ -65574,7 +65574,7 @@ declare class Weapon extends Entity {
     public CalcView(ply: Player, pos: Vector, ang: Angle, fov: number): [Vector, Angle, number];
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * Allows overriding the position and angle of the viewmodel. This hook only works if you haven't overridden `GM.CalcViewModelView`. 
      * @param vm  The viewmodel entity 
@@ -65829,7 +65829,7 @@ declare class Weapon extends Entity {
     public GetTracerOrigin(): Vector;
     
     /**
-     * !TupleReturn
+     * @tupleReturn
      *
      * This hook allows you to adjust view model position and angles. 
      * @param pos  Current position 
