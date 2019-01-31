@@ -1,5 +1,7 @@
 Tool to generate typescript definitions for garrysmod.
 
+For use with https://github.com/Perryvw/TypescriptToLua
+
 The first run will take a while because all pages need to get fetched from the gmod wiki.
 Executions after that shouldnt take longer than a couple of seconds.
 
