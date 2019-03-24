@@ -27,8 +27,10 @@ namespace gmod_typescript
 
 
 
-            string defaults = @"interface table {
-[key: string]: any;
+            string defaults = @"/** @noSelfInfile */
+
+interface table {
+    [key: string]: any;
 }
 type thread = any;
 type pixelvis_handle_t = any;

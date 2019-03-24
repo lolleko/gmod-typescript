@@ -51,6 +51,8 @@ namespace gmod_typescript
                         ("GetHumans", "Player[]")}},
                 { "WEAPON", new List<(string,string)>{
                         ("Think", "boolean")}},
+                { "file", new List<(string,string)>{
+                        ("Find", "string[], string[]")}}
             };
             ApplyActionIfPredicate(functionCollections,
                                    fc => changeReturnTypeDict.ContainsKey(fc.Name),
@@ -62,7 +64,16 @@ namespace gmod_typescript
                                        {
                                            if (f.Returns.Count > 0)
                                            {
-                                               f.Returns[0].Type = newRetType;
+                                               var multRets = newRetType.Split(",").ToList();
+                                               int i = 0;
+                                               f.Returns.ForEach(ret =>
+                                               {
+                                                   if (i < multRets.Count)
+                                                   {
+                                                       ret.Type = multRets[i];
+                                                   }
+                                                   i++;
+                                               });
                                            }
                                            else
                                            {
