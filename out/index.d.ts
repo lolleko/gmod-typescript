@@ -1,5 +1,7 @@
+/** @noSelfInfile */
+
 interface table {
-[key: string]: any;
+    [key: string]: any;
 }
 type thread = any;
 type pixelvis_handle_t = any;
@@ -7098,6 +7100,7 @@ declare enum COLLISION_GROUP {
     COLLISION_GROUP_PLAYER = 5,
     
     /**
+     * NPCs can see straight through an Entity with this applied. 
      */
     COLLISION_GROUP_BREAKABLE_GLASS = 6,
     
@@ -7708,6 +7711,34 @@ declare enum D {
      * Neutral 
      */
     D_NU = 4,
+}
+
+/**
+ * @compileMembersOnly
+ *
+ * {{NextUpdate}}
+ * Displacement surface flags, used by the `TraceResult`. 
+ */
+declare enum DISPSURF {
+    /**
+     */
+    DISPSURF_SURFACE = 1,
+    
+    /**
+     */
+    DISPSURF_WALKABLE = 2,
+    
+    /**
+     */
+    DISPSURF_BUILDABLE = 4,
+    
+    /**
+     */
+    DISPSURF_SURFPROP1 = 8,
+    
+    /**
+     */
+    DISPSURF_SURFPROP2 = 16,
 }
 
 /**
@@ -9155,6 +9186,7 @@ declare enum JOYSTICK {
  * * `input.GetKeyName`
  * * `input.LookupBinding`
  * * `PANEL.OnKeyCodePressed`
+ * * `PANEL.OnKeyCodeReleased`
  * 
  * It's also part of the `BUTTON_CODE`. 
  */
@@ -11028,11 +11060,12 @@ declare enum RENDERGROUP {
  */
 declare enum RENDERMODE {
     /**
-     * Normal render mode 
+     * Default render mode. Transparently has no effect. 
      */
     RENDERMODE_NORMAL = 0,
     
     /**
+     * Supports transparency. 
      */
     RENDERMODE_TRANSCOLOR = 1,
     
@@ -11041,35 +11074,52 @@ declare enum RENDERMODE {
     RENDERMODE_TRANSTEXTURE = 2,
     
     /**
+     * Intended for glowing sprites. Allows transparency, and forces the sprite or model to be rendered unlit.
+     * 
+     * The size of a sprite rendered with Glow is consistent with the screen size (unlike the alternative World Space Glow), making it appear larger at a distance, in comparison to the world.
+     * 
+     * The GlowProxySize keyvalue affects this Render Mode on sprites. 
      */
     RENDERMODE_GLOW = 3,
     
     /**
+     * Enables Alphatesting. Legacy port from Goldsource. Obsolete in Source due to Alphatesting being handled in materials. Does not allow transparency.
+     * 
      * Use this to make alpha of `Color` work for your entity. For players, it must be set for their active weapon aswell. 
      */
     RENDERMODE_TRANSALPHA = 4,
     
     /**
+     * Add the material's color values to the existing image, instead of performing a multiplication. Sprites will appear through world geometry and the sprite/model will always brighten the world. Allows transparency. 
      */
     RENDERMODE_TRANSADD = 5,
     
     /**
+     * Causes the material to be not be drawn at all, similarly to Don't Render. 
      */
     RENDERMODE_ENVIROMENTAL = 6,
     
     /**
+     * Functions like Additive, but also blends between animation frames. Requires the material to have a functioning animating texture. Allows transparency. 
      */
     RENDERMODE_TRANSADDFRAMEBLEND = 7,
     
     /**
+     * Functions similarly to Additive, except that the alpha channel controls the opacity of the sprite. An example of use is for dark sprites, with an example material being sprites/strider_blackball.vmt. 
      */
     RENDERMODE_TRANSALPHADD = 8,
     
     /**
+     * Functions similarly to Glow, with the exception that the size of the sprite is relative to the world rather than the screen.
+     * 
+     * The GlowProxySize keyvalue affects this Render Mode on sprites. 
      */
     RENDERMODE_WORLDGLOW = 9,
     
     /**
+     * The entity is still being drawn and networked albeit invisible, therefore not making this Render Mode ideal for performance reasons.
+     * 
+     * To completely avoid drawing and networking an entity, see EF_NODRAW. 
      */
     RENDERMODE_NONE = 10,
 }
@@ -11654,6 +11704,8 @@ declare enum SENSORBONE {
  *
  * Enumerations describing certain spawnflags. Everything except for SF_PHYS* is serverside only.
  * 
+ * Spawnflags are set using `Entity.SetKeyValue` with ""spawnflags"" as the key.
+ * 
  * * SF_CITIZEN_* spawnflags represent spawnflags only usable on [https://developer.valvesoftware.com/wiki/Npc_citizen npc_citizen].
  * * SF_NPC_* - Usable on all NPCs
  * * SF_PHYSBOX_* - Usable on [https://developer.valvesoftware.com/wiki/Func_physbox func_physbox]
@@ -12048,7 +12100,7 @@ declare enum SOLID {
     SOLID_NONE = 0,
     
     /**
-     * A BSP tree 
+     * The entity has a brush model defined by the map. Does not collide with other SOLID_BSP entities. 
      */
     SOLID_BSP = 1,
     
@@ -12288,13 +12340,20 @@ declare enum STUDIO {
 /**
  * @compileMembersOnly
  *
- * Surface flags, currently unused, these would've been returned by the `TraceResult`. 
+ * Surface flags, used by the `TraceResult`. 
  */
 declare enum SURF {
     /**
      * Value will hold the light strength 
      */
     SURF_LIGHT = 1,
+    
+    /**
+     * The surface is a 2D skybox
+     * 
+     * {{NextUpdate}} 
+     */
+    SURF_SKY2D = 2,
     
     /**
      * This surface is a skybox, equivalent to HitSky in `TraceResult` 
@@ -12317,7 +12376,7 @@ declare enum SURF {
     SURF_NOPORTAL = 32,
     
     /**
-     * This surface is a trigger, seems unused 
+     * This surface is a trigger 
      */
     SURF_TRIGGER = 64,
     
@@ -13807,7 +13866,7 @@ interface ENT {
     /**
      * The base entity to derive from. This "must" be a valid Lua entity 
      */
-    Base?: string;
+    Base: string;
     
     /**
      * Type of the entity. This "must be one of these:"
@@ -13818,12 +13877,9 @@ interface ENT {
      * * "nextbot"
      * * "filter"
      * 
-     * See [[Scripted Entities]] for a more detailed explanation of what each one is.
-     * 
-     * **Bug:**
-     * >2745||1521||No 
+     * See [[Scripted Entities]] for a more detailed explanation of what each one is. 
      */
-    Type?: string;
+    Type: string;
     
     /**
      * Entity class name of the ENT (File or folder name of your ENT).
@@ -13927,12 +13983,9 @@ interface Entity {
      * * "nextbot"
      * * "filter"
      * 
-     * See [[Scripted Entities]] for a more detailed explanation of what each one is.
-     * 
-     * **Bug:**
-     * >2745||1521||No 
+     * See [[Scripted Entities]] for a more detailed explanation of what each one is. 
      */
-    Type?: string;
+    Type: string;
     
     /**
      * Entity class name of the ENT (File or folder name of your ENT).
@@ -15356,10 +15409,7 @@ interface SWEP {
     ViewModelFlip?: boolean;
     
     /**
-     * (Clientside) Same as ViewModelFlip, but for the second viewmodel
-     * 
-     * **Bug [#3633](https://github.com/Facepunch/garrysmod-issues/issues/3633):**
-     * >Fixed= 
+     * (Clientside) Same as ViewModelFlip, but for the second viewmodel 
      */
     ViewModelFlip1?: boolean;
     
@@ -15861,6 +15911,126 @@ interface TraceResult {
      * True if the entire trace is inside a solid. 
      */
     AllSolid?: boolean;
+    
+    /**
+     * The surface flags of the hit surface. See `SURF`.
+     * 
+     * {{NextUpdate}} 
+     */
+    SurfaceFlags?: SURF;
+    
+    /**
+     * The displacement flags of the hit surface. See `DISPSURF`.
+     * 
+     * {{NextUpdate}} 
+     */
+    DispFlags?: DISPSURF;
+}
+
+/**
+ * Table structure used by `steamworks.FileInfo`. 
+ */
+interface UGCFileInfo {
+    /**
+     * The Workshop item ID 
+     */
+    id: number;
+    
+    /**
+     * The title of the Workshop item 
+     */
+    title: string;
+    
+    /**
+     * The description of the Workshop item 
+     */
+    description: string;
+    
+    /**
+     * The internal File ID of the workshop item, if any 
+     */
+    fileid: number;
+    
+    /**
+     * The internal File ID of the workshop item preview, if any 
+     */
+    previewid: number;
+    
+    /**
+     * The SteamID64 of the original uploader of the addon 
+     */
+    owner: number;
+    
+    /**
+     * Unix timestamp of when the item was created 
+     */
+    created: number;
+    
+    /**
+     * Unix timestamp of when the file was last updated 
+     */
+    updated: number;
+    
+    /**
+     * Whether the file is banned or not 
+     */
+    banned: boolean;
+    
+    /**
+     * Comma (,) separated list of tags, may be truncated to some length 
+     */
+    tags: string;
+    
+    /**
+     * File size of the workshop item contents 
+     */
+    size: number;
+    
+    /**
+     * Filesize of the preview file 
+     */
+    previewsize: number;
+    
+    /**
+     * If the addon is subscribed, this value represents whether it is installed on the client and its files are accessible, false otherwise. 
+     */
+    installed: boolean;
+    
+    /**
+     * If the addon is subscribed, this value represents whether it is disabled on the client, false otherwise. 
+     */
+    disabled: boolean;
+    
+    /**
+     * A list of child Workshop Items for this item.
+     * 
+     * For collections this will be sub-collections, for workshop items this will be the items they depend on. 
+     */
+    children: table;
+    
+    /**
+     * **Deprecated!**
+     * 
+     * The "nice" name of the Uploader, or "Unnammed Player" if we failed to get the data for some reason.
+     * 
+     * Do not use this field as it will most likely not be updated in time. Use `steamworks.RequestPlayerInfo` instead. 
+     */
+    ownername: string;
+    
+    /**
+     * {{NextUpdate}}
+     * 
+     * If this key is set, no other data will be present in the response.
+     * 
+     * Values above 0 represent Steam Error codes, values below 0 mean the following:
+     * * -1 means Failed to create query
+     * * -2 means Failed to send query
+     * * -3 means Received 0 or more than 1 result
+     * * -4 means Failed to get item data from the response
+     * * -5 means Workshop item ID in the response is invalid
+     * * -6 means Workshop item ID in response is mismatching the requested file ID 
+     */
+    error: number;
 }
 
 /**
@@ -16544,10 +16714,7 @@ interface Weapon {
     ViewModelFlip?: boolean;
     
     /**
-     * (Clientside) Same as ViewModelFlip, but for the second viewmodel
-     * 
-     * **Bug [#3633](https://github.com/Facepunch/garrysmod-issues/issues/3633):**
-     * >Fixed= 
+     * (Clientside) Same as ViewModelFlip, but for the second viewmodel 
      */
     ViewModelFlip1?: boolean;
     
@@ -19655,7 +19822,7 @@ declare namespace concommand {
      * 
      * This cannot be a name of existing console command or console variable. It will silently fail if it is. 
      * @param callback  The function to run when the concommand is executed. Arguments passed are:
-     * * `ply: Player` The player the ran the concommand. NULL entity if command was entered with the dedicated server console.
+     * * `ply: Player` The player that ran the concommand. NULL entity if command was entered with the dedicated server console.
      * * `cmd: string` The concommand string (if one callback is used for several concommands).
      * * `args: table` A table of all string arguments.
      * * `argStr: string` The arguments as a string. 
@@ -20906,13 +21073,17 @@ declare class CTakeDamageInfo {
     public GetDamageCustom(): number;
     
     /**
-     * Returns a vector representing the damage force. 
+     * Returns a vector representing the damage force.
+     * 
+     * Can be set with `CTakeDamageInfo.SetDamageForce`. 
      * @returns The damage force 
      */
     public GetDamageForce(): Vector;
     
     /**
-     * Returns the position where the damage was or is going to be applied to. 
+     * Returns the position where the damage was or is going to be applied to.
+     * 
+     * Can be set using `CTakeDamageInfo.SetDamagePosition`. 
      * @returns The damage position 
      */
     public GetDamagePosition(): Vector;
@@ -21278,7 +21449,10 @@ declare namespace cvars {
      * >This does not callback convars in the menu state.
      * 
      * **Bug [#3503](https://github.com/Facepunch/garrysmod-issues/issues/3503):**
-     * >This does not callback convars on the client with FCVAR_GAMEDLL and convars on the server without FCVAR_GAMEDLL. 
+     * >This does not callback convars on the client with FCVAR_GAMEDLL and convars on the server without FCVAR_GAMEDLL.
+     * 
+     * **Bug [#3740](https://github.com/Facepunch/garrysmod-issues/issues/3740):**
+     * >This does not callback convars on the client with FCVAR_REPLICATED. 
      * @param name  The name of the convar to add the change callback to. 
      * @param callback  The function to be called when the convar changes. The arguments passed are:
      * * `convar: string` The name of the convar.
@@ -21732,7 +21906,7 @@ declare class DButton extends DLabel {
     
     /**
      * **Deprecated:**
-     * >Use `DButton.SetEnabled` instead
+     * >Use `Panel.SetEnabled` instead.
      * 
      * Sets whether or not the DButton is disabled.
      * 
@@ -21774,7 +21948,9 @@ declare class DButton extends DLabel {
     public SetIcon(img?: string): void;
     
     /**
-     * Sets an image to be displayed as the button's background. 
+     * Sets an image to be displayed as the button's background.
+     * 
+     * Also see: `DImageButton` 
      * @param img [=nil] The image file to use, relative to ''/materials''. If this is nil, the image background is removed. 
      */
     public SetImage(img?: string): void;
@@ -22041,7 +22217,7 @@ declare class DCheckBoxLabel extends DPanel {
     
     /**
      * Sets the checked state of the checkbox, and calls `DCheckBoxLabel.OnChange` and the checkbox's `Panel.ConVarChanged` methods. 
-     * @param checked  Whether the box should be checked or not. 
+     * @param checked  Whether the box should be checked or not (1 or 0 can also be used). 
      */
     public SetValue(checked: boolean): void;
     
@@ -22863,7 +23039,8 @@ declare class DColorPalette extends DIconLayout {
     public GetConVarR(): string;
     
     /**
-     * @returns 
+     * Returns the number of rows of the palette, provided 6 colors fill each row. This value is equal to the number of colors in the DColorPalette divided by 6. 
+     * @returns Number of rows of the DColorPalette. 
      */
     public GetNumRows(): number;
     
@@ -22982,7 +23159,11 @@ declare class DColorPalette extends DIconLayout {
     public SetConVarR(convar: string): void;
     
     /**
-     * @param rows 
+     * Roughly sets the number of colors that can be picked by the user. If the DColorPalette is exactly 6 rows tall, this function will set the number of colors shown per row in the palette.
+     * 
+     * **Note:**
+     * >`DColorPalette.Reset` or `DColorPalette.ResetSavedColors` must be called after this function to apply changes. 
+     * @param rows  Scale for the range of colors that the user can pick. Default is 8. 
      */
     public SetNumRows(rows: number): void;
     
@@ -23074,15 +23255,20 @@ declare class DColumnSheet extends Panel {
  *
  * @example
  * 
- * local DComboBox = vgui.Create( "DComboBox" )
- * DComboBox:SetPos( 5, 5 )
+ * local frame = vgui.Create( "DFrame" )
+ * frame:SetSize( 300, 250 )
+ * frame:Center()
+ * frame:MakePopup()
+ * 
+ * local DComboBox = vgui.Create( "DComboBox", frame )
+ * DComboBox:SetPos( 5, 30 )
  * DComboBox:SetSize( 100, 20 )
  * DComboBox:SetValue( "options" )
  * DComboBox:AddChoice( "option A" )
  * DComboBox:AddChoice( "option B" )
  * DComboBox:AddChoice( "option C" )
- * DComboBox.OnSelect = function( panel, index, value )
- * 	print( value .." was selected!" )
+ * DComboBox.OnSelect = function( self, index, value )
+ * 	print( value .." was selected at index " .. index )
  * end
  * 
  * // Creates a Combo Box.@example
@@ -23092,7 +23278,7 @@ declare class DColumnSheet extends Panel {
  * comboBox:SetSize(100, 20)
  * comboBox:SetValue("All Players")
  * 
- * comboBox.OnSelect = function(_, _, value)
+ * comboBox.OnSelect = function( _, _, value)
  * 	print(value.." was selected!")
  * end
  * 
@@ -23110,8 +23296,7 @@ declare class DComboBox extends DButton {
      * 
      * Can be accessed with the second argument of `DComboBox.GetSelected`, `DComboBox.GetOptionData` and as an argument of `DComboBox.OnSelect`. 
      * @param select [=false] Should this be the default selected text show to the user or not. 
-     * @param icon [=nil] Adds an icon for this choice.
-     * {{NextUpdate}} 
+     * @param icon [=nil] Adds an icon for this choice. 
      * @returns The index of the new option. 
      */
     public AddChoice(value: string, data?: any, select?: boolean, icon?: Panel): number;
@@ -25655,7 +25840,9 @@ declare class DImageButton extends DButton {
     public SetImage(strImage: string, strBackup: string): void;
     
     /**
-     * Sets an image to be displayed as the button's background. 
+     * Sets an image to be displayed as the button's background.
+     * 
+     * Also see: `DImageButton` 
      * @param img [=nil] The image file to use, relative to ''/materials''. If this is nil, the image background is removed. 
      */
     public SetImage(img?: string): void;
@@ -26883,7 +27070,7 @@ declare class DMenu extends DScrollPanel {
     
     /**
      * Returns the amount of children of the of panel. 
-     * @returns childCount 
+     * @returns The amount of children the panel has. 
      */
     public ChildCount(): number;
     
@@ -30059,10 +30246,35 @@ declare class DTextEntry extends TextEntry {
     public CheckNumeric(strValue: string): boolean;
     
     /**
+     * Called by the DTextEntry when a list of autocompletion options is requested. Meant to be overridden. 
+     * @param inputText  Player's current input. 
+     * @returns If a table is returned, the values of the table will show up as autocomplete suggestions for the user. 
+     */
+    public GetAutoComplete(inputText: string): table;
+    
+    /**
      * Returns the cursor color of a DTextEntry. 
      * @returns The color of the cursor as a `Color`. 
      */
     public GetCursorColor(): Color;
+    
+    /**
+     * Returns whether pressing Enter can cause the panel to lose focus. Note that a multiline DTextEntry cannot be escaped using the Enter key even when this function returns true. 
+     * @returns Whether pressing the Enter key can cause the panel to lose focus. 
+     */
+    public GetEnterAllowed(): boolean;
+    
+    /**
+     * Returns the contents of the DTextEntry as a number. 
+     * @returns Text of the DTextEntry as a float, or nil if it cannot be converted to a number using `tonumber`. 
+     */
+    public GetFloat(): number;
+    
+    /**
+     * Similar to `DTextEntry.GetFloat`, but rounds the value to the nearest integer. 
+     * @returns Text of the DTextEntry as a round number, or nil if it cannot be converted to a number. 
+     */
+    public GetInt(): number;
     
     /**
      * Returns whether only numeric characters (123456789.-) can be entered into the DTextEntry. 
@@ -30139,6 +30351,14 @@ declare class DTextEntry extends TextEntry {
     public OnValueChange(value: string): void;
     
     /**
+     * **[INTERNAL]**
+     * 
+     * Builds a `DMenu` for the DTextEntry based on the input table. 
+     * @param tab  Table containing results from `DTextEntry.GetAutoComplete`. 
+     */
+    public OpenAutoComplete(tab: table): void;
+    
+    /**
      * **Deprecated:**
      * >Use `Panel.SetEnabled` instead.
      * 
@@ -30152,6 +30372,12 @@ declare class DTextEntry extends TextEntry {
      * @param enabled  Whether the DTextEntry should be editable 
      */
     public SetEditable(enabled: boolean): void;
+    
+    /**
+     * Sets whether pressing the Enter key will cause the DTextEntry to lose focus or not, provided it is not multiline. This is true by default. 
+     * @param allowEnter  If set to false, pressing Enter will not cause the panel to lose focus and will never call `DTextEntry.OnEnter`. 
+     */
+    public SetEnterAllowed(allowEnter: boolean): void;
     
     /**
      * Changes the font of the DTextEntry. 
@@ -30592,7 +30818,7 @@ declare class DTree extends DScrollPanel {
      * 
      * If enabled, when hovering over any `DTree_Node` of this `DTree` while dragging a panel, the node will be automatically clicked on (and subsequently `DTree.OnNodeSelected` will be called) to open any attached panels, such as spawnlists in spawnmenu.
      * 
-     * See also `Panel.DragHoverClick` 
+     * See also: `PANEL.DragHoverClick`. 
      * @param enable 
      */
     public SetClickOnDragHover(enable: boolean): void;
@@ -31558,7 +31784,67 @@ declare namespace duplicator {
  *
  */
 declare class DVerticalDivider extends DPanel {
-
+    /**
+     * Returns the bottom content panel of the `DVerticalDivider`. 
+     * @returns The bottom content panel. 
+     */
+    public GetBottom(): Panel;
+    
+    /**
+     * Returns the height of the divider bar between the top and bottom content panels of the `DVerticalDivider`. 
+     * @returns The height of the divider bar. 
+     */
+    public GetDividerHeight(): number;
+    
+    /**
+     * Returns the middle content panel of the `DVerticalDivider`. 
+     * @returns The middle content panel. 
+     */
+    public GetMiddle(): Panel;
+    
+    /**
+     * Returns the top content panel of the `DVerticalDivider`. 
+     * @returns The top content panel. 
+     */
+    public GetTop(): Panel;
+    
+    /**
+     * Returns the current height of the top content panel set by `DVerticalDivider.SetTopHeight` or by the user. 
+     * @returns The current height of the `DVerticalDivider`. 
+     */
+    public GetTopHeight(): number;
+    
+    /**
+     * Sets the passed panel as the bottom content of the `DVerticalDivider`. 
+     * @param pnl  The panel to set as the bottom content. 
+     */
+    public SetBottom(pnl: Panel): void;
+    
+    /**
+     * Sets the height of the divider bar between the top and bottom content panels of the `DVerticalDivider`. 
+     * @param height  The height of the divider bar. 
+     */
+    public SetDividerHeight(height: number): void;
+    
+    /**
+     * Places the passed panel in between the top and bottom content panels of the `DVerticalDivider`. 
+     * @param pnl  The panel to set as the middle content. 
+     */
+    public SetMiddle(pnl: Panel): void;
+    
+    /**
+     * Sets the passed panel as the top content of the `DVerticalDivider`. 
+     * @param pnl  The panel to set as the top content. 
+     */
+    public SetTop(pnl: Panel): void;
+    
+    /**
+     * Sets the height of the top content panel.
+     * 
+     * The height of the bottom content panel is automatically calculated by taking the total height of the `DVerticalDivider` and subtracting it with the height of the top content panel and the divider bar. 
+     * @param height  The height of the top content panel. 
+     */
+    public SetTopHeight(height: number): void;
 }
 
 /**
@@ -32088,12 +32374,12 @@ declare class Entity {
     /**
      * Called when another entity fires an event to this entity. 
      * @param inputName  The name of the input that was triggered. 
-     * @param activator  The initial cause for the input getting triggered. 
-     * @param called  The entity that directly trigger the input. 
+     * @param activator  The initial cause for the input getting triggered. (EG the player who pushed a button) 
+     * @param caller  The entity that directly triggered the input. (EG the button that was pushed) 
      * @param data  The data passed. 
      * @returns Should we suppress the default action for this input? 
      */
-    public AcceptInput(inputName: string, activator: Entity, called: Entity, data: string): boolean;
+    public AcceptInput(inputName: string, activator: Entity, caller: Entity, data: string): boolean;
     
     /**
      * Activates the entity. This needs to be used on some entities (like constraints) after being spawned.
@@ -32370,7 +32656,10 @@ declare class Entity {
     public DisableMatrix(matrixType: string): void;
     
     /**
-     * Performs a trace attack. 
+     * Performs a trace attack.
+     * 
+     * **Warning:**
+     * >Calling this function on the victim entity in `ENTITY.OnTakeDamage` can cause infinite loops. 
      * @param damageInfo  The damage to apply. 
      * @param traceRes  Trace result to use to deal damage. See `TraceResult` 
      * @param dir [=traceRes.HitNormal] Direction of the attack. 
@@ -32453,7 +32742,7 @@ declare class Entity {
      * **Warning:**
      * >You should use `Entity.NetworkVar` instead 
      * @param Type  The type of the DTVar being set up. It can be one of the following: 'Int', 'Float', 'Vector', 'Angle', 'Bool', 'Entity' or 'String' 
-     * @param ID  The ID of the DTVar. Can be between 0 and 3 
+     * @param ID  The ID of the DTVar. Can be between 0 and 3 for strings, 0 and 31 for everything else. 
      * @param Name  Name by which you will refer to DTVar. It must be a valid variable name. (No spaces!) 
      */
     public DTVar(Type: string, ID: number, Name: string): void;
@@ -32485,10 +32774,10 @@ declare class Entity {
     public EmitSound(soundName: string, soundLevel?: SNDLVL, pitchPercent?: number, volume?: number, channel?: CHAN): void;
     
     /**
-     * Toggles the constraints of this ragdoll entity on and off.
+     * Toggles the constraints of this ragdoll entity on and off. 
+     * @param toggleConstraints  Set to true to enable the constraints and false to disable them.
      * 
-     * {{NextUpdate|Disabling constraints will delete the constraint entities.}} 
-     * @param toggleConstraints  Set to true to enable the constraints and false to disable them. 
+     * Disabling constraints will delete the constraint entities. 
      */
     public EnableConstraints(toggleConstraints: boolean): void;
     
@@ -32594,18 +32883,22 @@ declare class Entity {
     public FindTransitionSequence(currentSequence: number, goalSequence: number): number;
     
     /**
-     * Fires an entity's input. You can find inputs for most entities on the [https://developer.valvesoftware.com/wiki/Output Valve Developer Wiki] 
+     * Fires an entity's input. You can find inputs for most entities on the [https://developer.valvesoftware.com/wiki/Output Valve Developer Wiki]
+     * 
+     * See also `Entity.Input` and `GM.AcceptInput`. 
      * @param input  The name of the input to fire 
-     * @param param [=""] The value to give to the input, can also be a `number`. 
+     * @param param [=""] The value to give to the input, can also be a `number` or a `boolean`. 
      * @param delay [=0] Delay in seconds before firing 
      */
     public Fire(input: string, param?: string, delay?: number): void;
     
     /**
-     * Called before firing animation events, such as muzzle flashes or shell ejections.
+     * Called before firing clientside animation events, such as muzzle flashes or shell ejections.
+     * 
+     * See `ENTITY.HandleAnimEvent` for the serverside version.
      * 
      * **Note:**
-     * >This hook only works on "anim" type entities. 
+     * >This hook only works on "anim", "nextbot" and "ai" type entities. 
      * @param pos  Position of the effect 
      * @param ang  Angle of the effect 
      * @param event  The event ID of happened even. See [http://developer.valvesoftware.com/wiki/Animation_Events this page]. 
@@ -32666,7 +32959,7 @@ declare class Entity {
      * Animations that loop will automatically reset the cycle so you don't have to - ones that do not will stop animating once you reach the end of their sequence. 
      * @param delta  Amount to advance frame by. 
      */
-    public FrameAdvance(delta: number): void;
+    public FrameAdvance(delta?: number): void;
     
     /**
      * Returns the entity's velocity.
@@ -32779,7 +33072,7 @@ declare class Entity {
     public GetBodygroupName(id: number): string;
     
     /**
-     * Returns a list of all attachments of the entity. 
+     * Returns a list of all bodygroups of the entity. 
      * @returns Bodygroups as a table of `BodyGroupData`s if the entity can have bodygroups. 
      */
     public GetBodyGroups(): BodyGroupData[];
@@ -32827,7 +33120,10 @@ declare class Entity {
     public GetBoneName(index: number): string;
     
     /**
-     * Returns parent bone of given bone. 
+     * Returns parent bone of given bone.
+     * 
+     * **Bug [#3711](https://github.com/Facepunch/garrysmod-issues/issues/3711):**
+     * >This will always return -1 for clientside-only entities. 
      * @param bone  The bode ID of the bone to get parent of 
      * @returns Parent bone ID or -1 if we failed for some reason. 
      */
@@ -32842,7 +33138,10 @@ declare class Entity {
      * >This can return the server's position during server lag.
      * 
      * **Bug [#3285](https://github.com/Facepunch/garrysmod-issues/issues/3285):**
-     * >This can return garbage serverside or `Vector`(0,0,0) for v49 models. 
+     * >This can return garbage serverside or `Vector`(0,0,0) for v49 models.
+     * 
+     * **Bug [#3739](https://github.com/Facepunch/garrysmod-issues/issues/3739):**
+     * >This can return garbage if a trace passed through the target bone during bone matrix access. 
      * @param boneIndex  The bone index of the bone to get the position of. See `Entity.LookupBone`. 
      * @returns [The bone's position relative to the world., The bone's angle relative to the world.] 
      */
@@ -32851,7 +33150,10 @@ declare class Entity {
     /**
      * @tupleReturn
      *
-     * Returns info about given plane of non-nodraw brush model surfaces of the entity's model. Works on worldspawn as well. 
+     * Returns info about given plane of non-nodraw brush model surfaces of the entity's model. Works on worldspawn as well.
+     * 
+     * **Warning:**
+     * >This only works on entities with brush models. 
      * @param id  The index of the plane to get info of. Starts from 0. 
      * @returns [The origin of the plane.
      * 
@@ -32863,7 +33165,7 @@ declare class Entity {
     
     /**
      * Returns the amount of planes of non-nodraw brush model surfaces of the entity's model. 
-     * @returns The amount of brush model planes of the entity's model. 
+     * @returns The amount of brush model planes of the entity's model. This will be 0 for any non-brush model. 
      */
     public GetBrushPlaneCount(): number;
     
@@ -33016,7 +33318,7 @@ declare class Entity {
      * This is called internally by the `Entity.NetworkVar` system, you can use this in cases where using NetworkVar is not possible.
      * 
      * Get a float stored in the datatable of the entity. 
-     * @param key  Goes from 0 to 63.
+     * @param key  Goes from 0 to 31.
      * Specifies what key to grab from datatable. 
      * @returns Requested float. 
      */
@@ -33352,8 +33654,11 @@ declare class Entity {
     /**
      * Gets the model of given entity.
      * 
-     * **Note:**
-     * >This does not necessarily return the model's path, as is the case for brush and virtual models. 
+     * **Bug [#2246](https://github.com/Facepunch/garrysmod-issues/issues/2246):**
+     * >This does not necessarily return the model's path, as is the case for brush and virtual models. This is intentional behaviour, however, there is currently no way to retrieve the actual file path.
+     * 
+     * **Bug [#3695](https://github.com/Facepunch/garrysmod-issues/issues/3695):**
+     * >This can return nil for some entities. 
      * @returns The entity's model. Will be a filesystem path for most models. 
      */
     public GetModel(): string;
@@ -33365,6 +33670,13 @@ declare class Entity {
      * @returns [The minimum vector of the bounds, The maximum vector of the bounds] 
      */
     public GetModelBounds(): [Vector, Vector];
+    
+    /**
+     * Returns the contents of the entity's current model.
+     * {{NextUpdate}} 
+     * @returns The contents of the entity's model. See `CONTENTS`. 
+     */
+    public GetModelContents(): CONTENTS;
     
     /**
      * Gets the physics bone count of the entity's model. This is only applicable to ragdoll models and only to "anim" type [[Scripted Entities]]. 
@@ -33394,7 +33706,10 @@ declare class Entity {
     public GetModelScale(): number;
     
     /**
-     * Returns the amount a momentary_rot_button entity is turned based on the given angle. 0 meaning completely turned closed, 1 meaning completely turned open. 
+     * Returns the amount a momentary_rot_button entity is turned based on the given angle. 0 meaning completely turned closed, 1 meaning completely turned open.
+     * 
+     * **Warning:**
+     * >This only works on momentary_rot_button entities. 
      * @param turnAngle  The angle of rotation to compare - usually should be `Entity.GetAngles`. 
      * @returns The amount the momentary_rot_button is turned, ranging from 0 to 1, or nil if the entity is not a momentary_rot_button. 
      */
@@ -33995,14 +34310,14 @@ declare class Entity {
     public GetSolidFlags(): FSOLID;
     
     /**
-     * Returns if we should show a spawn effect on this entity. 
+     * Returns if we should show a spawn effect on spawn on this entity. 
      * @returns The flag to allow or disallow the spawn effect. 
      */
     public GetSpawnEffect(): boolean;
     
     /**
      * Returns the bitwise spawn flags used by the entity. 
-     * @returns The spawn flags of the entity 
+     * @returns The spawn flags of the entity, see [https://wiki.garrysmod.com/page/Enums/SF SF_Enums]. 
      */
     public GetSpawnFlags(): number;
     
@@ -34156,10 +34471,12 @@ declare class Entity {
     public GravGunPunt(ply: Player): boolean;
     
     /**
-     * Called before firing animation events, such as muzzle flashes or shell ejections.
+     * Called before firing serverside animation events, such as weapon reload, drawing and holstering for NPCs, scripted sequences, etc.
+     * 
+     * See `ENTITY.FireAnimationEvent` for the clientside version.
      * 
      * **Note:**
-     * >This hook only works on "anim" type entities. 
+     * >This hook only works on "anim" and "nextbot" type entities. 
      * @param event  The event ID of happened even. See [http://developer.valvesoftware.com/wiki/Animation_Events this page]. 
      * @param eventTime  The absolute time this event occurred using `CurTime`. 
      * @param cycle  The frame this event occurred as a number between 0 and 1. 
@@ -34248,13 +34565,15 @@ declare class Entity {
     public InitializeAsClientEntity(): void;
     
     /**
-     * Fires input to the entity with the ability to make another entity responsible. Similar to `Entity.Fire` 
+     * Fires input to the entity with the ability to make another entity responsible.
+     * 
+     * See also `Entity.Fire` and `GM.AcceptInput`. 
      * @param input  The name of the input to fire 
-     * @param activator  The entity that is directly responsible 
-     * @param inflictor  The entity that is indirectly responsible (often a player) 
-     * @param param [=nil] The value to give to the input. Can be a String, Float or Integer 
+     * @param activator  The entity that caused this input (EG the player who pushed a button) 
+     * @param caller  The entity that is triggering this input (EG the button that was pushed) 
+     * @param param [=nil] The value to give to the input. Can be either a `string`, a `number` or a `boolean`. 
      */
-    public Input(input: string, activator: Entity, inflictor: Entity, param?: any): void;
+    public Input(input: string, activator: Entity, caller: Entity, param?: string | number | boolean): void;
     
     /**
      * **[INTERNAL]**
@@ -34330,6 +34649,12 @@ declare class Entity {
      * @returns Returns true if the line of sight is clear 
      */
     public IsLineOfSightClear(target: Entity | Vector): boolean;
+    
+    /**
+     * Returns if the entity is going to be deleted in the next frame. 
+     * @returns If the entity is going to be deleted. 
+     */
+    public IsMarkedForDeletion(): boolean;
     
     /**
      * Checks if the entity is an NPC or not. 
@@ -34747,7 +35072,10 @@ declare class Entity {
     public OnRestore(): void;
     
     /**
-     * Called when the entity is taking damage. 
+     * Called when the entity is taking damage.
+     * 
+     * **Warning:**
+     * >Calling `Entity.TakeDamage`, `Entity.TakeDamageInfo`, `Entity.DispatchTraceAttack`, or `Player.TraceHullAttack` (if the entity is hit) in this hook on the victim entity can cause infinite loops since the hook will be called again. Make sure to setup recursion safeguards like the example below. 
      * @param damage  The damage to be applied to the entity. 
      */
     public OnTakeDamage(damage: CTakeDamageInfo): void;
@@ -35359,10 +35687,7 @@ declare class Entity {
     public SetCollisionBoundsWS(vec1: Vector, vec2: Vector): void;
     
     /**
-     * Sets the entity's collision group.
-     * 
-     * **Bug [#3656](https://github.com/Facepunch/garrysmod-issues/issues/3656):**
-     * >This doesn't work on players. 
+     * Sets the entity's collision group. 
      * @param group  Collision group of the entity, see `COLLISION_GROUP` 
      */
     public SetCollisionGroup(group: COLLISION_GROUP): void;
@@ -35561,9 +35886,15 @@ declare class Entity {
     public SetIK(useIK?: boolean): void;
     
     /**
-     * Sets key value for the entity. 
-     * @param key  The key 
-     * @param value  The value 
+     * Sets Hammer key values on an entity.
+     * 
+     * You can look up which entities have what key values on the [https://developer.valvesoftware.com/wiki/ Valve Developer Community] on entity pages.
+     * 
+     * A  list of basic entities can be found [https://developer.valvesoftware.com/wiki/List_of_entities here].
+     * 
+     * Alternatively you can look at the .fgd files shipped with Garry's Mod in the bin/ folder with a text editor to see the key values as they appear in Hammer. 
+     * @param key  The internal key name 
+     * @param value  The value to set 
      */
     public SetKeyValue(key: string, value: string): void;
     
@@ -35731,7 +36062,10 @@ declare class Entity {
     public SetMaxHealth(maxhealth: number): void;
     
     /**
-     * Sets the model of the entity. 
+     * Sets the model of the entity.
+     * 
+     * **Warning:**
+     * >This silently fails when given an empty string. 
      * @param modelName  New model value. 
      */
     public SetModel(modelName: string): void;
@@ -36304,7 +36638,7 @@ declare class Entity {
     
     /**
      * Sets the skin of the entity. 
-     * @param skinIndex  Index of the skin to use. 
+     * @param skinIndex  0-based index of the skin to use. 
      */
     public SetSkin(skinIndex: number): void;
     
@@ -36323,10 +36657,12 @@ declare class Entity {
     public SetSolidFlags(flags: FSOLID): void;
     
     /**
-     * Sets whether the entity should use a spawn effect. See also: `Entity.GetSpawnEffect`
+     * Sets whether the entity should use a spawn effect when it is created on the client.
+     * 
+     * See `Entity.GetSpawnEffect` for more information on how the effect is applied.
      * 
      * **Note:**
-     * >This function doesn't actually give the entity a spawn effect, but it's merely a networked bool. 
+     * >This function will only have an effect when the entity spawns. After that it will do nothing even is set to true. 
      * @param spawnEffect  Sets if we should show a spawn effect. 
      */
     public SetSpawnEffect(spawnEffect: boolean): void;
@@ -36449,7 +36785,7 @@ declare class Entity {
     
     /**
      * Returns the amount of skins the entity has. 
-     * @returns skinCount 
+     * @returns The amount of skins the entity's model has. 
      */
     public SkinCount(): number;
     
@@ -36610,7 +36946,10 @@ declare class Entity {
     public StoreOutput(name: string, info: string): void;
     
     /**
-     * Applies the specified amount of damage to the entity with [[Enums/DMG|DMG_GENERIC]] flag. 
+     * Applies the specified amount of damage to the entity with [[Enums/DMG|DMG_GENERIC]] flag.
+     * 
+     * **Warning:**
+     * >Calling this function on the victim entity in `ENTITY.OnTakeDamage` can cause infinite loops. 
      * @param damageAmount  The amount of damage to be applied. 
      * @param attacker  The entity that initiated the attack that caused the damage. 
      * @param inflictor  The entity that applied the damage, eg. a weapon. 
@@ -36618,14 +36957,17 @@ declare class Entity {
     public TakeDamage(damageAmount: number, attacker: Entity, inflictor: Entity): void;
     
     /**
-     * Applies the damage specified by the damage info to the entity. 
+     * Applies the damage specified by the damage info to the entity.
+     * 
+     * **Warning:**
+     * >Calling this function on the victim entity in `ENTITY.OnTakeDamage` can cause infinite loops. 
      * @param damageInfo  The damage to apply. 
      */
     public TakeDamageInfo(damageInfo: CTakeDamageInfo): void;
     
     /**
-     * Applies physics damage to the entity 
-     * @param dmginfo  The damage to apply 
+     * Applies forces to our physics object in response to damage. 
+     * @param dmginfo  The damageinfo to apply. Only `CTakeDamageInfo.GetDamageForce` and `CTakeDamageInfo.GetDamagePosition` are used. 
      */
     public TakePhysicsDamage(dmginfo: CTakeDamageInfo): void;
     
@@ -36692,7 +37034,10 @@ declare class Entity {
     /**
      * Returns the ID of a `PhysObj` attached to the given bone. To be used with `Entity.GetPhysicsObjectNum`.
      * 
-     * See `Entity.TranslatePhysBoneToBone` for reverse function. 
+     * See `Entity.TranslatePhysBoneToBone` for reverse function.
+     * 
+     * **Bug [#3714](https://github.com/Facepunch/garrysmod-issues/issues/3714):**
+     * >This does not work on clientside-only entities. 
      * @param boneID  The ID of a bone to look up the "physics root" bone of. 
      * @returns The `PhysObj` ID of the given bone.
      * 
@@ -36703,7 +37048,10 @@ declare class Entity {
     /**
      * Returns the boneID of the bone the given `PhysObj` is attached to.
      * 
-     * See `Entity.TranslateBoneToPhysBone` for reverse function. 
+     * See `Entity.TranslateBoneToPhysBone` for reverse function.
+     * 
+     * **Bug [#3714](https://github.com/Facepunch/garrysmod-issues/issues/3714):**
+     * >This does not work on clientside-only entities. 
      * @param physNum  The `PhysObj` number on the entity 
      * @returns The boneID of the bone the `PhysObj` is attached to. 
      */
@@ -36727,8 +37075,8 @@ declare class Entity {
      * Called when another entity uses this entity, example would be a player pressing "+use" this entity.
      * 
      * To change how often the function is called, see `Entity.SetUseType`. 
-     * @param activator  The initial cause for the input getting triggered. This can be different from the caller in some cases. 
-     * @param caller  The entity originally responsible for the input. Typically you should use this if you're checking for which player pressed +use. 
+     * @param activator  The entity that caused this input. This will usually be the player who pressed their use key 
+     * @param caller  The entity responsible for the input. This will typically be the same as ''activator'' unless some other entity is acting as a proxy 
      * @param useType  Use type, see `USE`. 
      * @param value  Any passed value. 
      */
@@ -36746,16 +37094,18 @@ declare class Entity {
      * Enables or disables trigger bounds.
      * 
      * This will give the entity a "trigger box" that extends around its bounding box by iBloatSize units in X/Y and (iBloatSize/2) in +Z (-Z remains the same).
-     * 
      * The trigger box is world aligned and will work regardless of the object's solidity and collision group.
      * 
-     * It will be visible as a light blue box when the ent_bbox console command is used.
+     * Valve use trigger boxes for all pickup items. Their bloat size is 24, a surprisingly large figure.
      * 
-     * Valve use trigger boxes for all pickup items. Their bloat size is 24, a surprisingly large figure. 
-     * @param enable  Should we enable or disable the bounds. 
-     * @param bloat [=0] The distance/size of the trigger bounds. 
+     * **Note:**
+     * >The trigger boxes can be made visible as a light blue box by using the "ent_bbox" console command while looking at the entity. Alternatively a classname or entity index can be used as the first argument.
+     * 
+     * This requires "developer" to be set to "1". 
+     * @param enable  Enable or disable the bounds. 
+     * @param boundSize [=0] The distance/size of the trigger bounds. 
      */
-    public UseTriggerBounds(enable: boolean, bloat?: number): void;
+    public UseTriggerBounds(enable: boolean, boundSize?: number): void;
     
     /**
      * Returns the index of this view model, it can be used to identify which one of the player's view models this entity is. 
@@ -37097,7 +37447,7 @@ declare namespace file {
      * * "datedesc" sort the files descending by date 
      * @returns [A table of found files, or nil if the path is invalid, A table of found directories, or nil if the path is invalid] 
      */
-    function Find(name: string, path: string, sorting?: string): [table, table];
+    function Find(name: string, path: string, sorting?: string): [string[],  string[]];
     
     /**
      * Returns whether the given file is a directory or not. 
@@ -37237,7 +37587,7 @@ declare class File {
     
     /**
      * Reads 4 bytes from the file converts them to a float and returns them. 
-     * @returns value 
+     * @returns The read value 
      */
     public ReadFloat(): number;
     
@@ -37845,15 +38195,17 @@ declare namespace gamemode {
  */
 declare class Gamemode {
     /**
-     * Called when a map I/O event occurs. 
+     * Called when a map I/O event occurs.
+     * 
+     * See also `Entity.Fire` and `Entity.Input`. 
      * @param ent  Entity that receives the input 
-     * @param input  The input name 
+     * @param input  The input name. Is not guaranteed to be a valid input on the entity. 
      * @param activator  Activator of the input 
      * @param caller  Caller of the input 
-     * @param value  Data provided with the input 
+     * @param value  Data provided with the input. Will be either a `string`, a `number`, a `boolean` or a `nil`. 
      * @returns Return true to prevent this input from being processed. 
      */
-    public AcceptInput(ent: Entity, input: string, activator: Entity, caller: Entity, value: any): boolean;
+    public AcceptInput(ent: Entity, input: string, activator: Entity, caller: Entity, value: string | number | boolean | undefined): boolean;
     
     /**
      * Adds a death notice entry.
@@ -38655,9 +39007,10 @@ declare class Gamemode {
     public OnDamagedByExplosion(ply: Player, dmginfo: CTakeDamageInfo): void;
     
     /**
-     * Called right after the Entity has been made visible to Lua.
+     * Despite its name, it is called right after the Entity has been first pushed to Lua, "not" when the entity is actually created. The amount time between when entity is created and this hook is called is not fixed, and can be infinite in some cases, especially on client. Do "not" use this hook to reliably detect when an entity is created.
      * 
-     * Invalid NPCs passed through this hook are used by the engine to precache things like models and sounds, so always check their validity with `IsValid`.
+     * **Note:**
+     * >Some entities on initial map spawn are passed through this hook, and then removed in the same frame. This is used by the engine to precache things like models and sounds, so always check their validity with `IsValid`.
      * 
      * **Warning:**
      * >Removing the created entity during this event can lead to unexpected problems. Use `timer.Simple`( 0, .... ) to safely remove the entity. 
@@ -38725,7 +39078,10 @@ declare class Gamemode {
     public OnPlayerChangedTeam(ply: Player, oldTeam: number, newTeam: number): void;
     
     /**
-     * Called whenever a player sends a chat message. For the serverside equivalent, see `GM.PlayerSay`. 
+     * Called whenever a player sends a chat message. For the serverside equivalent, see `GM.PlayerSay`.
+     * 
+     * **Note:**
+     * >The text input of this hook depends on `GM.PlayerSay`. If it is suppressed on the server, it will be suppressed on the client. 
      * @param ply  The player 
      * @param text  The message's text 
      * @param teamChat  Is the player typing in team chat? 
@@ -38830,7 +39186,7 @@ declare class Gamemode {
      * >To stop the user from using +attack, +left and any other movement commands of the sort, please look into using `GM.StartCommand` instead
      * 
      * **Bug [#1176](https://github.com/Facepunch/garrysmod-issues/issues/1176):**
-     * >This is not called when the key is released (the third argument will always be true).
+     * >The third argument will always be true.
      * 
      * **Bug [#2888](https://github.com/Facepunch/garrysmod-issues/issues/2888):**
      * >This does not run for function keys binds (F1-F12). 
@@ -38858,7 +39214,10 @@ declare class Gamemode {
     /**
      * @tupleReturn
      *
-     * Decides whether a player can hear another player using voice chat. 
+     * Decides whether a player can hear another player using voice chat.
+     * 
+     * **Note:**
+     * >This hook is called several times a tick, so ensure your code is efficient. 
      * @param listener  The listening player. 
      * @param talker  The talking player. 
      * @returns [Return true if the listener should hear the talker, false if they shouldn't., 3D sound. If set to true, will fade out the sound the further away listener is from the  talker, the voice will also be in stereo, and not mono.] 
@@ -38900,6 +39259,15 @@ declare class Gamemode {
     public PlayerCanSeePlayersChat(text: string, teamOnly: boolean, listener: Player, speaker: Player): boolean;
     
     /**
+     * Called whenever a player's class is changed on the server-side with `player_manager.SetPlayerClass`. 
+     * @param ply  The player whose class has been changed. 
+     * @param newID  The network ID of the player class's name string, or 0 if we are clearing a player class from the player.
+     * 
+     * Pass this into `util.NetworkIDToString` to retrieve the proper name of the player class. 
+     */
+    public PlayerClassChanged(ply: Player, newID: number): void;
+    
+    /**
      * Executes when a player connects to the server. Called before the player has been assigned a [[Player/UserID|UserID]] and entity. See the [[Game_Events|player_connect gameevent]] for a version of this hook called after the player entity has been created.
      * 
      * **Note:**
@@ -38926,9 +39294,9 @@ declare class Gamemode {
      * See `Player.LastHitGroup` if you need to get the last hit hitgroup of the player.
      * 
      * **Note:**
-     * >`Player.Alive` will return true in this hook. This behaviour is [https://github.com/Facepunch/garrysmod-issues/issues/3275 not defined]. 
+     * >`Player.Alive` will return true in this hook. 
      * @param victim  The player who died 
-     * @param inflictor  Item used to kill the person 
+     * @param inflictor  Item used to kill the victim 
      * @param attacker  Player or entity that killed the victim 
      */
     public PlayerDeath(victim: Player, inflictor: Entity, attacker: Entity): void;
@@ -39149,11 +39517,14 @@ declare class Gamemode {
      * 
      * The player is already considered dead when this hook is called.
      * 
-     * See `GM.PlayerDeath` for a hook which handles all other death causes.
+     * * See `GM.PlayerDeath` for a hook which handles all other death causes.
+     * * `GM.PostPlayerDeath` is called "after" this hook.
      * 
      * **Note:**
-     * >`Player.Alive` will return false in this hook. 
-     * @param ply  The player 
+     * >`Player.Alive` will return false in this hook.
+     * 
+     * {{NextUpdate|At the time this hook is called, `Player.Alive` will return true and player will still have all of their weapons, for consistency with `GM.PlayerDeath`.}} 
+     * @param ply  The player who was killed 
      */
     public PlayerSilentDeath(ply: Player): void;
     
@@ -39258,7 +39629,9 @@ declare class Gamemode {
      * Triggered when the player presses use on an object. Continuously runs until USE is released but will not activate other Entities until the USE key is released; dependent on activation type of the Entity. 
      * @param ply  The player pressing the "use" key. 
      * @param ent  The entity which the player is looking at / activating USE on. 
-     * @returns Return false if the player is not allowed to USE the entity. 
+     * @returns Return false if the player is not allowed to USE the entity.
+     * 
+     * Do not return true if using a hook, otherwise other mods may not get a chance to block a player's use. 
      */
     public PlayerUse(ply: Player, ent: Entity): boolean;
     
@@ -40077,7 +40450,7 @@ declare namespace Global {
      * 
      * **Warning:**
      * >Model must be precached with `util.PrecacheModel` on the server before usage. 
-     * @param renderGroup [=RENDER_GROUP_OPAQUE] The `RENDERGROUP` to assign. 
+     * @param renderGroup [=RENDERGROUP_OPAQUE] The `RENDERGROUP` to assign. 
      * @returns The newly created client-side ragdoll. ( C_ClientRagdoll ) 
      */
     function ClientsideRagdoll(model: string, renderGroup?: RENDERGROUP): CSEnt;
@@ -40336,7 +40709,7 @@ declare namespace Global {
     function DEFINE_BASECLASS(name: string): table;
     
     /**
-     * Retrieves data from a gamemode to use in yours. This also sets a BaseClass field on your GM table to the gamemode you are deriving from. It appears that this function works by running the init and cl_init Lua files of the target gamemode, then overriding functions that appear in both the target and your gamemode with your gamemode's functions. 
+     * Loads and registers the specified gamemode, setting the GM table's DerivedFrom field to the value provided, if the table exists. The DerivedFrom field is used post-gamemode-load as the "derived" parameter for `gamemode.Register`. 
      * @param base  Gamemode name to derive from. 
      */
     function DeriveGamemode(base: string): void;
@@ -40497,7 +40870,9 @@ declare namespace Global {
     function DrawBloom(Darken: number, Multiply: number, SizeX: number, SizeY: number, Passes: number, ColorMultiply: number, Red: number, Green: number, Blue: number): void;
     
     /**
-     * Draws the Color Modify shader, which can be used to adjust colors on screen. 
+     * Draws the Color Modify shader, which can be used to adjust colors on screen.
+     * 
+     * [[Category:Post_Processing]] 
      * @param modifyParameters  Color modification parameters. See {{ShaderLink|g_colourmodify}} and the example below. Note that if you leave out a field, it will retain its last value which may have changed if another caller uses this function. 
      */
     function DrawColorModify(modifyParameters: table): void;
@@ -40589,10 +40964,7 @@ declare namespace Global {
     function Either(condition: any, truevar: any, falsevar: any): any;
     
     /**
-     * Plays a sentence from scripts/sentences.txt
-     * 
-     * **Bug:**
-     * >FIXED IN NEXT UPDATE: Seems to work only on serverside. 
+     * Plays a sentence from scripts/sentences.txt 
      * @param soundName  The sound to play 
      * @param position  The position to play at 
      * @param entity  The entity to emit the sound from. Must be `Entity.EntIndex` 
@@ -40646,7 +41018,10 @@ declare namespace Global {
     
     /**
      * Throws a Lua error and breaks out of the current call stack. 
-     * @param message  The error message to throw. 
+     * @param message  The error message to throw.
+     * 
+     * **Bug [#1300](https://github.com/Facepunch/garrysmod-issues/issues/1300):**
+     * >Request=1300 
      * @param errorLevel [=1] The level to throw the error at. 
      */
     function error(message: string, errorLevel?: number): void;
@@ -41074,24 +41449,28 @@ declare namespace Global {
      * Returns if the given NPC class name is an enemy.
      * 
      * Returns true if the entity name is one of the following:
-     * * "npc_combine_s"
-     * * "npc_cscanner"
-     * * "npc_manhack"
-     * * "npc_hunter"
      * * "npc_antlion"
      * * "npc_antlionguard"
-     * * "npc_antlion_worker"
-     * * "npc_fastzombie_torso"
+     * * "npc_antlionguardian"
+     * * "npc_barnacle"
+     * * "npc_breen"
+     * * "npc_clawscanner"
+     * * "npc_combine_s"
+     * * "npc_cscanner"
      * * "npc_fastzombie"
+     * * "npc_fastzombie_torso"
      * * "npc_headcrab"
      * * "npc_headcrab_fast"
-     * * "npc_poisonzombie"
      * * "npc_headcrab_poison"
+     * * "npc_hunter"
+     * * "npc_metropolice"
+     * * "npc_manhack"
+     * * "npc_poisonzombie"
+     * * "npc_strider"
+     * * "npc_stalker"
      * * "npc_zombie"
      * * "npc_zombie_torso"
-     * * "npc_zombine"
-     * * "npc_gman"
-     * * "npc_breen" 
+     * * "npc_zombine" 
      * @param className  Class name of the entity to check 
      * @returns Is an enemy 
      */
@@ -41128,14 +41507,18 @@ declare namespace Global {
      * Returns if the given NPC class name is a friend.
      * 
      * Returns true if the entity name is one of the following:
-     * * "npc_monk"
      * * "npc_alyx"
      * * "npc_barney"
      * * "npc_citizen"
+     * * "npc_dog"
+     * * "npc_eli"
+     * * "npc_fisherman"
+     * * "npc_gman"
      * * "npc_kleiner"
      * * "npc_magnusson"
-     * * "npc_eli"
+     * * "npc_monk"
      * * "npc_mossman"
+     * * "npc_odessa"
      * * "npc_vortigaunt" 
      * @param className  Class name of the entity to check 
      * @returns Is a friend 
@@ -41364,7 +41747,7 @@ declare namespace Global {
      * Either returns the material with the given name, or loads the material interpreting the first argument as the path.
      * 
      * **Note:**
-     * >When using .png or .jpg textures, make sure that their sizes are Power Of 2 (1, 2, 4, 8, 16, 32, 64, etc). If they are not, they will be automatically stretched to the nearest PO2 size and cause graphical artifacts. 
+     * >When using .png or .jpg textures, try to make their sizes Power Of 2 (1, 2, 4, 8, 16, 32, 64, etc). While images are no longer scaled to Power of 2 sizes since February 2019, it is a good practice for things like icons, etc. 
      * @param materialName  The material name or path. The path is relative to the "materials/" folder. You do not need to add "materials/" to your path.
      * 
      * To retrieve a Lua material created with `CreateMaterial`, just prepend a "!" to the material name. 
@@ -41476,7 +41859,9 @@ declare namespace Global {
     function NumDownloadables(): number;
     
     /**
-     * Returns the amount of skins the specified model has 
+     * Returns the amount of skins the specified model has.
+     * 
+     * See also `Entity.SkinCount` if you have an entity. 
      * @param modelName  Model to return amount of skins of 
      * @returns Amount of skins 
      */
@@ -41500,7 +41885,7 @@ declare namespace Global {
      * Opens a folder with the given name in the garrysmod folder using the operating system's file browser.
      * 
      * **Bug [#1532](https://github.com/Facepunch/garrysmod-issues/issues/1532):**
-     * >Currently broken on macOS and Linux. 
+     * >This does not work on OSX or Linux. 
      * @param folder  The subdirectory to open in the garrysmod folder. 
      */
     function OpenFolder(folder: string): void;
@@ -41587,6 +41972,9 @@ declare namespace Global {
      * 
      * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
      * >Using this function with `include` will break autorefresh.
+     * 
+     * **Bug [#2036](https://github.com/Facepunch/garrysmod-issues/issues/2036):**
+     * >This cannot stop errors from hooks called from the engine.
      * 
      * **Bug [#2498](https://github.com/Facepunch/garrysmod-issues/issues/2498):**
      * >This does not stop `Error` and `ErrorNoHalt` from sending error messages to the server (if called clientside) or calling the `GM.OnLuaError` hook. The success boolean returned will always return true and thus you will not get the error message returned. `error` does not exhibit these behaviours.
@@ -41728,10 +42116,13 @@ declare namespace Global {
      * **Note:**
      * >This is "not" synchronised or affected by the game.
      * 
+     * **Note:**
+     * >This will be affected by precision loss if the uptime is more than 30+(?) days, and effectively cease to be functional after 50+(?) days.
+     * 
      * You should use this function (or SysTime) for timing real-world events such as user interaction, but not for timing game events such as animations.
      * 
      * See also: `CurTime`, `SysTime` 
-     * @returns Uptime of the server. 
+     * @returns Uptime of the game/server. 
      */
     function RealTime(): number;
     
@@ -41755,9 +42146,8 @@ declare namespace Global {
     function RegisterDermaMenuForClose(menu: Panel): void;
     
     /**
-     * Saves position of your cursor on screen. You can restore it by using `RestoreCursorPosition`.
-     * 
-     * Despite this function being available on server, it will not do anything on server. 
+     * Saves position of your cursor on screen. You can restore it by using
+     * `RestoreCursorPosition`. 
      */
     function RememberCursorPosition(): void;
     
@@ -41811,9 +42201,7 @@ declare namespace Global {
     function require(name: string): void;
     
     /**
-     * Restores position of your cursor on screen. You can save it by using `RememberCursorPosition`.
-     * 
-     * Despite this function being available on server, it will not do anything on server. 
+     * Restores position of your cursor on screen. You can save it by using `RememberCursorPosition`. 
      */
     function RestoreCursorPosition(): void;
     
@@ -42372,6 +42760,9 @@ declare namespace Global {
      * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
      * >Using this function with `include` will break autorefresh.
      * 
+     * **Bug [#2036](https://github.com/Facepunch/garrysmod-issues/issues/2036):**
+     * >This cannot stop errors from hooks called from the engine.
+     * 
      * **Bug [#2498](https://github.com/Facepunch/garrysmod-issues/issues/2498):**
      * >This does not stop `Error` and `ErrorNoHalt` from sending error messages to the server (if called clientside) or calling the `GM.OnLuaError` hook. The success boolean returned will always return true and thus you will not get the error message returned. `error` does not exhibit these behaviours.
      * 
@@ -42570,7 +42961,7 @@ declare function ClientsideModel(model: string, renderGroup?: RENDERGROUP): CSEn
  * 
  * **Warning:**
  * >Model must be precached with `util.PrecacheModel` on the server before usage. 
- * @param renderGroup [=RENDER_GROUP_OPAQUE] The `RENDERGROUP` to assign. 
+ * @param renderGroup [=RENDERGROUP_OPAQUE] The `RENDERGROUP` to assign. 
  * @returns The newly created client-side ragdoll. ( C_ClientRagdoll ) 
  */
 declare function ClientsideRagdoll(model: string, renderGroup?: RENDERGROUP): CSEnt;
@@ -42782,7 +43173,7 @@ declare function DebugInfo(slot: number, info: string): void;
 declare function DEFINE_BASECLASS(name: string): table;
 
 /**
- * Retrieves data from a gamemode to use in yours. This also sets a BaseClass field on your GM table to the gamemode you are deriving from. It appears that this function works by running the init and cl_init Lua files of the target gamemode, then overriding functions that appear in both the target and your gamemode with your gamemode's functions. 
+ * Loads and registers the specified gamemode, setting the GM table's DerivedFrom field to the value provided, if the table exists. The DerivedFrom field is used post-gamemode-load as the "derived" parameter for `gamemode.Register`. 
  * @param base  Gamemode name to derive from. 
  */
 declare function DeriveGamemode(base: string): void;
@@ -42943,7 +43334,9 @@ declare function DrawBackground(): void;
 declare function DrawBloom(Darken: number, Multiply: number, SizeX: number, SizeY: number, Passes: number, ColorMultiply: number, Red: number, Green: number, Blue: number): void;
 
 /**
- * Draws the Color Modify shader, which can be used to adjust colors on screen. 
+ * Draws the Color Modify shader, which can be used to adjust colors on screen.
+ * 
+ * [[Category:Post_Processing]] 
  * @param modifyParameters  Color modification parameters. See {{ShaderLink|g_colourmodify}} and the example below. Note that if you leave out a field, it will retain its last value which may have changed if another caller uses this function. 
  */
 declare function DrawColorModify(modifyParameters: table): void;
@@ -43035,10 +43428,7 @@ declare function EffectData(): CEffectData;
 declare function Either(condition: any, truevar: any, falsevar: any): any;
 
 /**
- * Plays a sentence from scripts/sentences.txt
- * 
- * **Bug:**
- * >FIXED IN NEXT UPDATE: Seems to work only on serverside. 
+ * Plays a sentence from scripts/sentences.txt 
  * @param soundName  The sound to play 
  * @param position  The position to play at 
  * @param entity  The entity to emit the sound from. Must be `Entity.EntIndex` 
@@ -43080,7 +43470,10 @@ declare function EndTooltip(panel: Panel): void;
 
 /**
  * Throws a Lua error and breaks out of the current call stack. 
- * @param message  The error message to throw. 
+ * @param message  The error message to throw.
+ * 
+ * **Bug [#1300](https://github.com/Facepunch/garrysmod-issues/issues/1300):**
+ * >Request=1300 
  * @param errorLevel [=1] The level to throw the error at. 
  */
 declare function error(message: string, errorLevel?: number): void;
@@ -43508,24 +43901,28 @@ declare function IsColor(Object: any): boolean;
  * Returns if the given NPC class name is an enemy.
  * 
  * Returns true if the entity name is one of the following:
- * * "npc_combine_s"
- * * "npc_cscanner"
- * * "npc_manhack"
- * * "npc_hunter"
  * * "npc_antlion"
  * * "npc_antlionguard"
- * * "npc_antlion_worker"
- * * "npc_fastzombie_torso"
+ * * "npc_antlionguardian"
+ * * "npc_barnacle"
+ * * "npc_breen"
+ * * "npc_clawscanner"
+ * * "npc_combine_s"
+ * * "npc_cscanner"
  * * "npc_fastzombie"
+ * * "npc_fastzombie_torso"
  * * "npc_headcrab"
  * * "npc_headcrab_fast"
- * * "npc_poisonzombie"
  * * "npc_headcrab_poison"
+ * * "npc_hunter"
+ * * "npc_metropolice"
+ * * "npc_manhack"
+ * * "npc_poisonzombie"
+ * * "npc_strider"
+ * * "npc_stalker"
  * * "npc_zombie"
  * * "npc_zombie_torso"
- * * "npc_zombine"
- * * "npc_gman"
- * * "npc_breen" 
+ * * "npc_zombine" 
  * @param className  Class name of the entity to check 
  * @returns Is an enemy 
  */
@@ -43562,14 +43959,18 @@ declare function IsFirstTimePredicted(): boolean;
  * Returns if the given NPC class name is a friend.
  * 
  * Returns true if the entity name is one of the following:
- * * "npc_monk"
  * * "npc_alyx"
  * * "npc_barney"
  * * "npc_citizen"
+ * * "npc_dog"
+ * * "npc_eli"
+ * * "npc_fisherman"
+ * * "npc_gman"
  * * "npc_kleiner"
  * * "npc_magnusson"
- * * "npc_eli"
+ * * "npc_monk"
  * * "npc_mossman"
+ * * "npc_odessa"
  * * "npc_vortigaunt" 
  * @param className  Class name of the entity to check 
  * @returns Is a friend 
@@ -43868,7 +44269,9 @@ declare function next(tab: table, prevKey?: any): [any, any];
 declare function NumDownloadables(): number;
 
 /**
- * Returns the amount of skins the specified model has 
+ * Returns the amount of skins the specified model has.
+ * 
+ * See also `Entity.SkinCount` if you have an entity. 
  * @param modelName  Model to return amount of skins of 
  * @returns Amount of skins 
  */
@@ -43892,7 +44295,7 @@ declare function OnModelLoaded(modelName: string, numPostParams: number, numSeq:
  * Opens a folder with the given name in the garrysmod folder using the operating system's file browser.
  * 
  * **Bug [#1532](https://github.com/Facepunch/garrysmod-issues/issues/1532):**
- * >Currently broken on macOS and Linux. 
+ * >This does not work on OSX or Linux. 
  * @param folder  The subdirectory to open in the garrysmod folder. 
  */
 declare function OpenFolder(folder: string): void;
@@ -43979,6 +44382,9 @@ declare function Path(type: string): PathFollower;
  * 
  * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
  * >Using this function with `include` will break autorefresh.
+ * 
+ * **Bug [#2036](https://github.com/Facepunch/garrysmod-issues/issues/2036):**
+ * >This cannot stop errors from hooks called from the engine.
  * 
  * **Bug [#2498](https://github.com/Facepunch/garrysmod-issues/issues/2498):**
  * >This does not stop `Error` and `ErrorNoHalt` from sending error messages to the server (if called clientside) or calling the `GM.OnLuaError` hook. The success boolean returned will always return true and thus you will not get the error message returned. `error` does not exhibit these behaviours.
@@ -44103,10 +44509,13 @@ declare function RealFrameTime(): number;
  * **Note:**
  * >This is "not" synchronised or affected by the game.
  * 
+ * **Note:**
+ * >This will be affected by precision loss if the uptime is more than 30+(?) days, and effectively cease to be functional after 50+(?) days.
+ * 
  * You should use this function (or SysTime) for timing real-world events such as user interaction, but not for timing game events such as animations.
  * 
  * See also: `CurTime`, `SysTime` 
- * @returns Uptime of the server. 
+ * @returns Uptime of the game/server. 
  */
 declare function RealTime(): number;
 
@@ -44130,9 +44539,8 @@ declare function RecordDemoFrame(): void;
 declare function RegisterDermaMenuForClose(menu: Panel): void;
 
 /**
- * Saves position of your cursor on screen. You can restore it by using `RestoreCursorPosition`.
- * 
- * Despite this function being available on server, it will not do anything on server. 
+ * Saves position of your cursor on screen. You can restore it by using
+ * `RestoreCursorPosition`. 
  */
 declare function RememberCursorPosition(): void;
 
@@ -44186,9 +44594,7 @@ declare function RenderSuperDoF(viewOrigin: Vector, viewAngles: Angle, viewFOV: 
 declare function require(name: string): void;
 
 /**
- * Restores position of your cursor on screen. You can save it by using `RememberCursorPosition`.
- * 
- * Despite this function being available on server, it will not do anything on server. 
+ * Restores position of your cursor on screen. You can save it by using `RememberCursorPosition`. 
  */
 declare function RestoreCursorPosition(): void;
 
@@ -44732,6 +45138,9 @@ declare function WorldToLocal(position: Vector, angle: Angle, newSystemOrigin: V
  * 
  * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
  * >Using this function with `include` will break autorefresh.
+ * 
+ * **Bug [#2036](https://github.com/Facepunch/garrysmod-issues/issues/2036):**
+ * >This cannot stop errors from hooks called from the engine.
  * 
  * **Bug [#2498](https://github.com/Facepunch/garrysmod-issues/issues/2498):**
  * >This does not stop `Error` and `ErrorNoHalt` from sending error messages to the server (if called clientside) or calling the `GM.OnLuaError` hook. The success boolean returned will always return true and thus you will not get the error message returned. `error` does not exhibit these behaviours.
@@ -46704,9 +47113,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link SANDBOX#SpawnMenuEnabled} 
+     * @param func  see { @link GM#PlayerInitialSpawn} 
      */
-    function Add(eventName: "SpawnMenuEnabled", identifier: string | table | Entity | Panel | number | boolean, func: () => void | boolean): void;
+    function Add(eventName: "PlayerInitialSpawn", identifier: string | table | Entity | Panel | number | boolean, func: (player: Player) => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -46716,9 +47125,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#PlayerInitialSpawn} 
+     * @param func  see { @link GM#PlayerHurt} 
      */
-    function Add(eventName: "PlayerInitialSpawn", identifier: string | table | Entity | Panel | number | boolean, func: (player: Player) => void): void;
+    function Add(eventName: "PlayerHurt", identifier: string | table | Entity | Panel | number | boolean, func: (victim: Player, attacker: Entity, healthRemaining: number, damageTaken: number) => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -46896,9 +47305,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#EntityNetworkedVarChanged} 
+     * @param func  see { @link GM#GrabEarAnimation} 
      */
-    function Add(eventName: "EntityNetworkedVarChanged", identifier: string | table | Entity | Panel | number | boolean, func: (ent: Entity, name: string, oldval: any, newval: any) => void): void;
+    function Add(eventName: "GrabEarAnimation", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player) => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -46908,9 +47317,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#GrabEarAnimation} 
+     * @param func  see { @link GM#GravGunOnDropped} 
      */
-    function Add(eventName: "GrabEarAnimation", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player) => void): void;
+    function Add(eventName: "GravGunOnDropped", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, ent: Entity) => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -47076,9 +47485,33 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#GravGunOnDropped} 
+     * @param func  see { @link SANDBOX#SpawnMenuEnabled} 
      */
-    function Add(eventName: "GravGunOnDropped", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, ent: Entity) => void): void;
+    function Add(eventName: "SpawnMenuEnabled", identifier: string | table | Entity | Panel | number | boolean, func: () => void | boolean): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#EntityNetworkedVarChanged} 
+     */
+    function Add(eventName: "EntityNetworkedVarChanged", identifier: string | table | Entity | Panel | number | boolean, func: (ent: Entity, name: string, oldval: any, newval: any) => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#HUDAmmoPickedUp} 
+     */
+    function Add(eventName: "HUDAmmoPickedUp", identifier: string | table | Entity | Panel | number | boolean, func: (itemName: string, amount: number) => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -47091,18 +47524,6 @@ declare namespace hook {
      * @param func  see { @link GM#EntityKeyValue} 
      */
     function Add(eventName: "EntityKeyValue", identifier: string | table | Entity | Panel | number | boolean, func: (ent: Entity, key: string, value: string) => void | string): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
-     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#EntityFireBullets} 
-     */
-    function Add(eventName: "EntityFireBullets", identifier: string | table | Entity | Panel | number | boolean, func: (ent: Entity, data: Bullet) => void | boolean): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -47126,7 +47547,7 @@ declare namespace hook {
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
      * @param func  see { @link GM#AcceptInput} 
      */
-    function Add(eventName: "AcceptInput", identifier: string | table | Entity | Panel | number | boolean, func: (ent: Entity, input: string, activator: Entity, caller: Entity, value: any) => void | boolean): void;
+    function Add(eventName: "AcceptInput", identifier: string | table | Entity | Panel | number | boolean, func: (ent: Entity, input: string, activator: Entity, caller: Entity, value: string | number | boolean | undefined) => void | boolean): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -47472,45 +47893,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#PlayerHurt} 
+     * @param func  see { @link GM#EntityFireBullets} 
      */
-    function Add(eventName: "PlayerHurt", identifier: string | table | Entity | Panel | number | boolean, func: (victim: Player, attacker: Entity, healthRemaining: number, damageTaken: number) => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
-     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#HUDAmmoPickedUp} 
-     */
-    function Add(eventName: "HUDAmmoPickedUp", identifier: string | table | Entity | Panel | number | boolean, func: (itemName: string, amount: number) => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
-     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#HideTeam} 
-     */
-    function Add(eventName: "HideTeam", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
-     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#HUDDrawScoreBoard} 
-     */
-    function Add(eventName: "HUDDrawScoreBoard", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
+    function Add(eventName: "EntityFireBullets", identifier: string | table | Entity | Panel | number | boolean, func: (ent: Entity, data: Bullet) => void | boolean): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -47532,9 +47917,33 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#OnReloaded} 
+     * @param func  see { @link GM#HideTeam} 
      */
-    function Add(eventName: "OnReloaded", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
+    function Add(eventName: "HideTeam", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#HUDDrawTargetID} 
+     */
+    function Add(eventName: "HUDDrawTargetID", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#HUDDrawScoreBoard} 
+     */
+    function Add(eventName: "HUDDrawScoreBoard", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -47748,6 +48157,18 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#PlayerClassChanged} 
+     */
+    function Add(eventName: "PlayerClassChanged", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, newID: number) => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
      * @param func  see { @link GM#PlayerConnect} 
      */
     function Add(eventName: "PlayerConnect", identifier: string | table | Entity | Panel | number | boolean, func: (name: string, ip: string) => void): void;
@@ -47868,30 +48289,6 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#OnPlayerChat} 
-     */
-    function Add(eventName: "OnPlayerChat", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, text: string, teamChat: boolean, isDead: boolean) => void | boolean): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
-     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#OnPlayerChangedTeam} 
-     */
-    function Add(eventName: "OnPlayerChangedTeam", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, oldTeam: number, newTeam: number) => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
-     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
      * @param func  see { @link GM#OnPlayerHitGround} 
      */
     function Add(eventName: "OnPlayerHitGround", identifier: string | table | Entity | Panel | number | boolean, func: (player: Entity, inWater: boolean, onFloater: boolean, speed: number) => void | boolean): void;
@@ -47904,9 +48301,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#OnPhysgunFreeze} 
+     * @param func  see { @link GM#OnPlayerChat} 
      */
-    function Add(eventName: "OnPhysgunFreeze", identifier: string | table | Entity | Panel | number | boolean, func: (weapon: Entity, physobj: PhysObj, ent: Entity, ply: Player) => void | boolean): void;
+    function Add(eventName: "OnPlayerChat", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, text: string, teamChat: boolean, isDead: boolean) => void | boolean): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -47916,9 +48313,21 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#HUDDrawTargetID} 
+     * @param func  see { @link GM#OnReloaded} 
      */
-    function Add(eventName: "HUDDrawTargetID", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
+    function Add(eventName: "OnReloaded", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#OnPhysgunReload} 
+     */
+    function Add(eventName: "OnPhysgunReload", identifier: string | table | Entity | Panel | number | boolean, func: (physgun: Weapon, ply: Player) => void | boolean): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -48060,9 +48469,33 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#OnPhysgunReload} 
+     * @param func  see { @link GM#LoadGModSave} 
      */
-    function Add(eventName: "OnPhysgunReload", identifier: string | table | Entity | Panel | number | boolean, func: (physgun: Weapon, ply: Player) => void | boolean): void;
+    function Add(eventName: "LoadGModSave", identifier: string | table | Entity | Panel | number | boolean, func: (data: string, map: string, timestamp: number) => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#OnPlayerChangedTeam} 
+     */
+    function Add(eventName: "OnPlayerChangedTeam", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, oldTeam: number, newTeam: number) => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#MouthMoveAnimation} 
+     */
+    function Add(eventName: "MouthMoveAnimation", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player) => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -48084,9 +48517,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#LoadGModSave} 
+     * @param func  see { @link GM#NeedsDepthPass} 
      */
-    function Add(eventName: "LoadGModSave", identifier: string | table | Entity | Panel | number | boolean, func: (data: string, map: string, timestamp: number) => void): void;
+    function Add(eventName: "NeedsDepthPass", identifier: string | table | Entity | Panel | number | boolean, func: () => void | boolean): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -48096,9 +48529,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#Move} 
+     * @param func  see { @link GM#OnPhysgunFreeze} 
      */
-    function Add(eventName: "Move", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, mv: CMoveData) => void | boolean): void;
+    function Add(eventName: "OnPhysgunFreeze", identifier: string | table | Entity | Panel | number | boolean, func: (weapon: Entity, physobj: PhysObj, ent: Entity, ply: Player) => void | boolean): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -48144,33 +48577,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#OnEntityCreated} 
+     * @param func  see { @link GM#Move} 
      */
-    function Add(eventName: "OnEntityCreated", identifier: string | table | Entity | Panel | number | boolean, func: (entity: Entity) => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
-     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#MouthMoveAnimation} 
-     */
-    function Add(eventName: "MouthMoveAnimation", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player) => void): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
-     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#OnContextMenuOpen} 
-     */
-    function Add(eventName: "OnContextMenuOpen", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
+    function Add(eventName: "Move", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, mv: CMoveData) => void | boolean): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -48183,6 +48592,30 @@ declare namespace hook {
      * @param func  see { @link GM#OnDamagedByExplosion} 
      */
     function Add(eventName: "OnDamagedByExplosion", identifier: string | table | Entity | Panel | number | boolean, func: (ply: Player, dmginfo: CTakeDamageInfo) => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#OnEntityCreated} 
+     */
+    function Add(eventName: "OnEntityCreated", identifier: string | table | Entity | Panel | number | boolean, func: (entity: Entity) => void): void;
+    
+    /**
+     * Add a hook to be called upon the given event occurring. 
+     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
+     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
+     * 
+     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
+     * 
+     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
+     * @param func  see { @link GM#OnContextMenuClose} 
+     */
+    function Add(eventName: "OnContextMenuClose", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -48252,21 +48685,9 @@ declare namespace hook {
      * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
      * 
      * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#NeedsDepthPass} 
+     * @param func  see { @link GM#OnContextMenuOpen} 
      */
-    function Add(eventName: "NeedsDepthPass", identifier: string | table | Entity | Panel | number | boolean, func: () => void | boolean): void;
-    
-    /**
-     * Add a hook to be called upon the given event occurring. 
-     * @param eventName  The event to hook on to, see [[:Category:GM Hooks|GM Hooks]] and [[:Category:SANDBOX Hooks|Sandbox Hooks]] 
-     * @param identifier  The unique identifier, usually a string. This can be used elsewhere in the code to replace or remove the hook. The identifier "should" be unique so that you do not accidentally override some other mods hook, unless that's what you are trying to do.
-     * 
-     * The identifier can be either a `string`, or a `table`/object with an IsValid function defined such as an `Entity` or `Panel`. `number`s and `boolean`s, for example, are not allowed.
-     * 
-     * If the identifier is a table/object, it will be inserted in front of the other arguments in the callback and the hook will be called as long as it's valid. However, as soon as IsValid( identifier ) returns false, the hook will be removed. 
-     * @param func  see { @link GM#OnContextMenuClose} 
-     */
-    function Add(eventName: "OnContextMenuClose", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
+    function Add(eventName: "OnContextMenuOpen", identifier: string | table | Entity | Panel | number | boolean, func: () => void): void;
     
     /**
      * Add a hook to be called upon the given event occurring. 
@@ -48896,12 +49317,114 @@ declare class IGModAudioChannel {
 }
 
 /**
+ * A checkbox panel similar to `DCheckBox` with customizable checked state image.
+ * 
+ * Uses the `Material` panel internally.
+ * 
+ * Checked state can be obtained with "ImageCheckBox".State.
+ * 
+ * Similar to `DImageButton`. Can't have a label.
+ * 
+ * **Note:**
+ * >Will error if no material was set. 
  *
  * @pureAbstract
  *
+ * @example
+ * 
+ * local DFrame = vgui.Create( "DFrame" ) // Create DFrame
+ * DFrame:SetSize( 300, 305 ) // Set it's size
+ * DFrame:Center() // Center it
+ * DFrame:SetTitle( "Check list" ) // Set a title for it
+ * DFrame:MakePopup() // Make popup
+ * DFrame.Items = {} // Create table to store lines
+ * 
+ * local Head = DFrame:Add( "DPanel" ) // Create head line
+ * Head:Dock( TOP ) // Dock it
+ * Head:SetHeight( 20 ) // Set height
+ * 
+ * function Head:Paint( w, h )
+ * 	local completed = 0 // Variable to store amount of checked ImageCheckBox'es
+ * 
+ * 	for k, v in ipairs( DFrame.Items ) do
+ * 		if ( v.ImageCheckBox.State ) then
+ * 			completed = completed + 1 // Get ImageCheckBox'es state and count checked
+ * 		end
+ * 	end
+ * 
+ * 	draw.SimpleText( "You've completed " .. completed .. " of " .. table.Count( DFrame.Items ) .. " items", "DermaDefaultBold", w / 2, h / 2, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER ) // Draw the text
+ * end
+ * 
+ * // Convenience function to quickly add items
+ * local function addItem( text ) // Function to add line
+ * 	local RulePanel = DFrame:Add( "DPanel" ) // Create container for this item
+ * 	RulePanel:Dock( TOP ) // Dock it
+ * 	RulePanel:DockMargin( 0, 1, 0, 0 ) // Add 1 pixel spacing in between each item
+ * 	table.insert( DFrame.Items, RulePanel ) // Add to list of lines
+ * 
+ * 	local ImageCheckBox = RulePanel:Add( "ImageCheckBox" ) // Create checkbox with image
+ * 	ImageCheckBox:SetMaterial( "icon16/accept.png" ) // Set its image
+ * 	ImageCheckBox:SetWidth( 24 ) // Make the check box a bit wider than the image so it looks nicer
+ * 	ImageCheckBox:Dock( LEFT ) // Dock it
+ * 	ImageCheckBox:Set( false ) // Set unchecked
+ * 	RulePanel.ImageCheckBox = ImageCheckBox // Add reference to call
+ * 
+ * 	local DLabel = RulePanel:Add( "DLabel" ) // Create text
+ * 	DLabel:SetText( text ) // Set the text
+ * 	DLabel:Dock( FILL ) // Dock it
+ * 	DLabel:DockMargin( 5, 0, 0, 0 ) // Move the text to the right a little
+ * 	DLabel:SetTextColor( Color( 0, 0, 0 ) ) // Set text color to black
+ * end
+ * 
+ * // Adding items
+ * addItem( "Learn something" )
+ * addItem( "Do something" )
+ * addItem( "Make something" )
+ * addItem( "Create something" )
+ * addItem( "Play something" )
+ * addItem( "Test something" )
+ * addItem( "Write a really long item for testing purposes" )
+ * addItem( "Break something" )
+ * addItem( "Rebuild something" )
+ * addItem( "Release something" )
+ * 
+ * // Example of `ImageCheckBox` usage.
+ * 
+ * {{NextUpdate|TODO: Replace .Set and .state with next update functions}} 
  */
 declare class ImageCheckBox extends Button {
-
+    /**
+     * {{NextUpdate}}Returns the checked state of the `ImageCheckBox` 
+     * @returns true for checked, false otherwise 
+     */
+    public GetChecked(): boolean;
+    
+    /**
+     * Sets the checked state of the checkbox.
+     * 
+     * Checked state can be obtained by `ImageCheckBox`.State. 
+     * @param OnOff  true for checked, false otherwise 
+     */
+    public Set(OnOff: boolean): void;
+    
+    /**
+     * {{NextUpdate}}Sets the checked state of the checkbox.
+     * 
+     * Checked state can be obtained via `ImageCheckBox.GetChecked` 
+     * @param bOn  true for checked, false otherwise 
+     */
+    public SetChecked(bOn: boolean): void;
+    
+    /**
+     * Sets the material that will be visible when the `ImageCheckBox` is checked.
+     * 
+     * Internally calls `Material.SetMaterial`.
+     * 
+     * **Note:**
+     * >Will error if no material was set. 
+     * @param mat  The file path of the material to set (relative to "garrysmod/materials/"). 
+     */
+    public SetMaterial(mat: string): void;
 }
 
 /**
@@ -48917,7 +49440,7 @@ declare class IMaterial {
      * Either returns the material with the given name, or loads the material interpreting the first argument as the path.
      * 
      * **Note:**
-     * >When using .png or .jpg textures, make sure that their sizes are Power Of 2 (1, 2, 4, 8, 16, 32, 64, etc). If they are not, they will be automatically stretched to the nearest PO2 size and cause graphical artifacts. 
+     * >When using .png or .jpg textures, try to make their sizes Power Of 2 (1, 2, 4, 8, 16, 32, 64, etc). While images are no longer scaled to Power of 2 sizes since February 2019, it is a good practice for things like icons, etc. 
      * @param materialName  The material name or path. The path is relative to the "materials/" folder. You do not need to add "materials/" to your path.
      * 
      * To retrieve a Lua material created with `CreateMaterial`, just prepend a "!" to the material name. 
@@ -49298,9 +49821,7 @@ declare namespace input {
     /**
      * Returns whether a mouse key was released in the same frame this function was called.
      * 
-     * This function only works in Move hooks, and will detect mouse events even in main menu or when a typing in a text field.
-     * 
-     * {{NextUpdate}} 
+     * This function only works in Move hooks, and will detect mouse events even in main menu or when a typing in a text field. 
      * @param key  The key to test, see `MOUSE` 
      * @returns True if the mouse key was released the same frame that this function was called, false otherwise. 
      */
@@ -49977,7 +50498,7 @@ declare namespace list {
     /**
      * Returns a copy of the list stored at identifier 
      * @param identifier  The list identifier 
-     * @returns listCopy 
+     * @returns The copy of the list 
      */
     function Get(identifier: string): table;
     
@@ -50015,9 +50536,9 @@ declare namespace markup {
  */
 declare class MarkupObject {
     /**
-     * **[INTERNAL]**
+     * {{NextUpdate|This function will be removed in the next update since it breaks existing markup objects. Use `markup.Parse`, instead.}}
      * 
-     * Creates a new empty markupobject. Use `markup.Parse` instead of calling this. 
+     * {{Delete}} 
      * @returns The created object. 
      */
     public Create(): MarkupObject;
@@ -50125,7 +50646,7 @@ declare class MarkupObject {
  * // Stretch to fit
  * mat.AutoSize = false
  * 
- * // Creates a custom VMT material (using existing textures) of a Portal background with scrolling scan lines, and then displays that material in a Material panel in the center of the screen. 
+ * // Creates a custom material (using existing textures) of a Portal background with scrolling scan lines, and then displays that material in a Material panel in the center of the screen. 
  */
 declare class Material extends Button {
     /**
@@ -51121,6 +51642,13 @@ declare namespace net {
     function Broadcast(): void;
     
     /**
+     * {{NextUpdate}}Returns the amount of data left to read in the current message in bytes. Does nothing when sending data. 
+     * @returns The amount of data left to read in the current net message in bytes.
+     * Returns nil if no net message has been started. 
+     */
+    function BytesLeft(): number;
+    
+    /**
      * Returns the size of the current message in bytes. 
      * @returns The amount of bytes written to the current net message.
      * Returns nil if no net message has been started. 
@@ -51196,6 +51724,7 @@ declare namespace net {
     
     /**
      * Reads a floating point number from the received net message.
+     * 
      * **Warning:**
      * >You "must" read information in same order as you write it. 
      * @returns The floating point number, or 0 if no number could be read. 
@@ -51604,15 +52133,19 @@ declare class NextBot extends Entity {
     /**
      * Become a ragdoll and remove the entity. 
      * @param info  Damage info passed from an onkilled event 
+     * @returns The created ragdoll, if any.
+     * 
+     * {{NextUpdate}} 
      */
-    public BecomeRagdoll(info: CTakeDamageInfo): void;
+    public BecomeRagdoll(info: CTakeDamageInfo): Entity;
     
     /**
      * Called to initialize the behaviour.
      * 
-     * You shouldn't override this - it's used to kick off the coroutine that runs the bot's behaviour. 
+     * This is called automatically when the NextBot is created, you should not call it manually.
      * 
-     * This is called automatically when the NPC is created, there should be no need to call it manually. 
+     * **Note:**
+     * >You shouldn't override this unless you know what you are doing - it's used to kick off the `coroutine` that runs the bot's behaviour. See `NEXTBOT.RunBehaviour` instead. 
      */
     public BehaveStart(): void;
     
@@ -51785,6 +52318,13 @@ declare class NextBot extends Entity {
      * @param speed [=1] Playback Rate of that sequence 
      */
     public PlaySequenceAndWait(name: string, speed?: number): void;
+    
+    /**
+     * A hook called to process nextbot logic.
+     * 
+     * This hook runs in a `coroutine` by default. It will only be called if `NEXTBOT.BehaveStart` is not overriden. 
+     */
+    public RunBehaviour(): void;
     
     /**
      * Sets the solid mask for given NextBot.
@@ -52038,12 +52578,14 @@ declare class NPC extends Entity {
     public GetNPCState(): NPC_STATE;
     
     /**
-     * @returns 
+     * Returns the distance the NPC is from Target Goal. 
+     * @returns The number of hammer units the NPC is away from the Goal. 
      */
     public GetPathDistanceToGoal(): number;
     
     /**
-     * @returns 
+     * Returns the amount of time it will take for the NPC to get to its Target Goal. 
+     * @returns The amount of time to get to the target goal. 
      */
     public GetPathTimeToGoal(): number;
     
@@ -52098,7 +52640,8 @@ declare class NPC extends Entity {
     public IsMoving(): boolean;
     
     /**
-     * @returns 
+     * Checks if the NPC is running an "ai_goal". ( e.g. An npc_citizen NPC following the Player. ) 
+     * @returns Returns true if running an ai_goal, otherwise returns false. 
      */
     public IsRunningBehavior(): boolean;
     
@@ -52124,8 +52667,10 @@ declare class NPC extends Entity {
     public MarkEnemyAsEluded(): void;
     
     /**
+     * Only works on rebel NPC; it is part of the squad system. 
+     * @param vector 
      */
-    public MoveOrder(): void;
+    public MoveOrder(vector: Vector): void;
     
     /**
      * Sets the goal position for the NPC. 
@@ -52662,7 +53207,7 @@ declare class Panel {
     
     /**
      * Returns the amount of children of the of panel. 
-     * @returns childCount 
+     * @returns The amount of children the panel has. 
      */
     public ChildCount(): number;
     
@@ -52860,7 +53405,7 @@ declare class Panel {
      * **[INTERNAL]**
      * 
      *  Called by `dragndrop.HoverThink` to perform actions on an object that is dragged and hovered over another. 
-     * @param HoverTime  If this time is greater than 0.1, `Panel.DragHoverClick`, passing it as an argument. 
+     * @param HoverTime  If this time is greater than 0.1, `PANEL.DragHoverClick` is called, passing it as an argument. 
      */
     public DragHover(HoverTime: number): void;
     
@@ -53979,7 +54524,7 @@ declare class Panel {
      * 
      * **Bug [#2886](https://github.com/Facepunch/garrysmod-issues/issues/2886):**
      * >This is not run for ESC/"cancelselect" binding. 
-     * @param keyCode  They key code of the pressed key, see `KEY`. 
+     * @param keyCode  The key code of the pressed key, see `KEY`. 
      */
     public OnKeyCodePressed(keyCode: KEY): void;
     
@@ -54018,9 +54563,7 @@ declare class Panel {
     /**
      * Called when the player's screen resolution of the game changes.
      * 
-     * `ScrW` and `ScrH` will return the new values when this hook is called.
-     * 
-     * {{NextUpdate|Arguments only available in the next update.}} 
+     * `ScrW` and `ScrH` will return the new values when this hook is called. 
      * @param oldWidth  The previous width  of the game's window 
      * @param oldHeight  The previous height of the game's window 
      */
@@ -54032,9 +54575,7 @@ declare class Panel {
      * All size functions will return the new values when this hook is called.
      * 
      * **Warning:**
-     * >Changing the panel size in this hook will cause an infinite loop!
-     * 
-     * {{NextUpdate}} 
+     * >Changing the panel size in this hook will cause an infinite loop! 
      * @param newWidth  The new width of the panel 
      * @param newHeight  The new height of the panel 
      */
@@ -56008,7 +56549,7 @@ declare namespace player {
      * Gets the player with the specified uniqueID (not recommended way to identify players).
      * 
      * **Warning:**
-     * >It is highly recommended to use `player.GetBySteamID` or `player.GetBySteamID64` instead as this function can have collisions ( be same for different people ) while SteamID is guaranteed to unique to each player. 
+     * >It is highly recommended to use `player.GetByAccountID`, `player.GetBySteamID` or `player.GetBySteamID64` instead as this function can have collisions ( be same for different people ) while SteamID is guaranteed to unique to each player. 
      * @param uniqueID  The `Player.UniqueID` to find the player by. 
      * @returns Player if one is found, false otherwise. 
      */
@@ -56048,10 +56589,10 @@ declare class Player extends Entity {
     public constructor(playerIndex: number);
     
     /**
-     * Returns the player's AccountID aka 32bit SteamID.
+     * Returns the player's AccountID aka SteamID3.
      * 
      * For bots and in singleplayer, this will return no value. 
-     * @returns Player's 32bit SteamID aka AccountID. 
+     * @returns Player's SteamID3 aka AccountID. 
      */
     public AccountID(): number;
     
@@ -57040,7 +57581,10 @@ declare class Player extends Entity {
     public KeyReleased(key: IN): boolean;
     
     /**
-     * Kicks the player from the server. 
+     * Kicks the player from the server.
+     * 
+     * **Note:**
+     * >This can not be run before the player has fully joined in. Use `game.KickID` for that. 
      * @param reason [="No reason given"] Reason to show for disconnection.
      * 
      * **Warning:**
@@ -57130,7 +57674,7 @@ declare class Player extends Entity {
     
     /**
      * Returns the packet loss of the client. It is not networked so it only returns 0 when run clientside. 
-     * @returns name=packetsLost 
+     * @returns Packets lost 
      */
     public PacketLoss(): number;
     
@@ -57477,10 +58021,7 @@ declare class Player extends Entity {
     public SetMaxSpeed(walkSpeed: number): void;
     
     /**
-     * Sets if the player should be muted locally.
-     * 
-     * **Bug [#3616](https://github.com/Facepunch/garrysmod-issues/issues/3616):**
-     * >This only works correctly for the first 32 players. Using this function on players with a [[Player/UserID|UserID]] 32 or above will apply the muting to the user with ID % 32. For example, `Player`(54):SetMuted(true) will actually mute player 22 since 54 % 32 {{eq}} 22. 
+     * Sets if the player should be muted locally. 
      * @param mute  Mute or unmute. 
      */
     public SetMuted(mute: boolean): void;
@@ -57741,6 +58282,8 @@ declare class Player extends Entity {
      * 
      * In singleplayer, this will return no value serverside.
      * 
+     * In a multirun environment, this will return no value serverside for all "copies" of a player.
+     * 
      * For bots, this will return 90071996842377216 (equivalent to STEAM_0:0:0) for the first bot to join.
      * 
      * For each additional bot, the number increases by 1. So the next bot will be 90071996842377217 (STEAM_0:1:0) then 90071996842377218 (STEAM_0:0:1) and so on.
@@ -57822,7 +58365,10 @@ declare class Player extends Entity {
     public TimeConnected(): number;
     
     /**
-     * Performs a trace hull and applies damage to the entities hit, returns the first entity hit. 
+     * Performs a trace hull and applies damage to the entities hit, returns the first entity hit.
+     * 
+     * **Warning:**
+     * >Hitting the victim entity with this function in `ENTITY.OnTakeDamage` can cause infinite loops. 
      * @param startPos  The start position of the hull trace. 
      * @param endPos  The end position of the hull trace. 
      * @param mins  The minimum coordinates of the hull. 
@@ -58694,9 +59240,9 @@ declare namespace render {
      * @param width  The width of the beam. 
      * @param textureStart  The start coordinate of the texture used. 
      * @param textureEnd  The end coordinate of the texture used. 
-     * @param color  The color to be used. Uses the `Color`. 
+     * @param color [=Color( 255, 255, 255 )] The color to be used. Uses the `Color`. 
      */
-    function DrawBeam(startPos: Vector, endPos: Vector, width: number, textureStart: number, textureEnd: number, color: Color): void;
+    function DrawBeam(startPos: Vector, endPos: Vector, width: number, textureStart: number, textureEnd: number, color?: Color): void;
     
     /**
      * Draws a box in 3D space.
@@ -58706,10 +59252,9 @@ declare namespace render {
      * @param angles  Orientation of the box. 
      * @param mins  Start position of the box, relative to origin. 
      * @param maxs  End position of the box, relative to origin. 
-     * @param color  The color of the box. Uses the `Color`. 
-     * @param writeZ  Should this render call write to the depth buffer. 
+     * @param color [=Color( 255, 255, 255 )] The color of the box. Uses the `Color`. 
      */
-    function DrawBox(position: Vector, angles: Angle, mins: Vector, maxs: Vector, color: Color, writeZ: boolean): void;
+    function DrawBox(position: Vector, angles: Angle, mins: Vector, maxs: Vector, color?: Color): void;
     
     /**
      * Draws a line in 3D space.
@@ -58717,16 +59262,16 @@ declare namespace render {
      * {{RenderingContext|Function|3D}} 
      * @param startPos  Line start position in world coordinates. 
      * @param endPos  Line end position in world coordinates. 
-     * @param color  The color to be used. Uses the `Color`. 
+     * @param color [=Color( 255, 255, 255 )] The color to be used. Uses the `Color`. 
      * @param writeZ [=false] Whether or not to consider the Z buffer. If false, the line will be drawn over everything currently drawn, if true, the line will be drawn with depth considered, as if it were a regular object in 3D space.
      * 
      * **Bug [#1086](https://github.com/Facepunch/garrysmod-issues/issues/1086):**
      * >Enabling this option will cause the line to ignore the color's alpha. 
      */
-    function DrawLine(startPos: Vector, endPos: Vector, color: Color, writeZ?: boolean): void;
+    function DrawLine(startPos: Vector, endPos: Vector, color?: Color, writeZ?: boolean): void;
     
     /**
-     * Draws 2 connected triangles.
+     * Draws 2 connected triangles. Expects material to be set by `render.SetMaterial`.
      * 
      * {{RenderingContext|Function|3D}} 
      * @param vert1  First vertex. 
@@ -58746,19 +59291,23 @@ declare namespace render {
      * @param width  The width of the quad. 
      * @param height  The height of the quad. 
      * @param color  The color of the quad. Uses the `Color`. 
-     * @param rotation  The rotation of the quad in degrees. 
+     * @param rotation [=0] The rotation of the quad counter-clockwise in degrees around the normal axis. In other words, the quad will always face the same way but this will rotate its corners. 
      */
-    function DrawQuadEasy(position: Vector, normal: Vector, width: number, height: number, color: Color, rotation: number): void;
+    function DrawQuadEasy(position: Vector, normal: Vector, width: number, height: number, color: Color, rotation?: number): void;
     
     /**
-     * Draws the the current material set by `render.SetMaterial` to the whole screen.
+     * Draws the the current material set by `render.SetMaterial` to the whole screen. The color cannot be customized.
+     * 
+     * See also `render.DrawScreenQuadEx`.
      * 
      * {{RenderingContext|Function|2D}} 
      */
     function DrawScreenQuad(): void;
     
     /**
-     * Draws the the current material set by `render.SetMaterial` to the area specified.
+     * Draws the the current material set by `render.SetMaterial` to the area specified. Color cannot be customized.
+     * 
+     * See also `render.DrawScreenQuad`.
      * 
      * {{RenderingContext|Function|2D}} 
      * @param startX  X start position of the rect. 
@@ -58783,15 +59332,15 @@ declare namespace render {
     function DrawSphere(position: Vector, radius: number, longitudeSteps: number, latitudeSteps: number, color?: Color): void;
     
     /**
-     * Draws a sprite in 3d space.
+     * Draws a sprite in 3D space.
      * 
      * {{RenderingContext|Function|3D}} 
      * @param position  Position of the sprite. 
      * @param width  Width of the sprite. 
      * @param height  Height of the sprite. 
-     * @param color  Color of the sprite. Uses the `Color`. 
+     * @param color [=Color( 255, 255, 255 )] Color of the sprite. Uses the `Color`. 
      */
-    function DrawSprite(position: Vector, width: number, height: number, color: Color): void;
+    function DrawSprite(position: Vector, width: number, height: number, color?: Color): void;
     
     /**
      * Draws a texture over the whole screen.
@@ -58821,10 +59370,10 @@ declare namespace render {
      * @param angle  Angles of the box. 
      * @param mins  The lowest corner of the box. 
      * @param maxs  The highest corner of the box. 
-     * @param color  The color of the box. Uses the `Color`. 
+     * @param color [=Color( 255, 255, 255 )] The color of the box. Uses the `Color`. 
      * @param writeZ [=false] Sets whenever to write to the zBuffer. 
      */
-    function DrawWireframeBox(position: Vector, angle: Angle, mins: Vector, maxs: Vector, color: Color, writeZ?: boolean): void;
+    function DrawWireframeBox(position: Vector, angle: Angle, mins: Vector, maxs: Vector, color?: Color, writeZ?: boolean): void;
     
     /**
      * Draws a wireframe sphere in 3d space.
@@ -60064,7 +60613,10 @@ declare class SANDBOX extends Gamemode {
     /**
      * Controls if a property can be used or not. 
      * @param ply  Player, that tried to use the property 
-     * @param property  Class of the property that is tried to use, for example - bonemanipulate 
+     * @param property  Class of the property that is tried to use, for example - bonemanipulate
+     * 
+     * **Warning:**
+     * >This is not guaranteed to be the internal property name used in `properties.Add`! 
      * @param ent  The entity, on which property is tried to be used on 
      * @returns Return false to disallow using that property 
      */
@@ -60439,13 +60991,13 @@ declare namespace saverestore {
  */
 declare class Schedule {
     /**
-     * {{Stub}} Adds a task to the schedule.
+     * Adds a task to the schedule.
      * 
-     * See also `NPC.StartEngineTask` and `NPC.RunEngineTask`. 
-     * @param taskname  Task name, see [https://github.com/ValveSoftware/source-sdk-2013/blob/55ed12f8d1eb6887d348be03aee5573d44177ffb/mp/src/game/server/ai_task.h#L89-L502 ai_task.h] 
-     * @param taskdata  Task data as a float 
+     * See also `ENTITY.StartSchedule`, `NPC.StartEngineTask`, and `NPC.RunEngineTask`. 
+     * @param taskname  Custom task name 
+     * @param taskdata  Task data to be passed into the NPC's functions 
      */
-    public AddTask(taskname: string, taskdata: number): void;
+    public AddTask(taskname: string, taskdata: any): void;
     
     /**
      * @param start 
@@ -60456,8 +61008,8 @@ declare class Schedule {
     
     /**
      * Adds an engine task to the schedule. 
-     * @param taskname  Task name. 
-     * @param taskdata  Task data. 
+     * @param taskname  Task name, see [https://github.com/ValveSoftware/source-sdk-2013/blob/55ed12f8d1eb6887d348be03aee5573d44177ffb/mp/src/game/server/ai_task.h#L89-L502 ai_task.h] 
+     * @param taskdata  Task data, can be a float. 
      */
     public EngTask(taskname: string, taskdata: number): void;
     
@@ -60623,6 +61175,8 @@ declare namespace serverlist {
 }
 
 /**
+ * Used as scroll bar for `PanelList`**Deprecated:**
+ * >Used in deprecated  `PanelList`. Use `DVScrollBar` (Used in `DScrollPanel`). 
  *
  * @pureAbstract
  *
@@ -61077,6 +61631,9 @@ declare namespace spawnmenu {
     function AddToolTab(name: string, label?: string, icon?: string): void;
     
     /**
+     * Clears all the tools from the different tool categories and the categories itself, if ran at the correct place.
+     * 
+     * Seems to only work when ran at initialization. 
      */
     function ClearToolMenus(): void;
     
@@ -61325,7 +61882,8 @@ declare namespace steamworks {
     /**
      * Retrieves info about supplied Steam Workshop addon. 
      * @param workshopItemID  The ID of Steam Workshop item. 
-     * @param resultCallback  The function to process retrieved data. The first and only argument is a table, containing all the info. 
+     * @param resultCallback  The function to process retrieved data, with the following arguments:
+     * * `data: table` The data about the item, if the request succeeded, nil otherwise. See `UGCFileInfo`. 
      */
     function FileInfo(workshopItemID: string, resultCallback: Function): void;
     
@@ -62041,9 +62599,7 @@ declare namespace surface {
     function DrawTexturedRectUV(x: number, y: number, width: number, height: number, startU: number, startV: number, endU: number, endV: number): void;
     
     /**
-     * Returns the current alpha multiplier affecting drawing operations.
-     * 
-     * {{NextUpdate}} 
+     * Returns the current alpha multiplier affecting drawing operations. 
      * @returns The multiplier ranging from 0 to 1. 
      */
     function GetAlphaMultiplier(): number;
@@ -62052,9 +62608,7 @@ declare namespace surface {
      * Returns the current color affecting draw operations.
      * 
      * **Bug [#2407](https://github.com/Facepunch/garrysmod-issues/issues/2407):**
-     * >The returned color will not have the color metatable.
-     * 
-     * {{NextUpdate}} 
+     * >The returned color will not have the color metatable. 
      * @returns The color that drawing operations will use as a `Color`. 
      */
     function GetDrawColor(): Color;
@@ -62070,9 +62624,7 @@ declare namespace surface {
      * Returns the current color affecting text draw operations.
      * 
      * **Bug [#2407](https://github.com/Facepunch/garrysmod-issues/issues/2407):**
-     * >The returned color will not have the color metatable.
-     * 
-     * {{NextUpdate}} 
+     * >The returned color will not have the color metatable. 
      * @returns The color that text drawing operations will use as a `Color`. 
      */
     function GetTextColor(): Color;
@@ -62546,6 +63098,13 @@ declare namespace table {
      * @returns The index the object was placed at. 
      */
     function insert(tbl: table, position?: number, value?: any): number;
+    
+    /**
+     * {{NextUpdate}}Returns whether or not the given table is empty 
+     * @param tab  Table to check 
+     * @returns Is empty 
+     */
+    function IsEmpty(tab: table): boolean;
     
     /**
      * Returns whether or not the table's keys are sequential 
@@ -63624,10 +64183,7 @@ declare class TOOL {
     public RightClick(tr: TraceResult): boolean;
     
     /**
-     * Called when `WEAPON.Think` of the toolgun is called. This only happens when the tool gun is currently equipped/selected by the player and the selected tool is this tool.
-     * 
-     * **Bug [#3682](https://github.com/Facepunch/garrysmod-issues/issues/3682):**
-     * >Pull=1547 
+     * Called when `WEAPON.Think` of the toolgun is called. This only happens when the tool gun is currently equipped/selected by the player and the selected tool is this tool. 
      */
     public Think(): void;
 }
@@ -64418,11 +64974,17 @@ declare namespace util {
     
     /**
      * Makes the screen shake 
-     * @param pos  The origin of the effect 
+     * @param pos  The origin of the effect.
+     * 
+     * **Note:**
+     * >Does nothing on client. 
      * @param amplitude  The strength of the effect 
      * @param frequency  The frequency of the effect in hz 
      * @param duration  The duration of the effect in seconds 
-     * @param radius  The range from the origin within which views will be affected, in Hammer Units 
+     * @param radius  The range from the origin within which views will be affected, in Hammer Units
+     * 
+     * **Note:**
+     * >Does nothing on client. 
      */
     function ScreenShake(pos: Vector, amplitude: number, frequency: number, duration: number, radius: number): void;
     
@@ -64503,7 +65065,7 @@ declare namespace util {
      * >This will produce invalid JSON if the provided table contains nan or inf values. 
      * @param table  Table to convert. 
      * @param prettyPrint [=false] Format and indent the JSON. 
-     * @returns JSON 
+     * @returns A JSON formatted string containing the serialized data 
      */
     function TableToJSON(table: table, prettyPrint?: boolean): string;
     
@@ -64804,13 +65366,15 @@ declare class Vector {
     public Sub(vector: Vector): void;
     
     /**
-     * Translates the vector normalized vector ( length is 1 ) into a `Color`.
+     * Translates the `Vector` (values ranging from 0 to 1) into a `Color`. This will also range the values from 0 - 1 to 0 - 255.
      * 
      * x * 255 -> r
      * 
      * y * 255 -> g
      * 
-     * z * 255 -> b 
+     * z * 255 -> b
+     * 
+     * This is the opposite of `Color.ToVector` 
      * @returns The created `Color`. 
      */
     public ToColor(): Color;
@@ -65165,8 +65729,11 @@ declare class Vehicle extends Entity {
     public SetWheelFriction(wheel: number, friction: number): void;
     
     /**
-     * Starts or stops the engine. 
-     * @param start  True to start, false to stop 
+     * Starts or stops the engine.
+     * 
+     * **Bug [#3690](https://github.com/Facepunch/garrysmod-issues/issues/3690):**
+     * >This will crash the game when used in `GM.PlayerEnteredVehicle` with certain vehicles. 
+     * @param start  True to start, false to stop. 
      */
     public StartEngine(start: boolean): void;
 }
@@ -65577,14 +66144,14 @@ declare class Weapon extends Entity {
      * @tupleReturn
      *
      * Allows overriding the position and angle of the viewmodel. This hook only works if you haven't overridden `GM.CalcViewModelView`. 
-     * @param vm  The viewmodel entity 
-     * @param oldPos  Original position (before viewmodel bobbing and swaying) 
-     * @param oldAng  Original angle (before viewmodel bobbing and swaying) 
-     * @param pos  Current position 
-     * @param ang  Current angle 
+     * @param ViewModel  The viewmodel entity 
+     * @param OldEyePos  Original position (before viewmodel bobbing and swaying) 
+     * @param OldEyeAng  Original angle (before viewmodel bobbing and swaying) 
+     * @param EyePos  Current position 
+     * @param EyeAng  Current angle 
      * @returns [New position, New angle] 
      */
-    public CalcViewModelView(vm: Entity, oldPos: Vector, oldAng: Angle, pos: Vector, ang: Angle): [Vector, Angle];
+    public CalcViewModelView(ViewModel: Entity, OldEyePos: Vector, OldEyeAng: Angle, EyePos: Vector, EyeAng: Angle): [Vector, Angle];
     
     /**
      * Calls a SWEP function on client.
@@ -65832,11 +66399,11 @@ declare class Weapon extends Entity {
      * @tupleReturn
      *
      * This hook allows you to adjust view model position and angles. 
-     * @param pos  Current position 
-     * @param ang  Current angle 
+     * @param EyePos  Current position 
+     * @param EyeAng  Current angle 
      * @returns [New position, New angle] 
      */
-    public GetViewModelPosition(pos: Vector, ang: Angle): [Vector, Angle];
+    public GetViewModelPosition(EyePos: Vector, EyeAng: Angle): [Vector, Angle];
     
     /**
      * Returns the view model of the weapon. 
