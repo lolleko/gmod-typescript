@@ -6,6 +6,8 @@ Intended for use with https://typescripttolua.github.io
 
 - Updated to use new Facepunch wiki as source
 - Updated to latest tstl version (requires 0.38.0 or higher)
+- Types can now be augmented using data based transformers
+    - If you want to help improve the declarations make a PR for `modfications.json` 
 
 ### TODO
 
@@ -27,7 +29,7 @@ Intended for use with https://typescripttolua.github.io
 #### Program structure
 
 - Scrapper
-    - Fetching wiki data
+    - Fetch wiki data
     - Conversion of wiki xml to [Wiki Objects](./src/wiki_types.ts)
 - Transformer
     - Transforms extracted wiki objects to [Typed Objects](./src/ts_types.ts)
