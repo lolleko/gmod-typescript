@@ -1,0 +1,101 @@
+{
+    "ContentIcon": [
+        {
+            "kind": "OmitParentField",
+            "omit": "SetMaterial"
+        }
+    ],
+    "DCategoryList": [
+        {
+            "kind": "OmitParentField",
+            "omit": "Add"
+        }
+    ],
+    "DCollapsibleCategory": [
+        {
+            "kind": "OmitParentField",
+            "omit": "Add"
+        }
+    ],
+    "DColorButton": [
+        {
+            "kind": "OmitParentField",
+            "omit": "SetColor"
+        }
+    ],
+    "DHTMLControls": [
+        {
+            "kind": "OmitParentField",
+            "omit": "SetHTML"
+        }
+    ],
+    "DImage": [
+        {
+            "kind": "OmitParentField",
+            "omit": "PaintAt"
+        }
+    ],
+    "DImageButton": [
+        {
+            "kind": "OmitParentField",
+            "omit": "SetImage"
+        }
+    ],
+    "DNumberWang": [
+        {
+            "kind": "OmitParentField",
+            "omit": "SetValue"
+        }
+    ],
+    "DProperty_Combo": [
+        {
+            "kind": "OmitParentField",
+            "omit": "SetSelected"
+        }
+    ],
+    "IconEditor": [
+        {
+            "kind": "OmitParentField",
+            "omit": "SetIcon"
+        }
+    ],
+    "Enums/PLAYER": [
+        {
+            "kind": "RenameIndentifier",
+            "newName": "PLAYERANIM"
+        }
+    ],
+    "util": [
+        {
+            "kind": "InnerNamespace",
+            "prefix": "worldpicker"
+        }
+    ],
+    "jit": [
+        {
+            "kind": "InnerNamespace",
+            "prefix": "opt"
+        },
+        {
+            "kind": "InnerNamespace",
+            "prefix": "util"
+        }
+    ],
+    "file.Open": [
+        {
+            "kind": "ModifyReturn",
+            "return": {
+                "type": "File"
+            }
+        }
+    ],
+    "spawnmenu.AddContentType": [
+        {
+            "kind": "ModifiyArgument",
+            "arg": {
+                "identifier": "constructor",
+                "type": "(pnl: Panel, tbl: any) => void"
+            }
+        }
+    ]
+}
