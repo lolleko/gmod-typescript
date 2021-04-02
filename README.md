@@ -1,5 +1,7 @@
 ## Typescript Declarations for Gmod
 
+Intended for use with https://typescripttolua.github.io
+
 ### What's new
 
 - Updated to use new Facepunch wiki as source
@@ -12,7 +14,7 @@
 
 ### Usage
 
-1. Drop the files from `out` into your tyeposcript project
+1. Drop the files from `out` into your typescript project
 2. modify the tsconfig, add the declaration files to your `types` or `typeRoots`
 
 ### Development
