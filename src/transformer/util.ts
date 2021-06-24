@@ -9,7 +9,7 @@ export function transformType(type: string) {
         .replace(/(\w) (\w)/g, "$1_$2");
 }
 
-export function transformIdentifier(id: string) {
+export function transformIdentifier(id: string, type?: string) {
     if (id == "constructor") {
         return "constructor";
     }
@@ -20,6 +20,7 @@ export function transformIdentifier(id: string) {
         default: "default_",
         new: "new_",
     };
+
     if (invalidIDMap[id]) {
         return invalidIDMap[id];
     }
@@ -29,12 +30,12 @@ export function transformIdentifier(id: string) {
     if (id === "...") {
         return "vararg";
     }
+
     return (
-        id
+        (type == "vararg" ? "..." : "") + id
             .replace(/\./g, "")
             // https://wiki.facepunch.com/gmod/Structures/PropertyAdd StructureField (Order)
             .replace(/\(.*\)/g, "")
-            .replace(/\//g, "_")
-            .replace(/ /g, "_")
+            .replace(/[\/ ]/g, "_")
     );
 }

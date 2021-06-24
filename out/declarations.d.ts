@@ -1074,10 +1074,46 @@ interface CMoveData {
     GetButtons(): IN;
     
     /**
-     * Returns the radius that constrains the players movement.
+     * Returns the center of the player movement constraint. See [CMoveData:SetConstraintCenter](https://wiki.facepunch.com/gmod/CMoveData:SetConstraintCenter).
+     * 
+     */
+    GetConstraintCenter(): Vector;
+    
+    /**
+     * Returns the radius that constrains the players movement. See [CMoveData:SetConstraintRadius](https://wiki.facepunch.com/gmod/CMoveData:SetConstraintRadius).
      * 
      */
     GetConstraintRadius(): number;
+    
+    /**
+     * Returns the player movement constraint speed scale. See [CMoveData:SetConstraintSpeedScale](https://wiki.facepunch.com/gmod/CMoveData:SetConstraintSpeedScale).
+     * 
+     */
+    GetConstraintSpeedScale(): number;
+    
+    /**
+     * Returns the width (distance from the edge of the radius, inward) where the actual movement constraint functions.
+     * 
+     */
+    GetConstraintWidth(): number;
+    
+    /**
+     * Returns an internal player movement variable `m_outWishVel`.
+     * 
+     */
+    GetFinalIdealVelocity(): Vector;
+    
+    /**
+     * Returns an internal player movement variable `m_outJumpVel`.
+     * 
+     */
+    GetFinalJumpVelocity(): Vector;
+    
+    /**
+     * Returns an internal player movement variable `m_outStepHeight`.
+     * 
+     */
+    GetFinalStepHeight(): number;
     
     /**
      * Returns the players forward speed.
@@ -1198,12 +1234,51 @@ interface CMoveData {
     SetButtons(buttons: IN): void;
     
     /**
+     * Sets the center of the player movement constraint. See [CMoveData:SetConstraintRadius](https://wiki.facepunch.com/gmod/CMoveData:SetConstraintRadius).
+     * @param pos - The constraint origin.
+     */
+    SetConstraintCenter(pos: Vector): void;
+    
+    /**
      * Sets the radius that constrains the players movement.
      * 
-     * It is unknown what this function does as changing its values doesn't affect player movement.
+     * Works with conjunction of:
+     * * [CMoveData:SetConstraintWidth](https://wiki.facepunch.com/gmod/CMoveData:SetConstraintWidth)
+     * * [CMoveData:SetConstraintSpeedScale](https://wiki.facepunch.com/gmod/CMoveData:SetConstraintSpeedScale)
+     * * [CMoveData:SetConstraintCenter](https://wiki.facepunch.com/gmod/CMoveData:SetConstraintCenter)
      * @param radius - The new constraint radius
      */
     SetConstraintRadius(radius: number): void;
+    
+    /**
+     * Sets the player movement constraint speed scale. This will be applied to the player within the <page text="constraint radius">CMoveData:SetConstraintRadius</page> when approaching its edge.
+     * @param __unnamedArg - The constraint speed scale
+     */
+    SetConstraintSpeedScale(__unnamedArg: number): void;
+    
+    /**
+     * Sets  the width (distance from the edge of the <page text="radius">CMoveData:SetConstraintRadius</page>, inward) where the actual movement constraint functions.
+     * @param __unnamedArg - The constraint width
+     */
+    SetConstraintWidth(__unnamedArg: number): void;
+    
+    /**
+     * Sets an internal player movement variable `m_outWishVel`.
+     * @param idealVel - 
+     */
+    SetFinalIdealVelocity(idealVel: Vector): void;
+    
+    /**
+     * Sets an internal player movement variable `m_outJumpVel`.
+     * @param jumpVel - 
+     */
+    SetFinalJumpVelocity(jumpVel: Vector): void;
+    
+    /**
+     * Sets an internal player movement variable `m_outStepHeight`.
+     * @param stepHeight - 
+     */
+    SetFinalStepHeight(stepHeight: number): void;
     
     /**
      * Sets players forward speed.
@@ -1430,7 +1505,7 @@ interface CNavArea {
      * Returns the attribute mask for the given [CNavArea](https://wiki.facepunch.com/gmod/CNavArea).
      * 
      */
-    GetAttributes(): boolean;
+    GetAttributes(): number;
     
     /**
      * Returns the center most vector point for the given [CNavArea](https://wiki.facepunch.com/gmod/CNavArea).
@@ -1777,8 +1852,9 @@ interface CNavArea {
     /**
      * Sets the new parent of this [CNavArea](https://wiki.facepunch.com/gmod/CNavArea).
      * @param parent - The new parent to set
+     * @param how - How we get from parent to us using [Enums/NavTraverseType](https://wiki.facepunch.com/gmod/Enums/NavTraverseType)
      */
-    SetParent(parent: CNavArea): void;
+    SetParent(parent: CNavArea, how: NavTraverseType): void;
     
     /**
      * Sets the Place of the nav area.
@@ -3163,7 +3239,7 @@ interface Entity {
      * @param removeFunc - Function to be called on remove
      * @param argn - Optional arguments to pass to removeFunc. Do note that the first argument passed to the function will always be the entity being removed, and the arguments passed on here start after that.
      */
-    CallOnRemove(identifier: string, removeFunc: Function, argn: any[]): void;
+    CallOnRemove(identifier: string, removeFunc: Function, ...argn: any[]): void;
     
     /**
      * Resets all pose parameters such as aim_yaw, aim_pitch and rotation.
@@ -3570,9 +3646,9 @@ interface Entity {
     GetAttachment(attachmentId: number): AngPos;
     
     /**
-     * Returns a table containing all attachments of the given entitys model.
+     * Returns a table containing all attachments of the given entity's model.
      * 
-     * Returns an empty table or **nil** in case it's model has no attachments.
+     * Returns an empty table or **nil** in case its model has no attachments.
      * 
      * **Bug [#3167](https://github.com/Facepunch/garrysmod-issues/issues/3167):**
      * >This can have inconsistent results in single-player.
@@ -3621,7 +3697,7 @@ interface Entity {
     
     /**
      * Returns the contents of the specified bone.
-     * @param bone - The bone id. See [Entity:LookupBone](https://wiki.facepunch.com/gmod/Entity:LookupBone).
+     * @param bone - The bone id, starting at index 0. See [Entity:LookupBone](https://wiki.facepunch.com/gmod/Entity:LookupBone).
      */
     GetBoneContents(bone: number): CONTENTS;
     
@@ -3656,14 +3732,14 @@ interface Entity {
      * **Bug [#3285](https://github.com/Facepunch/garrysmod-issues/issues/3285):**
      * >This can return garbage serverside or a 0,0,0 fourth column (represents position) for v49 models.
      * 
-     * @param boneID - The bone to retrieve matrix of.
+     * @param boneID - The bone ID to retrieve matrix of, starting at index 0.
      * * Bones clientside and serverside will differ
      */
     GetBoneMatrix(boneID: number): VMatrix;
     
     /**
      * Returns name of given bone id.
-     * @param index - ID of bone to lookup name of.
+     * @param index - ID of bone to lookup name of, starting at index 0.
      */
     GetBoneName(index: number): string;
     
@@ -3673,7 +3749,7 @@ interface Entity {
      * **Note:**
      * >Will return -1 for [Global.ClientsideModel](https://wiki.facepunch.com/gmod/Global.ClientsideModel) until [Entity:SetupBones](https://wiki.facepunch.com/gmod/Entity:SetupBones) is called on the entity.
      * 
-     * @param bone - The bode ID of the bone to get parent of
+     * @param bone - The bode ID of the bone to get parent of, starting at index 0.
      */
     GetBoneParent(bone: number): number;
     
@@ -3708,13 +3784,13 @@ interface Entity {
      * local ang = matrix:GetAngles()
      * ```
      * 
-     * @param boneIndex - The bone index of the bone to get the position of. See [Entity:LookupBone](https://wiki.facepunch.com/gmod/Entity:LookupBone).
+     * @param boneIndex - The bone index of the bone to get the position of, starting at index 0. See [Entity:LookupBone](https://wiki.facepunch.com/gmod/Entity:LookupBone).
      */
     GetBonePosition(boneIndex: number): LuaMultiReturn<[Vector, Angle]>;
     
     /**
      * Returns the surface property of the specified bone.
-     * @param bone - The bone id. See [Entity:LookupBone](https://wiki.facepunch.com/gmod/Entity:LookupBone).
+     * @param bone - The bone id, starting at index 0. See [Entity:LookupBone](https://wiki.facepunch.com/gmod/Entity:LookupBone).
      */
     GetBoneSurfaceProp(bone: number): string;
     
@@ -4210,14 +4286,8 @@ interface Entity {
      * 
      * This function is unaffected by [Entity:SetSubMaterial](https://wiki.facepunch.com/gmod/Entity:SetSubMaterial) as it returns the original materials.
      * 
-     * **Bug [#3362](https://github.com/Facepunch/garrysmod-issues/issues/3362):**
-     * >The server's values take priority on the client.
-     * 
      * **Bug :**
      * >The table returned by this function will not contain materials if they are missing from the disk/repository. This means that if you are attempting to find the ID of a material to replace with [Entity:SetSubMaterial](https://wiki.facepunch.com/gmod/Entity:SetSubMaterial) and there are missing materials on the model, all subsequent materials will be offset in the table, meaning that the ID you are trying to get will be incorrect.
-     * 
-     * **Bug [#4853](https://github.com/Facepunch/garrysmod-issues/issues/4853):**
-     * >This function causes performance issues and can produce stuttering when using complex models. A workaround is available on its github page.
      * 
      * 
      */
@@ -6482,6 +6552,8 @@ interface Entity {
      * 
      * To resize the entity along any axis, use [Entity:EnableMatrix](https://wiki.facepunch.com/gmod/Entity:EnableMatrix) instead.
      * 
+     * Client-side trace detection seems to mess up if deltaTime is set to anything but zero. A very small decimal can be used instead of zero to solve this issue.
+     * 
      * If your old scales are wrong, use [Entity:SetLegacyTransform](https://wiki.facepunch.com/gmod/Entity:SetLegacyTransform) as a quick fix.
      * 
      * **Bug [#3502](https://github.com/Facepunch/garrysmod-issues/issues/3502):**
@@ -6491,7 +6563,7 @@ interface Entity {
      * >If you do not want the physics to be affected by [Entity:Activate](https://wiki.facepunch.com/gmod/Entity:Activate), you can use [Entity:ManipulateBoneScale](https://wiki.facepunch.com/gmod/Entity:ManipulateBoneScale)`( 0, Vector( scale, scale, scale ) )` instead.
      * 
      * @param scale - A float to scale the model by. 0 will not draw anything. A number less than 0 will draw the model inverted.
-     * @param deltaTime - Transition time of the scale change, set to 0 to modify the scale right away.
+     * @param deltaTime - Transition time of the scale change, set to 0 to modify the scale right away. To avoid issues with client-side trace detection this must be set, and can be an extremely low number to mimic a value of 0 such as .000001.
      */
     SetModelScale(scale: number, deltaTime: number): void;
     
@@ -6505,6 +6577,8 @@ interface Entity {
      * Sets the Movement Parent of an entity to another entity.
      * 
      * Similar to [Entity:SetParent](https://wiki.facepunch.com/gmod/Entity:SetParent), except the object's coordinates are not translated automatically before parenting.
+     * 
+     * Does nothing on client.
      * @param Parent - The entity to change this entity's Movement Parent to.
      */
     SetMoveParent(Parent: Entity): void;
@@ -6753,6 +6827,10 @@ interface Entity {
     
     /**
      * Sets a function to be called when the NWVar changes.
+     * 
+     * **Note:**
+     * >Only one NWVarProxy can be set per-var
+     * 
      * @param key - The key of the NWVar to add callback for.
      * @param callback - The function to be called when the NWVar changes. It has 4 arguments:
      * * [Entity](https://wiki.facepunch.com/gmod/Entity) ent - The entity
@@ -8787,6 +8865,12 @@ interface NPC {
     GetArrivalSequence(): number;
     
     /**
+     * Returns the most dangerous/closest sound hint based on the NPCs location and the types of sounds it can sense.
+     * @param types - The types of sounds to choose from. See <page text="SOUND_ enums">Enums/SOUND</page>
+     */
+    GetBestSoundHint(types: number): any;
+    
+    /**
      * Returns the entity blocking the NPC along its path.
      * 
      */
@@ -9538,21 +9622,21 @@ interface NPC {
 }
 
 /**
- * Path object for a NextBot NPC. Returned by [Global.Path](https://wiki.facepunch.com/gmod/Global.Path).
+ * Path object for a NextBot NPC and bots created by [player.CreateNextbot](https://wiki.facepunch.com/gmod/player.CreateNextbot). Returned by [Global.Path](https://wiki.facepunch.com/gmod/Global.Path).
  */
 interface PathFollower {
     
 
     /**
      * If you created your path with type "Chase" this functions should be used in place of [PathFollower:Update](https://wiki.facepunch.com/gmod/PathFollower:Update) to cause the bot to chase the specified entity.
-     * @param bot - The bot to update along the path
+     * @param bot - The bot to update along the path. This can also be a nextbot player ([player.CreateNextbot](https://wiki.facepunch.com/gmod/player.CreateNextbot))
      * @param ent - The entity we want to chase
      */
     Chase(bot: NextBot, ent: Entity): void;
     
     /**
      * Compute shortest path from bot to 'goal' via A* algorithm.
-     * @param from - The nextbot we're generating for
+     * @param from - The nextbot we're generating for.  This can also be a nextbot player ([player.CreateNextbot](https://wiki.facepunch.com/gmod/player.CreateNextbot)).
      * @param to - To point
      * @param generator - A funtion that allows you to alter the path generation. See example below for the default function.
      */
@@ -9775,7 +9859,7 @@ interface PhysObj {
     
 
     /**
-     * Adds the specified velocity to the current.
+     * Adds the specified [angular velocity](https://en.wikipedia.org/wiki/Angular_velocity) velocity to the current [PhysObj](https://wiki.facepunch.com/gmod/PhysObj).
      * @param angularVelocity - Additional velocity.
      */
     AddAngleVelocity(angularVelocity: Vector): void;
@@ -10162,6 +10246,18 @@ interface PhysObj {
     SetAngles(angles: Angle): void;
     
     /**
+     * Sets the specified [angular velocity](https://en.wikipedia.org/wiki/Angular_velocity) on the this [PhysObj](https://wiki.facepunch.com/gmod/PhysObj)
+     * @param angularVelocity - The new velocity to set velocity.
+     */
+    SetAngleVelocity(angularVelocity: Vector): void;
+    
+    /**
+     * Sets the specified instantaneous [angular velocity](https://en.wikipedia.org/wiki/Angular_velocity) on the this [PhysObj](https://wiki.facepunch.com/gmod/PhysObj)
+     * @param angularVelocity - The new velocity to set velocity.
+     */
+    SetAngleVelocityInstantaneous(angularVelocity: Vector): void;
+    
+    /**
      * Sets the buoyancy ratio of the physics object. (How well it floats in water)
      * @param buoyancy - Buoyancy ratio, where 0 is not buoyant at all (like a rock), and 1 is very buoyant (like wood). You can set values larger than 1 for greater effect.
      */
@@ -10284,10 +10380,18 @@ interface Player {
     
 
     /**
-     * Returns the player's AccountID aka SteamID3.
+     * Returns the player's AccountID aka SteamID3. (`[U:1:AccountID]`)
      * 
      * For bots this will return values starting with 0 for the first bot, 1 for the second bot and so on.  
-     * In singleplayer, this will return no value.
+     * 
+     * See [Player:SteamID](https://wiki.facepunch.com/gmod/Player:SteamID) for the text representation of the full SteamID.
+     * See [Player:SteamID64](https://wiki.facepunch.com/gmod/Player:SteamID64) for a 64bit representation of the full SteamID.
+     * 
+     * Unlike other variations of SteamID, SteamID3 does not include the "Account Type" and "Account Instance" part of the SteamID.
+     * 
+     * **Note:**
+     * >In a `-multirun` environment, this will return `no value` for all "copies" of a player because they are not authenticated with Steam.
+     * 
      * 
      */
     AccountID(): number;
@@ -10357,7 +10461,7 @@ interface Player {
     AllowFlashlight(canFlashlight: boolean): void;
     
     /**
-     * Lets the player spray his decal without delay
+     * Lets the player spray their decal without delay
      * @param allow - Allow or disallow
      */
     AllowImmediateDecalPainting(allow: boolean): void;
@@ -10752,7 +10856,7 @@ interface Player {
     GetCurrentViewOffset(): Vector;
     
     /**
-     * Gets the entity the player is currently driving.
+     * Gets the entity the player is currently driving via the [drive](https://wiki.facepunch.com/gmod/drive) library.
      * 
      */
     GetDrivingEntity(): Entity;
@@ -11036,7 +11140,7 @@ interface Player {
     GetTimeoutSeconds(): number;
     
     /**
-     * Returns TOOL table of players current tool, or of the one specified.
+     * Returns <page text="TOOL">Structures/TOOL</page> table of players current tool, or of the one specified.
      * @param mode - Classname of the tool to retrieve. ( Filename of the tool in gmod_tool/stools/ )
      */
     GetTool(mode: string): any;
@@ -11054,7 +11158,7 @@ interface Player {
     GetUseEntity(): Entity;
     
     /**
-     * Returns the player's user group.
+     * Returns the player's user group. By default, player user groups are loaded from `garrysmod/settings/users.txt`.
      * 
      */
     GetUserGroup(): string;
@@ -11111,6 +11215,12 @@ interface Player {
      * 
      */
     GetViewPunchVelocity(): Angle;
+    
+    /**
+     * Returns the current voice volume scale for given player on client.
+     * 
+     */
+    GetVoiceVolumeScale(): number;
     
     /**
      * Returns the player's normal walking speed. Not sprinting, not slow walking. (+walk)
@@ -11200,7 +11310,9 @@ interface Player {
     IPAddress(): string;
     
     /**
-     * Returns whether the player is an admin or not.
+     * Returns whether the player is an admin or not. It will also return `true` if the player is [Player:IsSuperAdmin](https://wiki.facepunch.com/gmod/Player:IsSuperAdmin) by default.
+     * 
+     * Internally this is determined by [Player:IsUserGroup](https://wiki.facepunch.com/gmod/Player:IsUserGroup).
      * 
      */
     IsAdmin(): boolean;
@@ -11256,7 +11368,7 @@ interface Player {
     IsPlayingTaunt(): boolean;
     
     /**
-     * Returns whenever the player is heard by the local player.
+     * Returns whenever the player is heard by the local player clientside, or if the player is speaking serverside.
      * 
      */
     IsSpeaking(): boolean;
@@ -11280,7 +11392,9 @@ interface Player {
     IsSuitEquipped(): boolean;
     
     /**
-     * Returns whether the player is a superadmin.
+     * Returns whether the player is a super admin.
+     * 
+     * Internally this is determined by [Player:IsUserGroup](https://wiki.facepunch.com/gmod/Player:IsUserGroup). See also [Player:IsAdmin](https://wiki.facepunch.com/gmod/Player:IsAdmin).
      * 
      */
     IsSuperAdmin(): boolean;
@@ -11300,7 +11414,7 @@ interface Player {
     IsTyping(): boolean;
     
     /**
-     * Returns true/false if the player is in specified group or not.
+     * Returns true/false if the player is in specified group or not. See [Player:GetUserGroup](https://wiki.facepunch.com/gmod/Player:GetUserGroup) for a way to get player's usergroup.
      * @param groupname - Group to check the player for.
      */
     IsUserGroup(groupname: string): boolean;
@@ -11405,6 +11519,14 @@ interface Player {
      * @param type - Type of hit limit.
      */
     LimitHit(type: string): void;
+    
+    /**
+     * Returns the direction a player is looking as a entity/local-oriented angle.
+     * 
+     * Unlike [Entity:EyeAngles](https://wiki.facepunch.com/gmod/Entity:EyeAngles), this function does not include angles of the Player's [Entity:GetParent](https://wiki.facepunch.com/gmod/Entity:GetParent).
+     * 
+     */
+    LocalEyeAngles(): Angle;
     
     /**
      * Stops a player from using any inputs, such as moving, turning, or attacking. Key binds are still called. Similar to [Player:Freeze](https://wiki.facepunch.com/gmod/Player:Freeze) but the player takes no damage.
@@ -11565,8 +11687,10 @@ interface Player {
      * Fades the screen
      * @param flags - Fade flags defined with [Enums/SCREENFADE](https://wiki.facepunch.com/gmod/Enums/SCREENFADE).
      * @param clr - The color of the screenfade
-     * @param fadeTime - Fade(in/out) effect transition time ( From no fade to full fade and vice versa )
-     * @param fadeHold - Fade effect hold time
+     * @param fadeTime - Fade(in/out) effect transition time ( From no fade to full fade and vice versa ).
+     * This is limited to 7 bits integer part and 9 bits fractional part.
+     * @param fadeHold - Fade effect hold time.
+     * This is limited to 7 bits integer part and 9 bits fractional part.
      */
     ScreenFade(flags: SCREENFADE, clr: number, fadeTime: number, fadeHold: number): void;
     
@@ -11634,9 +11758,6 @@ interface Player {
      * 
      * **Bug [#1277](https://github.com/Facepunch/garrysmod-issues/issues/1277):**
      * >Shooting in a vehicle fires two bullets.
-     * 
-     * **Bug [#3261](https://github.com/Facepunch/garrysmod-issues/issues/3261):**
-     * >Weapon viewpunch does not decay while in a vehicle, leading to incorrect aim angles.
      * 
      * @param allow - Show we allow player to use his weapons in a vehicle or not.
      */
@@ -11731,7 +11852,7 @@ interface Player {
     SetDuckSpeed(duckSpeed: number): void;
     
     /**
-     * Sets the angle of the player's view (may rotate body too if angular difference is large)
+     * Sets the local angle of the player's view (may rotate body too if angular difference is large)
      * @param angle - Angle to set the view to
      */
     SetEyeAngles(angle: Angle): void;
@@ -12009,6 +12130,16 @@ interface Player {
     SetViewPunchVelocity(punchVel: Angle): void;
     
     /**
+     * Sets the voice volume scale for given player on client. This value will persist from server to server, but will be reset when the game is shut down.
+     * 
+     * **Note:**
+     * >This doesn't work on bots, their scale will always be `1`.
+     * 
+     * @param __unnamedArg - The voice volume scale, where `0` is 0% and `1` is 100%.
+     */
+    SetVoiceVolumeScale(__unnamedArg: number): void;
+    
+    /**
      * Sets the player's normal walking speed. Not sprinting, not slow walking <key>+walk</key>.
      * 
      * See also [Player:SetSlowWalkSpeed](https://wiki.facepunch.com/gmod/Player:SetSlowWalkSpeed), [Player:GetWalkSpeed](https://wiki.facepunch.com/gmod/Player:GetWalkSpeed), [Player:SetCrouchedWalkSpeed](https://wiki.facepunch.com/gmod/Player:SetCrouchedWalkSpeed), [Player:SetMaxSpeed](https://wiki.facepunch.com/gmod/Player:SetMaxSpeed) and [Player:SetRunSpeed](https://wiki.facepunch.com/gmod/Player:SetRunSpeed).
@@ -12128,11 +12259,15 @@ interface Player {
     StartWalking(): void;
     
     /**
-     * Returns the player's SteamID. In singleplayer, this will be STEAM_ID_PENDING serverside.
+     * Returns the player's SteamID.
      * 
      * For Bots this will return `BOT` on the server and on the client it returns `NULL`.
      * 
-     * Use [Player:AccountID](https://wiki.facepunch.com/gmod/Player:AccountID) for a shorter version of the SteamID.
+     * See [Player:AccountID](https://wiki.facepunch.com/gmod/Player:AccountID) for a shorter version of the SteamID and [Player:SteamID64](https://wiki.facepunch.com/gmod/Player:SteamID64) for the Community/Profile formatted SteamID.
+     * 
+     * **Note:**
+     * >In a `-multirun` environment, this will return `STEAM_0:0:0` (serverside) or `NULL` (clientside) for all "copies" of a player because they are not authenticated with Steam.
+     * 
      * 
      */
     SteamID(): string;
@@ -12140,15 +12275,12 @@ interface Player {
     /**
      * Returns the player's 64-bit SteamID aka CommunityID.
      * 
-     * See [Player:AccountID](https://wiki.facepunch.com/gmod/Player:AccountID) for a shorter version of the SteamID.
-     * 
-     * **Warning:**
-     * >In singleplayer, this will return `no value` serverside.
-     * 
-     * In a `-multirun` environment, this will return `no value` serverside for all "copies" of a player.
+     * See [Player:AccountID](https://wiki.facepunch.com/gmod/Player:AccountID) for a shorter version of the SteamID and [Player:SteamID](https://wiki.facepunch.com/gmod/Player:SteamID) for the normal version of the SteamID.
      * 
      * **Note:**
-     * >For bots, this will return `90071996842377216` (equivalent to `STEAM_0:0:0`) for the first bot to join.
+     * >In a `-multirun` environment, this will return `nil` for all "copies" of a player because they are not authenticated with Steam.
+     * 
+     * For bots, this will return `90071996842377216` (equivalent to `STEAM_0:0:0`) for the first bot to join.
      * 
      * For each additional bot, the number increases by 1. So the next bot will be `90071996842377217` (`STEAM_0:1:0`) then `90071996842377218` (`STEAM_0:0:1`) and so on.
      * 
@@ -13365,6 +13497,8 @@ interface Vector {
     
     /**
      * Returns whenever the given vector is in a box created by the 2 other vectors.
+     * 
+     * <upload src="22674/8d9276d7e6dd0af.png" size="6279" name="image.png" />
      * @param boxStart - The first vector.
      * @param boxEnd - The second vector.
      */
@@ -16284,7 +16418,7 @@ interface DForm extends DCollapsibleCategory {
      * @param concommand - The concommand to run when the button is clicked
      * @param args - The arguments to pass on to the concommand when the button is clicked
      */
-    Button(text: string, concommand: string, args: any[]): Panel;
+    Button(text: string, concommand: string, ...args: any[]): Panel;
     
     /**
      * Adds a [DCheckBoxLabel](https://wiki.facepunch.com/gmod/DCheckBoxLabel) onto the [DForm](https://wiki.facepunch.com/gmod/DForm).
@@ -16469,6 +16603,8 @@ interface DFrame extends EditablePanel {
     
     /**
      * Called when the DFrame is closed with [DFrame:Close](https://wiki.facepunch.com/gmod/DFrame:Close). This applies when the `close` button in the DFrame's control box is clicked.
+     * 
+     * This function is does nothing and is safe to override.
      * 
      * This is **not** called when the DFrame is removed with [Panel:Remove](https://wiki.facepunch.com/gmod/Panel:Remove).
      * 
@@ -17386,7 +17522,7 @@ interface DKillIcon extends Panel {
     GetName(): string;
     
     /**
-     * Sets the killicon to be displayed. You should call [DKillIcon:SizeToContents](https://wiki.facepunch.com/gmod/DKillIcon:SizeToContents) following this.
+     * Sets the killicon to be displayed. You should call [Panel:SizeToContents](https://wiki.facepunch.com/gmod/Panel:SizeToContents) following this.
      * 
      * Killicons can be added with [killicon.Add](https://wiki.facepunch.com/gmod/killicon.Add) and [killicon.AddFont](https://wiki.facepunch.com/gmod/killicon.AddFont).
      * @param iconName - The name of the killicon to be displayed.
@@ -17842,7 +17978,7 @@ interface DListView extends DPanel {
      * Adds a line to the list view.
      * @param text - Values for a new row in the DListView, If several arguments are supplied, each argument will correspond to a respective column in the DListView.
      */
-    AddLine(text: any[]): Panel;
+    AddLine(...text: any[]): Panel;
     
     /**
      * Removes all lines that have been added to the DListView.
@@ -19359,7 +19495,7 @@ interface DNumSlider extends Panel {
     
     /**
      * Called when the value of the slider is changed, through code or changing the slider.
-     * @param value - The new value of the DNumSlider
+     * @param value - The new value of the DNumSlider.
      */
     OnValueChanged(value: number): void;
     
@@ -19886,7 +20022,9 @@ interface DPropertySheet extends Panel {
     GetShowIcons(): boolean;
     
     /**
-     * Called when a player switches the tabs
+     * Called when a player switches the tabs.
+     * 
+     * 		Source code states that this is meant to be overridden.
      * @param old - The previously active [DTab](https://wiki.facepunch.com/gmod/DTab)
      * @param new_ - The newly active [DTab](https://wiki.facepunch.com/gmod/DTab)
      */
@@ -20154,6 +20292,12 @@ interface DSlider extends Panel {
     GetLockY(): number;
     
     /**
+     * Returns the current notch color, set by [DSlider:SetNotchColor](https://wiki.facepunch.com/gmod/DSlider:SetNotchColor)
+     * 
+     */
+    GetNotchColor(): Color;
+    
+    /**
      * Appears to be non functioning, however is still used by panels such as [DNumSlider](https://wiki.facepunch.com/gmod/DNumSlider).
      * 
      */
@@ -20234,6 +20378,12 @@ interface DSlider extends Panel {
      * The value range is from 0 to 1.
      */
     SetLockY(lockY: number): void;
+    
+    /**
+     * Sets the current notch color, overriding the color set by the derma skin.
+     * @param clr - The new color to set
+     */
+    SetNotchColor(clr: Color): void;
     
     /**
      * Appears to be non functioning, however is still used by panels such as [DNumSlider](https://wiki.facepunch.com/gmod/DNumSlider).
@@ -20338,7 +20488,11 @@ interface DSprite extends DPanel {
 interface DTab extends DButton {
     
 
-    
+    /**
+     * Returns the panel that the tab represents.
+     * 
+     */
+    GetPanel(): Panel;
 
 }
 
@@ -20605,11 +20759,11 @@ interface DTextEntry extends TextEntry {
 }
 
 /**
- * Similarly to [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout), this lays out panels in two dimensions as tiles. The difference between this and [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout) is that [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout) items all have the same height while [DTileLayout](https://wiki.facepunch.com/gmod/DTileLayout) items do not have this enforcement. [DTileLayout](https://wiki.facepunch.com/gmod/DTileLayout) will find the best way to "pack" its chidren. For example, in a two column layout, a item of height 2 units will be placed in one column while two items of height 1 unit will be placed in the other column. It is worth noting however that because this panel iterates through its children in an undefined order and lays out while it is iterating, there is no guarentee that this packing will lead to the lowest possible height.
+ * Similarly to [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout), this lays out panels in two dimensions as tiles. The difference between this and [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout) is that [DIconLayout](https://wiki.facepunch.com/gmod/DIconLayout) items all have the same height while [DTileLayout](https://wiki.facepunch.com/gmod/DTileLayout) items do not have this enforcement. [DTileLayout](https://wiki.facepunch.com/gmod/DTileLayout) will find the best way to "pack" its children. For example, in a two column layout, a item of height 2 units will be placed in one column while two items of height 1 unit will be placed in the other column. It is worth noting however that because this panel iterates through its children in an undefined order and lays out while it is iterating, there is no guarantee that this packing will lead to the lowest possible height.
  * 
  * This is used by the spawnmenu to arrange spawnicons.
  * 
- * The base size defines the smallest a tile can be, and it will resize vertically to accommodate all child panels. The number of elements in each row is determinded by the base size and width.
+ * The base size defines the smallest a tile can be, and it will resize vertically to accommodate all child panels. The number of elements in each row is determined by the base size and width.
  * 
  * It also optionally permits the rearrangement of these tiles. To enable this functionality, call [DDragBase:MakeDroppable](https://wiki.facepunch.com/gmod/DDragBase:MakeDroppable) on the DTileLayout with a unique identifier. All panels added following this will be moveable.
  */
@@ -23865,6 +24019,10 @@ interface Panel {
     
     /**
      * Enables or disables the mouse input for the panel.
+     * 
+     * **Note:**
+     * >Panels parented to the context menu will not be clickable unlessis enabled or [Panel:MakePopup](https://wiki.facepunch.com/gmod/Panel:MakePopup) has been called. If you want the panel to have mouse input but you do not want to prevent players from moving, setto false immediately after calling [Panel:MakePopup](https://wiki.facepunch.com/gmod/Panel:MakePopup).
+     * 
      * @param mouseInput - Whenever to enable or disable mouse input.
      */
     SetMouseInputEnabled(mouseInput: boolean): void;
@@ -23904,6 +24062,10 @@ interface Panel {
     
     /**
      * Sets the parent of the panel.
+     * 
+     * **Note:**
+     * >Panels parented to the context menu will not be clickable unless [Panel:SetMouseInputEnabled](https://wiki.facepunch.com/gmod/Panel:SetMouseInputEnabled) andare both true or [Panel:MakePopup](https://wiki.facepunch.com/gmod/Panel:MakePopup) has been called. If you want the panel to have mouse input but you do not want to prevent players from moving, setto false immediately after calling [Panel:MakePopup](https://wiki.facepunch.com/gmod/Panel:MakePopup).
+     * 
      * @param parent - The new parent of the panel.
      */
     SetParent(parent: Panel): void;
@@ -24087,7 +24249,7 @@ interface Panel {
     
     /**
      * Sets the URL of a link-based panel such as [DLabelURL](https://wiki.facepunch.com/gmod/DLabelURL).
-     * @param url - The URL to set. This **must** begin with `http://`.
+     * @param url - The URL to set. It **must** begin with either `http://` or `https://`.
      */
     SetURL(url: string): void;
     
@@ -24334,7 +24496,12 @@ interface Panel {
      * Instructs a HTML control to download and parse a HTML script using the passed URL.
      * 
      * This function can also be used on [HTML](https://wiki.facepunch.com/gmod/HTML).
-     * @param URL - URL to open
+     * @param URL - URL to open. It has to start or be one of the following:
+     * * `http://`
+     * * `https://`
+     * * `asset://`
+     * * `about:blank`
+     * * `chrome://credits/`
      */
     OpenURL(URL: string): void;
 
@@ -24389,6 +24556,8 @@ interface RadioButton extends Panel {
  * A very versatile text display element that's used to power the default chat and console.
  * 
  * Rich Text panels allows multicolored, highlight-able, and interactive text using individual text segment markup (segments are defined by the [Panel:AppendText](https://wiki.facepunch.com/gmod/Panel:AppendText) method).
+ * 
+ * The **RichText** element has a `64000` character limit.
  */
 interface RichText extends Panel {
     
@@ -24998,9 +25167,9 @@ interface CollisionData {
     TheirSurfaceProps: number,
     
     /**
-     * The scalar speed at which the impact happened
+     * The speed at which the impact happened
      */
-    HitSpeed: number,
+    HitSpeed: Vector,
     
     /**
      * Our new velocity after the impact
@@ -26051,7 +26220,7 @@ interface MatProxyData {
 }
 
 /**
- * Table used by various functions, such as [IMesh:BuildFromTriangles](https://wiki.facepunch.com/gmod/IMesh:BuildFromTriangles).
+ * Table structure representing a mesh vertex used by various functions, such as [IMesh:BuildFromTriangles](https://wiki.facepunch.com/gmod/IMesh:BuildFromTriangles) and [Entity:PhysicsFromMesh](https://wiki.facepunch.com/gmod/Entity:PhysicsFromMesh) and returned by functions such as [util.GetModelMeshes](https://wiki.facepunch.com/gmod/util.GetModelMeshes) and  [PhysObj:GetMesh](https://wiki.facepunch.com/gmod/PhysObj:GetMesh).
  */
 interface MeshVertex {
     /**
@@ -26407,7 +26576,7 @@ interface PLAYER {
  * **Note:**
  * >You must pass a table of tables with this structure to the function. **You need to pass at least 3 points.**
  * 
- * Your points must be defined in a **clockwise order.** Otherwise, your shape will not render.
+ * Your points must be defined in a **clockwise order.** Otherwise, your shape will not render properly.
  * 
  */
 interface PolygonVertex {
@@ -26897,6 +27066,54 @@ interface SoundData {
 }
 
 /**
+ * Table describing a sound hint, used by [NPC:GetBestSoundHint](https://wiki.facepunch.com/gmod/NPC:GetBestSoundHint) and [sound.GetLoudestSoundHint](https://wiki.facepunch.com/gmod/sound.GetLoudestSoundHint).
+ */
+interface SoundHintData {
+    /**
+     * Origin of the sound hint
+     */
+    origin: Vector,
+    
+    /**
+     * Owner of the sound hint, if any (emitting entity, like a thumper)
+     */
+    owner: Entity,
+    
+    /**
+     * Target of the sound hint, if any
+     */
+    target: Entity,
+    
+    /**
+     * Volume of the sound hint
+     */
+    volume: number,
+    
+    /**
+     * <page text="SOUND_ enums">Enums/SOUND</page>
+     */
+    type: number,
+    
+    /**
+     * <page text="CurTime">Global.CurTime</page> based expiration date
+     */
+    expiration: number,
+    
+    /**
+     * Does this sound hint expire?
+     */
+    expires: boolean,
+    
+    /**
+     * <page text="CHAN_ enums">Enums/CHAN</page>
+     */
+    channel: number,
+
+    
+
+}
+
+/**
  * Returned by [util.GetSunInfo](https://wiki.facepunch.com/gmod/util.GetSunInfo).
  */
 interface SunInfo {
@@ -27219,7 +27436,7 @@ interface SWEP {
     SpeechBubbleLid: number,
     
     /**
-     * (Clientside) Path to an texture. Override this in your SWEP to set the icon in the weapon selection. This must be the texture ID, see [surface.GetTextureID](https://wiki.facepunch.com/gmod/surface.GetTextureID)
+     * (Clientside) Path to an texture. Override this in your SWEP to set the icon in the weapon selection. This must be the texture ID, see [surface.GetTextureID](https://wiki.facepunch.com/gmod/surface.GetTextureID). Alternatively you can render custom weapon selection via [WEAPON:DrawWeaponSelection](https://wiki.facepunch.com/gmod/WEAPON:DrawWeaponSelection).
      */
     WepSelectIcon: number,
     
@@ -27617,6 +27834,8 @@ interface TraceResult {
     
     /**
      * The direction of the trace as a normal vector (vector with <page text="length">Vector:Length</page> of 1).
+     * 
+     * Equivalent to: `( traceRes.HitPos - traceRes.StartPos ):Normalize()`
      */
     Normal: Vector,
     
@@ -36383,6 +36602,96 @@ declare enum ACT {
     ACT_HL2MP_SWIM_IDLE = 2026,
     
     /**
+     * 
+     */
+    ACT_HL2MP_IDLE_COWER = 2027,
+    
+    /**
+     * 
+     */
+    ACT_GMOD_DEATH = 2028,
+    
+    /**
+     * 
+     */
+    ACT_DRIVE_POD = 2029,
+    
+    /**
+     * 
+     */
+    ACT_FLINCH = 2030,
+    
+    /**
+     * 
+     */
+    ACT_FLINCH_BACK = 2031,
+    
+    /**
+     * 
+     */
+    ACT_FLINCH_SHOULDER_LEFT = 2032,
+    
+    /**
+     * 
+     */
+    ACT_FLINCH_SHOULDER_RIGHT = 2033,
+    
+    /**
+     * 
+     */
+    ACT_HL2MP_SIT_CAMERA = 2034,
+    
+    /**
+     * 
+     */
+    ACT_HL2MP_SIT_PASSIVE = 2035,
+    
+    /**
+     * 
+     */
+    ACT_HL2MP_ZOMBIE_SLUMP_ALT_IDLE = 2036,
+    
+    /**
+     * 
+     */
+    ACT_HL2MP_ZOMBIE_SLUMP_ALT_RISE_FAST = 2037,
+    
+    /**
+     * 
+     */
+    ACT_HL2MP_ZOMBIE_SLUMP_ALT_RISE_SLOW = 2038,
+    
+    /**
+     * 
+     */
+    ACT_GMOD_SHOWOFF_STAND_01 = 2039,
+    
+    /**
+     * 
+     */
+    ACT_GMOD_SHOWOFF_STAND_02 = 2040,
+    
+    /**
+     * 
+     */
+    ACT_GMOD_SHOWOFF_STAND_03 = 2041,
+    
+    /**
+     * 
+     */
+    ACT_GMOD_SHOWOFF_STAND_04 = 2042,
+    
+    /**
+     * 
+     */
+    ACT_GMOD_SHOWOFF_DUCK_01 = 2043,
+    
+    /**
+     * 
+     */
+    ACT_GMOD_SHOWOFF_DUCK_02 = 2044,
+    
+    /**
      * The largest activity number
      */
     LAST_SHARED_ACTIVITY = 2027,
@@ -38833,6 +39142,77 @@ declare enum FORCE {
      * Forces the function to take [boolean](https://wiki.facepunch.com/gmod/boolean)s only
      */
     FORCE_BOOL = 3,
+}
+
+/**
+ * 
+ * @compileMembersOnly
+ */
+declare enum FSASYNC {
+    /**
+     * 
+     */
+    FSASYNC_ERR_NOT_MINE = -8,
+    
+    /**
+     * 
+     */
+    FSASYNC_ERR_RETRY_LATER = -7,
+    
+    /**
+     * 
+     */
+    FSASYNC_ERR_ALIGNMENT = -6,
+    
+    /**
+     * 
+     */
+    FSASYNC_ERR_FAILURE = -5,
+    
+    /**
+     * 
+     */
+    FSASYNC_ERR_READING = -4,
+    
+    /**
+     * 
+     */
+    FSASYNC_ERR_NOMEMORY = -3,
+    
+    /**
+     * 
+     */
+    FSASYNC_ERR_UNKNOWNID = -2,
+    
+    /**
+     * 
+     */
+    FSASYNC_ERR_FILEOPEN = -1,
+    
+    /**
+     * 
+     */
+    FSASYNC_OK = 0,
+    
+    /**
+     * 
+     */
+    FSASYNC_STATUS_PENDING = 1,
+    
+    /**
+     * 
+     */
+    FSASYNC_STATUS_INPROGRESS = 2,
+    
+    /**
+     * 
+     */
+    FSASYNC_STATUS_ABORTED = 3,
+    
+    /**
+     * 
+     */
+    FSASYNC_STATUS_UNSERVICED = 4,
 }
 
 /**
@@ -42700,27 +43080,27 @@ declare enum SOUND {
     SOUND_BULLET_IMPACT = 16,
     
     /**
-     * 
+     * Considered a scent.
      */
     SOUND_CARCASS = 32,
     
     /**
-     * 
+     * Considered a scent.
      */
     SOUND_MEAT = 64,
     
     /**
-     * 
+     * Considered a scent.
      */
     SOUND_GARBAGE = 128,
     
     /**
-     * keeps certain creatures at bay
+     * Keeps certain creatures at bay, such as Antlions.
      */
     SOUND_THUMPER = 256,
     
     /**
-     * gets the antlion's attention
+     * Gets the antlion's attention.
      */
     SOUND_BUGBAIT = 512,
     
@@ -42730,7 +43110,7 @@ declare enum SOUND {
     SOUND_PHYSICS_DANGER = 1024,
     
     /**
-     * only scares the sniper NPC.
+     * Only scares the sniper NPC.
      */
     SOUND_DANGER_SNIPERONLY = 2048,
     
@@ -42760,7 +43140,7 @@ declare enum SOUND {
     SOUND_READINESS_HIGH = 65536,
     
     /**
-     * additional context for SOUND_DANGER
+     * Additional context for SOUND_DANGER
      */
     SOUND_CONTEXT_FROM_SNIPER = 1048576,
     
@@ -42775,7 +43155,7 @@ declare enum SOUND {
     SOUND_CONTEXT_MORTAR = 4194304,
     
     /**
-     * Only combine can hear sounds marked this way
+     * Only combine can hear sounds marked this way.
      */
     SOUND_CONTEXT_COMBINE_ONLY = 8388608,
     
@@ -42800,7 +43180,7 @@ declare enum SOUND {
     SOUND_CONTEXT_DANGER_APPROACH = 134217728,
     
     /**
-     * Only player allies can hear this sound
+     * Only player allies can hear this sound.
      */
     SOUND_CONTEXT_ALLIES_ONLY = 268435456,
     
@@ -43880,7 +44260,7 @@ declare function AngleRand(min: number, max: number): Angle;
  * @param errorMessage - The error message to throw when assertion fails. This is only type-checked if the assertion fails.
  * @param returns - Any arguments past the error message will be returned by a successful assert.
  */
-declare function assert(expression: any, errorMessage: string, returns: any[]): LuaMultiReturn<[any, any, any[]]>;
+declare function assert(expression: any, errorMessage: string, ...returns: any[]): LuaMultiReturn<[any, any, any[]]>;
 
 /**
  * Sends the specified Lua code to all connected clients and executes it.
@@ -44326,7 +44706,7 @@ declare function DOF_Kill(): void;
 declare function DOF_Start(): void;
 
 /**
- * A hacky method used to fix some bugs regarding DoF.
+ * A hacky method used to fix some bugs regarding DoF. What this basically does it force all `C_BaseAnimating` entities to have the translucent <page text="rendergroup">Enums/RENDERGROUP</page>, even if they use opaque or two-pass models.
  * @param enable - Enables or disables depth-of-field mode
  */
 declare function DOFModeHack(enable: boolean): void;
@@ -44352,6 +44732,14 @@ declare function DrawBackground(): void;
  * @param Blue - How much blue to multiply with the glowing color. Should be between `0` and `1`.
  */
 declare function DrawBloom(Darken: number, Multiply: number, SizeX: number, SizeY: number, Passes: number, ColorMultiply: number, Red: number, Green: number, Blue: number): void;
+
+/**
+ * Draws the Bokeh Depth Of Field effect .
+ * @param intensity - Intensity of the effect.
+ * @param distance - **Not worldspace distance**. Value range is from `0` to `1`.
+ * @param focus - Focus. Recommended values are from 0 to 12.
+ */
+declare function DrawBokehDOF(intensity: number, distance: number, focus: number): void;
 
 /**
  * Draws the Color Modify shader, which can be used to adjust colors on screen.
@@ -44457,7 +44845,23 @@ declare function EffectData(): CEffectData;
  * print(myCondition and consequent or alternative)
  * ```
  * 
- * However, in very rare cases, you may find `Either` useful. In the above example, due to [short-circuit evaluation](https://en.wikipedia.org/wiki/Short-circuit_evaluation), `consequent` would be "skipped" and ignored (not evaluated) by Lua due to `myCondition` being `true`, and only `alternative` would be evaluated. However, when using `Either`, both `consequent` and `alternative` would be evaluated. A practical example of this can be found below.
+ * In the above example, due to [short-circuit evaluation](https://en.wikipedia.org/wiki/Short-circuit_evaluation), `consequent` would be "skipped" and ignored (not evaluated) by Lua due to `myCondition` being `true`, and only `alternative` would be evaluated. However, when using `Either`, both `consequent` and `alternative` would be evaluated. A practical example of this can be found at the bottom of the page.
+ * 
+ * # Falsey values
+ * 
+ * If `consequent` is "falsey" (Lua considers both `false` and `nil` as false), this will not work. For example:
+ * 
+ * ```
+ * local X = true
+ * local Y = false
+ * local Z = "myCondition is false"
+ * 
+ * print(X and Y or Z)
+ * ```
+ * 
+ * This will actually print the value of `Z`.
+ * 
+ * In the above case, and other very rare cases, you may find `Either` useful.
  * @param condition - The condition to check if true or false.
  * @param truevar - If the condition isn't nil/false, returns this value.
  * @param falsevar - If the condition is nil/false, returns this value.
@@ -44531,7 +44935,7 @@ declare function error(message: string, errorLevel: number): void;
  * 
  * @param arguments - Converts all arguments to strings and prints them with no spacing or line breaks.
  */
-declare function Error(arguments: any[]): void;
+declare function Error(...arguments: any[]): void;
 
 /**
  * Throws a Lua error but does not break out of the current call stack.
@@ -44539,7 +44943,7 @@ declare function Error(arguments: any[]): void;
  * Essentially similar if not equivalent to [Global.Msg](https://wiki.facepunch.com/gmod/Global.Msg).
  * @param arguments - Converts all arguments to strings and prints them with no spacing.
  */
-declare function ErrorNoHalt(arguments: any[]): void;
+declare function ErrorNoHalt(...arguments: any[]): void;
 
 /**
  * Throws a Lua error but does not break out of the current call stack.
@@ -44547,7 +44951,7 @@ declare function ErrorNoHalt(arguments: any[]): void;
  * This function will print a stack trace like a normal error would.
  * @param arguments - Converts all arguments to strings and prints them with no spacing.
  */
-declare function ErrorNoHaltWithStack(arguments: any[]): void;
+declare function ErrorNoHaltWithStack(...arguments: any[]): void;
 
 /**
  * Returns the angles of the current render context as calculated by [GM:CalcView](https://wiki.facepunch.com/gmod/GM:CalcView).
@@ -44603,7 +45007,7 @@ declare function FindTooltip(panel: Panel): LuaMultiReturn<[string, Panel, Panel
  * Follows this format: http://www.cplusplus.com/reference/cstdio/printf/
  * @param formatParameters - Values to be formatted into the string.
  */
-declare function Format(format: string, formatParameters: any[]): string;
+declare function Format(format: string, ...formatParameters: any[]): string;
 
 /**
  * Returns the number of frames rendered since the game was launched.
@@ -45091,6 +45495,10 @@ declare function isstring(variable: any): boolean;
 
 /**
  * Returns if the passed object is a [table](https://wiki.facepunch.com/gmod/table).
+ * 
+ * **Note:**
+ * >Will return TRUE for variables of type [Color](https://wiki.facepunch.com/gmod/Color)
+ * 
  * @param variable - The variable to perform the type check for.
  */
 declare function istable(variable: any): boolean;
@@ -45312,7 +45720,7 @@ declare function Model(model: string): string;
  * @param name - The name of the module. This will be used to access the module table in the runtime environment.
  * @param loaders - Calls each function passed with the new table as an argument.
  */
-declare function module(name: string, loaders: any[]): void;
+declare function module(name: string, ...loaders: any[]): void;
 
 /**
  * Writes every given argument to the console.
@@ -45326,19 +45734,19 @@ declare function module(name: string, loaders: any[]): void;
  * The text is blue on the server, orange on the client, and green on the menu: <image src="msg_server_client_colors.png"/>
  * @param args - List of values to print.
  */
-declare function Msg(args: any[]): void;
+declare function Msg(...args: any[]): void;
 
 /**
  * Works exactly like [Global.Msg](https://wiki.facepunch.com/gmod/Global.Msg) except that, if called on the server, will print to all players consoles plus the server console.
  * @param args - List of values to print.
  */
-declare function MsgAll(args: any[]): void;
+declare function MsgAll(...args: any[]): void;
 
 /**
  * Just like [Global.Msg](https://wiki.facepunch.com/gmod/Global.Msg), except it can also print colored text, just like [chat.AddText](https://wiki.facepunch.com/gmod/chat.AddText).
  * @param args - Values to print. If you put in a color, all text after that color will be printed in that color.
  */
-declare function MsgC(args: any[]): void;
+declare function MsgC(...args: any[]): void;
 
 /**
  * Same as [Global.print](https://wiki.facepunch.com/gmod/Global.print), except it concatinates the arguments without inserting any whitespace in between them.
@@ -45346,7 +45754,7 @@ declare function MsgC(args: any[]): void;
  * See also [Global.Msg](https://wiki.facepunch.com/gmod/Global.Msg), which doesn't add a newline (`"\n"`) at the end.
  * @param args - List of values to print. They can be of any type and will be converted to strings with [Global.tostring](https://wiki.facepunch.com/gmod/Global.tostring).
  */
-declare function MsgN(args: any[]): void;
+declare function MsgN(...args: any[]): void;
 
 /**
  * Returns named color defined in resource/ClientScheme.res.
@@ -45485,9 +45893,6 @@ declare function Path(type: string): PathFollower;
 /**
  * Calls a function and catches an error that can be thrown while the execution of the call.
  * 
- * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
- * >Using this function with [Global.include](https://wiki.facepunch.com/gmod/Global.include) will break autorefresh.
- * 
  * **Bug [#2036](https://github.com/Facepunch/garrysmod-issues/issues/2036):**
  * >This cannot stop errors from hooks called from the engine.
  * 
@@ -45500,7 +45905,7 @@ declare function Path(type: string): PathFollower;
  * @param func - Function to be executed and of which the errors should be caught of
  * @param arguments - Arguments to call the function with.
  */
-declare function pcall(func: Function, arguments: any[]): LuaMultiReturn<[boolean, any[]]>;
+declare function pcall(func: Function, ...arguments: any[]): LuaMultiReturn<[boolean, any[]]>;
 
 /**
  * Returns the player with the matching [Player:UserID](https://wiki.facepunch.com/gmod/Player:UserID).
@@ -45555,7 +45960,7 @@ declare function PrecacheSentenceGroup(group: string): void;
  * Separates arguments with a tab character (`"\t"`).
  * @param args - List of values to print.
  */
-declare function print(args: any[]): void;
+declare function print(...args: any[]): void;
 
 /**
  * Displays a message in the chat, console, or center of screen of every player.
@@ -45736,7 +46141,7 @@ declare function RestoreCursorPosition(): void;
  * @param command - The command to be executed.
  * @param arguments - The arguments. Note, that unlike [Player:ConCommand](https://wiki.facepunch.com/gmod/Player:ConCommand), you must pass each argument as a new string, not separating them with a space.
  */
-declare function RunConsoleCommand(command: string, arguments: any[]): void;
+declare function RunConsoleCommand(command: string, ...arguments: any[]): void;
 
 /**
  * Runs a menu command. Equivalent to [Global.RunConsoleCommand](https://wiki.facepunch.com/gmod/Global.RunConsoleCommand)( "gamemenucommand", command ) unless the command starts with the "engine" keyword in which case it is equivalent to [Global.RunConsoleCommand](https://wiki.facepunch.com/gmod/Global.RunConsoleCommand)( command ).
@@ -45846,7 +46251,7 @@ declare function ScrW(): number;
  * * If the number is negative, it will return the amount specified from the end instead of the beginning. This mode will not be compiled by LuaJIT.
  * @param vararg - The vararg. These are the values from which you want to select.
  */
-declare function select(parameter: any, vararg: any[]): any;
+declare function select(parameter: any, ...vararg: any[]): any;
 
 /**
  * 
@@ -45860,7 +46265,7 @@ declare function select(parameter: any, vararg: any[]): any;
  * @param recipients - Can be a [CRecipientFilter](https://wiki.facepunch.com/gmod/CRecipientFilter), [table](https://wiki.facepunch.com/gmod/table) or [Player](https://wiki.facepunch.com/gmod/Player) object.
  * @param args - Data to send in the usermessage
  */
-declare function SendUserMessage(name: string, recipients: any, args: any[]): void;
+declare function SendUserMessage(name: string, recipients: any, ...args: any[]): void;
 
 /**
  * Returns approximate duration of a sentence by name. See [Global.EmitSentence](https://wiki.facepunch.com/gmod/Global.EmitSentence).
@@ -46273,9 +46678,6 @@ declare function WorldToLocal(position: Vector, angle: Angle, newSystemOrigin: V
  * 
  * Unlike in [Global.pcall](https://wiki.facepunch.com/gmod/Global.pcall), the stack is not unwound and can therefore be used for stack analyses with the [debug](https://wiki.facepunch.com/gmod/debug).
  * 
- * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
- * >Using this function with [Global.include](https://wiki.facepunch.com/gmod/Global.include) will break autorefresh.
- * 
  * **Bug [#2036](https://github.com/Facepunch/garrysmod-issues/issues/2036):**
  * >This cannot stop errors from hooks called from the engine.
  * 
@@ -46290,7 +46692,7 @@ declare function WorldToLocal(position: Vector, angle: Angle, newSystemOrigin: V
  * You cannot throw an [Global.error](https://wiki.facepunch.com/gmod/Global.error)() from this callback: it will have no effect (not even stopping the callback).
  * @param arguments - Arguments to pass to the initial function.
  */
-declare function xpcall(func: Function, errorCallback: Function, arguments: any[]): LuaMultiReturn<[boolean, any[]]>;
+declare function xpcall(func: Function, errorCallback: Function, ...arguments: any[]): LuaMultiReturn<[boolean, any[]]>;
 
 /**
  * This library is used internally by Garry's Mod to help keep track of achievement progress and unlock the appropriate achievements once a certain number is reached.
@@ -46789,7 +47191,7 @@ declare namespace chat {
      * * [Player](https://wiki.facepunch.com/gmod/Player) - Adds the name of the player in the player's team color to the chat box.
      * * [any](https://wiki.facepunch.com/gmod/any) - Any other type, such as [Entity](https://wiki.facepunch.com/gmod/Entity) will be converted to string and added as text.
      */
-    function AddText(arguments: any[]): void;
+    function AddText(...arguments: any[]): void;
     
     /**
      * Closes the chat window.
@@ -47081,8 +47483,9 @@ declare namespace constraint {
      * @param material - The material of the rope.
      * @param width - Width of rope.
      * @param stretchonly - 
+     * @param color - The color of the rope. See [Global.Color](https://wiki.facepunch.com/gmod/Global.Color).
      */
-    function Elastic(Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, constant: number, damping: number, rdamping: number, material: string, width: number, stretchonly: boolean): LuaMultiReturn<[Entity, Entity]>;
+    function Elastic(Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, constant: number, damping: number, rdamping: number, material: string, width: number, stretchonly: boolean, color: any): LuaMultiReturn<[Entity, Entity]>;
     
     /**
      * Returns the constraint of a specified type between two entities, if it exists
@@ -47212,8 +47615,9 @@ declare namespace constraint {
      * @param fixed - Whether the hydraulic is fixed.
      * @param speed - 
      * @param material - The material of the rope.
+     * @param color - The color of the rope. See [Global.Color](https://wiki.facepunch.com/gmod/Global.Color).
      */
-    function Hydraulic(pl: Player, Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, Length1: number, Length2: number, width: number, key: KEY, fixed: number, speed: number, material: string): LuaMultiReturn<[Entity, Entity, Entity, Entity]>;
+    function Hydraulic(pl: Player, Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, Length1: number, Length2: number, width: number, key: KEY, fixed: number, speed: number, material: string, color: any): LuaMultiReturn<[Entity, Entity, Entity, Entity]>;
     
     /**
      * Creates a keep upright constraint.
@@ -47268,8 +47672,9 @@ declare namespace constraint {
      * @param amplitude - 
      * @param starton - 
      * @param material - Material of the rope.
+     * @param color - The color of the rope. See [Global.Color](https://wiki.facepunch.com/gmod/Global.Color).
      */
-    function Muscle(pl: Player, Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, Length1: number, Length2: number, width: number, key: KEY, fixed: number, period: number, amplitude: number, starton: boolean, material: string): LuaMultiReturn<[Entity, Entity, Entity, Entity]>;
+    function Muscle(pl: Player, Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, Length1: number, Length2: number, width: number, key: KEY, fixed: number, period: number, amplitude: number, starton: boolean, material: string, color: any): LuaMultiReturn<[Entity, Entity, Entity, Entity]>;
     
     /**
      * Creates an no-collide "constraint". Disables collision between two entities.
@@ -47298,8 +47703,9 @@ declare namespace constraint {
      * @param rigid - Whether the constraint is rigid.
      * @param width - Width of the rope.
      * @param material - Material of the rope.
+     * @param color - The color of the rope. See [Global.Color](https://wiki.facepunch.com/gmod/Global.Color).
      */
-    function Pulley(Ent1: Entity, Ent4: Entity, Bone1: number, Bone4: number, LPos1: Vector, LPos4: Vector, WPos2: Vector, WPos3: Vector, forcelimit: number, rigid: boolean, width: number, material: string): Entity;
+    function Pulley(Ent1: Entity, Ent4: Entity, Bone1: number, Bone4: number, LPos1: Vector, LPos4: Vector, WPos2: Vector, WPos3: Vector, forcelimit: number, rigid: boolean, width: number, material: string, color: any): Entity;
     
     /**
      * Attempts to remove all constraints associated with an entity
@@ -47328,8 +47734,9 @@ declare namespace constraint {
      * @param width - Width of the rope.
      * @param material - Material of the rope.
      * @param rigid - Whether the constraint is rigid.
+     * @param color - The color of the rope. See [Global.Color](https://wiki.facepunch.com/gmod/Global.Color).
      */
-    function Rope(Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, length: number, addlength: number, forcelimit: number, width: number, material: string, rigid: boolean): LuaMultiReturn<[Entity, Entity]>;
+    function Rope(Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, length: number, addlength: number, forcelimit: number, width: number, material: string, rigid: boolean, color: any): LuaMultiReturn<[Entity, Entity]>;
     
     /**
      * Creates a slider constraint.
@@ -47341,8 +47748,9 @@ declare namespace constraint {
      * @param LPos2 - 
      * @param width - The width of the rope.
      * @param material - The material of the rope.
+     * @param color - The color of the rope. See [Global.Color](https://wiki.facepunch.com/gmod/Global.Color).
      */
-    function Slider(Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, width: number, material: string): LuaMultiReturn<[Entity, Entity]>;
+    function Slider(Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, width: number, material: string, color: any): LuaMultiReturn<[Entity, Entity]>;
     
     /**
      * Creates a weld constraint
@@ -47373,8 +47781,9 @@ declare namespace constraint {
      * @param bwd_speed - Backwards speed.
      * @param material - The material of the rope.
      * @param toggle - Whether the winch should be on toggle.
+     * @param color - The color of the rope. See [Global.Color](https://wiki.facepunch.com/gmod/Global.Color).
      */
-    function Winch(pl: Player, Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, width: number, fwd_bind: KEY, bwd_bind: KEY, fwd_speed: number, bwd_speed: number, material: string, toggle: boolean): LuaMultiReturn<[Entity, Entity, Entity]>;
+    function Winch(pl: Player, Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, width: number, fwd_bind: KEY, bwd_bind: KEY, fwd_speed: number, bwd_speed: number, material: string, toggle: boolean, color: any): LuaMultiReturn<[Entity, Entity, Entity]>;
 
 }
 
@@ -47491,7 +47900,7 @@ declare namespace coroutine {
      * @param coroutine - Coroutine to resume.
      * @param args - Arguments to be returned by [coroutine.yield](https://wiki.facepunch.com/gmod/coroutine.yield).
      */
-    function resume(coroutine: thread, args: any[]): LuaMultiReturn<[boolean, any[]]>;
+    function resume(coroutine: thread, ...args: any[]): LuaMultiReturn<[boolean, any[]]>;
     
     /**
      * Returns the active coroutine or nil if we are not within a coroutine.
@@ -47527,7 +47936,7 @@ declare namespace coroutine {
      * Pauses the active coroutine and passes all additional variables to the call of [coroutine.resume](https://wiki.facepunch.com/gmod/coroutine.resume) that resumed the coroutine last time, and returns all additional variables that were passed to the previous call of resume.
      * @param returnValue - Arguments to be returned by the last call of [coroutine.resume](https://wiki.facepunch.com/gmod/coroutine.resume)
      */
-    function yield(returnValue: any[]): any[];
+    function yield(...returnValue: any[]): any[];
 
 }
 
@@ -48299,7 +48708,7 @@ declare namespace draw {
 }
 
 /**
- * The drive library is for adding custom control modes to the new "remote control" entity piloting system in Garry's Mod 13.
+ * The drive library is for adding custom control modes to the new "remote control" entity piloting system in Garry's Mod 13. See [Entity Driving](https://wiki.facepunch.com/gmod/Entity Driving).
  */
 declare namespace drive {
     
@@ -48939,10 +49348,6 @@ declare namespace ents {
      * Gets all entities with the given hammer targetname. This works internally by iterating over [ents.GetAll](https://wiki.facepunch.com/gmod/ents.GetAll).
      * 
      * Doesn't do anything on client.
-     * 
-     * **Note:**
-     * >A player's Name is his nickname, see [Player:GetName](https://wiki.facepunch.com/gmod/Player:GetName)
-     * 
      * @param name - The targetname to look for
      */
     function FindByName(name: string): any;
@@ -49081,11 +49486,11 @@ declare namespace file {
      * @param callback - A callback function that will be called when the file read operation finishes. Arguments are:
      * * [string](https://wiki.facepunch.com/gmod/string) fileName - The `fileName` argument above.
      * * [string](https://wiki.facepunch.com/gmod/string) gamePath - The `gamePath` argument above.
-     * * [number](https://wiki.facepunch.com/gmod/number) status - The status of the operation.
+     * * [number](https://wiki.facepunch.com/gmod/number) status - The status of the operation. The list can be found in [Enums/FSASYNC](https://wiki.facepunch.com/gmod/Enums/FSASYNC).
      * * [string](https://wiki.facepunch.com/gmod/string) data - The entirety of the data of the file.
      * @param sync - If `true` the file will be read synchronously.
      */
-    function AsyncRead(fileName: string, gamePath: string, callback: Function, sync: boolean): void;
+    function AsyncRead(fileName: string, gamePath: string, callback: Function, sync: boolean): string;
     
     /**
      * Creates a directory that is relative to the `data` folder.
@@ -49150,7 +49555,9 @@ declare namespace file {
     /**
      * Returns the content of a file.
      * 
-     * Beware of casing -- some filesystems are case-sensitive. SRCDS on Linux seems to force file/directory creation to lowercase, but will not modify read operations.
+     * **Warning:**
+     * >Beware of casing -- some filesystems are case-sensitive. SRCDS on Linux seems to force file/directory creation to lowercase, but will not modify read operations.
+     * 
      * @param fileName - The name of the file.
      * @param gamePath - The path to look for the files and directories in. See <page text="this list">File_Search_Paths</page> for a list of valid paths.
      */
@@ -49635,7 +50042,7 @@ declare namespace gamemode {
      * @param name - The name of the hook to call.
      * @param args - The arguments
      */
-    function Call(name: string, args: any[]): any;
+    function Call(name: string, ...args: any[]): any;
     
     /**
      * This returns the internally stored gamemode table.
@@ -49801,7 +50208,7 @@ declare namespace gui {
     function IsConsoleVisible(): boolean;
     
     /**
-     * Returns whenever the game menu overlay ( main menu ) is open or not.
+     * Returns whether the game menu overlay ( main menu ) is open or not.
      * 
      */
     function IsGameUIVisible(): boolean;
@@ -49828,10 +50235,7 @@ declare namespace gui {
     function MouseY(): number;
     
     /**
-     * Opens specified URL in the steam overlay browser. The URL has to start with either http:// or https://
-     * 
-     * **Bug [#3383](https://github.com/Facepunch/garrysmod-issues/issues/3383):**
-     * >You can't click the confirmation if a model panel has focus.
+     * Opens specified URL in the steam overlay browser.
      * 
      * **Bug [#4663](https://github.com/Facepunch/garrysmod-issues/issues/4663):**
      * >Will silently fail if the URL is more than 512 characters long.
@@ -49839,7 +50243,7 @@ declare namespace gui {
      * **Note:**
      * >When called clientside, user will be asked for confirmation before the website will open.
      * 
-     * @param url - URL to open
+     * @param url - URL to open, it has to start with either `http://` or `https://`.
      */
     function OpenURL(url: string): void;
     
@@ -50016,7 +50420,7 @@ declare namespace hook {
      * @param gamemodeTable - If the gamemode is specified, the gamemode hook within will be called, otherwise not
      * @param args - The arguments to be passed to the hooks
      */
-    function Call(eventName: string, gamemodeTable: any, args: any[]): any[];
+    function Call(eventName: string, gamemodeTable: any, ...args: any[]): any[];
     
     /**
      * Returns a list of all the hooks registered with [hook.Add](https://wiki.facepunch.com/gmod/hook.Add).
@@ -50044,7 +50448,7 @@ declare namespace hook {
      * @param eventName - The event to call hooks for
      * @param args - The arguments to be passed to the hooks
      */
-    function Run(eventName: string, args: any[]): any;
+    function Run(eventName: string, ...args: any[]): any;
 
 }
 
@@ -50060,6 +50464,12 @@ declare namespace http {
      * HTTP requests returning a status code >= `400` are still considered a success and will call the <page text="onSuccess">Structures/HTTPRequest</page> callback.
      * 
      * The <page text="onFailure">Structures/HTTPRequest</page> callback is usually only called on DNS or TCP errors (e.g. the website is unavailable or the domain does not exist).
+     * 
+     * A rough overview of possible <page text="onFailure">Structures/HTTPRequest</page> messages:
+     * * `invalid url` - Invalid/empty url ( no request was attempted )
+     * * `invalid request` - Steam HTTP lib failed to create a HTTP request
+     * * `error` - OnComplete callback's second argument, `bError`, is `true`
+     * * `unsuccessful` - OnComplete's first argument, `pResult->m_bRequestSuccessful`, returned `false`
      * 
      * **Note:**
      * >HTTP-requests to destinations on private networks (such as `192.168.0.1`) won't work.To enable HTTP-requests to destinations on private networks use [Command Line Parameters](https://wiki.facepunch.com/gmod/Command Line Parameters) `-allowlocalhttp` (serverside only).
@@ -50120,7 +50530,11 @@ declare namespace input {
     function GetAnalogValue(axis: ANALOG): number;
     
     /**
-     * Returns the cursor's position on the screen
+     * Returns the cursor's position on the screen.
+     * 
+     * **Bug [#4964](https://github.com/Facepunch/garrysmod-issues/issues/4964):**
+     * >On macOS, the cursor isn't locked on the middle of the screen which causes a significant offset of the positions returned by this function.
+     * 
      * 
      */
     function GetCursorPos(): LuaMultiReturn<[number, number]>;
@@ -50383,7 +50797,7 @@ declare namespace jit {
          * 	A list of LuaJIT -O command line options can be found here(a table of various optimization levels are displayed towards the bottom of the page along with exactly which optimization options are enabled for each level): http://luajit.org/running.html
          * @param args - 
          */
-        function start(args: any[]): void;
+        function start(...args: any[]): void;
 
     }
 
@@ -50663,16 +51077,7 @@ declare namespace markup {
  * The math library is a standard Lua library that provides functions for manipulating numbers. In Garry's Mod several additional math functions have been added.
  */
 declare namespace math {
-    /**
-     * # Not a function
-     * 
-     * This is NOT a function, it's a variable containing the mathematical constant pi. (`3.1415926535898`)
-     * 
-     * See also:# Floating point precision considerations
-     * 
-     * It should be noted that due to the nature of floating point numbers, results of calculations with `math.pi` may not be what you expect.
-     */
-    const pi: any;
+    
 
     /**
      * Calculates the absolute value of a number (effectively removes any negative sign).
@@ -50681,7 +51086,7 @@ declare namespace math {
     function abs(x: number): number;
     
     /**
-     * Returns the  of the given number.
+     * Returns the [arccosine](https://en.wikipedia.org/wiki/Arccosine) of the given number.
      * @param cos - Cosine value in range of -1 to 1.
      */
     function acos(cos: number): number;
@@ -50857,10 +51262,14 @@ declare namespace math {
     function frexp(x: number): LuaMultiReturn<[number, number]>;
     
     /**
+     * A variable that effectively represents infinity, in the sense that in any numerical comparison every number will be less than this.
      * 
+     * For example, if x is a number, `x > math.huge` will NEVER be true except in the case of overflow (see below).
+     * 
+     * Lua will consider any number greater than or equal to `2^1024` (the exponent limit of a [double](http://en.wikipedia.org/wiki/Double-precision_floating-point_format)) as `inf` and hence equal to this.
      * 
      */
-    function huge(): void;
+    function huge(): number;
     
     /**
      * Converts an integer to a binary (base-2) string.
@@ -50888,19 +51297,19 @@ declare namespace math {
      * Returns the base-10 logarithm of x. This is usually more accurate than math.log(x, 10).
      * @param x - The value to get the base from exponent from.
      */
-    function log10(x: number): void;
+    function log10(x: number): number;
     
     /**
      * Returns the largest value of all arguments.
      * @param numbers - Numbers to get the largest from
      */
-    function max(numbers: any[]): number;
+    function max(...numbers: any[]): number;
     
     /**
      * Returns the smallest value of all arguments.
      * @param numbers - Numbers to get the smallest from.
      */
-    function min(numbers: any[]): number;
+    function min(...numbers: any[]): number;
     
     /**
      * Returns the modulus of the specified values. Same as [math.fmod](https://wiki.facepunch.com/gmod/math.fmod).
@@ -50923,6 +51332,18 @@ declare namespace math {
      * @param angle - The angle to normalize, in degrees.
      */
     function NormalizeAngle(angle: number): number;
+    
+    /**
+     * A variable containing the mathematical constant pi. (`3.1415926535898`)
+     * 
+     * See also: [Trigonometry](https://wiki.facepunch.com/gmod/Trigonometry)
+     * 
+     * **Note:**
+     * >It should be noted that due to the nature of floating point numbers, results of calculations with `math.pi` may not be what you expect. See second example below.
+     * 
+     * 
+     */
+    function pi(): number;
     
     /**
      * Returns x raised to the power y.
@@ -51035,7 +51456,7 @@ declare namespace math {
      * @param num - The number to truncate
      * @param digits - The amount of digits to keep after the point.
      */
-    function Truncate(num: number, digits: number): void;
+    function Truncate(num: number, digits: number): number;
 
 }
 
@@ -52186,6 +52607,27 @@ declare namespace package {
 }
 
 /**
+ * Used to ask player for various potentially dangerous permissions.
+ */
+declare namespace permissions {
+    
+
+    /**
+     * Requests the player to connect to a specified server. The player will be prompted with a confirmation window.
+     * @param address - The address to ask to connect to. If a port is not given, the default `:27015` port will be added.
+     */
+    function AskToConnect(address: string): void;
+    
+    /**
+     * Returns whether the player has granted the current server a specific permission.
+     * @param permission - The permission to poll. Currently only 1 permission is valid:
+     * * "connect"
+     */
+    function IsGranted(permission: string): boolean;
+
+}
+
+/**
  * The physenv library allows you to control the physics environment created by the engine, and lets you modify constants such as gravity and maximum velocity.
  */
 declare namespace physenv {
@@ -52428,7 +52870,7 @@ declare namespace player_manager {
      * @param funcName - Name of function.
      * @param arguments - Optional arguments. Can be of any type.
      */
-    function RunClass(ply: Player, funcName: string, arguments: any[]): any[];
+    function RunClass(ply: Player, funcName: string, ...arguments: any[]): any[];
     
     /**
      * Sets a player's class
@@ -53045,7 +53487,7 @@ declare namespace render {
     function GetRenderTarget(): ITexture;
     
     /**
-     * Returns the _rt_ResolvedFullFrameDepth texture for SSAO depth.
+     * Returns the `_rt_ResolvedFullFrameDepth` texture for SSAO depth. It will only be updated if [GM:NeedsDepthPass](https://wiki.facepunch.com/gmod/GM:NeedsDepthPass) returns true.
      * 
      */
     function GetResolvedFullFrameDepth(): ITexture;
@@ -53265,6 +53707,8 @@ declare namespace render {
     
     /**
      * Pushes a texture filter onto the magnification texture filter stack.
+     * 
+     * See also [render.PushFilterMin](https://wiki.facepunch.com/gmod/render.PushFilterMin) and [render.PopFilterMag](https://wiki.facepunch.com/gmod/render.PopFilterMag).
      * @param texFilterType - The texture filter type, see [Enums/TEXFILTER](https://wiki.facepunch.com/gmod/Enums/TEXFILTER)
      */
     function PushFilterMag(texFilterType: TEXFILTER): void;
@@ -54066,13 +54510,6 @@ declare namespace sound {
     
     /**
      * Creates a sound from a function.
-     * 
-     * **Bug [#3360](https://github.com/Facepunch/garrysmod-issues/issues/3360):**
-     * >This function cannot generate sounds that have a duration of less than 1 second.
-     * 
-     * **Bug [#4082](https://github.com/Facepunch/garrysmod-issues/issues/4082):**
-     * >Sounds persist between disconnects.
-     * 
      * @param indentifier - An unique identified for the sound.
      * **Warning:**
      * >You cannot override already existing ones.
@@ -54082,6 +54519,13 @@ declare namespace sound {
      * @param callback - A function which will be called to generate every sample on the sound. This function gets the current sample number passed as the first argument. The return value must be between `-1.0` and `1.0`. Other values will wrap back to the -1 to 1 range and basically clip. There are **65535** possible quantifiable values between -1 and 1.
      */
     function Generate(indentifier: string, samplerate: number, length: number, callback: Function): void;
+    
+    /**
+     * Returns the most dangerous/closest sound hint based on given location and types of sounds to sense.
+     * @param types - The types of sounds to choose from. See <page text="SOUND_ enums">Enums/SOUND</page>.
+     * @param pos - The position to sense sounds at.
+     */
+    function GetLoudestSoundHint(types: number, pos: Vector): any;
     
     /**
      * Returns properties of the soundscript.
@@ -54166,9 +54610,9 @@ declare namespace spawnmenu {
     /**
      * Activates a tool, opens context menu and brings up the tool gun.
      * @param tool - Tool class/file name
-     * @param menu_only - Should we activate this tool in the menu only or also the toolgun? True = menu only, False = toolgun aswell
+     * @param menu_only - Should we activate this tool in the menu only or also the toolgun? `true` = menu only,`false` = toolgun aswell
      */
-    function ActivateTool(tool: string, menu_only: bool): void;
+    function ActivateTool(tool: string, menu_only: boolean): void;
     
     /**
      * Activates tools context menu in specified tool tab.
@@ -54679,7 +55123,7 @@ declare namespace string {
      * Takes the given numerical bytes and converts them to a string.
      * @param bytes - The bytes to create the string from.
      */
-    function char(bytes: any[]): string;
+    function char(...bytes: any[]): string;
     
     /**
      * Inserts commas for every third digit.
@@ -54716,7 +55160,11 @@ declare namespace string {
     function Explode(separator: string, str: string, use_patterns: boolean): any;
     
     /**
-     * Attempts to find the specified substring in a string, uses [Patterns](https://wiki.facepunch.com/gmod/Patterns) by default.
+     * Attempts to find the specified substring in a string.
+     * 
+     * **Warning:**
+     * >This function usesby default.
+     * 
      * @param haystack - The string to search in.
      * @param needle - The string to find, can contain patterns if enabled.
      * @param startPos - The position to start the search from, can be negative start position will be relative to the end position.
@@ -54736,7 +55184,7 @@ declare namespace string {
      * | %q | Formats a string between double quotes, using escape sequences when necessary to ensure that it can safely be read back by the Lua interpreter | `"test\1\2test"` |
      * @param formatParameters - Values to be formatted into the string.
      */
-    function format(format: string, formatParameters: any[]): string;
+    function format(format: string, ...formatParameters: any[]): string;
     
     /**
      * Returns the time as a formatted string or as a table if no format is given.
@@ -55964,10 +56412,10 @@ declare namespace team {
     function SetUp(teamIndex: number, teamName: string, teamColor: Color, isJoinable: boolean): void;
     
     /**
-     * Returns the sum of deaths of all players of the team.
-     * @param teamIndex - The team index.
+     * Returns the total number of deaths of all players in the team.
+     * @param index - The team index.
      */
-    function TotalDeaths(teamIndex: number): number;
+    function TotalDeaths(index: number): number;
     
     /**
      * Get's the total frags in a team.
@@ -56233,7 +56681,7 @@ declare namespace undo {
      * Returning `false` will mark execution of this function as "failed", meaning that the undo might be skipped if no other entities are removed by it. This is useful when for example an entity you want to access is removed therefore there's nothing to do.
      * @param arguments - Arguments to pass to the function (after the undo info table)
      */
-    function AddFunction(func: Function, arguments: any[]): void;
+    function AddFunction(func: Function, ...arguments: any[]): void;
     
     /**
      * Begins a new undo entry
@@ -56327,7 +56775,7 @@ declare namespace usermessage {
      * * [vararg](https://wiki.facepunch.com/gmod/vararg) preArgs
      * @param preArgs - Arguments that are passed to the callback function when the hook is called. *ring ring*
      */
-    function Hook(name: string, callback: Function, preArgs: any[]): void;
+    function Hook(name: string, callback: Function, ...preArgs: any[]): void;
     
     /**
      * Called by the engine when a usermessage arrives, this method calls the hook function specified by [usermessage.Hook](https://wiki.facepunch.com/gmod/usermessage.Hook) if any.
@@ -56360,7 +56808,7 @@ declare namespace utf8 {
      * Receives zero or more integers, converts each one to its corresponding UTF-8 byte sequence and returns a string with the concatenation of all these sequences.
      * @param codepoints - Unicode code points to be converted in to a UTF-8 string.
      */
-    function char(codepoints: any[]): string;
+    function char(...codepoints: any[]): string;
     
     /**
      * Returns the codepoints (as numbers) from all characters in the given string that start between byte position startPos and endPos. It raises an error if it meets any invalid byte sequence. This functions similarly to [string.byte](https://wiki.facepunch.com/gmod/string.byte).
@@ -56432,8 +56880,7 @@ declare namespace util {
      * **Note:**
      * >Each unique network name needs to be pooled once - do not put this function call into any other functions if you're using a constant string. Preferable place for this function is in a serverside lua file, or in a shared file with the [net.Receive](https://wiki.facepunch.com/gmod/net.Receive) function.
      * 
-     * **Note:**
-     * >The string table used for this function does not interfere with the engine string tables and has 2048 slots.
+     * The string table used for this function does not interfere with the engine string tables and has 4096 slots.
      * 
      * @param str - Adds the specified string to the string table.
      */
@@ -56761,8 +57208,7 @@ declare namespace util {
      * **Warning:**
      * >Keys are converted to numbers wherever possible. This means using [Player:SteamID64](https://wiki.facepunch.com/gmod/Player:SteamID64) as keys won't work.
      * 
-     * **Warning:**
-     * >There is a limit of 15,000 keys total.
+     * There is a limit of 15,000 keys total.
      * 
      * **Bug [#3561](https://github.com/Facepunch/garrysmod-issues/issues/3561):**
      * >This will attempt cast the string keys "inf", "nan", "true", and "false" to their respective Lua values. This completely ignores nulls in arrays.
@@ -57138,7 +57584,7 @@ declare namespace vgui {
     function CreateFromTable(metatable: any, parent: Panel, name: string): Panel;
     
     /**
-     * Creates a engine panel.
+     * Creates an engine panel.
      * @param class_ - Class of the panel to create
      * @param parent - If specified, parents created panel to given one
      * @param name - Name of the created panel
