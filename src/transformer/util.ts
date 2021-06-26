@@ -9,7 +9,7 @@ export function transformType(type: string) {
         .replace(/(\w) (\w)/g, "$1_$2");
 }
 
-export function transformIdentifier(id: string, type?: string) {
+export function transformIdentifier(id: string) {
     if (id == "constructor") {
         return "constructor";
     }
@@ -32,7 +32,7 @@ export function transformIdentifier(id: string, type?: string) {
     }
 
     return (
-        (type == "vararg" ? "..." : "") + id
+        id
             .replace(/\./g, "")
             // https://wiki.facepunch.com/gmod/Structures/PropertyAdd StructureField (Order)
             .replace(/\(.*\)/g, "")

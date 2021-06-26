@@ -1,5 +1,8 @@
 /// <reference types="typescript-to-lua/language-extensions" />
+
 /// <reference path="./extras.d.ts" />
+
+/** @noSelfInFile **/
 
 /**
  * List of all possible functions to manipulate angles.
@@ -44888,7 +44891,7 @@ declare function EmitSentence(soundName: string, position: Vector, entity: numbe
  * >Sounds must be precached serverside manually before they can be played. [util.PrecacheSound](https://wiki.facepunch.com/gmod/util.PrecacheSound) does not work for this purpose, [Entity:EmitSound](https://wiki.facepunch.com/gmod/Entity:EmitSound) does the trick
  * 
  * @param soundName - The sound to play
- * @param position - The position to play at
+ * @param position - The position where the sound is meant to play, used only for a network  filter (`CPASAttenuationFilter`) to decide which players will hear the sound.
  * @param entity - The entity to emit the sound from. Can be an [Entity:EntIndex](https://wiki.facepunch.com/gmod/Entity:EntIndex) or one of the following:
  * * `0` - Plays sound on the world (position set to `0,0,0`)
  * * `-1` - Plays sound on the local player (on server acts as `0`)
@@ -45314,19 +45317,14 @@ declare function HTTP(parameters: HTTPRequest): boolean;
  * Executes a Lua script.
  * 
  * **Warning:**
- * >The file you are attempting to include MUST NOT be empty or the include will fail. Files over a certain size may fail as well.
+ * >The file you are attempting to include **MUST NOT** be empty or the include will fail. Files over a certain size may fail as well.
  * 
- * **Warning:**
- * >If the file you are including is clientside or shared, it **must** be [Global.AddCSLuaFile](https://wiki.facepunch.com/gmod/Global.AddCSLuaFile)'d or this function will error saying the file doesn't exist.
- * 
- * **Bug [#1976](https://github.com/Facepunch/garrysmod-issues/issues/1976):**
- * >[Global.pcall](https://wiki.facepunch.com/gmod/Global.pcall)ing this function will break autorefresh.
+ * If the file you are including is clientside or shared, it **must** be [Global.AddCSLuaFile](https://wiki.facepunch.com/gmod/Global.AddCSLuaFile)'d or this function will error saying the file doesn't exist.
  * 
  * **Note:**
  * >Addon files (.gma files) do not support relative parent folders (`..` notation).
  * 
- * **Note:**
- * >This function will try to load local client file if `sv_allowcslua` is **1**.
+ * This function will try to load local client file if `sv_allowcslua` is **1**.
  * 
  * @param fileName - The name of the script to be executed. The path must be either relative to the current file, or be an absolute path (relative to and excluding the **lua/* folder).
  * **Note:**
@@ -46931,7 +46929,7 @@ declare namespace bit {
      * @param value1 - The first value.
      * @param vararg - Extra values to be evaluated. (must all be numbers)
      */
-    function bor(value1: number, vararg: any[]): number;
+    function bor(value1: number, ...vararg: any[]): number;
     
     /**
      * Swaps the byte order.
@@ -52484,7 +52482,7 @@ declare namespace numpad {
      * @param name - The name of the function to run, corresponding with the one used in [numpad.Register](https://wiki.facepunch.com/gmod/numpad.Register)
      * @param vararg - Arguments to pass to the function passed to [numpad.Register](https://wiki.facepunch.com/gmod/numpad.Register).
      */
-    function OnDown(ply: Player, key: KEY, name: string, vararg: any[]): number;
+    function OnDown(ply: Player, key: KEY, name: string, ...vararg: any[]): number;
     
     /**
      * Calls a function registered with [numpad.Register](https://wiki.facepunch.com/gmod/numpad.Register) when a player releases specified key.
@@ -52495,7 +52493,7 @@ declare namespace numpad {
      * @param name - The name of the function to run, corresponding with the one used in [numpad.Register](https://wiki.facepunch.com/gmod/numpad.Register)
      * @param vararg - Arguments to pass to the function passed to [numpad.Register](https://wiki.facepunch.com/gmod/numpad.Register).
      */
-    function OnUp(ply: Player, key: KEY, name: string, vararg: any[]): number;
+    function OnUp(ply: Player, key: KEY, name: string, ...vararg: any[]): number;
     
     /**
      * Registers a numpad library action for use with [numpad.OnDown](https://wiki.facepunch.com/gmod/numpad.OnDown) and [numpad.OnUp](https://wiki.facepunch.com/gmod/numpad.OnUp)
