@@ -69,18 +69,16 @@ import { isWikiFunction } from "./wiki_types";
         .map(printInterface)
         .join("\n\n");
 
-    const result =
-        `/// <reference types="typescript-to-lua/language-extensions" />
-/// <reference path="./extras.d.ts" />\n\n` +
-        classResult +
-        "\n\n" +
-        structResult +
-        "\n\n" +
-        enumResult +
-        "\n\n" +
-        globalFunctionResult +
-        "\n\n" +
-        libraryResult;
+    const result = [
+        '/// <reference types="typescript-to-lua/language-extensions" />',
+        '/// <reference path="./extras.d.ts" />',
+        "/** @noSelfInFile **/",
+        classResult,
+        structResult,
+        enumResult,
+        globalFunctionResult,
+        libraryResult
+    ].join('\n\n');
 
     fs.writeFileSync("out/declarations.d.ts", result);
 })();

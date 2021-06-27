@@ -55,7 +55,7 @@ function transformArgs(func: WikiFunction): TSArgument[] {
         }
 
         return {
-            identifier: transformIdentifier(arg.name),
+            identifier: (type == "vararg" ? "..." : "") + transformIdentifier(arg.name),
             default: defaultValue,
             type: transformType(type),
         } as TSArgument;
