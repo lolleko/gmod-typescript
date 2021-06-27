@@ -1,10 +1,10 @@
-import * as parser from "fast-xml-parser";
+import * as parser from 'fast-xml-parser';
 
 export const xmlParserDefaultOptions: parser.X2jOptionsOptional = {
-    textNodeName: "__text",
+    textNodeName: '__text',
     ignoreAttributes: false,
-    attributeNamePrefix: "",
-    attrNodeName: "attr",
+    attributeNamePrefix: '',
+    attrNodeName: 'attr',
     arrayMode: true,
 };
 
@@ -13,17 +13,17 @@ export function parseMarkup(markup: string, extraOptions: parser.X2jOptionsOptio
     markup = `<root>${markup}</root>`;
 
     markup = markup
-        .replace(/&/g, "&amp;")
-        .replace(/ < /g, " &lt; ")
-        .replace(/<\?php/g, "&lt;?php")
-        .replace(/\?>/g, "?&gt;")
-        .replace(/ > /g, " &gt; ")
-        .replace(/ <= /g, " &lt;= ")
-        .replace(/ >= /g, " &gt;= ")
-        .replace(/`/g, "&grave;");
+        .replace(/&/g, '&amp;')
+        .replace(/ < /g, ' &lt; ')
+        .replace(/<\?php/g, '&lt;?php')
+        .replace(/\?>/g, '?&gt;')
+        .replace(/ > /g, ' &gt; ')
+        .replace(/ <= /g, ' &lt;= ')
+        .replace(/ >= /g, ' &gt;= ')
+        .replace(/`/g, '&grave;');
     const validation = parser.validate(markup);
     if (validation != true) {
-        if (validation.err.code != "InvalidTag") {
+        if (validation.err.code != 'InvalidTag') {
             throw new Error(
                 `Invalid markup: \n${JSON.stringify(validation.err, undefined, 4)}\n ${markup}`
             );

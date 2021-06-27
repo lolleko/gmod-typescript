@@ -1,6 +1,6 @@
-import { TSArgument, TSFunction, TSReturn } from "../ts_types";
+import { TSArgument, TSFunction, TSReturn } from '../ts_types';
 
-import * as modificationDB from "./modifications.json";
+import * as modificationDB from './modifications.json';
 
 export function getPageMods(page: string): Modification[] {
     if ((modificationDB as ModificationDB)[page]) {
@@ -12,11 +12,11 @@ export function getPageMods(page: string): Modification[] {
 export interface ModificationDB extends Record<string, Modification[]> {}
 
 export enum ModificationKind {
-    ModifiyArgument = "ModifiyArgument",
-    ModifyReturn = "ModifyReturn",
-    OmitParentField = "OmitParentField",
-    RenameIndentifier = "RenameIndentifier",
-    InnerNamespace = "InnerNamespace",
+    ModifiyArgument = 'ModifiyArgument',
+    ModifyReturn = 'ModifyReturn',
+    OmitParentField = 'OmitParentField',
+    RenameIndentifier = 'RenameIndentifier',
+    InnerNamespace = 'InnerNamespace',
 }
 
 export interface Modification {

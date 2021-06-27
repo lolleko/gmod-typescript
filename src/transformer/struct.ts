@@ -1,8 +1,8 @@
-import { TSEnum, TSEnumField, TSCollection, TSField } from "../ts_types";
-import { WikiStruct, WikiStructItem } from "../wiki_types";
-import { transformDescription } from "./description";
-import { getPageMods, isRenameIndentifierModification } from "./modification_db";
-import { transformIdentifier, transformType } from "./util";
+import { TSEnum, TSEnumField, TSCollection, TSField } from '../ts_types';
+import { WikiStruct, WikiStructItem } from '../wiki_types';
+import { transformDescription } from './description';
+import { getPageMods, isRenameIndentifierModification } from './modification_db';
+import { transformIdentifier, transformType } from './util';
 
 export function transformStruct(wikiStruct: WikiStruct): TSCollection {
     return {
@@ -16,7 +16,7 @@ export function transformStruct(wikiStruct: WikiStruct): TSCollection {
 }
 
 export function transformStructField(wikiStructItem: WikiStructItem): TSField {
-    const defaultString = wikiStructItem.default ? "\n" + `@default ${wikiStructItem.default}` : "";
+    const defaultString = wikiStructItem.default ? '\n' + `@default ${wikiStructItem.default}` : '';
     return {
         identifier: transformIdentifier(wikiStructItem.name),
         docComment: transformDescription(wikiStructItem.description) + defaultString,

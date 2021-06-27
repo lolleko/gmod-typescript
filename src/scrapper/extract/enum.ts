@@ -1,9 +1,9 @@
-import { WikiPage, WikiEnum, WikiEnumItem, WikiElementKind } from "../../wiki_types";
-import { parseMarkup } from "../util";
+import { WikiPage, WikiEnum, WikiEnumItem, WikiElementKind } from '../../wiki_types';
+import { parseMarkup } from '../util';
 
 export function extractEnum(page: WikiPage): WikiEnum {
     const markupObj = parseMarkup(page.markup, {
-        stopNodes: ["description", "item"],
+        stopNodes: ['description', 'item'],
     });
 
     const enumObj = markupObj.enum[0];
@@ -20,8 +20,8 @@ export function extractEnum(page: WikiPage): WikiEnum {
 
 function itemObjToEnumItem(itemObj: any): WikiEnumItem[] {
     let keys: string[];
-    if (itemObj.attr.key.includes(" or ")) {
-        keys = [...itemObj.attr.key.split("or").map((s: string) => s.trim())];
+    if (itemObj.attr.key.includes(' or ')) {
+        keys = [...itemObj.attr.key.split('or').map((s: string) => s.trim())];
     } else {
         keys = [itemObj.attr.key];
     }
@@ -29,6 +29,6 @@ function itemObjToEnumItem(itemObj: any): WikiEnumItem[] {
     return keys.map((key) => ({
         key,
         value: itemObj.attr.value,
-        description: itemObj.__text ? itemObj.__text.trim() : "",
+        description: itemObj.__text ? itemObj.__text.trim() : '',
     }));
 }

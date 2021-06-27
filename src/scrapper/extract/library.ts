@@ -1,9 +1,9 @@
-import { WikiElementKind, WikiFunctionCollection, WikiPage } from "../../wiki_types";
-import { parseMarkup } from "../util";
+import { WikiElementKind, WikiFunctionCollection, WikiPage } from '../../wiki_types';
+import { parseMarkup } from '../util';
 
 export function extractLibrary(page: WikiPage): WikiFunctionCollection {
     const markupObj = parseMarkup(page.markup, {
-        stopNodes: ["summary"],
+        stopNodes: ['summary'],
     });
 
     const LibraryObj = markupObj.type[0];

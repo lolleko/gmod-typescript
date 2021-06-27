@@ -1,5 +1,5 @@
-import { TSFunction } from "../ts_types";
-import { printDocComent } from "./util";
+import { TSFunction } from '../ts_types';
+import { printDocComent } from './util';
 
 export function printNamespaceFunction(func: TSFunction): string {
     return printFunction(func, true, false);
@@ -18,11 +18,11 @@ export function printFunction(
     prependFunction: boolean,
     prependDeclare: boolean
 ): string {
-    const args = func.args.map((a) => `${a.identifier}: ${a.type}`).join(", ");
+    const args = func.args.map((a) => `${a.identifier}: ${a.type}`).join(', ');
 
     const docComment = printDocComent(func.docComment);
 
-    const prefix = `${prependDeclare ? "declare " : ""}${prependFunction ? "function " : ""}`;
+    const prefix = `${prependDeclare ? 'declare ' : ''}${prependFunction ? 'function ' : ''}`;
 
     return `
 ${docComment}

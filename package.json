@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc",
-        "generate": "node dist/index.js"
+        "generate": "node dist/index.js",
+        "lint": "prettier --check .",
+        "lint:fix": "prettier --write ."
     },
     "repository": {
         "type": "git",
@@ -17,6 +19,12 @@
         "url": "https://github.com/lolleko/gmod-typescript/issues"
     },
     "homepage": "https://github.com/lolleko/gmod-typescript#readme",
+    "prettier": {
+        "printWidth": 100,
+        "tabWidth": 4,
+        "proseWrap": "never",
+        "singleQuote": true
+    },
     "devDependencies": {
         "@types/node": "^14.14.20",
         "prettier": "^2.2.1",

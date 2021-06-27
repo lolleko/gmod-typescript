@@ -1,16 +1,16 @@
-import { WikiElementKind, WikiPage, WikiStruct, WikiStructItem } from "../../wiki_types";
-import { parseMarkup } from "../util";
+import { WikiElementKind, WikiPage, WikiStruct, WikiStructItem } from '../../wiki_types';
+import { parseMarkup } from '../util';
 
 export function extractStruct(page: WikiPage): WikiStruct {
     const markupObj = parseMarkup(page.markup, {
-        stopNodes: ["description", "item"],
+        stopNodes: ['description', 'item'],
     });
 
     const structObj = markupObj.structure[0];
 
     return {
         kind: WikiElementKind.Struct,
-        name: page.title.replace(" ", "_"),
+        name: page.title.replace(' ', '_'),
         description: structObj.description.trim(),
         realm: structObj.realm,
         items: structObj.fields ? structObj.fields[0].item.map(itemObjToStructObj) : [],
@@ -22,9 +22,9 @@ function itemObjToStructObj(itemObj: any): WikiStructItem {
     return {
         kind: WikiElementKind.StructItem,
         name: itemObj.attr.name,
-        parent: "",
-        address: "",
+        parent: '',
+        address: '',
         type: itemObj.attr.type,
-        description: itemObj.__text ? itemObj.__text.trim() : "",
+        description: itemObj.__text ? itemObj.__text.trim() : '',
     };
 }

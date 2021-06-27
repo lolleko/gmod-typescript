@@ -3,11 +3,11 @@ import {
     isModifyReturnModification,
     getPageMods,
     isRenameIndentifierModification,
-} from "./modification_db";
-import { TSArgument, TSFunction, TSReturn } from "../ts_types";
-import { WikiFunction } from "../wiki_types";
-import { transformDescription } from "./description";
-import { transformIdentifier, transformType } from "./util";
+} from './modification_db';
+import { TSArgument, TSFunction, TSReturn } from '../ts_types';
+import { WikiFunction } from '../wiki_types';
+import { transformDescription } from './description';
+import { transformIdentifier, transformType } from './util';
 
 export function transformFunction(func: WikiFunction): TSFunction {
     const args: TSArgument[] = transformArgs(func);
@@ -16,15 +16,15 @@ export function transformFunction(func: WikiFunction): TSFunction {
 
     const docComment =
         transformDescription(func.description) +
-        "\n" +
+        '\n' +
         func.args
             .map(
                 (a) =>
                     `@param ${transformIdentifier(a.name)} - ${transformDescription(
                         a.description
-                    ).replace(/\n{2,}/g, "\n")}`
+                    ).replace(/\n{2,}/g, '\n')}`
             )
-            .join("\n");
+            .join('\n');
 
     return {
         identifier: func.name,
@@ -55,7 +55,7 @@ function transformArgs(func: WikiFunction): TSArgument[] {
         }
 
         return {
-            identifier: (type == "vararg" ? "..." : "") + transformIdentifier(arg.name),
+            identifier: (type == 'vararg' ? '...' : '') + transformIdentifier(arg.name),
             default: defaultValue,
             type: transformType(type),
         } as TSArgument;
@@ -69,12 +69,12 @@ function inferType(type: string, desc: string) {
         const renameMods = mods.filter(isRenameIndentifierModification);
         if (renameMods.length > 0) {
             type = renameMods[0].newName;
-        } else if (links[1].includes("Structures")) {
-            type = links[1].split("/")[1];
-        } else if (links[1].includes("Enum")) {
-            type = links[1].split("/")[1];
-        } else if (links[1] === "Color") {
-            type = "Color";
+        } else if (links[1].includes('Structures')) {
+            type = links[1].split('/')[1];
+        } else if (links[1].includes('Enum')) {
+            type = links[1].split('/')[1];
+        } else if (links[1] === 'Color') {
+            type = 'Color';
         }
     }
     return type;
@@ -91,7 +91,7 @@ function transformReturns(func: WikiFunction): TSReturn {
     }
 
     if (rets.length === 0) {
-        return { type: "void" };
+        return { type: 'void' };
     }
     if (rets.length === 1) {
         return { type: transformType(inferType(rets[0].type, rets[0].description)) };
@@ -99,6 +99,6 @@ function transformReturns(func: WikiFunction): TSReturn {
     return {
         type: `LuaMultiReturn<[${rets
             .map((r) => transformType(inferType(r.type, r.description)))
-            .join(", ")}]>`,
+            .join(', ')}]>`,
     };
 }

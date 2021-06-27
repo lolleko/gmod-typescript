@@ -1,7 +1,7 @@
 export function printDocComent(comment: string) {
     const commentWithoutAbudnantNewLines = comment
-        .replace(/\n{2,}/g, "\n\n")
-        .replace(/\n/g, "\n * ");
+        .replace(/\n{2,}/g, '\n\n')
+        .replace(/\n/g, '\n * ');
 
     return `
 /**

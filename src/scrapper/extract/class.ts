@@ -1,9 +1,9 @@
-import { WikiElementKind, WikiFunctionCollection, WikiPage } from "../../wiki_types";
-import { parseMarkup } from "../util";
+import { WikiElementKind, WikiFunctionCollection, WikiPage } from '../../wiki_types';
+import { parseMarkup } from '../util';
 
 export function extractClass(page: WikiPage): WikiFunctionCollection {
     const markupObj = parseMarkup(page.markup, {
-        stopNodes: ["summary", "description"],
+        stopNodes: ['summary', 'description'],
     });
 
     if (markupObj.type) {
@@ -22,9 +22,9 @@ export function extractClass(page: WikiPage): WikiFunctionCollection {
 
         return {
             kind: WikiElementKind.FunctionCollection,
-            name: page.title.replace(" ", "_"),
+            name: page.title.replace(' ', '_'),
             parent: classObj.parent,
-            description: classObj.description ? classObj.description.trim() : "",
+            description: classObj.description ? classObj.description.trim() : '',
             library: false,
             address: page.address,
         };
