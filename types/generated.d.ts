@@ -1393,7 +1393,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     AddToClosedList(): void;
@@ -1403,7 +1403,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     AddToOpenList(): void;
@@ -1413,7 +1413,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     ClearSearchLists(): void;
@@ -1533,7 +1533,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     GetCostSoFar(): number;
@@ -1657,7 +1657,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     GetTotalCost(): number;
@@ -1687,7 +1687,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     IsClosed(): boolean;
@@ -1732,7 +1732,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     IsOpen(): boolean;
@@ -1742,7 +1742,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     IsOpenListEmpty(): boolean;
@@ -1808,7 +1808,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     PopOpenList(): CNavArea;
@@ -1824,7 +1824,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     RemoveFromClosedList(): void;
@@ -1847,7 +1847,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * @param cost - The cost so far
      */
     SetCostSoFar(cost: number): void;
@@ -1872,7 +1872,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * @param cost - The total cost of the path to set.
      * Must be above or equal 0.
      */
@@ -1883,7 +1883,7 @@ interface CNavArea {
      * 
      * Used in pathfinding via the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
      * 
-     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple Pathfinding) page.
+     * More information can be found on the [Simple Pathfinding](https://wiki.facepunch.com/gmod/Simple_Pathfinding) page.
      * 
      */
     UpdateOnOpenList(): void;
@@ -3044,7 +3044,7 @@ interface CUserCmd {
 /**
  * This is a list of all available methods for all entities, which includes <page text="Players">Player</page>, <page text="Weapons">Weapon</page>, <page text="NPCs">NPC</page> and <page text="Vehicles">Vehicle</page>.
  * 
- * For a list of possible members of [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted Entities) see <page text="ENT Structure">Structures/ENT</page>
+ * For a list of possible members of [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted_Entities) see <page text="ENT Structure">Structures/ENT</page>
  */
 interface Entity {
     
@@ -3072,7 +3072,7 @@ interface Entity {
      * **Warning:**
      * >This method does not check if the function has already been added to this object before, so if you add the same callback twice, it will be run twice! Make sure to add your callback only once.
      * 
-     * @param hook - The hook name to hook onto. See [Entity Callbacks](https://wiki.facepunch.com/gmod/Entity Callbacks)
+     * @param hook - The hook name to hook onto. See [Entity Callbacks](https://wiki.facepunch.com/gmod/Entity_Callbacks)
      * @param func - The function to call
      */
     AddCallback(hook: string, func: Function): number;
@@ -3642,7 +3642,7 @@ interface Entity {
      * >This will return improper values for viewmodels if used in [GM:CalcView](https://wiki.facepunch.com/gmod/GM:CalcView).
      * 
      * **Note:**
-     * >The update rate of this function is limited by the setting of ENT.AutomaticFrameAdvance for [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted Entities)!
+     * >The update rate of this function is limited by the setting of ENT.AutomaticFrameAdvance for [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted_Entities)!
      * 
      * @param attachmentId - The internal ID of the attachment.
      */
@@ -3823,7 +3823,7 @@ interface Entity {
      * Returns the specified hook callbacks for this entity added with [Entity:AddCallback](https://wiki.facepunch.com/gmod/Entity:AddCallback)
      * 
      * The callbacks can then be removed with [Entity:RemoveCallback](https://wiki.facepunch.com/gmod/Entity:RemoveCallback).
-     * @param hook - The hook to retrieve the callbacks from, see [Entity Callbacks](https://wiki.facepunch.com/gmod/Entity Callbacks) for the possible hooks.
+     * @param hook - The hook to retrieve the callbacks from, see [Entity Callbacks](https://wiki.facepunch.com/gmod/Entity_Callbacks) for the possible hooks.
      */
     GetCallbacks(hook: string): any;
     
@@ -3989,10 +3989,10 @@ interface Entity {
     /**
      * Returns internal data about editable [Entity:NetworkVar](https://wiki.facepunch.com/gmod/Entity:NetworkVar)s.
      * 
-     * 		This is used internally by [DEntityProperties](https://wiki.facepunch.com/gmod/DEntityProperties) and [Editable Entities](https://wiki.facepunch.com/gmod/Editable Entities) system.
+     * 		This is used internally by [DEntityProperties](https://wiki.facepunch.com/gmod/DEntityProperties) and [Editable Entities](https://wiki.facepunch.com/gmod/Editable_Entities) system.
      * 
      * **Note:**
-     * >This function will only work on entities which had [Entity:InstallDataTable](https://wiki.facepunch.com/gmod/Entity:InstallDataTable) called on them, which is done automatically for players and all [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted Entities)
+     * >This function will only work on entities which had [Entity:InstallDataTable](https://wiki.facepunch.com/gmod/Entity:InstallDataTable) called on them, which is done automatically for players and all [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted_Entities)
      * 
      * 
      */
@@ -4331,7 +4331,7 @@ interface Entity {
     GetModelContents(): CONTENTS;
     
     /**
-     * Gets the physics bone count of the entity's model. This is only applicable to `anim` type [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted Entities) with ragdoll models.
+     * Gets the physics bone count of the entity's model. This is only applicable to `anim` type [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted_Entities) with ragdoll models.
      * 
      */
     GetModelPhysBoneCount(): number;
@@ -4500,7 +4500,7 @@ interface Entity {
      * 		For NWVars see [Entity:GetNWVarTable](https://wiki.facepunch.com/gmod/Entity:GetNWVarTable).
      * 
      * **Note:**
-     * >This function will only work on entities which had [Entity:InstallDataTable](https://wiki.facepunch.com/gmod/Entity:InstallDataTable) called on them, which is done automatically for players and all [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted Entities)
+     * >This function will only work on entities which had [Entity:InstallDataTable](https://wiki.facepunch.com/gmod/Entity:InstallDataTable) called on them, which is done automatically for players and all [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted_Entities)
      * 
      * 
      */
@@ -5521,7 +5521,7 @@ interface Entity {
      * `KeyName`
      * * Allows the NetworkVar to be set using [Entity:SetKeyValue](https://wiki.facepunch.com/gmod/Entity:SetKeyValue). This is useful if you're making an entity that you want to be loaded in a map. The sky entity uses this.
      * `Edit`
-     * * The edit key lets you mark this variable as editable. See [Editable Entities](https://wiki.facepunch.com/gmod/Editable Entities) for more information.
+     * * The edit key lets you mark this variable as editable. See [Editable Entities](https://wiki.facepunch.com/gmod/Editable_Entities) for more information.
      */
     NetworkVar(type: string, slot: number, name: string, extended: any): void;
     
@@ -5856,7 +5856,7 @@ interface Entity {
     
     /**
      * Removes a callback previously added with [Entity:AddCallback](https://wiki.facepunch.com/gmod/Entity:AddCallback)
-     * @param hook - The hook name to remove. See [Entity Callbacks](https://wiki.facepunch.com/gmod/Entity Callbacks)
+     * @param hook - The hook name to remove. See [Entity Callbacks](https://wiki.facepunch.com/gmod/Entity_Callbacks)
      * @param callbackid - The callback id previously retrieved with the return of [Entity:AddCallback](https://wiki.facepunch.com/gmod/Entity:AddCallback) or [Entity:GetCallbacks](https://wiki.facepunch.com/gmod/Entity:GetCallbacks)
      */
     RemoveCallback(hook: string, callbackid: number): void;
@@ -8045,7 +8045,7 @@ interface IMaterial {
      * Returns the specified material value as a int, rounds the value if its a float, or nil if the value is not set.
      * 
      * **Note:**
-     * >Please note that certain material flags such as `$model` are stored in the `$flags` variable and cannot be directly retrieved with this function. See the full list here: [Material Flags](https://wiki.facepunch.com/gmod/Material Flags)
+     * >Please note that certain material flags such as `$model` are stored in the `$flags` variable and cannot be directly retrieved with this function. See the full list here: [Material Flags](https://wiki.facepunch.com/gmod/Material_Flags)
      * 
      * @param materialInt - The name of the material integer.
      */
@@ -8146,7 +8146,7 @@ interface IMaterial {
      * Sets the specified material value to the specified int, does nothing on a type mismatch.
      * 
      * **Note:**
-     * >Please note that certain material flags such as `$model` are stored in the `$flags` variable and cannot be directly set with this function. See the full list here: [Material Flags](https://wiki.facepunch.com/gmod/Material Flags)
+     * >Please note that certain material flags such as `$model` are stored in the `$flags` variable and cannot be directly set with this function. See the full list here: [Material Flags](https://wiki.facepunch.com/gmod/Material_Flags)
      * 
      * @param materialInt - The name of the material int.
      * @param int - The new int value.
@@ -8541,7 +8541,7 @@ interface MarkupObject {
  * 
  * This page lists all possible functions usable with NextBots.
  * 
- * See [NextBot NPC Creation](https://wiki.facepunch.com/gmod/NextBot NPC Creation) for more information on how to create NextBot NPCs.
+ * See [NextBot NPC Creation](https://wiki.facepunch.com/gmod/NextBot_NPC_Creation) for more information on how to create NextBot NPCs.
  */
 interface NextBot {
     
@@ -10571,7 +10571,7 @@ interface Player {
      * >On clientside running a ConCommand on an other player will not throw any warnings or errors but will run the ConCommand on LocalPlayer() instead.
      * 
      * **Note:**
-     * >Some commands/convars are blocked from being ran/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [Blocked ConCommands](https://wiki.facepunch.com/gmod/Blocked ConCommands).
+     * >Some commands/convars are blocked from being ran/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [Blocked ConCommands](https://wiki.facepunch.com/gmod/Blocked_ConCommands).
      * 
      * @param command - command to run
      */
@@ -10865,7 +10865,7 @@ interface Player {
     GetDrivingEntity(): Entity;
     
     /**
-     * Returns driving mode of the player. See [Entity Driving](https://wiki.facepunch.com/gmod/Entity Driving).
+     * Returns driving mode of the player. See [Entity Driving](https://wiki.facepunch.com/gmod/Entity_Driving).
      * 
      */
     GetDrivingMode(): number;
@@ -11830,7 +11830,7 @@ interface Player {
     /**
      * Sets the driving entity and driving mode.
      * 
-     * Use [drive.PlayerStartDriving](https://wiki.facepunch.com/gmod/drive.PlayerStartDriving) instead, see [Entity Driving](https://wiki.facepunch.com/gmod/Entity Driving).
+     * Use [drive.PlayerStartDriving](https://wiki.facepunch.com/gmod/drive.PlayerStartDriving) instead, see [Entity Driving](https://wiki.facepunch.com/gmod/Entity_Driving).
      * @param drivingEntity - The entity the player should drive.
      * @param drivingMode - The driving mode index.
      */
@@ -11878,7 +11878,7 @@ interface Player {
      * Sets the hands entity of a player.
      * 
      * The hands entity is an entity introduced in Garry's Mod 13 and it's used to show the player's hands attached to the viewmodel.
-     * This is similar to the approach used in L4D and CS:GO, for more information on how to implement this system in your gamemode visit [Using Viewmodel Hands](https://wiki.facepunch.com/gmod/Using Viewmodel Hands).
+     * This is similar to the approach used in L4D and CS:GO, for more information on how to implement this system in your gamemode visit [Using Viewmodel Hands](https://wiki.facepunch.com/gmod/Using_Viewmodel_Hands).
      * @param hands - The hands entity to set
      */
     SetHands(hands: Entity): void;
@@ -16131,7 +16131,7 @@ interface DDrawer extends Panel {
 /**
  * **.**
  * 
- * A panel used by the [Editable Entities](https://wiki.facepunch.com/gmod/Editable Entities) system.
+ * A panel used by the [Editable Entities](https://wiki.facepunch.com/gmod/Editable_Entities) system.
  */
 interface DEntityProperties extends DProperties {
     
@@ -16164,7 +16164,7 @@ interface DEntityProperties extends DProperties {
     RebuildControls(): void;
     
     /**
-     * Sets the entity to be edited by this panel. The entity must support the [Editable Entities](https://wiki.facepunch.com/gmod/Editable Entities) system or nothing will happen.
+     * Sets the entity to be edited by this panel. The entity must support the [Editable Entities](https://wiki.facepunch.com/gmod/Editable_Entities) system or nothing will happen.
      * @param ent - The entity to edit
      */
     SetEntity(ent: Entity): void;
@@ -16224,7 +16224,7 @@ interface DFileBrowser extends DPanel {
     GetFileTypes(): string;
     
     /**
-     * Returns the [DTree Node](https://wiki.facepunch.com/gmod/DTree Node) that the file tree stems from.
+     * Returns the [DTree Node](https://wiki.facepunch.com/gmod/DTree_Node) that the file tree stems from.
      * 
      * This is a child of the root node of the [DTree](https://wiki.facepunch.com/gmod/DTree).
      * 
@@ -19939,7 +19939,7 @@ interface DProperty_Int extends DProperty_Float {
 /**
  * Color picker control for a DProperties panel. Opens a [DColorCombo](https://wiki.facepunch.com/gmod/DColorCombo) if the color preview is clicked.
  * 
- * See [Editable Entities](https://wiki.facepunch.com/gmod/Editable Entities) for how this is used ingame.
+ * See [Editable Entities](https://wiki.facepunch.com/gmod/Editable_Entities) for how this is used ingame.
  */
 interface DProperty_VectorColor extends DProperty_Generic {
     
@@ -19947,7 +19947,7 @@ interface DProperty_VectorColor extends DProperty_Generic {
     /**
      * Called by a property row to setup a color selection control.
      * @param prop - 
-     * @param settings - A table of settings. None of the values are used for this property. See [Editable Entities](https://wiki.facepunch.com/gmod/Editable Entities).
+     * @param settings - A table of settings. None of the values are used for this property. See [Editable Entities](https://wiki.facepunch.com/gmod/Editable_Entities).
      */
     Setup(prop: string, settings: any): void;
     
@@ -21144,7 +21144,7 @@ interface DTree_Node extends DPanel {
      * A helper function that adds a new node and calls to [DTree_Node:MakeFolder](https://wiki.facepunch.com/gmod/DTree_Node:MakeFolder) on it.
      * @param name - The name of the new node
      * @param folder - The folder in the filesystem to use, relative to the garrysmod/ folder.
-     * @param path - The path to search in. See [File Search Paths](https://wiki.facepunch.com/gmod/File Search Paths)
+     * @param path - The path to search in. See [File Search Paths](https://wiki.facepunch.com/gmod/File_Search_Paths)
      * @param showFiles - Should files be added as nodes (true) or folders only (false)
      * @param wildcard - The wildcard to use when searching for files.
      * @param bDontForceExpandable - 
@@ -21250,7 +21250,7 @@ interface DTree_Node extends DPanel {
      * @param files - A list of files in this folder
      * @param folders - A list of folder in this folder.
      * @param foldername - The folder name/path this node represents
-     * @param path - The Path ID search was performed with. See [File Search Paths](https://wiki.facepunch.com/gmod/File Search Paths)
+     * @param path - The Path ID search was performed with. See [File Search Paths](https://wiki.facepunch.com/gmod/File_Search_Paths)
      * @param bAndChildren - Inherited from the **FilePopulate** call. Does nothing
      * @param wildcard - The wildcard that was given
      */
@@ -21379,7 +21379,7 @@ interface DTree_Node extends DPanel {
     GetParentNode(): Panel;
     
     /**
-     * Returns the path ID ([File Search Paths](https://wiki.facepunch.com/gmod/File Search Paths)) used in populating the [DTree](https://wiki.facepunch.com/gmod/DTree) from the filesystem.
+     * Returns the path ID ([File Search Paths](https://wiki.facepunch.com/gmod/File_Search_Paths)) used in populating the [DTree](https://wiki.facepunch.com/gmod/DTree) from the filesystem.
      * 
      * See [DTree_Node:SetPathID](https://wiki.facepunch.com/gmod/DTree_Node:SetPathID) and [DTree_Node:MakeFolder](https://wiki.facepunch.com/gmod/DTree_Node:MakeFolder).
      * 
@@ -21460,7 +21460,7 @@ interface DTree_Node extends DPanel {
      * 
      * See also [DTree_Node:AddFolder](https://wiki.facepunch.com/gmod/DTree_Node:AddFolder).
      * @param folder - The folder in the filesystem to use, relative to the garrysmod/ folder.
-     * @param path - The path to search in. See [File Search Paths](https://wiki.facepunch.com/gmod/File Search Paths)
+     * @param path - The path to search in. See [File Search Paths](https://wiki.facepunch.com/gmod/File_Search_Paths)
      * @param showFiles - Should files be added as nodes (true) or folders only (false)
      * @param wildcard - The wildcard to use when searching for files.
      * @param dontForceExpandable - If set to true, don't show the expand buttons on empty nodes.
@@ -21609,7 +21609,7 @@ interface DTree_Node extends DPanel {
     SetParentNode(parent: Panel): void;
     
     /**
-     * Sets the path ID ([File Search Paths](https://wiki.facepunch.com/gmod/File Search Paths)) for populating the tree from the filesystem.
+     * Sets the path ID ([File Search Paths](https://wiki.facepunch.com/gmod/File_Search_Paths)) for populating the tree from the filesystem.
      * 
      * Use [DTree_Node:MakeFolder](https://wiki.facepunch.com/gmod/DTree_Node:MakeFolder) instead.
      * @param path - The path ID to set.
@@ -23306,7 +23306,7 @@ interface Panel {
     /**
      * Sets a new image to be loaded by a [TGAImage](https://wiki.facepunch.com/gmod/TGAImage).
      * @param imageName - The file path.
-     * @param strPath - The PATH to search in. See [File Search Paths](https://wiki.facepunch.com/gmod/File Search Paths).
+     * @param strPath - The PATH to search in. See [File Search Paths](https://wiki.facepunch.com/gmod/File_Search_Paths).
      * This isn't used internally.
      */
     LoadTGAImage(imageName: string, strPath: string): void;
@@ -23375,7 +23375,7 @@ interface Panel {
      * @param delay - The delay (in seconds) before the animation begins.
      * @param ease - The easing of the start and/or end speed of the animation. See [Panel:NewAnimation](https://wiki.facepunch.com/gmod/Panel:NewAnimation) for how this works.
      * @param callback - The function to be called once the animation is complete. Arguments are:
-     * * [table](https://wiki.facepunch.com/gmod/table) animData - The [AnimationData that was used.](https://wiki.facepunch.com/gmod/AnimationData that was used.)
+     * * [table](https://wiki.facepunch.com/gmod/table) animData - The [AnimationData that was used.](https://wiki.facepunch.com/gmod/AnimationData_that_was_used.)
      * * [Panel](https://wiki.facepunch.com/gmod/Panel) pnl - The panel object that was moved.
      */
     MoveBy(moveX: number, moveY: number, time: number, delay: number, ease: number, callback: Function): void;
@@ -23799,7 +23799,7 @@ interface Panel {
      * >This function cannot interact with serverside convars unless you are host
      * 
      * **Note:**
-     * >Blocked convars will not work with this, see [Blocked ConCommands](https://wiki.facepunch.com/gmod/Blocked ConCommands)
+     * >Blocked convars will not work with this, see [Blocked ConCommands](https://wiki.facepunch.com/gmod/Blocked_ConCommands)
      * 
      * @param convar - The console variable to check.
      */
@@ -25632,7 +25632,7 @@ interface ENT {
      * * **nextbot**
      * * **filter**
      * 
-     * See [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted Entities) for a more detailed explanation of what each one is.
+     * See [Scripted Entities](https://wiki.facepunch.com/gmod/Scripted_Entities) for a more detailed explanation of what each one is.
      */
     Type: string,
     
@@ -25663,7 +25663,7 @@ interface ENT {
     Spawnable: boolean,
     
     /**
-     * Whether the entity supports Editing. See [Editable Entities](https://wiki.facepunch.com/gmod/Editable Entities) for more info.
+     * Whether the entity supports Editing. See [Editable Entities](https://wiki.facepunch.com/gmod/Editable_Entities) for more info.
      */
     Editable: boolean,
     
@@ -25763,7 +25763,7 @@ interface EntityCopyData {
     Angle: Angle,
     
     /**
-     * The entity's Network Vars, see [ENTITY:SetupDataTables](https://wiki.facepunch.com/gmod/ENTITY:SetupDataTables) and [Networking Entities](https://wiki.facepunch.com/gmod/Networking Entities).
+     * The entity's Network Vars, see [ENTITY:SetupDataTables](https://wiki.facepunch.com/gmod/ENTITY:SetupDataTables) and [Networking Entities](https://wiki.facepunch.com/gmod/Networking_Entities).
      */
     DT: any,
     
@@ -25846,7 +25846,7 @@ interface FontData {
      * The length is limited to 31 characters maximum.
      * 
      * **Warning:**
-     * >This must be the actual 'nice' font, not a file name. ([Finding the Font Name](https://wiki.facepunch.com/gmod/Finding the Font Name))
+     * >This must be the actual 'nice' font, not a file name. ([Finding the Font Name](https://wiki.facepunch.com/gmod/Finding_the_Font_Name))
      * 
      * This also cannot be an already registered font, i.e. you cannot base your font from any of the
      * 
@@ -27667,7 +27667,7 @@ interface TOOL {
     
     /**
      * Allows you to override the tool usage information shown when the tool is equipped.
-     * See [Tool Information Display](https://wiki.facepunch.com/gmod/Tool Information Display) for more information.
+     * See [Tool Information Display](https://wiki.facepunch.com/gmod/Tool_Information_Display) for more information.
      */
     Information: any,
     
@@ -43872,7 +43872,7 @@ declare enum TYPE {
     TYPE_BOOL = 1,
     
     /**
-     * [light userdata](https://wiki.facepunch.com/gmod/light userdata)
+     * [light userdata](https://wiki.facepunch.com/gmod/light_userdata)
      */
     TYPE_LIGHTUSERDATA = 2,
     
@@ -44991,7 +44991,7 @@ declare function EyeVector(): Vector;
  * 
  * Internally returns [debug.getregistry](https://wiki.facepunch.com/gmod/debug.getregistry)()[metaName]
  * 
- * You can learn more about meta tables on the [Meta Tables](https://wiki.facepunch.com/gmod/Meta Tables) page.
+ * You can learn more about meta tables on the [Meta Tables](https://wiki.facepunch.com/gmod/Meta_Tables) page.
  * 
  * You can find a list of meta tables that can be retrieved with this function on [Enums/TYPE](https://wiki.facepunch.com/gmod/Enums/TYPE). The name in the description is the string to use with this function.
  * @param metaName - The object type to retrieve the meta table of.
@@ -45307,7 +45307,7 @@ declare function HSVToColor(hue: number, saturation: number, value: number): Col
  * >This cannot send or receive multiple headers with the same name.
  * 
  * **Note:**
- * >HTTP-requests to destinations on private networks (such as `192.168.0.1`) won't work.To enable HTTP-requests to destinations on private networks use [Command Line Parameters](https://wiki.facepunch.com/gmod/Command Line Parameters) `-allowlocalhttp`.
+ * >HTTP-requests to destinations on private networks (such as `192.168.0.1`) won't work.To enable HTTP-requests to destinations on private networks use [Command Line Parameters](https://wiki.facepunch.com/gmod/Command_Line_Parameters) `-allowlocalhttp`.
  * 
  * @param parameters - The request parameters. See [Structures/HTTPRequest](https://wiki.facepunch.com/gmod/Structures/HTTPRequest).
  */
@@ -45685,7 +45685,7 @@ declare function LocalToWorld(localPos: Vector, localAng: Angle, originPos: Vect
  * >Since paths are relative to the materials folder, resource paths like ../data/MyImage.jpg will work since ".." translates to moving up a parent directory in the file tree.
  * 
  * @param pngParameters - A string containing space separated keywords which will be used to add material parameters.
- * See [Material Parameters](https://wiki.facepunch.com/gmod/Material Parameters) for more information.
+ * See [Material Parameters](https://wiki.facepunch.com/gmod/Material_Parameters) for more information.
  * **Note:**
  * >This feature only works when importing .png or .jpeg image files
  * 
@@ -46134,7 +46134,7 @@ declare function RestoreCursorPosition(): void;
  * Executes the given console command with the parameters.
  * 
  * **Note:**
- * >Some commands/convars are blocked from being ran/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [Blocked ConCommands](https://wiki.facepunch.com/gmod/Blocked ConCommands).
+ * >Some commands/convars are blocked from being ran/changed using this function, usually to prevent harm/annoyance to clients. For a list of blocked commands, see [Blocked ConCommands](https://wiki.facepunch.com/gmod/Blocked_ConCommands).
  * 
  * @param command - The command to be executed.
  * @param arguments - The arguments. Note, that unlike [Player:ConCommand](https://wiki.facepunch.com/gmod/Player:ConCommand), you must pass each argument as a new string, not separating them with a space.
@@ -46547,7 +46547,7 @@ declare function TranslateDownloadableName(filename: string): string;
 declare function type(var_: any): string;
 
 /**
- * Gets the associated type ID of the variable. Unlike [Global.type](https://wiki.facepunch.com/gmod/Global.type), this does not work with [no value](https://wiki.facepunch.com/gmod/no value) - an argument must be provided.
+ * Gets the associated type ID of the variable. Unlike [Global.type](https://wiki.facepunch.com/gmod/Global.type), this does not work with [no value](https://wiki.facepunch.com/gmod/no_value) - an argument must be provided.
  * 
  * **Bug :**
  * >This returns garbage for _LOADLIB objects.
@@ -48571,7 +48571,7 @@ declare namespace draw {
      * 
      * See also [MarkupObject](https://wiki.facepunch.com/gmod/MarkupObject) for limited width and markup support.
      * @param text - Text to be drawn.
-     * @param font - Name of font to draw the text in. See [surface.CreateFont](https://wiki.facepunch.com/gmod/surface.CreateFont) to create your own, or [Default Fonts](https://wiki.facepunch.com/gmod/Default Fonts) for a list of default fonts.
+     * @param font - Name of font to draw the text in. See [surface.CreateFont](https://wiki.facepunch.com/gmod/surface.CreateFont) to create your own, or [Default Fonts](https://wiki.facepunch.com/gmod/Default_Fonts) for a list of default fonts.
      * @param x - The X Coordinate.
      * @param y - The Y Coordinate.
      * @param color - Color to draw the text in. Uses the [Color](https://wiki.facepunch.com/gmod/Color).
@@ -48638,7 +48638,7 @@ declare namespace draw {
      * >This function does not handle newlines properly. See [draw.DrawText](https://wiki.facepunch.com/gmod/draw.DrawText) for a function that does.
      * 
      * @param text - The text to be drawn.
-     * @param font - The font. See [surface.CreateFont](https://wiki.facepunch.com/gmod/surface.CreateFont) to create your own, or see [Default Fonts](https://wiki.facepunch.com/gmod/Default Fonts) for a list of default fonts.
+     * @param font - The font. See [surface.CreateFont](https://wiki.facepunch.com/gmod/surface.CreateFont) to create your own, or see [Default Fonts](https://wiki.facepunch.com/gmod/Default_Fonts) for a list of default fonts.
      * @param x - The X Coordinate.
      * @param y - The Y Coordinate.
      * @param color - The color of the text. Uses the [Color](https://wiki.facepunch.com/gmod/Color).
@@ -48706,7 +48706,7 @@ declare namespace draw {
 }
 
 /**
- * The drive library is for adding custom control modes to the new "remote control" entity piloting system in Garry's Mod 13. See [Entity Driving](https://wiki.facepunch.com/gmod/Entity Driving).
+ * The drive library is for adding custom control modes to the new "remote control" entity piloting system in Garry's Mod 13. See [Entity Driving](https://wiki.facepunch.com/gmod/Entity_Driving).
  */
 declare namespace drive {
     
@@ -49462,7 +49462,7 @@ declare namespace ents {
  * * `MOD` searches only the garrysmod folder.
  * * `DATA` searches in the data folder.
  * 
- * See [File Search Paths](https://wiki.facepunch.com/gmod/File Search Paths) for the descriptive list of path values.
+ * See [File Search Paths](https://wiki.facepunch.com/gmod/File_Search_Paths) for the descriptive list of path values.
  * For the full list of path values, type `path` in the console.
  */
 declare namespace file {
@@ -49811,20 +49811,20 @@ declare namespace game {
     /**
      * Returns the counter of a Global State.
      * 
-     * See [Global States](https://wiki.facepunch.com/gmod/Global States) for more information.
+     * See [Global States](https://wiki.facepunch.com/gmod/Global_States) for more information.
      * @param name - The name of the Global State to set. 
      * If the Global State by that name does not exist, it will be created.
-     * See [Global States](https://wiki.facepunch.com/gmod/Global States) for a list of default global states.
+     * See [Global States](https://wiki.facepunch.com/gmod/Global_States) for a list of default global states.
      */
     function GetGlobalCounter(name: string): number;
     
     /**
      * Returns whether a Global State is off, active or dead ( inactive )
      * 
-     * See [Global States](https://wiki.facepunch.com/gmod/Global States) for more information.
+     * See [Global States](https://wiki.facepunch.com/gmod/Global_States) for more information.
      * @param name - The name of the Global State to retrieve the state of. 
      * If the Global State by that name does not exist, **GLOBAL_DEAD** will be returned.
-     * See [Global States](https://wiki.facepunch.com/gmod/Global States) for a list of default global states.
+     * See [Global States](https://wiki.facepunch.com/gmod/Global_States) for a list of default global states.
      */
     function GetGlobalState(name: string): GLOBAL;
     
@@ -49950,10 +49950,10 @@ declare namespace game {
     /**
      * Sets the counter of a Global State.
      * 
-     * See [Global States](https://wiki.facepunch.com/gmod/Global States) for more information.
+     * See [Global States](https://wiki.facepunch.com/gmod/Global_States) for more information.
      * @param name - The name of the Global State to set. 
      * If the Global State by that name does not exist, it will be created.
-     * See [Global States](https://wiki.facepunch.com/gmod/Global States) for a list of default global states.
+     * See [Global States](https://wiki.facepunch.com/gmod/Global_States) for a list of default global states.
      * @param count - The value to set for that Global State.
      */
     function SetGlobalCounter(name: string, count: number): void;
@@ -49961,10 +49961,10 @@ declare namespace game {
     /**
      * Sets whether a Global State is off, active or dead ( inactive )
      * 
-     * See [Global States](https://wiki.facepunch.com/gmod/Global States) for more information.
+     * See [Global States](https://wiki.facepunch.com/gmod/Global_States) for more information.
      * @param name - The name of the Global State to set. 
      * If the Global State by that name does not exist, it will be created.
-     * See [Global States](https://wiki.facepunch.com/gmod/Global States) for a list of default global states.
+     * See [Global States](https://wiki.facepunch.com/gmod/Global_States) for a list of default global states.
      * @param state - The state of the Global State. See [Enums/GLOBAL](https://wiki.facepunch.com/gmod/Enums/GLOBAL)
      */
     function SetGlobalState(name: string, state: GLOBAL): void;
@@ -50470,7 +50470,7 @@ declare namespace http {
      * * `unsuccessful` - OnComplete's first argument, `pResult->m_bRequestSuccessful`, returned `false`
      * 
      * **Note:**
-     * >HTTP-requests to destinations on private networks (such as `192.168.0.1`) won't work.To enable HTTP-requests to destinations on private networks use [Command Line Parameters](https://wiki.facepunch.com/gmod/Command Line Parameters) `-allowlocalhttp` (serverside only).
+     * >HTTP-requests to destinations on private networks (such as `192.168.0.1`) won't work.To enable HTTP-requests to destinations on private networks use [Command Line Parameters](https://wiki.facepunch.com/gmod/Command_Line_Parameters) `-allowlocalhttp` (serverside only).
      * 
      * @param url - The URL of the website to fetch.
      * @param onSuccess - Function to be called on success. Arguments are
@@ -50492,7 +50492,7 @@ declare namespace http {
      * The <page text="onFailure">Structures/HTTPRequest</page> callback is usually only called on DNS or TCP errors (e.g. the website is unavailable or the domain does not exist).
      * 
      * **Note:**
-     * >HTTP-requests to destinations on private networks (such as `192.168.0.1`) won't work.To enable HTTP-requests to destinations on private networks use [Command Line Parameters](https://wiki.facepunch.com/gmod/Command Line Parameters) `-allowlocalhttp` (serverside only).
+     * >HTTP-requests to destinations on private networks (such as `192.168.0.1`) won't work.To enable HTTP-requests to destinations on private networks use [Command Line Parameters](https://wiki.facepunch.com/gmod/Command_Line_Parameters) `-allowlocalhttp` (serverside only).
      * 
      * @param url - The url to of the website to post.
      * @param parameters - The post parameters (x-www-form-urlencoded) to be send to the server. **Keys and values must be strings**.
@@ -50863,7 +50863,7 @@ declare namespace jit {
         function funcuvname(func: Function, index: number): string;
         
         /**
-         * Gets the address of a function from a list of 20 functions, for the list see [Ircalladdr Functions](https://wiki.facepunch.com/gmod/Ircalladdr Functions)
+         * Gets the address of a function from a list of 20 functions, for the list see [Ircalladdr Functions](https://wiki.facepunch.com/gmod/Ircalladdr_Functions)
          * 
          * **Warning:**
          * >This function isn't officially documented on LuJIT wiki, use it at your own risk.
@@ -51937,14 +51937,14 @@ declare namespace navmesh {
  * 
  * The major advantages of the net library are the large size limit (64kb/message) and the ability to send data backwards - from the client to the server.
  * 
- * Refer to [Net Library Usage](https://wiki.facepunch.com/gmod/Net Library Usage) for a short introduction.
+ * Refer to [Net Library Usage](https://wiki.facepunch.com/gmod/Net_Library_Usage) for a short introduction.
  */
 declare namespace net {
     
 
     /**
      * Sends the currently built net message to all connected players.
-     * More information can be found in [Net Library Usage](https://wiki.facepunch.com/gmod/Net Library Usage).
+     * More information can be found in [Net Library Usage](https://wiki.facepunch.com/gmod/Net_Library_Usage).
      * 
      */
     function Broadcast(): void;
@@ -54213,7 +54213,7 @@ declare namespace resource {
      * The server's current map is also automatically added, if it is loaded from a workshop addon.
      * 
      * **Warning:**
-     * >This will not "install" the addon on your server, see [Workshop for Dedicated Servers](https://wiki.facepunch.com/gmod/Workshop for Dedicated Servers) for installing Steam Workshop addons onto your servers
+     * >This will not "install" the addon on your server, see [Workshop for Dedicated Servers](https://wiki.facepunch.com/gmod/Workshop_for_Dedicated_Servers) for installing Steam Workshop addons onto your servers
      * 
      * @param workshopid - The workshop id of the file. This cannot be a collection.
      */
@@ -55461,7 +55461,7 @@ declare namespace surface {
      * 
      * Be sure to check the <page text="List of Default Fonts">Default_Fonts</page> first! Those fonts can be used without using this function.
      * 
-     * See Also: [Finding the Font Name](https://wiki.facepunch.com/gmod/Finding the Font Name).
+     * See Also: [Finding the Font Name](https://wiki.facepunch.com/gmod/Finding_the_Font_Name).
      * 
      * **Warning:**
      * >Due to the static nature of fonts, do **NOT** create the font more than once. You should only be creating them once, it is recommended to create them at the top of your script. Do not use this function within [GM:HUDPaint](https://wiki.facepunch.com/gmod/GM:HUDPaint) or any other hook!
@@ -55744,7 +55744,7 @@ declare namespace surface {
     /**
      * Set the current font to be used for text operations later.
      * 
-     * The fonts must first be created with [surface.CreateFont](https://wiki.facepunch.com/gmod/surface.CreateFont) or be one of the [Default Fonts](https://wiki.facepunch.com/gmod/Default Fonts).
+     * The fonts must first be created with [surface.CreateFont](https://wiki.facepunch.com/gmod/surface.CreateFont) or be one of the [Default Fonts](https://wiki.facepunch.com/gmod/Default_Fonts).
      * @param fontName - The name of the font to use.
      */
     function SetFont(fontName: string): void;
@@ -56100,7 +56100,7 @@ declare namespace table {
      * Checks if a table has a value.
      * 
      * **Warning:**
-     * >This function is **very inefficient for large tables** (O(n)) and should probably not be called in things that run each frame. Instead, consider a table structure such as example 2 below. Also see: [Tables: Bad Habits](https://wiki.facepunch.com/gmod/Tables: Bad Habits)
+     * >This function is **very inefficient for large tables** (O(n)) and should probably not be called in things that run each frame. Instead, consider a table structure such as example 2 below. Also see: [Tables: Bad Habits](https://wiki.facepunch.com/gmod/Tables:_Bad_Habits)
      * 
      * **Note:**
      * >For optimization, functions that look for a value by sorting the table should never be needed if you work on a table that you built yourself.
@@ -57556,7 +57556,7 @@ declare namespace util {
 }
 
 /**
- * The vgui library allows you to script and create your own panels using Valve's GUI system.<br/>For an alphabetically ordered list of VGUI panels, see [VGUI Element List](https://wiki.facepunch.com/gmod/VGUI Element List).
+ * The vgui library allows you to script and create your own panels using Valve's GUI system.<br/>For an alphabetically ordered list of VGUI panels, see [VGUI Element List](https://wiki.facepunch.com/gmod/VGUI_Element_List).
  */
 declare namespace vgui {
     
@@ -57567,7 +57567,7 @@ declare namespace vgui {
      * **Note:**
      * >Custom VGUI elements are not loaded instantly. Use [GM:OnGamemodeLoaded](https://wiki.facepunch.com/gmod/GM:OnGamemodeLoaded) to create them on startup.
      * 
-     * @param classname - Classname of the panel to create. Valid classnames are listed at: [VGUI Element List](https://wiki.facepunch.com/gmod/VGUI Element List).
+     * @param classname - Classname of the panel to create. Valid classnames are listed at: [VGUI Element List](https://wiki.facepunch.com/gmod/VGUI_Element_List).
      * @param parent - Parent of the created panel.
      * @param name - Name of the created panel.
      */

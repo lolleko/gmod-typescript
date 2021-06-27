@@ -9,7 +9,9 @@ export function transformDescription(description: string): string {
 
     const descriptionWithMarkdownLinks = descriptionEscaped.replace(
         /<page>(.*?)<\/page>/g,
-        '[$1](https://wiki.facepunch.com/gmod/$1)'
+        (_, pagePath) => {
+            return `[${pagePath}](https://wiki.facepunch.com/gmod/${pagePath.replace(/ /g, '_')})`;
+        }
     );
 
     const descriptionObj = parseMarkup(descriptionWithMarkdownLinks);
