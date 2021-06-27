@@ -11,13 +11,13 @@ Intended for use with https://typescripttolua.github.io
 
 ### TODO
 
--   Create npm package
 -   create template/example project
 
 ### Usage
 
-1. Drop the files from `out` into your typescript project
+1. `npm install gmod-types`
 2. modify the tsconfig, add the declaration files to your `types` or `typeRoots`
+3. use `"skipLibCheck": true,` in your `tsconfig.json` if you get duplicate identifier errors.
 
 ### Development
 

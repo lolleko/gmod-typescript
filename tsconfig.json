@@ -1,12 +1,8 @@
 {
+    "files": ["index.d.ts"],
     "compilerOptions": {
-        "target": "es2020",
-        "lib": ["es2020"],
-        "module": "commonjs",
-        "strict": true,
-        "rootDir": "src",
-        "resolveJsonModule": true,
-        "outDir": "dist"
+        "lib": ["esnext"],
+        "noEmit": true,
+        "skipLibCheck": true,
     },
-    "exclude": ["out"]
 }

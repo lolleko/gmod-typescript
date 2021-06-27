@@ -80,5 +80,5 @@ import { isWikiFunction } from './wiki_types';
         libraryResult,
     ].join('\n\n');
 
-    fs.writeFileSync('out/declarations.d.ts', result);
+    fs.writeFileSync('types/generated.d.ts', result);
 })();
