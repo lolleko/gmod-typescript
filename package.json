@@ -1,11 +1,12 @@
 {
     "name": "gmod-types",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "",
     "main": "index.js",
     "scripts": {
         "build": "tsc -p generator/tsconfig.json",
         "generate": "node dist/index.js",
+        "test": "tsc -p .",
         "lint": "prettier --check .",
         "lint:fix": "prettier --write ."
     },
@@ -17,7 +18,7 @@
     "files": [
         "index.d.ts",
         "types/**/*.d.ts"
-      ],
+    ],
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/lolleko/gmod-typescript/issues"
