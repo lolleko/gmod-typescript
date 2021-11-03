@@ -41,8 +41,13 @@ import { isWikiFunction } from './wiki_types';
         ...(await GetPagesInCategory('panelfunc')),
     ];
     const classFuncsPages = await Promise.all(classFuncPaths.map((page) => GetPage(page)));
-    const classFuncs = classFuncsPages.filter((p) => p.title.includes(':')).map(extractFunction);
-    const classes = classFuncsPages.filter((p) => !p.title.includes(':')).map(extractClass);
+    // TODO || p.title.includes('.') is hack for panelfields....
+    const classFuncs = classFuncsPages
+        .filter((p) => p.title.includes(':') || p.title.includes('.'))
+        .map(extractFunction);
+    const classes = classFuncsPages
+        .filter((p) => !p.title.includes(':') && !p.title.includes('.'))
+        .map(extractClass);
 
     const classResult = classes
         .map((wikiClass) =>

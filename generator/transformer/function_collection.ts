@@ -2,6 +2,7 @@ import {
     getPageMods,
     isOmitParentFieldModification,
     isInnerNamespaceModification,
+    isAddParentModification,
 } from './modification_db';
 import { TSCollection } from '../ts_types';
 import {
@@ -23,8 +24,6 @@ export function transformFunctionCollection(
     const mods = getPageMods(wikiClass.address);
 
     let membersCopy = [...wikiMembers];
-
-    const omits = mods.filter(isOmitParentFieldModification).map((mod) => mod.omit);
 
     const innerNamespaces = mods.filter(isInnerNamespaceModification).map((mod) => {
         const namespaceFuncs = membersCopy.filter((f) => f.address.includes(mod.prefix + '.'));
@@ -58,10 +57,25 @@ export function transformFunctionCollection(
         } as TSCollection;
     });
 
-    let parent = wikiClass.parent;
+    const parents = mods.filter(isAddParentModification).map((mod) => mod.parent);
 
-    if (parent && omits.length != 0) {
-        parent = `Omit<${parent}, ${omits.map((o) => `"${o}"`).join(' | ')}>`;
+    if (wikiClass.parent) {
+        parents.push(wikiClass.parent);
+    }
+
+    const omits = mods.filter(isOmitParentFieldModification);
+
+    const parentsModified = parents;
+
+    for (const omit of omits) {
+        if (parents.length > 0) {
+            const parentIndex = omit.parent ? parentsModified.indexOf(omit.parent) : 0;
+            if (parentIndex != -1) {
+                parentsModified[parentIndex] = `Omit<${
+                    parentsModified[parentIndex]
+                }, ${omit.omits.map((o) => `"${o}"`).join(' | ')}>`;
+            }
+        }
     }
 
     return {
@@ -69,7 +83,7 @@ export function transformFunctionCollection(
         docComment: transformDescription(wikiClass.description),
         fields: membersCopy.filter(isWikiStructItem).map(transformStructField),
         functions: membersCopy.filter(isWikiFunction).map(transformFunction),
-        parent,
+        parent: parentsModified.join(', '),
         namespace: wikiClass.library,
         innerCollections: innerNamespaces,
     };
