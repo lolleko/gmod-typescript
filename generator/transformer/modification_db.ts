@@ -49,9 +49,7 @@ export interface AddParentModification extends Modification {
     parent: string;
 }
 
-export function isAddParentModification(
-    mod: Modification
-): mod is AddParentModification {
+export function isAddParentModification(mod: Modification): mod is AddParentModification {
     return mod.kind === ModificationKind.AddParent;
 }
 

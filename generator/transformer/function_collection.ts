@@ -56,7 +56,6 @@ export function transformFunctionCollection(
             namespace: true,
         } as TSCollection;
     });
-    
 
     const parents = mods.filter(isAddParentModification).map((mod) => mod.parent);
 
@@ -70,9 +69,11 @@ export function transformFunctionCollection(
 
     for (const omit of omits) {
         if (parents.length > 0) {
-            const parentIndex = omit.parent? parentsModified.indexOf(omit.parent) : 0;
+            const parentIndex = omit.parent ? parentsModified.indexOf(omit.parent) : 0;
             if (parentIndex != -1) {
-                parentsModified[parentIndex] = `Omit<${parentsModified[parentIndex]}, ${omit.omits.map((o) => `"${o}"`).join(' | ')}>`;
+                parentsModified[parentIndex] = `Omit<${
+                    parentsModified[parentIndex]
+                }, ${omit.omits.map((o) => `"${o}"`).join(' | ')}>`;
             }
         }
     }
@@ -82,7 +83,7 @@ export function transformFunctionCollection(
         docComment: transformDescription(wikiClass.description),
         fields: membersCopy.filter(isWikiStructItem).map(transformStructField),
         functions: membersCopy.filter(isWikiFunction).map(transformFunction),
-        parent: parentsModified.join(", "),
+        parent: parentsModified.join(', '),
         namespace: wikiClass.library,
         innerCollections: innerNamespaces,
     };
