@@ -14,6 +14,7 @@ export interface ModificationDB extends Record<string, Modification[]> {}
 export enum ModificationKind {
     ModifiyArgument = 'ModifiyArgument',
     ModifyReturn = 'ModifyReturn',
+    AddParent = 'AddParent',
     OmitParentField = 'OmitParentField',
     RenameIndentifier = 'RenameIndentifier',
     InnerNamespace = 'InnerNamespace',
@@ -43,9 +44,21 @@ export function isModifyReturnModification(mod: Modification): mod is ModifyRetu
     return mod.kind === ModificationKind.ModifyReturn;
 }
 
+export interface AddParentModification extends Modification {
+    kind: ModificationKind.AddParent;
+    parent: string;
+}
+
+export function isAddParentModification(
+    mod: Modification
+): mod is AddParentModification {
+    return mod.kind === ModificationKind.AddParent;
+}
+
 export interface OmitParentFieldModification extends Modification {
     kind: ModificationKind.OmitParentField;
-    omit: string;
+    omits: string[];
+    parent?: string;
 }
 
 export function isOmitParentFieldModification(

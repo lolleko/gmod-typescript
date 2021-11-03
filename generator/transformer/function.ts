@@ -5,7 +5,7 @@ import {
     isRenameIndentifierModification,
 } from './modification_db';
 import { TSArgument, TSFunction, TSReturn } from '../ts_types';
-import { WikiFunction } from '../wiki_types';
+import { WikiArgument, WikiFunction } from '../wiki_types';
 import { transformDescription } from './description';
 import { transformIdentifier, transformType } from './util';
 
@@ -14,17 +14,19 @@ export function transformFunction(func: WikiFunction): TSFunction {
 
     const ret = transformReturns(func);
 
+    const argToDocComment = (a: WikiArgument) => {
+        const identifier = transformIdentifier(a.name);
+        const description = transformDescription(a.description).replace(/\n{2,}/g, '\n');
+
+        const isOptional = a.default != undefined;
+
+        const argName = isOptional ? `[${identifier} = ${a.default}]` : identifier;
+
+        return `@param ${argName} - ${description}`;
+    };
+
     const docComment =
-        transformDescription(func.description) +
-        '\n' +
-        func.args
-            .map(
-                (a) =>
-                    `@param ${transformIdentifier(a.name)} - ${transformDescription(
-                        a.description
-                    ).replace(/\n{2,}/g, '\n')}`
-            )
-            .join('\n');
+        transformDescription(func.description) + '\n' + func.args.map(argToDocComment).join('\n');
 
     return {
         identifier: func.name,

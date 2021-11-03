@@ -28,7 +28,7 @@ export interface TSFunction extends TSDocumented {
 export interface TSArgument {
     identifier: string;
     type: string;
-    default: string;
+    default?: string;
 }
 
 export interface TSReturn {

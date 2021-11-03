@@ -1,62 +1,98 @@
 {
+    "NextBot": [
+        {
+            "kind": "AddParent",
+            "parent": "Entity"
+        }
+    ],
+    "Player": [
+        {
+            "kind": "AddParent",
+            "parent": "Entity"
+        }
+    ],
+    "Weapon": [
+        {
+            "kind": "AddParent",
+            "parent": "Entity"
+        }
+    ],
+    "NPC": [
+        {
+            "kind": "AddParent",
+            "parent": "Entity"
+        }
+    ],
+    "Vehicle": [
+        {
+            "kind": "AddParent",
+            "parent": "Entity"
+        }
+    ],
+    "CSEnt": [
+        {
+            "kind": "AddParent",
+            "parent": "Entity"
+        }
+    ],
     "ContentIcon": [
         {
             "kind": "OmitParentField",
-            "omit": "SetMaterial"
+            "omits": ["SetMaterial"]
         }
     ],
     "DCategoryList": [
         {
             "kind": "OmitParentField",
-            "omit": "Add"
+            "omits": ["Add"]
         }
     ],
     "DCollapsibleCategory": [
         {
             "kind": "OmitParentField",
-            "omit": "Add"
+            "omits": ["Add"]
         }
     ],
     "DColorButton": [
         {
             "kind": "OmitParentField",
-            "omit": "SetColor"
+            "omits": ["SetColor"]
         }
     ],
     "DHTMLControls": [
         {
             "kind": "OmitParentField",
-            "omit": "SetHTML"
+            "omits": ["SetHTML"]
         }
     ],
     "DImage": [
         {
             "kind": "OmitParentField",
-            "omit": "PaintAt"
+            "omits": ["PaintAt"]
         }
     ],
     "DImageButton": [
         {
             "kind": "OmitParentField",
-            "omit": "SetImage"
+            "omits": ["SetImage"]
         }
     ],
     "DNumberWang": [
         {
             "kind": "OmitParentField",
-            "omit": "SetValue"
+            "omits": ["SetValue"]
         }
     ],
     "DProperty_Combo": [
         {
             "kind": "OmitParentField",
-            "omit": "SetSelected"
+            "omits": ["SetSelected"]
         }
     ],
     "IconEditor": [
         {
             "kind": "OmitParentField",
-            "omit": "SetIcon"
+            "omits": ["SetIcon"]
         }
     ],
     "Enums/PLAYER": [
