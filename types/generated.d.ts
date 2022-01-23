@@ -69,6 +69,13 @@ interface Angle {
     Normalize(): void;
     
     /**
+     * Randomizes each element of this Angle object.
+     * @param [min = -360] - The minimum value for each component.
+     * @param [max = 360] - The maximum value for each component.
+     */
+    Random(min = -360, max = 360): void;
+    
+    /**
      * Returns a normal vector facing in the direction that points right relative to the angle's direction.
      * 
      */
@@ -582,6 +589,18 @@ interface CLuaLocomotion {
     GetAcceleration(): number;
     
     /**
+     * Returns whether the Nextbot is allowed to avoid obstacles or not.
+     * 
+     */
+    GetAvoidAllowed(): boolean;
+    
+    /**
+     * Returns whether the Nextbot is allowed to climb or not.
+     * 
+     */
+    GetClimbAllowed(): boolean;
+    
+    /**
      * Returns the current acceleration as a vector
      * 
      */
@@ -610,6 +629,12 @@ interface CLuaLocomotion {
      * 
      */
     GetGroundMotionVector(): Vector;
+    
+    /**
+     * Returns whether the Nextbot is allowed to jump gaps or not.
+     * 
+     */
+    GetJumpGapsAllowed(): boolean;
     
     /**
      * Gets the height of the bot's jump
@@ -703,6 +728,18 @@ interface CLuaLocomotion {
     SetAcceleration(speed: number): void;
     
     /**
+     * Sets whether the Nextbot is allowed try to to avoid obstacles or not. This is used during path generation. Works similarly to `nb_allow_avoiding` convar. By default bots are allowed to try to avoid obstacles.
+     * @param allowed - Whether this bot should be allowed to try to avoid obstacles.
+     */
+    SetAvoidAllowed(allowed: boolean): void;
+    
+    /**
+     * Sets whether the Nextbot is allowed to climb or not. This is used during path generation. Works similarly to `nb_allow_climbing` convar. By default bots are allowed to climb.
+     * @param allowed - Whether this bot should be allowed to climb.
+     */
+    SetClimbAllowed(allowed: boolean): void;
+    
+    /**
      * Sets the height the bot is scared to fall from.
      * @param height - Height (default is 200)
      */
@@ -729,6 +766,12 @@ interface CLuaLocomotion {
      * @param gravity - New gravity to set. Default is 1000.
      */
     SetGravity(gravity: number): void;
+    
+    /**
+     * Sets whether the Nextbot is allowed to jump gaps or not. This is used during path generation. Works similarly to `nb_allow_gap_jumping` convar. By default bots are allowed to jump gaps.
+     * @param allowed - Whether this bot should be allowed to jump gaps.
+     */
+    SetJumpGapsAllowed(allowed: boolean): void;
     
     /**
      * Sets the height of the bot's jump
@@ -2784,6 +2827,10 @@ interface CTakeDamageInfo {
     
     /**
      * Sets the directional force of the damage.
+     * 
+     * **Note:**
+     * >This function seems to have no effect on player knockback. To disable knockback entirely, see [EFL_NO_DAMAGE_FORCES](https://wiki.facepunch.com/gmod/Enums/EFL#EFL_NO_DAMAGE_FORCES) or use workaround example below.
+     * 
      * @param force - The vector to set the force to.
      */
     SetDamageForce(force: Vector): void;
@@ -2838,6 +2885,12 @@ interface CTakeDamageInfo {
 interface CUserCmd {
     
 
+    /**
+     * Adds a single key to the active buttons bitflag. See also [CUserCmd:SetButtons](https://wiki.facepunch.com/gmod/CUserCmd:SetButtons).
+     * @param key - Key to add, see [Enums/IN](https://wiki.facepunch.com/gmod/Enums/IN).
+     */
+    AddKey(key: IN): void;
+    
     /**
      * Removes all keys from the command.
      * 
@@ -3499,10 +3552,13 @@ interface Entity {
     Extinguish(): void;
     
     /**
-     * Returns the direction a player/npc/ragdoll is looking as a world-oriented angle.
+     * Returns the direction a player, npc or ragdoll is looking as a world-oriented angle.
+     * 
+     * **Bug [#1150](https://github.com/Facepunch/garrysmod-issues/issues/1150):**
+     * >This can return an incorrect value in vehicles (like pods, buggy, ...). **This bug has been fixed in the past but was causing many addons being broken, so the fix has been removed but applied to [Player:GetAimVector](https://wiki.facepunch.com/gmod/Player:GetAimVector) only**.
      * 
      * **Bug [#2620](https://github.com/Facepunch/garrysmod-issues/issues/2620):**
-     * >This can return an incorrect value in jeeps when used with [Player:EnterVehicle](https://wiki.facepunch.com/gmod/Player:EnterVehicle).
+     * >This may return local angles in jeeps when used with [Player:EnterVehicle](https://wiki.facepunch.com/gmod/Player:EnterVehicle). **A workaround is available in the second example.**
      * 
      * 
      */
@@ -5455,8 +5511,8 @@ interface Entity {
     /**
      * Sets custom bone angles.
      * 
-     * **Note:**
-     * >The repeated use of bone manipulation in multiplayer games is highly discouraged due to the huge produced network traffic.
+     * **Bug [#5148](https://github.com/Facepunch/garrysmod-issues/issues/5148):**
+     * >When used repeatedly serverside, this method is strongly discouraged due to the huge network traffic produced.
      * 
      * @param boneID - Index of the bone you want to manipulate
      * @param ang - Angle to apply.
@@ -5467,24 +5523,23 @@ interface Entity {
     /**
      * Manipulates the bone's jiggle status. This allows non jiggly bones to become jiggly.
      * @param boneID - Index of the bone you want to manipulate.
-     * @param enabled - 0 = No Jiggle
-     * 1 = Jiggle
+     * @param enabled - * `0` = No Jiggle
+     * * `1` = Jiggle
      */
     ManipulateBoneJiggle(boneID: number, enabled: number): void;
     
     /**
      * Sets custom bone offsets.
-     * @param boneID - Index of the bone you want to manipulate
-     * @param pos - Position vector to apply
-     * Note that the position is relative to the original bone position, not relative to the world or the entity.
+     * @param boneID - Index of the bone you want to manipulate.
+     * @param pos - Position vector to apply. Note that the position is relative to the original bone position, not relative to the world or the entity.
      */
     ManipulateBonePosition(boneID: number, pos: Vector): void;
     
     /**
      * Sets custom bone scale.
      * 
-     * **Warning:**
-     * >When used serverside, this method produces a huge network consumption!
+     * **Bug [#5148](https://github.com/Facepunch/garrysmod-issues/issues/5148):**
+     * >When used repeatedly serverside, this method is strongly discouraged due to the huge network traffic produced.
      * 
      * **Bug [#3502](https://github.com/Facepunch/garrysmod-issues/issues/3502):**
      * >This does not scale procedural bones.
@@ -6121,7 +6176,7 @@ interface Entity {
      * **Note:**
      * >If called for Weapon (after Initialize hook) with different body groups on world model and view model, check will occur by view model.
      * 
-     * @param bodygroups - Body groups to set. Each single-digit number in the string represents a separate bodygroup. **This makes it impossible to set any bodygroup to a value higher than 9!** For that you need to use [Entity:SetBodygroup](https://wiki.facepunch.com/gmod/Entity:SetBodygroup).
+     * @param bodygroups - Body groups to set. Each character in the string represents a separate bodygroup. (`0` to `9`, `a` to `z` being (`10` to `35`))
      */
     SetBodyGroups(bodygroups: string): void;
     
@@ -7652,9 +7707,9 @@ interface File {
     
     /**
      * Reads the specified amount of chars and returns them as a binary string.
-     * @param length - Reads the specified amount of chars.
+     * @param [length = nil] - Reads the specified amount of chars. If not set, will read the entire file.
      */
-    Read(length: number): string;
+    Read(length?: number): string;
     
     /**
      * Reads one byte of the file and returns whether that byte was not 0.
@@ -8562,17 +8617,24 @@ interface MarkupObject {
      * Draws the computed markupobject to the screen.
      * @param xOffset - The X coordinate on the screen.
      * @param yOffset - The Y coordinate on the screen.
-     * @param xAlign - The alignment of the x coordinate using [Enums/TEXT_ALIGN](https://wiki.facepunch.com/gmod/Enums/TEXT_ALIGN)
-     * @param yAlign - The alignment of the y coordinate using [Enums/TEXT_ALIGN](https://wiki.facepunch.com/gmod/Enums/TEXT_ALIGN)
-     * @param [alphaoverride = 255] - Sets the alpha of all drawn objects to this.
+     * @param [xAlign = TEXT_ALIGN_LEFT] - The alignment of the x coordinate within the text using [Enums/TEXT_ALIGN](https://wiki.facepunch.com/gmod/Enums/TEXT_ALIGN)
+     * @param [yAlign = TEXT_ALIGN_TOP] - The alignment of the y coordinate within the text using [Enums/TEXT_ALIGN](https://wiki.facepunch.com/gmod/Enums/TEXT_ALIGN)
+     * @param [alphaoverride = 255] - Sets the alpha of all drawn objects to this value.
+     * @param [textAlign = TEXT_ALIGN_LEFT] - The alignment of the text horizontally using [Enums/TEXT_ALIGN](https://wiki.facepunch.com/gmod/Enums/TEXT_ALIGN)
      */
-    Draw(xOffset: number, yOffset: number, xAlign: TEXT_ALIGN, yAlign: TEXT_ALIGN, alphaoverride = 255): void;
+    Draw(xOffset: number, yOffset: number, xAlign?: TEXT_ALIGN, yAlign?: TEXT_ALIGN, alphaoverride = 255, textAlign?: TEXT_ALIGN): void;
     
     /**
      * Gets computed the height of the markupobject.
      * 
      */
     GetHeight(): number;
+    
+    /**
+     * Gets maximum width for this markup object as defined in [markup.Parse](https://wiki.facepunch.com/gmod/markup.Parse).
+     * 
+     */
+    GetMaxWidth(): number;
     
     /**
      * Gets computed the width of the markupobject.
@@ -8878,7 +8940,7 @@ interface NPC extends Entity {
     ExitScriptedSequence(): void;
     
     /**
-     * Force an NPC to play his Fear sound.
+     * Force an NPC to play its Fear sound.
      * 
      */
     FearSound(): void;
@@ -15702,7 +15764,60 @@ interface Tool {
  * `__unm` | | Returns new [Vector](https://wiki.facepunch.com/gmod/Vector) with the result of negation.
  */
 interface Vector {
+    /**
+     * The X component of the vector.
+     */
+    x: number,
     
+    /**
+     * The Y component of the vector.
+     */
+    y: number,
+    
+    /**
+     * The Z component of the vector.
+     */
+    z: number,
+    
+    /**
+     * The X component of the vector.
+     */
+    1: number,
+    
+    /**
+     * The Y component of the vector.
+     */
+    2: number,
+    
+    /**
+     * The Z component of the vector.
+     */
+    3: number,
+    
+    /**
+     * Returns new Vector with the result of addition.
+     */
+    addOp: LuaAdditionMethod<Vector, Vector>,
+    
+    /**
+     * Returns new Vector with the result of subtraction.
+     */
+    subOp: LuaSubtractionMethod<Vector, Vector>,
+    
+    /**
+     * Returns new Vector with the result of multiplication.
+     */
+    mulOp: LuaMultiplicationMethod<Vector | number, Vector>,
+    
+    /**
+     * Returns new Vector with the result of division.
+     */
+    divOp: LuaDivisionMethod<number, Vector>,
+    
+    /**
+     * Returns new Vector with the result of negation.
+     */
+    unmOp: LuaNegationMethod<Vector>,
 
     /**
      * Adds the values of the argument vector to the orignal vector. This functions the same as vector1 + vector2 without creating a new vector object, skipping object construction and garbage collection.
@@ -15783,6 +15898,14 @@ interface Vector {
     DotProduct(Vector: Vector): number;
     
     /**
+     * Returns the negative version of this vector, i.e. a vector with every component to the negative value of itself.
+     * 
+     * See also [Vector:Negate](https://wiki.facepunch.com/gmod/Vector:Negate).
+     * 
+     */
+    GetNegated(): Vector;
+    
+    /**
      * Returns a normalized version of the vector. This is a alias of [Vector:GetNormalized](https://wiki.facepunch.com/gmod/Vector:GetNormalized).
      * 
      * @deprecated Use [Vector:GetNormalized](https://wiki.facepunch.com/gmod/Vector:GetNormalized) instead.
@@ -15855,10 +15978,23 @@ interface Vector {
     Mul(multiplier: number): void;
     
     /**
+     * Negates this vector, i.e. sets every component to the negative value of itself. Same as `Vector( -vec.x, -vec.y, -vec.z )`
+     * 
+     */
+    Negate(): void;
+    
+    /**
      * Normalizes the given vector. This changes the vector you call it on, if you want to return a normalized copy without affecting the original, use [Vector:GetNormalized](https://wiki.facepunch.com/gmod/Vector:GetNormalized).
      * 
      */
     Normalize(): void;
+    
+    /**
+     * Randomizes each element of this Vector object.
+     * @param [min = -1] - The minimum value for each component.
+     * @param [max = 1] - The maximum value for each component.
+     */
+    Random(min = -1, max = 1): void;
     
     /**
      * Rotates a vector by the given angle.
@@ -15945,7 +16081,7 @@ interface Vector {
 }
 
 /**
- * This is a list of all methods only available for vehicles. It is also possible to call [Entity](http://wiki.garrysmod.com/index.php?title=Category:Entity) functions on vehicles.
+ * This is a list of all methods only available for vehicles. It is also possible to call [Entity](https://wiki.facepunch.com/gmod/Entity) functions on vehicles.
  */
 interface Vehicle extends Entity {
     
@@ -16284,6 +16420,12 @@ interface VMatrix {
     
 
     /**
+     * Adds given matrix to this matrix.
+     * @param input - The input matrix to add.
+     */
+    Add(input: VMatrix): void;
+    
+    /**
      * Returns the absolute rotation of the matrix.
      * 
      */
@@ -16345,6 +16487,12 @@ interface VMatrix {
     GetTranslation(): Vector;
     
     /**
+     * Returns the transpose (each row becomes a column) of this matrix.
+     * 
+     */
+    GetTransposed(): VMatrix;
+    
+    /**
      * Gets the up direction of the matrix.
      * 
      * ie. The third column of the matrix, excluding the w coordinate.
@@ -16399,6 +16547,12 @@ interface VMatrix {
      * 
      */
     IsZero(): boolean;
+    
+    /**
+     * Multiplies this matrix by given matrix.
+     * @param input - The input matrix to multiply by.
+     */
+    Mul(input: VMatrix): void;
     
     /**
      * Rotates the matrix by the given angle.
@@ -16498,6 +16652,12 @@ interface VMatrix {
      * @param forward - The up direction of the matrix.
      */
     SetUp(forward: Vector): void;
+    
+    /**
+     * Subtracts given matrix from this matrix.
+     * @param input - The input matrix to subtract.
+     */
+    Sub(input: VMatrix): void;
     
     /**
      * Converts the matrix to a 4x4 table. See [Global.Matrix](https://wiki.facepunch.com/gmod/Global.Matrix) function.
@@ -17057,6 +17217,16 @@ interface ControlPanel extends DForm {
     AddPanel(panel: Panel): void;
     
     /**
+     * Creates a [CtrlColor](https://wiki.facepunch.com/gmod/CtrlColor) (a color picker) panel and adds it as an <page text="item">ControlPanel:AddPanel</page>.
+     * @param label - The label for this color picker.
+     * @param convarR - Name of the [convar](https://wiki.facepunch.com/gmod/convar) that will store the R component of the selected color.
+     * @param convarG - Name of the [convar](https://wiki.facepunch.com/gmod/convar) that will store the G component of the selected color.
+     * @param convarB - Name of the [convar](https://wiki.facepunch.com/gmod/convar) that will store the B component of the selected color.
+     * @param convarA - Name of the [convar](https://wiki.facepunch.com/gmod/convar) that will store the A component of the selected color.
+     */
+    ColorPicker(label: string, convarR: string, convarG: string, convarB: string, convarA: string): Panel;
+    
+    /**
      * Sets control values of the control panel.
      * @param data - A two-membered table:
      * * [boolean](https://wiki.facepunch.com/gmod/boolean) closed - Sets if the control panel should be unexpanded.
@@ -17078,6 +17248,15 @@ interface ControlPanel extends DForm {
     GetEmbeddedPanel(): ControlPanel;
     
     /**
+     * Creates a [CtrlNumPad](https://wiki.facepunch.com/gmod/CtrlNumPad) (a Sandbox key binder) panel and adds it as an <page text="item">ControlPanel:AddPanel</page>.
+     * @param label1 - The label for the left key binder.
+     * @param convar1 - The name of the [convar](https://wiki.facepunch.com/gmod/convar) that will store the key code for player selected key of the left key binder.
+     * @param [label2 = nil] - If set and `convar2` is set, the label for the right key binder.
+     * @param [convar2 = nil] - If set and `label2` is set, the name of the [convar](https://wiki.facepunch.com/gmod/convar) that will store the key code for player selected key of the right key binder.
+     */
+    KeyBinder(label1: string, convar1: string, label2?: string, convar2?: string): Panel;
+    
+    /**
      * Creates a [MatSelect](https://wiki.facepunch.com/gmod/MatSelect) panel and adds it as an <page text="item">ControlPanel:AddPanel</page>.
      * @param convar - Calls [MatSelect](https://wiki.facepunch.com/gmod/MatSelect):<page text="SetConVar">ContextBase:SetConVar</page> with this value.
      * @param [options = nil] - If specified, calls [MatSelect:AddMaterial](https://wiki.facepunch.com/gmod/MatSelect:AddMaterial)(key, value) for each table entry. If the table key is a number, the function will instead be called with the value as both arguments.
@@ -17086,6 +17265,13 @@ interface ControlPanel extends DForm {
      * @param [height = nil] - If specified, calls [MatSelect:SetItemHeight](https://wiki.facepunch.com/gmod/MatSelect:SetItemHeight) with this value.
      */
     MatSelect(convar: string, options?: any, autostretch?: boolean, width?: number, height?: number): MatSelect;
+    
+    /**
+     * Creates a [ControlPresets](https://wiki.facepunch.com/gmod/ControlPresets) panel and adds it as an <page text="item">ControlPanel:AddPanel</page>.
+     * @param group - The <page text="preset">presets</page> group. Must be unique.
+     * @param cvarList - A table of [convar](https://wiki.facepunch.com/gmod/convar) names as keys and their defaults as the values. Typically the output of [Tool:BuildConVarList](https://wiki.facepunch.com/gmod/Tool:BuildConVarList).
+     */
+    ToolPresets(group: string, cvarList: any): Panel;
 
 }
 
@@ -18389,6 +18575,12 @@ interface DComboBox extends DButton {
     IsMenuOpen(): boolean;
     
     /**
+     * Called when the player opens the dropdown menu.
+     * @param menu - The [DMenu](https://wiki.facepunch.com/gmod/DMenu) menu panel.
+     */
+    OnMenuOpened(menu: Panel): void;
+    
+    /**
      * Called when an option in the combo box is selected. This function does nothing by itself, you're supposed to overwrite it.
      * @param index - The index of the option for use with other [DComboBox](https://wiki.facepunch.com/gmod/DComboBox) functions.
      * @param value - The name of the option.
@@ -18923,6 +19115,21 @@ interface DForm extends DCollapsibleCategory {
      * 
      */
     PanelSelect(): Panel;
+    
+    /**
+     * Creates a [PropSelect](https://wiki.facepunch.com/gmod/PropSelect) panel and docks it to the top of the DForm.
+     * @param label - The label to display above the prop select.
+     * @param convar - The convar to set the selected model to.
+     * @param models - A table of models to display for selection. Supports 2 formats:
+     * 1) Key is the model and value are the [convar](https://wiki.facepunch.com/gmod/convar)s to set when that model is selected in format `convar=value`
+     * 2) An table of tables where each table must have the following keys:
+     * * [string](https://wiki.facepunch.com/gmod/string) model - The model.
+     * * [number](https://wiki.facepunch.com/gmod/number) skin - Model's skin. Defaults to 0
+     * * [string](https://wiki.facepunch.com/gmod/string) tooltip - Displayed when user hovers over the model. Defaults to the model path.
+     * * The key of the table is the value of the convar.
+     * @param [height = 2] - The height of the prop select panel, in 64px icon increments.
+     */
+    PropSelect(label: string, convar: string, models: any, height = 2): Panel;
     
     /**
      * Does nothing.
@@ -20406,7 +20613,7 @@ interface DListView extends DPanel {
     /**
      * Adds a column to the listview.
      * @param column - The name of the column to add.
-     * @param position - Sets the ordering of this column compared to other columns.
+     * @param position - Sets the ordering of this column compared to other columns. Starting index is 1.
      */
     AddColumn(column: string, position: number): Panel;
     
@@ -20633,6 +20840,10 @@ interface DListView extends DPanel {
     
     /**
      * Enables/disables the sorting of columns by clicking.
+     * 
+     * **Note:**
+     * >This will only affect columns that are created after this function is called. Existing columns will be unaffected.
+     * 
      * @param isSortable - Whether sorting columns with clicking is allowed or not.
      */
     SetSortable(isSortable: boolean): void;
@@ -20668,6 +20879,19 @@ interface DListView_Column extends Panel {
     
 
     /**
+     * Gets the index used for this column.
+     * 
+     */
+    GetColumnID(): number;
+    
+    /**
+     * Resizes the column, additionally adjusting the size of the column to the right, if any.
+     * @param size - The amount to add to the current column's width.
+     * 			Positive values will make it wider, and negative values will make it thinner.
+     */
+    ResizeColumn(size: number): void;
+    
+    /**
      * Sets the fixed width of the column.
      * @param width - The number value which will determine a fixed width.
      */
@@ -20684,6 +20908,12 @@ interface DListView_Column extends Panel {
      * @param width - The number value which will determine a minimum width.
      */
     SetMinWidth(width: number): void;
+    
+    /**
+     * Sets the text in the column's header.
+     * @param name - The new name that the column's header will use.
+     */
+    SetName(name: string): void;
     
     /**
      * Sets the text alignment for the column
@@ -22929,6 +23159,12 @@ interface DTab extends DButton {
      * 
      */
     GetPanel(): Panel;
+    
+    /**
+     * Returns whether the tab is the currently selected tab of the associated [DPropertySheet](https://wiki.facepunch.com/gmod/DPropertySheet).
+     * 
+     */
+    IsActive(): Boolean;
 
 }
 
@@ -23139,6 +23375,12 @@ interface DTextEntry extends TextEntry {
      * @param font - The name of the font to be changed to.
      */
     SetFont(font: string): void;
+    
+    /**
+     * Enables or disables the history functionality of  [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry).
+     * @param enable - Whether to enable history or not.
+     */
+    SetHistoryEnabled(enable: boolean): void;
     
     /**
      * Enables or disables the multi-line functionality of [DTextEntry](https://wiki.facepunch.com/gmod/DTextEntry).
@@ -26148,6 +26390,11 @@ interface HTTPRequest {
      * Content type for body.
      */
     type: string,
+    
+    /**
+     * The timeout for the connection.
+     */
+    timeout: number,
 
     
 
@@ -28659,9 +28906,9 @@ interface ViewData {
     angles: Angle,
     
     /**
-     * Default width divided by height
+     * Default width divided by height. Has a deprecated alias `aspectratio`.
      */
-    aspectratio: number,
+    aspect: number,
     
     /**
      * The x position of the viewport to render in
@@ -28709,31 +28956,39 @@ interface ViewData {
     fov: number,
     
     /**
-     * Render the view orthogonal. Can also be a table with these keys: (In which case orthogonal view is automatically set to true)
+     * If set, renders the view orthogonally. A table with these keys:
      * * left
      * * right
      * * top
      * * bottom
      */
-    ortho: boolean | any,
+    ortho: any,
     
     /**
-     * Coordinate for the left clipping plane
+     * Coordinate for the left clipping plane. Requires `ortho` to be set to `true`.
+     * 
+     * **Deprecated**: Use `ortho` table instead!
      */
     ortholeft: number,
     
     /**
-     * Coordinate for the right clipping plane
+     * Coordinate for the right clipping plane. Requires `ortho` to be set to `true`.
+     * 
+     * **Deprecated**: Use `ortho` table instead!
      */
     orthoright: number,
     
     /**
-     * Coordinate for the top clipping plane
+     * Coordinate for the top clipping plane. Requires `ortho` to be set to `true`.
+     * 
+     * **Deprecated**: Use `ortho` table instead!
      */
     orthotop: number,
     
     /**
-     * Coordinate for the bottom clipping plane
+     * Coordinate for the bottom clipping plane. Requires `ortho` to be set to `true`.
+     * 
+     * **Deprecated**: Use `ortho` table instead!
      */
     orthobottom: number,
     
@@ -28779,6 +29034,125 @@ interface ViewData {
      * Note that top and bottom are reversed.
      * 
      * Values outside the viewport are allowed, but not recommended - instead you should increase the view FOV.
+     */
+    offcenter: any,
+
+    
+
+}
+
+/**
+ * Table structure used for [render.GetViewSetup](https://wiki.facepunch.com/gmod/render.GetViewSetup).
+ */
+interface ViewSetup {
+    /**
+     * The view's origin/position
+     */
+    origin: Vector,
+    
+    /**
+     * The view's angles
+     */
+    angles: Angle,
+    
+    /**
+     * Width divided by height
+     */
+    aspect: number,
+    
+    /**
+     * The x position of the viewport
+     */
+    x: number,
+    
+    /**
+     * The y position of the viewport
+     */
+    y: number,
+    
+    /**
+     * The width of the viewport
+     */
+    width: number,
+    
+    /**
+     * The height of the viewport
+     */
+    height: number,
+    
+    /**
+     * The main view's FOV, adjusted for aspect ratio.
+     */
+    fov: number,
+    
+    /**
+     * The main view's FOV as the user setting.
+     */
+    fov_unscaled: number,
+    
+    /**
+     * The viewmodel's FOV, adjusted for aspect ratio.
+     */
+    fovviewmodel: number,
+    
+    /**
+     * The viewmodel's FOV as the user setting.
+     */
+    fovviewmodel_unscaled: number,
+    
+    /**
+     * If the current view is orthogonal, a table with these keys:
+     * * left
+     * * right
+     * * top
+     * * bottom
+     * 
+     * Will not be present if view is not orthagonal.
+     */
+    ortho: any,
+    
+    /**
+     * The distance of the view's origin to the near clipping plane
+     */
+    znear: number,
+    
+    /**
+     * The distance of the view's origin to the far clipping plane
+     */
+    zfar: number,
+    
+    /**
+     * The distance of the view's origin to the near clipping plane for the viewmodel
+     */
+    znearviewmodel: number,
+    
+    /**
+     * The distance of the view's origin to the far clipping plane for the viewmodel
+     */
+    zfarviewmodel: number,
+    
+    /**
+     * Whether default engine bloom and tonemapping are enabled at this instant for this view.
+     */
+    bloomtone: boolean,
+    
+    /**
+     * Whether `m_bRenderToSubrectOfLargerScreen` if set for this view.
+     */
+    subrect: boolean,
+    
+    /**
+     * It's a table with 4 keys, controlling what portion of the screen to draw:
+     * * left - where the left edge starts. Natural value is 0.
+     * * right - where the right edge ends. Natural value is equal to w (the width of the viewport).
+     * * top - where the `bottom` edge starts. Natural value is 0.
+     * * bottom - where the `top` edge ends. Natural value is equal to h (the height of the viewport).
+     * 
+     * Note that top and bottom are reversed.
+     * 
+     * This will not be present if offscreen rendering is not enabled for this view.
+     * 
+     * See [Structures/ViewData](https://wiki.facepunch.com/gmod/Structures/ViewData) for more info.
      */
     offcenter: any,
 
@@ -39242,6 +39616,21 @@ declare enum FORCE {
      * Forces the function to take [boolean](https://wiki.facepunch.com/gmod/boolean)s only
      */
     FORCE_BOOL = 3,
+    
+    /**
+     * Forces the function to take [Angle](https://wiki.facepunch.com/gmod/Angle)s only
+     */
+    FORCE_ANGLE = 4,
+    
+    /**
+     * Forces the function to take [Color](https://wiki.facepunch.com/gmod/Color)s only
+     */
+    FORCE_COLOR = 5,
+    
+    /**
+     * Forces the function to take [Vector](https://wiki.facepunch.com/gmod/Vector)s only
+     */
+    FORCE_VECTOR = 6,
 }
 
 /**
@@ -45538,7 +45927,9 @@ declare function isbool(variable: any): boolean;
 declare function IsColor(Object: any): boolean;
 
 /**
- * Returns true if given command will be blocked if ran.
+ * Determines whether or not the provided console command will be blocked if it's ran through Lua functions, such as [Global.RunConsoleCommand](https://wiki.facepunch.com/gmod/Global.RunConsoleCommand) or [Player:ConCommand](https://wiki.facepunch.com/gmod/Player:ConCommand).
+ * 
+ * 		For more info on blocked console commands, check out <page text="Blocked ConCommands">Blocked_ConCommands</page>.
  * @param name - The console command to test.
  */
 declare function IsConCommandBlocked(name: string): boolean;
@@ -46396,7 +46787,7 @@ declare function SavePresets(presets: any): void;
  * Returns a number based on the Size argument and your screen's width. The screen's width is always equal to size 640. This function is primarily used for scaling font sizes.
  * @param Size - The number you want to scale.
  */
-declare function ScreenScale(Size: number): void;
+declare function ScreenScale(Size: number): number;
 
 /**
  * Gets the height of the game's window (in pixels).
@@ -46600,7 +46991,7 @@ declare function Sound(soundPath: string): string;
  * Returns the duration of the specified sound in seconds.
  * 
  * **Bug [#936](https://github.com/Facepunch/garrysmod-issues/issues/936):**
- * >This function doesn't work proprely on MacOS and Linux.
+ * >This function does not return the correct duration on MacOS and Linux, or if the file is a non-.wav file on Windows.
  * 
  * @param soundName - The sound file path.
  */
@@ -50641,7 +51032,7 @@ declare namespace hook {
 }
 
 /**
- * The http library allows either the server or client to communicate with external websites via HTTP, both GET ([http.Fetch](https://wiki.facepunch.com/gmod/http.Fetch)) and POST ([http.Post](https://wiki.facepunch.com/gmod/http.Post)) are supported. A more powerful & advanced method can be used via the global [Global.HTTP](https://wiki.facepunch.com/gmod/Global.HTTP) function.
+ * The http library allows either the server or client to communicate with external websites via HTTP, both `GET` ([http.Fetch](https://wiki.facepunch.com/gmod/http.Fetch)) and `POST` ([http.Post](https://wiki.facepunch.com/gmod/http.Post)) are supported. A more powerful & advanced method can be used via the global [Global.HTTP](https://wiki.facepunch.com/gmod/Global.HTTP) function.
  */
 declare namespace http {
     
@@ -51222,7 +51613,7 @@ declare namespace list {
     function GetForEdit(identifier: string): any;
     
     /**
-     * Returns a a list of all lists currently in use.
+     * Returns a list of all lists currently in use.
      * 
      */
     function GetTable(): any;
@@ -51252,6 +51643,18 @@ declare namespace list {
 declare namespace markup {
     
 
+    /**
+     * A convenience function that converts a [Color](https://wiki.facepunch.com/gmod/Color) into its markup ready string representation.
+     * @param clr - The [Color](https://wiki.facepunch.com/gmod/Color) to convert.
+     */
+    function Color(clr: Color): string;
+    
+    /**
+     * Converts a string to its escaped, markup-safe equivalent.
+     * @param text - The string to sanitize.
+     */
+    function Escape(text: string): string;
+    
     /**
      * Parses markup into a [MarkupObject](https://wiki.facepunch.com/gmod/MarkupObject). Currently, this only supports fonts and colors as demonstrated in the example.
      * @param markup - The markup to be parsed.
@@ -51411,6 +51814,15 @@ declare namespace math {
     function Distance(x1: number, y1: number, x2: number, y2: number): number;
     
     /**
+     * Returns the squared difference between two points in 2D space. This is computationally faster than [math.Distance](https://wiki.facepunch.com/gmod/math.Distance).
+     * @param x1 - X position of first point
+     * @param y1 - Y position of first point
+     * @param x2 - X position of second point
+     * @param y2 - Y position of second point
+     */
+    function DistanceSqr(x1: number, y1: number, x2: number, y2: number): number;
+    
+    /**
      * Calculates the progress of a value fraction, taking in to account given easing fractions
      * @param progress - Fraction of the progress to ease, from 0 to 1
      * @param easeIn - Fraction of how much easing to begin with
@@ -51452,7 +51864,7 @@ declare namespace math {
     /**
      * A variable that effectively represents infinity, in the sense that in any numerical comparison every number will be less than this.
      * 
-     * For example, if x is a number, `x > math.huge` will NEVER be true except in the case of overflow (see below).
+     * For example, if `x` is a number, `x > math.huge` will **NEVER** be `true` except in the case of overflow (see below).
      * 
      * Lua will consider any number greater than or equal to `2^1024` (the exponent limit of a [double](http://en.wikipedia.org/wiki/Double-precision_floating-point_format)) as `inf` and hence equal to this.
      * 
@@ -52130,7 +52542,12 @@ declare namespace navmesh {
  * Refer to [Net Library Usage](https://wiki.facepunch.com/gmod/Net_Library_Usage) for a short introduction.
  */
 declare namespace net {
-    
+    /**
+     * # Not a functionThis is NOT a function, it's a table used internally by the net library to store net recievers added with.
+     * 
+     * The key is the lowercase net message name and the value is the message's callback function.
+     */
+    const Receivers: any;
 
     /**
      * Sends the currently built net message to all connected players.
@@ -52200,9 +52617,9 @@ declare namespace net {
      * **Warning:**
      * >You **must** read information in same order as you write it.
      * 
-     * 
+     * @param [hasAlpha = true] - If the color has alpha written or not. **Must match what was given to [net.WriteColor](https://wiki.facepunch.com/gmod/net.WriteColor).**
      */
-    function ReadColor(): Color;
+    function ReadColor(hasAlpha = true): Color;
     
     /**
      * Reads pure binary data from the message.
@@ -52434,8 +52851,9 @@ declare namespace net {
     /**
      * Appends a [Color](https://wiki.facepunch.com/gmod/Color) to the current net message.
      * @param Color - The [Color](https://wiki.facepunch.com/gmod/Color) you want to append to the net message.
+     * @param [writeAlpha = true] - If we should write the alpha of the color or not.
      */
-    function WriteColor(Color: Color): void;
+    function WriteColor(Color: Color, writeAlpha = true): void;
     
     /**
      * Writes a chunk of binary data to the message.
@@ -52520,7 +52938,7 @@ declare namespace net {
     function WriteNormal(normal: Vector): void;
     
     /**
-     * Appends a string to the current net message. The size of the string is 8 bits plus 8 bits for every ASCII character in the string. The maximum allowed length of a single written string is **65533 characters**.
+     * Appends a string to the current net message. The size of the string is 8 bits plus 8 bits for every ASCII character in the string. The maximum allowed length of a single written string is **65532 characters**.
      * @param string - The string to be sent.
      */
     function WriteString(string: string): void;
@@ -52813,11 +53231,45 @@ declare namespace permissions {
     function AskToConnect(address: string): void;
     
     /**
+     * Connects player to the server. This is what [permissions.AskToConnect](https://wiki.facepunch.com/gmod/permissions.AskToConnect) uses internally.
+     * @param ip - IP address to connect.
+     */
+    function Connect(ip: string): void;
+    
+    /**
+     * Activates player's microphone as if he pressed the speak button himself. The player will be prompted with a confirmation window which grants permission temporarily/permanently(depending on checkbox state) for the connected server (revokable). 
+     * This is used for TTT's traitor voice channel.
+     * @param enable - Enable or disable voice activity. `true` will run `+voicerecord` command, anything else `-voicerecord`.
+     */
+    function EnableVoiceChat(enable: boolean): void;
+    
+    /**
+     * Returns all permissions per server. Permanent permissions are stored in `settings/permissions.bin`.
+     * 
+     */
+    function GetAll(): any;
+    
+    /**
+     * Grants permission to the current connected server.
+     * @param permission - Permission to grant for the server the player is currently connected.
+     * @param temporary - `true` if the permission should be granted temporary.
+     */
+    function Grant(permission: string, temporary: boolean): void;
+    
+    /**
      * Returns whether the player has granted the current server a specific permission.
-     * @param permission - The permission to poll. Currently only 1 permission is valid:
+     * @param permission - The permission to poll. Currently only 2 permission is valid:
      * * "connect"
+     * * "voicerecord"
      */
     function IsGranted(permission: string): boolean;
+    
+    /**
+     * Revokes permission from the server.
+     * @param permission - Permission to revoke from the server.
+     * @param ip - IP of the server.
+     */
+    function Revoke(permission: string, ip: string): void;
 
 }
 
@@ -53734,6 +54186,12 @@ declare namespace render {
      * 
      */
     function GetToneMappingScaleLinear(): Vector;
+    
+    /**
+     * Returns the current view setup.
+     * @param [noPlayer = false] - If `true`, returns the `view->GetViewSetup`, if `false` - returns `view->GetPlayerViewSetup`
+     */
+    function GetViewSetup(noPlayer = false): ViewSetup;
     
     /**
      * Sets the render material override for all next calls of [Entity:DrawModel](https://wiki.facepunch.com/gmod/Entity:DrawModel). Also overrides [render.MaterialOverrideByIndex](https://wiki.facepunch.com/gmod/render.MaterialOverrideByIndex).
@@ -54999,7 +55457,13 @@ declare namespace spawnmenu {
     function SetActiveControlPanel(pnl: Panel): void;
     
     /**
-     * Supposed to open specified tool tab in spawnmenu, in reality does nothing.
+     * Switches the creation tab (left side of the spawnmenu) on the spawnmenu to the given tab.
+     * @param id - The tab ID to open
+     */
+    function SwitchCreationTab(id: number): void;
+    
+    /**
+     * Opens specified tool tab in spawnmenu.
      * @param id - The tab ID to open
      */
     function SwitchToolTab(id: number): void;
@@ -55136,7 +55600,9 @@ declare namespace steamworks {
     /**
      * Downloads a Steam Workshop file by its ID and returns a path to it.
      * @param workshopID - The ID of workshop item to download. **NOT** a file ID.
-     * @param resultCallback - The function to process retrieved data. The first argument is a string, containing path to the saved file, or nil if the download failed to any reason. The second argument is a [file_class](https://wiki.facepunch.com/gmod/file_class) object pointing to the downloaded .gma file. The file handle will be closed after the function exits.
+     * @param resultCallback - The function to process retrieved data. Arguments passed are:
+     * * [string](https://wiki.facepunch.com/gmod/string) path - Contains a path to the saved file, or nil if the download failed for any reason.
+     * * [file_class](https://wiki.facepunch.com/gmod/file_class) file - A file object pointing to the downloaded .gma file. The file handle will be closed after the function exits.
      */
     function DownloadUGC(workshopID: string, resultCallback: Function): void;
     
@@ -56375,6 +56841,15 @@ declare namespace table {
     function maxn(tbl: any): number;
     
     /**
+     * Returns an array of values of given with given key from each table of given table.
+     * 
+     * See also [table.KeysFromValue](https://wiki.facepunch.com/gmod/table.KeysFromValue).
+     * @param inputTable - The table to search in.
+     * @param keyName - The key to lookup.
+     */
+    function MemberValuesFromKey(inputTable: any, keyName: any): any;
+    
+    /**
      * Merges the contents of the second table with the content in the first one. The destination table will be modified.
      * 
      * See [table.Inherit](https://wiki.facepunch.com/gmod/table.Inherit), which doesn't override existing values.
@@ -56436,6 +56911,12 @@ declare namespace table {
      * @param tab - Table to sanitise
      */
     function Sanitise(tab: any): any;
+    
+    /**
+     * Performs an inline [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle) on the table in `O(n)` time
+     * @param target - The table to shuffle.
+     */
+    function Shuffle(target: any): void;
     
     /**
      * Sorts a sequential table either ascending or by the given sort function.
@@ -57107,9 +57588,9 @@ declare namespace util {
      * >Unless disabled with the `inline` argument, the Base64 returned is compliant to the RFC 2045 standard. **This means it will have a line break after every 76th character.**
      * 
      * @param str - String to encode.
-     * @param inline - `true` to disable RFC 2045 compliance (newline every 76th character)
+     * @param [inline = false] - `true` to disable RFC 2045 compliance (newline every 76th character)
      */
-    function Base64Encode(str: string, inline: boolean): string;
+    function Base64Encode(str: string, inline = false): string;
     
     /**
      * Applies explosion damage to all entities in the specified radius.
@@ -57575,7 +58056,7 @@ declare namespace util {
     function ScreenShake(pos: Vector, amplitude: number, frequency: number, duration: number, radius: number): void;
     
     /**
-     * Sets PData for offline player using his SteamID
+     * Sets PData for offline player using their SteamID
      * 
      * **Warning:**
      * >This function internally uses [Player:UniqueID](https://wiki.facepunch.com/gmod/Player:UniqueID), which can cause collisions (two or more players sharing the same PData entry). It's recommended that you don't use it. See the related wiki page for more information.
@@ -57654,6 +58135,9 @@ declare namespace util {
     
     /**
      * Converts a table to a JSON string.
+     * 
+     * **Warning:**
+     * >Trying to serialize or deserialize SteamID64s in JSON will NOT work correctly. They will be interpreted as numbers which cannot be precisely stored by JavaScript, Lua and JSON, leading to loss of data. You may want to use [util.SteamIDFrom64](https://wiki.facepunch.com/gmod/util.SteamIDFrom64) to work around this.
      * 
      * **Warning:**
      * >All integers will be converted to decimals (5 -> 5.0).

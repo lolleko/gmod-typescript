@@ -3,6 +3,7 @@ import {
     isOmitParentFieldModification,
     isInnerNamespaceModification,
     isAddParentModification,
+    isAddFieldModification,
 } from './modification_db';
 import { TSCollection } from '../ts_types';
 import {
@@ -78,10 +79,12 @@ export function transformFunctionCollection(
         }
     }
 
+    const addFieldMods = mods.filter(isAddFieldModification).map((afm) => afm.field);
+
     return {
         identifier: transformIdentifier(wikiClass.name),
         docComment: transformDescription(wikiClass.description),
-        fields: membersCopy.filter(isWikiStructItem).map(transformStructField),
+        fields: membersCopy.filter(isWikiStructItem).map(transformStructField).concat(addFieldMods),
         functions: membersCopy.filter(isWikiFunction).map(transformFunction),
         parent: parentsModified.join(', '),
         namespace: wikiClass.library,

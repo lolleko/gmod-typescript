@@ -1,4 +1,4 @@
-import { TSArgument, TSFunction, TSReturn } from '../ts_types';
+import { TSArgument, TSField, TSReturn } from '../ts_types';
 
 import * as modificationDB from './modifications.json';
 
@@ -17,6 +17,7 @@ export enum ModificationKind {
     AddParent = 'AddParent',
     OmitParentField = 'OmitParentField',
     RenameIndentifier = 'RenameIndentifier',
+    AddFieldModification = 'AddField',
     InnerNamespace = 'InnerNamespace',
 }
 
@@ -68,13 +69,21 @@ export function isOmitParentFieldModification(
 export interface RenameIndentifierModification extends Modification {
     kind: ModificationKind.RenameIndentifier;
     newName: string;
-    fieldNale?: string;
 }
 
 export function isRenameIndentifierModification(
     mod: Modification
 ): mod is RenameIndentifierModification {
     return mod.kind === ModificationKind.RenameIndentifier;
+}
+
+export interface AddFieldModification extends Modification {
+    kind: ModificationKind.RenameIndentifier;
+    field: TSField;
+}
+
+export function isAddFieldModification(mod: Modification): mod is AddFieldModification {
+    return mod.kind === ModificationKind.AddFieldModification;
 }
 
 export interface InnerNamespaceModification extends Modification {

@@ -1,7 +1,6 @@
-import { TSEnum, TSEnumField, TSCollection, TSField } from '../ts_types';
+import { TSCollection, TSField } from '../ts_types';
 import { WikiStruct, WikiStructItem } from '../wiki_types';
 import { transformDescription } from './description';
-import { getPageMods, isRenameIndentifierModification } from './modification_db';
 import { transformIdentifier, transformType } from './util';
 
 export function transformStruct(wikiStruct: WikiStruct): TSCollection {

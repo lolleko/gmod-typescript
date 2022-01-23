@@ -95,6 +95,96 @@
             "omits": ["SetIcon"]
         }
     ],
+    "Vector": [
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The X component of the vector.",
+                "identifier": "x",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The Y component of the vector.",
+                "identifier": "y",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The Z component of the vector.",
+                "identifier": "z",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The X component of the vector.",
+                "identifier": "1",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The Y component of the vector.",
+                "identifier": "2",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The Z component of the vector.",
+                "identifier": "3",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Vector with the result of addition.",
+                "identifier": "addOp",
+                "type": "LuaAdditionMethod<Vector, Vector>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Vector with the result of subtraction.",
+                "identifier": "subOp",
+                "type": "LuaSubtractionMethod<Vector, Vector>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Vector with the result of multiplication.",
+                "identifier": "mulOp",
+                "type": "LuaMultiplicationMethod<Vector | number, Vector>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Vector with the result of division.",
+                "identifier": "divOp",
+                "type": "LuaDivisionMethod<number, Vector>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Vector with the result of negation.",
+                "identifier": "unmOp",
+                "type": "LuaNegationMethod<Vector>"
+            }
+        }
+    ],
     "Enums/PLAYER": [
         {
             "kind": "RenameIndentifier",
