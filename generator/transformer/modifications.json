@@ -232,7 +232,7 @@
                 "type": "LuaNegationMethod<Angle>"
             }
         }
-	],
+    ],
     "Vector": [
         {
             "kind": "AddField",
