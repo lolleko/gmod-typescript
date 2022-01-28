@@ -11,24 +11,107 @@
  * 
  * | Type                | Name                                 | Description                      |
  * | ------------------- | ------------------------------------ | -------------------------------- |
- * | [number](https://wiki.facepunch.com/gmod/number) | `p` or `pitch` or `x` or `1` | The pitch component of the angle |
- * | [number](https://wiki.facepunch.com/gmod/number) | `y` or `yaw` or `y` or `2` | The yaw component of the angle |
- * | [number](https://wiki.facepunch.com/gmod/number) | `r` or `roll`  or `z` or `3` | The roll  component of the angle |
+ * | [number](https://wiki.facepunch.com/gmod/number) | `p` or `pitch` or `x` or `1` | The pitch component of the angle. |
+ * | [number](https://wiki.facepunch.com/gmod/number) | `y` or `yaw` or `y` or `2` | The yaw component of the angle. |
+ * | [number](https://wiki.facepunch.com/gmod/number) | `r` or `roll`  or `z` or `3` | The roll  component of the angle. |
  * 
  * Metamethod | Second Operand | Description
  * ---------- | -------------- | -----------
  * `__add` | [Angle](https://wiki.facepunch.com/gmod/Angle) | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of addition.
  * `__div` | [number](https://wiki.facepunch.com/gmod/number) | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of division.
  * `__eq` | [any](https://wiki.facepunch.com/gmod/any) | Compares 2 operands, if they both are [Angle](https://wiki.facepunch.com/gmod/Angle), compares each individual component. <br/>Doesn't normalize the angles (360 is not equal to 0).
- * `__index` | [number](https://wiki.facepunch.com/gmod/number) or [string](https://wiki.facepunch.com/gmod/string) | Gets the component of the [angle](https://wiki.facepunch.com/gmod/angle). Returns a number.
+ * `__index` | [number](https://wiki.facepunch.com/gmod/number) or [string](https://wiki.facepunch.com/gmod/string) | Gets the component of the [Angle](https://wiki.facepunch.com/gmod/Angle). Returns a [number](https://wiki.facepunch.com/gmod/number).
  * `__mul` | [number](https://wiki.facepunch.com/gmod/number) | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of multiplication.
- * `__newindex` | [number](https://wiki.facepunch.com/gmod/number) or [string](https://wiki.facepunch.com/gmod/string) | Sets the component of the [angle](https://wiki.facepunch.com/gmod/angle). Accepts [number](https://wiki.facepunch.com/gmod/number) and [string](https://wiki.facepunch.com/gmod/string).
+ * `__newindex` | [number](https://wiki.facepunch.com/gmod/number) or [string](https://wiki.facepunch.com/gmod/string) | Sets the component of the [Angle](https://wiki.facepunch.com/gmod/Angle). Accepts [number](https://wiki.facepunch.com/gmod/number) and [string](https://wiki.facepunch.com/gmod/string).
  * `__sub` | [Angle](https://wiki.facepunch.com/gmod/Angle) | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of subtraction.
  * `__tostring` | | Returns `p y r`.
- * `__unm` | | Returns new Vector with the result of negation.
+ * `__unm` | | Returns new [Angle](https://wiki.facepunch.com/gmod/Angle) with the result of negation.
  */
 interface Angle {
+    /**
+     * The pitch component of the angle.
+     */
+    p: number,
     
+    /**
+     * The yaw component of the angle.
+     */
+    y: number,
+    
+    /**
+     * The roll component of the angle.
+     */
+    r: number,
+    
+    /**
+     * The pitch component of the angle.
+     */
+    pitch: number,
+    
+    /**
+     * The yaw component of the angle.
+     */
+    yaw: number,
+    
+    /**
+     * The roll component of the angle.
+     */
+    roll: number,
+    
+    /**
+     * The pitch component of the angle.
+     */
+    x: number,
+    
+    /**
+     * The yaw component of the angle.
+     */
+    y: number,
+    
+    /**
+     * The roll component of the angle.
+     */
+    z: number,
+    
+    /**
+     * The pitch component of the angle.
+     */
+    1: number,
+    
+    /**
+     * The yaw component of the angle.
+     */
+    2: number,
+    
+    /**
+     * The roll component of the angle.
+     */
+    3: number,
+    
+    /**
+     * Returns new Angle with the result of addition.
+     */
+    addOp: LuaAdditionMethod<Angle, Angle>,
+    
+    /**
+     * Returns new Angle with the result of subtraction.
+     */
+    subOp: LuaSubtractionMethod<Angle, Angle>,
+    
+    /**
+     * Returns new Angle with the result of multiplication.
+     */
+    mulOp: LuaMultiplicationMethod<number, Angle>,
+    
+    /**
+     * Returns new Angle with the result of division.
+     */
+    divOp: LuaDivisionMethod<number, Angle>,
+    
+    /**
+     * Returns new Angle with the result of negation.
+     */
+    unmOp: LuaNegationMethod<Angle>,
 
     /**
      * Adds the values of the argument angle to the orignal angle. 
@@ -15807,7 +15890,7 @@ interface Vector {
     /**
      * Returns new Vector with the result of multiplication.
      */
-    mulOp: LuaMultiplicationMethod<Vector | number, Vector>,
+    mulOp: LuaMultiplicationMethod<number | Vector, Vector>,
     
     /**
      * Returns new Vector with the result of division.
@@ -16417,7 +16500,20 @@ interface Vehicle extends Entity {
  * `__tostring` |  | Returns a [string](https://wiki.facepunch.com/gmod/string) in format `[%f,\t%f,\t%f,\t%f]\n[%f,\t%f,\t%f,\t%f]\n[%f,\t%f,\t%f,\t%f]\n[%f,\t%f,\t%f,\t%f]`.
  */
 interface VMatrix {
+    /**
+     * Returns new VMatrix with the result of addition.
+     */
+    addOp: LuaAdditionMethod<VMatrix, VMatrix>,
     
+    /**
+     * Returns new VMatrix with the result of subtraction.
+     */
+    subOp: LuaSubtractionMethod<VMatrix, VMatrix>,
+    
+    /**
+     * Returns new VMatrix with the result of multiplication.
+     */
+    mulOp: LuaMultiplicationMethod<VMatrix | Vector, VMatrix>,
 
     /**
      * Adds given matrix to this matrix.

@@ -95,6 +95,144 @@
             "omits": ["SetIcon"]
         }
     ],
+    "Angle": [
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The pitch component of the angle.",
+                "identifier": "p",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The yaw component of the angle.",
+                "identifier": "y",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The roll component of the angle.",
+                "identifier": "r",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The pitch component of the angle.",
+                "identifier": "pitch",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The yaw component of the angle.",
+                "identifier": "yaw",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The roll component of the angle.",
+                "identifier": "roll",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The pitch component of the angle.",
+                "identifier": "x",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The yaw component of the angle.",
+                "identifier": "y",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The roll component of the angle.",
+                "identifier": "z",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The pitch component of the angle.",
+                "identifier": "1",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The yaw component of the angle.",
+                "identifier": "2",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "The roll component of the angle.",
+                "identifier": "3",
+                "type": "number"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Angle with the result of addition.",
+                "identifier": "addOp",
+                "type": "LuaAdditionMethod<Angle, Angle>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Angle with the result of subtraction.",
+                "identifier": "subOp",
+                "type": "LuaSubtractionMethod<Angle, Angle>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Angle with the result of multiplication.",
+                "identifier": "mulOp",
+                "type": "LuaMultiplicationMethod<number, Angle>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Angle with the result of division.",
+                "identifier": "divOp",
+                "type": "LuaDivisionMethod<number, Angle>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new Angle with the result of negation.",
+                "identifier": "unmOp",
+                "type": "LuaNegationMethod<Angle>"
+            }
+        }
+    ],
     "Vector": [
         {
             "kind": "AddField",
@@ -165,7 +303,7 @@
             "field": {
                 "docComment": "Returns new Vector with the result of multiplication.",
                 "identifier": "mulOp",
-                "type": "LuaMultiplicationMethod<Vector | number, Vector>"
+                "type": "LuaMultiplicationMethod<number | Vector, Vector>"
             }
         },
         {
@@ -182,6 +320,32 @@
                 "docComment": "Returns new Vector with the result of negation.",
                 "identifier": "unmOp",
                 "type": "LuaNegationMethod<Vector>"
+            }
+        }
+    ],
+    "VMatrix": [
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new VMatrix with the result of addition.",
+                "identifier": "addOp",
+                "type": "LuaAdditionMethod<VMatrix, VMatrix>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new VMatrix with the result of subtraction.",
+                "identifier": "subOp",
+                "type": "LuaSubtractionMethod<VMatrix, VMatrix>"
+            }
+        },
+        {
+            "kind": "AddField",
+            "field": {
+                "docComment": "Returns new VMatrix with the result of multiplication.",
+                "identifier": "mulOp",
+                "type": "LuaMultiplicationMethod<VMatrix | Vector, VMatrix>"
             }
         }
     ],
