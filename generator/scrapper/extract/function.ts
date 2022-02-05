@@ -36,7 +36,7 @@ export function extractFunction(page: WikiPage): WikiFunction | WikiStructItem {
                 examples: [],
                 name,
                 parent,
-                realm: 'shared',
+                realm: 'Shared',
                 rets: [],
                 address: page.address,
             };

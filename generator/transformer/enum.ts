@@ -1,6 +1,6 @@
 import { TSEnum, TSEnumField } from '../ts_types';
 import { WikiEnum, WikiEnumItem } from '../wiki_types';
-import { transformDescription } from './description';
+import { createRealmString, transformDescription } from './description';
 import { getPageMods, isRenameIndentifierModification } from './modification_db';
 import { transformIdentifier } from './util';
 
@@ -19,7 +19,8 @@ export function transformEnum(wikiEnum: WikiEnum): TSEnum {
 
     return {
         identifier,
-        docComment: transformDescription(wikiEnum.description),
+        docComment:
+            createRealmString(wikiEnum.realm) + '\n' + transformDescription(wikiEnum.description),
         fields: wikiEnum.items.map((item) => transformEnumField(item, compileMembersOnly)),
         compileMembersOnly,
     };

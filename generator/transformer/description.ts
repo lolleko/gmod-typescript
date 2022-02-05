@@ -77,3 +77,7 @@ export function transformDescription(description: string): string {
 
     return unescapedResult;
 }
+
+export function createRealmString(realm: string) {
+    return `[${realm}]`;
+}

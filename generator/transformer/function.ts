@@ -6,13 +6,13 @@ import {
 } from './modification_db';
 import { TSArgument, TSFunction, TSReturn } from '../ts_types';
 import { WikiArgument, WikiFunction } from '../wiki_types';
-import { transformDescription } from './description';
+import { createRealmString, transformDescription } from './description';
 import { transformIdentifier, transformType } from './util';
 
-export function transformFunction(func: WikiFunction): TSFunction {
-    const args: TSArgument[] = transformArgs(func);
+export function transformFunction(wikiFunc: WikiFunction): TSFunction {
+    const args: TSArgument[] = transformArgs(wikiFunc);
 
-    const ret = transformReturns(func);
+    const ret = transformReturns(wikiFunc);
 
     const argToDocComment = (a: WikiArgument) => {
         const identifier = transformIdentifier(a.name);
@@ -26,12 +26,16 @@ export function transformFunction(func: WikiFunction): TSFunction {
     };
 
     const docComment =
-        transformDescription(func.description) + '\n' + func.args.map(argToDocComment).join('\n');
+        createRealmString(wikiFunc.realm) +
+        '\n' +
+        transformDescription(wikiFunc.description) +
+        '\n' +
+        wikiFunc.args.map(argToDocComment).join('\n');
 
     return {
-        identifier: func.name,
+        identifier: wikiFunc.name,
         args,
-        docComment, // TODO extract from params aswell and parse inline tags
+        docComment,
         ret,
     };
 }
