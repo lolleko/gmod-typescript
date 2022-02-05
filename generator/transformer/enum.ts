@@ -20,7 +20,7 @@ export function transformEnum(wikiEnum: WikiEnum): TSEnum {
     return {
         identifier,
         docComment:
-            createRealmString(wikiEnum.realm) + '\n' + transformDescription(wikiEnum.description),
+            createRealmString(wikiEnum.realm) + '\n\n' + transformDescription(wikiEnum.description),
         fields: wikiEnum.items.map((item) => transformEnumField(item, compileMembersOnly)),
         compileMembersOnly,
     };

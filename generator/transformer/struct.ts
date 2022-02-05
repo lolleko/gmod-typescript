@@ -8,7 +8,7 @@ export function transformStruct(wikiStruct: WikiStruct): TSCollection {
         identifier: wikiStruct.name,
         docComment:
             createRealmString(wikiStruct.realm) +
-            '\n' +
+            '\n\n' +
             transformDescription(wikiStruct.description),
         fields: wikiStruct.items.map(transformStructField),
         functions: [],

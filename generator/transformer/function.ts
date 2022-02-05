@@ -27,7 +27,7 @@ export function transformFunction(wikiFunc: WikiFunction): TSFunction {
 
     const docComment =
         createRealmString(wikiFunc.realm) +
-        '\n' +
+        '\n\n' +
         transformDescription(wikiFunc.description) +
         '\n' +
         wikiFunc.args.map(argToDocComment).join('\n');
