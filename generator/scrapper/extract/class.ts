@@ -1,7 +1,7 @@
 import { WikiElementKind, WikiFunctionCollection, WikiPage } from '../../wiki_types';
 import { parseMarkup } from '../util';
 
-export function extractClass(page: WikiPage): WikiFunctionCollection {
+export function extractClass(page: WikiPage): WikiFunctionCollection | null {
     const markupObj = parseMarkup(page.markup, {
         stopNodes: ['summary', 'description'],
     });
@@ -18,6 +18,9 @@ export function extractClass(page: WikiPage): WikiFunctionCollection {
             address: page.address,
         };
     } else {
+        if (!markupObj.panel) {
+            return null;
+        }
         const classObj = markupObj.panel[0];
 
         return {
