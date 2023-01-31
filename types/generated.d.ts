@@ -60414,9 +60414,9 @@ declare namespace GWEN {
      * @param y - The Y coordinate on the texture
      * @param w - Width of the area on texture
      * @param h - Height of the area on texture
-     * @param mat_override_=_null - Optional. Sets the material this function will use
+     * @param [mat_override = null] - Optional. Sets the material this function will use
      */
-    function CreateTextureCentered(x: number, y: number, w: number, h: number, mat_override_=_null: IMaterial): Function;
+    function CreateTextureCentered(x: number, y: number, w: number, h: number, mat_override?: IMaterial): Function;
     
     /**
      * [Client and Menu]
@@ -60426,9 +60426,9 @@ declare namespace GWEN {
      * @param y - The Y coordinate on the texture
      * @param w - Width of the area on texture
      * @param h - Height of the area on texture
-     * @param mat_override_=_null - Optional. Sets the material this function will use
+     * @param [mat_override = null] - Optional. Sets the material this function will use
      */
-    function CreateTextureNormal(x: number, y: number, w: number, h: number, mat_override_=_null: IMaterial): Function;
+    function CreateTextureNormal(x: number, y: number, w: number, h: number, mat_override?: IMaterial): Function;
     
     /**
      * [Client and Menu]
