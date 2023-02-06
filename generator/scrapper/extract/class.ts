@@ -1,7 +1,7 @@
 import { WikiElementKind, WikiFunctionCollection, WikiPage } from '../../wiki_types';
 import { parseMarkup } from '../util';
 
-export function extractClass(page: WikiPage): WikiFunctionCollection | null {
+export function extractClass(page: WikiPage): WikiFunctionCollection {
     const markupObj = parseMarkup(page.markup, {
         stopNodes: ['summary', 'description'],
     });
@@ -17,10 +17,7 @@ export function extractClass(page: WikiPage): WikiFunctionCollection | null {
             library: false,
             address: page.address,
         };
-    } else {
-        if (!markupObj.panel) {
-            return null;
-        }
+    } else if (markupObj.panel) {
         const classObj = markupObj.panel[0];
 
         return {
@@ -32,4 +29,11 @@ export function extractClass(page: WikiPage): WikiFunctionCollection | null {
             address: page.address,
         };
     }
+    return {
+        kind: WikiElementKind.FunctionCollection,
+        name: page.title.replace(' ', '_'),
+        description: '',
+        library: false,
+        address: page.address,
+    };
 }

@@ -47,8 +47,7 @@ import { isWikiFunction, WikiFunctionCollection } from './wiki_types';
         .map(extractFunction);
     const classes = classFuncsPages
         .filter((p) => !p.title.includes(':') && !p.title.includes('.'))
-        .map(extractClass)
-        .filter((c): c is WikiFunctionCollection => c !== null);
+        .map(extractClass);
 
     const classResult = classes
         .map((wikiClass) =>

@@ -4007,6 +4007,10 @@ interface CUserCmd {
      * Sets speed the client wishes to move upwards with, negative to move down.
      * 
      * See also [CUserCmd:SetSideMove](https://wiki.facepunch.com/gmod/CUserCmd:SetSideMove) and  [CUserCmd:SetForwardMove](https://wiki.facepunch.com/gmod/CUserCmd:SetForwardMove).
+     * 
+     * **Note:**
+     * >This function does **not** move the client up/down ladders. To force ladder movement, consider [CUserCMD:SetButtons](https://wiki.facepunch.com/gmod/CUserCMD:SetButtons) and use IN_FORWARD from [Enums/IN](https://wiki.facepunch.com/gmod/Enums/IN).
+     * 
      * @param speed - The new speed to request.
      */
     SetUpMove(speed: number): void;
@@ -6819,9 +6823,10 @@ interface Entity {
      * 
      * If called on server, the gibs will be spawned on the currently connected clients and will not be synchronized. Otherwise the gibs will be spawned only for the client the function is called on.
      * 
-     * Note, that this function will not remove or hide the entity it is called on.
+     * **Note:**
+     * >this function will not remove or hide the entity it is called on.
+     * 	For more expensive version of this function see [Entity:GibBreakServer](https://wiki.facepunch.com/gmod/Entity:GibBreakServer).
      * 
-     * For more expensive version of this function see [Entity:GibBreakServer](https://wiki.facepunch.com/gmod/Entity:GibBreakServer).
      * @param force - The force to apply to the created gibs.
      * @param [clr = nil] - If set, this will be color of the broken gibs instead of the entity's color.
      */
@@ -16859,7 +16864,7 @@ interface PhysObj {
     /**
      * [Shared]
      * 
-     * Sets the specified [angular velocity](https://en.wikipedia.org/wiki/Angular_velocity) on the this [PhysObj](https://wiki.facepunch.com/gmod/PhysObj)
+     * Sets the specified [angular velocity](https://en.wikipedia.org/wiki/Angular_velocity) on the [PhysObj](https://wiki.facepunch.com/gmod/PhysObj)
      * @param angularVelocity - The new velocity in `degrees/s`. (Local frame)
      */
     SetAngleVelocity(angularVelocity: Vector): void;
@@ -16867,7 +16872,7 @@ interface PhysObj {
     /**
      * [Shared]
      * 
-     * Sets the specified instantaneous [angular velocity](https://en.wikipedia.org/wiki/Angular_velocity) on the this [PhysObj](https://wiki.facepunch.com/gmod/PhysObj)
+     * Sets the specified instantaneous [angular velocity](https://en.wikipedia.org/wiki/Angular_velocity) on the [PhysObj](https://wiki.facepunch.com/gmod/PhysObj)
      * @param angularVelocity - The new velocity to set velocity.
      */
     SetAngleVelocityInstantaneous(angularVelocity: Vector): void;
@@ -17021,6 +17026,16 @@ interface PhysObj {
      * @param WorldVec - A vector in the world frame
      */
     WorldToLocalVector(WorldVec: Vector): Vector;
+
+}
+
+/**
+ * 
+ */
+interface pixelvis_handle_t {
+    
+
+    
 
 }
 
@@ -33366,7 +33381,7 @@ interface ENT {
     Folder: string,
     
     /**
-     * (Clientside) Set this to true if your entity has animations. You should also apply changes to the [ENTITY:Think](https://wiki.facepunch.com/gmod/ENTITY:Think) function from the example on that page.
+     * Set this to true if your entity has animations. You should also apply changes to the [ENTITY:Think](https://wiki.facepunch.com/gmod/ENTITY:Think) function from the example on that page.
      */
     AutomaticFrameAdvance: boolean,
     
@@ -67727,6 +67742,22 @@ declare namespace table {
      * @param source - The table you want to merge with the destination table
      */
     function Merge(destination: any, source: any): any;
+    
+    /**
+     * [Shared and Menu]
+     * 
+     * Moves elements from one part of a table to another part a given table. This is similar to assigning elements from the source table to the destination table in multiple assignments.
+     * 
+     * **Note:**
+     * >This is only available on the x86-64 versions, because of the difference in the LuaJIT version. [See here](jit.version)
+     * 
+     * @param sourceTbl - The source table from which the elements are to be moved.
+     * @param from - The start index of the source range from which the elements are to be moved.
+     * @param to - The end index of the source range until which the elements are to be moved.
+     * @param dest - The index within the destination table where the moved elements should be inserted. If this is not specified, the moved elements will be inserted at the end of the table.
+     * @param destTbl - The destination table to which the elements are to be moved. By default, this is the same as the source table.
+     */
+    function move(sourceTbl: any, from: number, to: number, dest: number, destTbl: any): any;
     
     /**
      * [Shared and Menu]
