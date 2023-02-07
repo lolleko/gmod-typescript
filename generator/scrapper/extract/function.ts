@@ -54,7 +54,7 @@ export function extractFunction(page: WikiPage): WikiFunction | WikiStructItem {
         if (!arg.name || arg.name === '') {
             arg.name = '__unnamedArg';
         }
-        
+
         if (arg.name.includes('=')) {
             const [realName, defaultValue] = arg.name.split('=').map((s) => s.trim());
             arg.name = realName;
