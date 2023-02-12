@@ -12,7 +12,7 @@ import { printInterface } from './printer/interface';
 import { transformFunctionCollection } from './transformer/function_collection';
 import { extractClass } from './scrapper/extract/class';
 import { extractLibrary } from './scrapper/extract/library';
-import { isWikiFunction } from './wiki_types';
+import { isWikiFunction, WikiFunctionCollection } from './wiki_types';
 
 (async (): Promise<void> => {
     const globalFuncs = await GetPagesInCategory('Global');

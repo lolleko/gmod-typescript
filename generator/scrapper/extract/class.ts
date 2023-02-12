@@ -17,7 +17,7 @@ export function extractClass(page: WikiPage): WikiFunctionCollection {
             library: false,
             address: page.address,
         };
-    } else {
+    } else if (markupObj.panel) {
         const classObj = markupObj.panel[0];
 
         return {
@@ -29,4 +29,11 @@ export function extractClass(page: WikiPage): WikiFunctionCollection {
             address: page.address,
         };
     }
+    return {
+        kind: WikiElementKind.FunctionCollection,
+        name: page.title.replace(' ', '_'),
+        description: '',
+        library: false,
+        address: page.address,
+    };
 }

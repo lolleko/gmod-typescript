@@ -55,6 +55,12 @@ export function extractFunction(page: WikiPage): WikiFunction | WikiStructItem {
             arg.name = '__unnamedArg';
         }
 
+        if (arg.name.includes('=')) {
+            const [realName, defaultValue] = arg.name.split('=').map((s) => s.trim());
+            arg.name = realName;
+            arg.default = defaultValue;
+        }
+
         return arg;
     };
 
