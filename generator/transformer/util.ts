@@ -1,3 +1,11 @@
+export function transformDefault(value: string | undefined) {
+    if (value) {
+        // Remove leading zeros in the front
+        if (/^00\d+$/.test(value)) return value.replace(/^0+/, '');
+    }
+    return value;
+}
+
 export function transformType(type: string) {
     if (type === 'vararg') {
         return 'any[]';
@@ -19,6 +27,7 @@ export function transformIdentifier(id: string) {
         var: 'var_',
         default: 'default_',
         new: 'new_',
+        delete: 'delete_',
     };
 
     if (invalidIDMap[id]) {
