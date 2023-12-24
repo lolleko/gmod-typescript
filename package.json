@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc -p generator/tsconfig.json",
-        "generate": "node dist/index.js",
+        "generate": "node --enable-source-maps --inspect dist/index.js",
         "test": "tsc -p .",
         "lint": "prettier --check .",
         "lint:fix": "prettier --write .",

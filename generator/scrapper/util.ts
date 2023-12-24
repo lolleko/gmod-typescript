@@ -20,8 +20,12 @@ export function parseMarkup(markup: string, extraOptions: parser.X2jOptionsOptio
         .replace(/ > /g, ' &gt; ')
         .replace(/ <= /g, ' &lt;= ')
         .replace(/ >= /g, ' &gt;= ')
-        .replace(/`/g, '&grave;');
+        .replace(/`/g, '&grave;')
+        .replace(/\\"/g, '&quot;')
+        .replace('<arg name="default" type="Angle" default">', '<arg name="default" type="Angle">'); // There's a mistake in one of the pages - Whoops!
+
     const validation = parser.validate(markup);
+
     if (validation != true) {
         if (validation.err.code != 'InvalidTag') {
             throw new Error(

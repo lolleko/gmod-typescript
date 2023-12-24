@@ -355,6 +355,13 @@
             "newName": "PLAYERANIM"
         }
     ],
+    "Enums/COND": [
+        {
+            "kind": "RenameEnumIdentifier",
+            "oldName": "COND-WEAPON_SIGHT_OCCLUDED",
+            "newName": "COND.WEAPON_SIGHT_OCCLUDED"
+        }
+    ],
     "util": [
         {
             "kind": "InnerNamespace",

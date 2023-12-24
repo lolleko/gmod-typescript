@@ -17,6 +17,7 @@ export enum ModificationKind {
     AddParent = 'AddParent',
     OmitParentField = 'OmitParentField',
     RenameIndentifier = 'RenameIndentifier',
+    RenameEnumIdentifier = 'RenameEnumIdentifier',
     AddFieldModification = 'AddField',
     InnerNamespace = 'InnerNamespace',
 }
@@ -75,6 +76,18 @@ export function isRenameIndentifierModification(
     mod: Modification
 ): mod is RenameIndentifierModification {
     return mod.kind === ModificationKind.RenameIndentifier;
+}
+
+export interface RenameEnumIndentifierModification extends Modification {
+    kind: ModificationKind.RenameIndentifier;
+    oldName: string;
+    newName: string;
+}
+
+export function isRenameEnumIndentifierModification(
+    mod: Modification
+): mod is RenameEnumIndentifierModification {
+    return mod.kind === ModificationKind.RenameEnumIdentifier;
 }
 
 export interface AddFieldModification extends Modification {

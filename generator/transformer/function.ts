@@ -7,7 +7,7 @@ import {
 import { TSArgument, TSFunction, TSReturn } from '../ts_types';
 import { WikiArgument, WikiFunction } from '../wiki_types';
 import { createRealmString, transformDescription } from './description';
-import { transformIdentifier, transformType } from './util';
+import { transformDefault, transformIdentifier, transformType } from './util';
 
 export function transformFunction(wikiFunc: WikiFunction): TSFunction {
     const args: TSArgument[] = transformArgs(wikiFunc);
@@ -62,7 +62,7 @@ function transformArgs(func: WikiFunction): TSArgument[] {
 
         return {
             identifier: (type == 'vararg' ? '...' : '') + transformIdentifier(arg.name),
-            default: defaultValue,
+            default: transformDefault(defaultValue),
             type: transformType(type),
         } as TSArgument;
     });
